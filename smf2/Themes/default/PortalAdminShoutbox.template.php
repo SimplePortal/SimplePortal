@@ -84,9 +84,11 @@ function template_shoutbox_edit()
 	echo '
 	<div id="sp_edit_shoutbox">
 		<form action="', $scripturl, '?action=admin;area=portalshoutbox;sa=edit" method="post" accept-charset="', $context['character_set'], '">
-			<h3 class="catbg"><span class="left"></span>
-				', $context['page_title'], '
-			</h3>
+			<div class="cat_bar">
+				<h3 class="catbg">
+					', $context['page_title'], '
+				</h3>
+			</div>
 			<div class="windowbg2">
 				<span class="topslice"><span></span></span>
 				<div class="sp_content_padding">
@@ -261,9 +263,11 @@ function template_shoutbox_prune()
 	echo '
 	<div id="sp_prune_shoutbox">
 		<form action="', $scripturl, '?action=admin;area=portalshoutbox;sa=prune" method="post" accept-charset="', $context['character_set'], '">
-			<h3 class="catbg"><span class="left"></span>
-				', $context['page_title'], '
-			</h3>
+			<div class="cat_bar">
+				<h3 class="catbg">
+					', $context['page_title'], '
+				</h3>
+			</div>
 			<div class="windowbg2">
 				<span class="topslice"><span></span></span>
 				<div class="sp_content_padding">
@@ -317,9 +321,11 @@ function template_shoutbox_block_redirect()
 
 	echo '
 	<div id="sp_shoutbox_redirect">
-		<h3 class="catbg"><span class="left"></span>
-			', $context['page_title'], '
-		</h3>
+		<div class="cat_bar">
+			<h3 class="catbg">
+				', $context['page_title'], '
+			</h3>
+		</div>
 		<div class="sp_center windowbg2">
 			<span class="topslice"><span></span></span>
 			<div class="sp_content_padding">

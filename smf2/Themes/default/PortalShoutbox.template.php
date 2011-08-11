@@ -52,9 +52,11 @@ function template_shoutbox_all_curve()
 	global $context, $scripturl, $settings, $txt;
 
 	echo '
-	<h3 class="catbg"><span class="left"></span>
-		', $context['SPortal']['shoutbox']['name'], '
-	</h3>
+	<div class="cat_bar">
+		<h3 class="catbg">
+			', $context['SPortal']['shoutbox']['name'], '
+		</h3>
+	</div>
 	<div class="windowbg">
 		<span class="topslice"><span></span></span>
 		<div class="sp_content_padding">
@@ -113,7 +115,7 @@ function template_shoutbox_embed($shoutbox)
 			
 			if (!empty($shoutbox['smileys']['popup']))
 				echo '
-					<a onclick="sp_', $context['SPortal']['core_compat'] == 'old' ? 'compat_' : '', 'showMoreSmileys(\'', $shoutbox['id'], '\', \'', $txt['more_smileys_title'], '\', \'', $txt['more_smileys_pick'], '\', \'', $txt['more_smileys_close_window'], '\', \'', $settings['theme_url'], '\', \'', $settings['smileys_url'], '\'); return false;" href="javascript:void(0);">[', $txt['more_smileys'], ']</a>';
+					<a onclick="sp_showMoreSmileys(\'', $shoutbox['id'], '\', \'', $txt['more_smileys_title'], '\', \'', $txt['more_smileys_pick'], '\', \'', $txt['more_smileys_close_window'], '\', \'', $settings['theme_url'], '\', \'', $settings['smileys_url'], '\'); return false;" href="javascript:void(0);">[', $txt['more_smileys'], ']</a>';
 
 		echo '
 			</div>
@@ -204,31 +206,32 @@ function template_shoutbox_embed($shoutbox)
 		}
 		echo ']';
 		
-		if ($context['SPortal']['core_compat'] != 'old')
-			echo '
-			if (sp_moreSmileysTemplate == undefined)
-			{
-				var sp_moreSmileysTemplate =  ', JavaScriptEscape('<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-						<html>
-							<head>
-								<title>' . $txt['more_smileys_title'] . '</title>
-								<link rel="stylesheet" type="text/css" href="' . $settings['theme_url'] . '/css/index' . $context['theme_variant'] . '.css?rc2" />
-							</head>
-							<body id="help_popup">
-								<div class="padding windowbg">
-									<h3 class="catbg"><span class="left"></span>
+		echo '
+		if (sp_moreSmileysTemplate == undefined)
+		{
+			var sp_moreSmileysTemplate =  ', JavaScriptEscape('<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+					<html>
+						<head>
+							<title>' . $txt['more_smileys_title'] . '</title>
+							<link rel="stylesheet" type="text/css" href="' . $settings['theme_url'] . '/css/index' . $context['theme_variant'] . '.css?rc2" />
+						</head>
+						<body id="help_popup">
+							<div class="padding windowbg">
+								<div class="cat_bar">
+									<h3 class="catbg">
 										' . $txt['more_smileys_pick'] . '
 									</h3>
-									<div class="padding">
-										%smileyRows%
-									</div>
-									<div class="smalltext centertext">
-										<a href="javascript:window.close();">' . $txt['more_smileys_close_window'] . '</a>
-									</div>
 								</div>
-							</body>
-						</html>'), '
-			}';
+								<div class="padding">
+									%smileyRows%
+								</div>
+								<div class="smalltext centertext">
+									<a href="javascript:window.close();">' . $txt['more_smileys_close_window'] . '</a>
+								</div>
+							</div>
+						</body>
+					</html>'), '
+		}';
 	}
 
 	echo '

@@ -96,9 +96,11 @@ function template_pages_edit()
 	echo '
 	<div id="sp_edit_page">
 		<form action="', $scripturl, '?action=admin;area=portalpages;sa=edit" method="post" accept-charset="', $context['character_set'], '" onsubmit="submitonce(this);">
-			<h3 class="catbg"><span class="left"></span>
-				', $txt['sp_admin_pages_general'], '
-			</h3>
+			<div class="cat_bar">
+				<h3 class="catbg">
+					', $txt['sp_admin_pages_general'], '
+				</h3>
+			</div>
 			<div class="windowbg2">
 				<span class="topslice"><span></span></span>
 				<div class="sp_content_padding">
@@ -214,24 +216,10 @@ function template_pages_edit()
 						<dd>
 						</dd>
 					</dl>
-					<div id="sp_rich_editor">';
-	
-	if ($context['SPortal']['core_compat'] == 'old')
-	{
-			echo '
-						<div id="sp_rich_bbc"', $context['SPortal']['page']['type'] != 'bbc' ? ' style="display: none;"' : '', '>', template_control_richedit($context['post_box_name'], 'bbc'), '</div>
-						<div id="sp_rich_smileys"', $context['SPortal']['page']['type'] != 'bbc' ? ' style="display: none;"' : '', '>', template_control_richedit($context['post_box_name'], 'smileys'), '</div>
-						<div>', template_control_richedit($context['post_box_name'], 'message'), '</div>';
-	}
-	else
-	{
-		echo '
+					<div id="sp_rich_editor">
 						<div id="sp_rich_bbc"', $context['SPortal']['page']['type'] != 'bbc' ? ' style="display: none;"' : '', '></div>
 						<div id="sp_rich_smileys"', $context['SPortal']['page']['type'] != 'bbc' ? ' style="display: none;"' : '', '></div>
-						<div>', template_control_richedit($context['post_box_name'], 'sp_rich_smileys', 'sp_rich_bbc'), '</div>';
-	}
-	
-	echo '
+						<div>', template_control_richedit($context['post_box_name'], 'sp_rich_smileys', 'sp_rich_bbc'), '</div>
 					</div>
 					<div class="sp_button_container">
 						<input type="submit" name="preview" value="', $txt['sp_admin_pages_preview'], '" class="button_submit" /> <input type="submit" name="submit" value="', $context['page_title'], '" class="button_submit" />
@@ -249,9 +237,11 @@ function template_pages_edit()
 
 	echo '
 			<br />
-			<h3 class="catbg"><span class="left"></span>
-				', $txt['sp_admin_pages_style'], '
-			</h3>
+			<div class="cat_bar">
+				<h3 class="catbg">
+					', $txt['sp_admin_pages_style'], '
+				</h3>
+			</div>
 			<div class="windowbg2">
 				<span class="topslice"><span></span></span>
 				<div class="sp_content_padding">';
@@ -327,18 +317,10 @@ function template_pages_edit()
 				document.getElementById("sp_rich_smileys").style.display = "";
 			}
 			else
-			{';
-
-	if ($context['SPortal']['core_compat'] == 'old')
-		echo '
-				if (editorHandlecontent.bRichTextEnabled)
-					editorHandlecontent.toggleView();';
-	else
-		echo '
+			{
 				if (oEditorHandle_content.bRichTextEnabled)
-					oEditorHandle_content.toggleView();';
-	
-	echo '
+					oEditorHandle_content.toggleView();
+
 				document.getElementById("sp_rich_bbc").style.display = "none";
 				document.getElementById("sp_rich_smileys").style.display = "none";
 			}

@@ -17,11 +17,13 @@ function template_block_list()
 	foreach($context['sides'] as $id => $side)
 	{
 		echo '
-		<h3 class="titlebg"><span class="left"></span>
-			<a class="sp_float_right" href="', $scripturl, '?action=admin;area=portalblocks;sa=add;col=', $side['id'], '">', sp_embed_image('add', sprintf($txt['sp-blocksCreate'], $side['label'])), '</a>
-			<a href="', $scripturl, '?action=helpadmin;help=', $side['help'], '" onclick="return reqWin(this.href);" class="help"><img src="', $settings['images_url'], '/helptopics.gif" alt="', $txt['help'], '" class="icon" /></a>
-			<a href="', $scripturl, '?action=admin;area=portalblocks;sa=', $id, '">', $side['label'], ' ', $txt['sp-blocksBlocks'], '</a>
-		</h3>
+		<div class="cat_bar">
+			<h3 class="catbg">
+				<a class="sp_float_right" href="', $scripturl, '?action=admin;area=portalblocks;sa=add;col=', $side['id'], '">', sp_embed_image('add', sprintf($txt['sp-blocksCreate'], $side['label'])), '</a>
+				<a href="', $scripturl, '?action=helpadmin;help=', $side['help'], '" onclick="return reqWin(this.href);" class="help"><img src="', $settings['images_url'], '/helptopics.gif" alt="', $txt['help'], '" class="icon" /></a>
+				<a href="', $scripturl, '?action=admin;area=portalblocks;sa=', $id, '">', $side['label'], ' ', $txt['sp-blocksBlocks'], '</a>
+			</h3>
+		</div>
 		<table class="table_grid" cellspacing="0" width="100%">
 			<thead>
 				<tr class="catbg">';
@@ -101,10 +103,12 @@ function template_block_edit()
 	echo '
 	<div id="sp_edit_block">
 		<form name="sp_edit_block_form" id="sp_edit_block_form" action="', $scripturl, '?action=admin;area=portalblocks;sa=edit" method="post" accept-charset="', $context['character_set'], '" onsubmit="submitonce(this);">
-			<h3 class="catbg"><span class="left"></span>
-				<a href="', $scripturl, '?action=helpadmin;help=sp-blocks', $context['SPortal']['is_new'] ? 'Add' : 'Edit', '" onclick="return reqWin(this.href);" class="help"><img src="', $settings['images_url'], '/helptopics.gif" alt="', $txt['help'], '" class="icon" /></a>
-				', $context['SPortal']['is_new'] ? $txt['sp-blocksAdd'] : $txt['sp-blocksEdit'], '
-			</h3>
+			<div class="cat_bar">
+				<h3 class="catbg">
+					<a href="', $scripturl, '?action=helpadmin;help=sp-blocks', $context['SPortal']['is_new'] ? 'Add' : 'Edit', '" onclick="return reqWin(this.href);" class="help"><img src="', $settings['images_url'], '/helptopics.gif" alt="', $txt['help'], '" class="icon" /></a>
+					', $context['SPortal']['is_new'] ? $txt['sp-blocksAdd'] : $txt['sp-blocksEdit'], '
+				</h3>
+			</div>
 			<div class="windowbg2">
 				<span class="topslice"><span></span></span>
 				<div class="sp_content_padding">
@@ -186,22 +190,7 @@ function template_block_edit()
 						</dt>
 						<dd>';
 
-		if ($type == 'bbc' && $context['SPortal']['core_compat'] == 'old')
-		{
-			echo '
-						</dd>
-					</dl>
-					<div id="sp_rich_editor">
-						<div id="sp_rich_bbc">', template_control_richedit($context['SPortal']['bbc'], 'bbc'), '</div>
-						<div id="sp_rich_smileys">', template_control_richedit($context['SPortal']['bbc'], 'smileys'), '</div>
-						<div>', template_control_richedit($context['SPortal']['bbc'], 'message'), '</div>
-
-						<input type="hidden" name="bbc_name" value="', $name, '" />
-						<input type="hidden" name="bbc_parameter" value="', $context['SPortal']['bbc'], '" />
-					</div>
-					<dl class="sp_form">';
-		}
-		elseif ($type == 'bbc')
+		if ($type == 'bbc')
 		{
 			echo '
 						</dd>
@@ -370,10 +359,12 @@ function template_block_edit()
 	{
 		echo '
 			<br />
-			<h3 class="catbg"><span class="left"></span>
-				<a href="', $scripturl, '?action=helpadmin;help=sp-blocksDisplayOptions" onclick="return reqWin(this.href);" class="help"><img src="', $settings['images_url'], '/helptopics.gif" alt="', $txt['help'], '" class="icon" /></a>
-			', $txt['sp-blocksDisplayOptions'], '
-			</h3>
+			<div class="cat_bar">
+				<h3 class="catbg">
+					<a href="', $scripturl, '?action=helpadmin;help=sp-blocksDisplayOptions" onclick="return reqWin(this.href);" class="help"><img src="', $settings['images_url'], '/helptopics.gif" alt="', $txt['help'], '" class="icon" /></a>
+					', $txt['sp-blocksDisplayOptions'], '
+				</h3>
+			</div>
 			<div class="windowbg2">
 				<span class="topslice"><span></span></span>
 				<div class="sp_content_padding">
@@ -433,10 +424,12 @@ function template_block_edit()
 	{
 		echo '
 			<br />
-			<h3 class="catbg"><span class="left"></span>
-				<a href="', $scripturl, '?action=helpadmin;help=sp-blocksStyleOptions" onclick="return reqWin(this.href);" class="help"><img src="', $settings['images_url'], '/helptopics.gif" alt="', $txt['help'], '" class="icon" /></a>
-			', $txt['sp-blocksStyleOptions'], '
-			</h3>
+			<div class="cat_bar">
+				<h3 class="catbg">
+					<a href="', $scripturl, '?action=helpadmin;help=sp-blocksStyleOptions" onclick="return reqWin(this.href);" class="help"><img src="', $settings['images_url'], '/helptopics.gif" alt="', $txt['help'], '" class="icon" /></a>
+					', $txt['sp-blocksStyleOptions'], '
+				</h3>
+			</div>
 			<div class="windowbg2">
 				<span class="topslice"><span></span></span>
 				<div class="sp_content_padding">';
@@ -520,10 +513,12 @@ function template_block_select_type()
 
 	echo '
 	<div id="sp_select_block_type">
-		<h3 class="catbg"><span class="left"></span>
-			<a href="', $scripturl, '?action=helpadmin;help=sp-blocksSelectType" onclick="return reqWin(this.href);" class="help"><img src="', $settings['images_url'], '/helptopics.gif" alt="', $txt['help'], '" class="icon" /></a>
-			', $txt['sp-blocksSelectType'], '
-		</h3>
+		<div class="cat_bar">
+			<h3 class="catbg">
+				<a href="', $scripturl, '?action=helpadmin;help=sp-blocksSelectType" onclick="return reqWin(this.href);" class="help"><img src="', $settings['images_url'], '/helptopics.gif" alt="', $txt['help'], '" class="icon" /></a>
+				', $txt['sp-blocksSelectType'], '
+			</h3>
+		</div>
 		<form action="', $scripturl, '?action=admin;area=portalblocks;sa=add" method="post" accept-charset="', $context['character_set'], '">
 			<table>
 				<tr>';

@@ -74,9 +74,11 @@ function template_articles_curve()
 	while ($article = $context['get_articles']())
 	{
 		echo '
-					<h3 class="catbg"><span class="left"></span>
-						<span class="sp_float_left sp_article_icon">', $article['message']['icon'], '</span>', $article['topic']['link'], '
-					</h3>
+					<div class="cat_bar">
+						<h3 class="catbg">
+							<span class="sp_float_left sp_article_icon">', $article['message']['icon'], '</span>', $article['topic']['link'], '
+						</h3>
+					</div>
 					<div class="windowbg">
 						<span class="topslice"><span></span></span>
 						<div class="sp_content_padding">';
@@ -157,9 +159,11 @@ function template_add_article_curve()
 
 	echo '
 	<div class="sp_auto_align" style="width: 40%;">
-		<h3 class="catbg"><span class="left"></span>
-			', $txt['sp-articlesAdd'], '
-		</h3>
+		<div class="cat_bar">
+			<h3 class="catbg">
+				', $txt['sp-articlesAdd'], '
+			</h3>
+		</div>
 		<div class="sp_center windowbg2">
 			<span class="topslice"><span></span></span>
 				<form action="', $scripturl, '?action=portal;sa=addarticle" method="post" accept-charset="', $context['character_set'], '">

@@ -86,10 +86,12 @@ function template_article_add()
 	echo '
 	<div id="sp_article_add">
 		<form action="' . $scripturl . '?action=admin;area=portalarticles;sa=addarticle;targetboard=' . $context['target_board'] . '" method="post" accept-charset="', $context['character_set'], '">
-			<h3 class="catbg"><span class="left"></span>
-				<a href="', $scripturl, '?action=helpadmin;help=sp-articlesAdd" onclick="return reqWin(this.href);" class="help"><img src="', $settings['images_url'], '/helptopics.gif" alt="', $txt['help'], '" class="icon" /></a>&nbsp;
-				', $txt['sp-articlesAdd'], '
-			</h3>
+			<div class="cat_bar">
+				<h3 class="catbg">
+					<a href="', $scripturl, '?action=helpadmin;help=sp-articlesAdd" onclick="return reqWin(this.href);" class="help"><img src="', $settings['images_url'], '/helptopics.gif" alt="', $txt['help'], '" class="icon" /></a>&nbsp;
+					', $txt['sp-articlesAdd'], '
+				</h3>
+			</div>
 			<div id="sp_add_articles_category" class="windowbg2">
 				<span class="topslice"><span></span></span>
 				<div class="sp_content_padding">
@@ -187,10 +189,12 @@ function template_article_edit()
 	echo '
 	<div id="sp_edit_category">
 		<form action="', $scripturl, '?action=admin;area=portalarticles;sa=editarticle" method="post" accept-charset="', $context['character_set'], '">
-			<h3 class="catbg"><span class="left"></span>
-				<a href="', $scripturl, '?action=helpadmin;help=sp-articlesEdit" onclick="return reqWin(this.href);" class="help"><img src="', $settings['images_url'], '/helptopics.gif" alt="', $txt['help'], '" class="icon" /></a>
-				', $txt['sp-articlesEdit'], '
-			</h3>
+			<div class="cat_bar">
+				<h3 class="catbg">
+					<a href="', $scripturl, '?action=helpadmin;help=sp-articlesEdit" onclick="return reqWin(this.href);" class="help"><img src="', $settings['images_url'], '/helptopics.gif" alt="', $txt['help'], '" class="icon" /></a>
+					', $txt['sp-articlesEdit'], '
+				</h3>
+			</div>
 			<div class="windowbg2">
 				<span class="topslice"><span></span></span>
 				<div class="sp_content_padding">
@@ -282,10 +286,12 @@ function template_category_edit()
 	echo '
 	<div id="sp_edit_category">
 		<form action="', $scripturl, '?action=admin;area=portalarticles;sa=', $context['category_action'], 'category" method="post" accept-charset="', $context['character_set'], '">
-			<h3 class="catbg"><span class="left"></span>
-				<a href="', $scripturl, '?action=helpadmin;help=sp-categories', ucfirst($context['category_action']), '" onclick="return reqWin(this.href);" class="help"><img src="', $settings['images_url'], '/helptopics.gif" alt="', $txt['help'], '" class="icon" /></a>
-				', $context['page_title'], '
-			</h3>
+			<div class="cat_bar">
+				<h3 class="catbg">
+					<a href="', $scripturl, '?action=helpadmin;help=sp-categories', ucfirst($context['category_action']), '" onclick="return reqWin(this.href);" class="help"><img src="', $settings['images_url'], '/helptopics.gif" alt="', $txt['help'], '" class="icon" /></a>
+					', $context['page_title'], '
+				</h3>
+			</div>
 			<div class="windowbg2">
 				<span class="topslice"><span></span></span>
 				<div class="sp_content_padding">
@@ -334,10 +340,12 @@ function template_category_delete()
 	echo '
 	<div id="sp_edit_category">
 		<form action="', $scripturl, '?action=admin;area=portalarticles;sa=deletecategory" method="post" accept-charset="', $context['character_set'], '">
-			<h3 class="catbg"><span class="left"></span>
-				<a href="', $scripturl, '?action=helpadmin;help=sp-categoriesDelete" onclick="return reqWin(this.href);" class="help"><img src="', $settings['images_url'], '/helptopics.gif" alt="', $txt['help'], '" class="icon" /></a>
-				', $txt['sp-categoriesDelete'], '
-			</h3>
+			<div class="cat_bar">
+				<h3 class="catbg">
+					<a href="', $scripturl, '?action=helpadmin;help=sp-categoriesDelete" onclick="return reqWin(this.href);" class="help"><img src="', $settings['images_url'], '/helptopics.gif" alt="', $txt['help'], '" class="icon" /></a>
+					', $txt['sp-categoriesDelete'], '
+				</h3>
+			</div>
 			<div class="windowbg2">
 				<span class="topslice"><span></span></span>
 				<div class="sp_content_padding">

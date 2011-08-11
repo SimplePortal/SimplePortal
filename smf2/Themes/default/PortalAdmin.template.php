@@ -11,9 +11,11 @@ function template_general_settings()
 
 	if (isset($context['settings_title']))
 		echo '
-			<h3 class="catbg"><span class="left"></span>
-				', $context['settings_title'], '
-			</h3>';
+			<div class="cat_bar">
+				<h3 class="catbg">
+					', $context['settings_title'], '
+				</h3>
+			</div>';
 
 	if (!empty($context['settings_message']))
 		echo '
@@ -37,11 +39,12 @@ function template_general_settings()
 			if ($config_var['type'] == 'title')
 			{
 				echo '
-					<h3 class="', !empty($config_var['class']) ? $config_var['class'] : 'catbg', '"', !empty($config_var['force_div_id']) ? ' id="' . $config_var['force_div_id'] . '"' : '', '>
-						<span class="left"></span>
-						', ($config_var['help'] ? '<a href="' . $scripturl . '?action=helpadmin;help=' . $config_var['help'] . '" onclick="return reqWin(this.href);" class="help"><img src="' . $settings['images_url'] . '/helptopics.gif" alt="' . $txt['help'] . '" /></a>' : ''), '
-						', $config_var['label'], '
-					</h3>';
+					<div class="cat_bar">
+						<h3 class="', !empty($config_var['class']) ? $config_var['class'] : 'catbg', '"', !empty($config_var['force_div_id']) ? ' id="' . $config_var['force_div_id'] . '"' : '', '>
+							', ($config_var['help'] ? '<a href="' . $scripturl . '?action=helpadmin;help=' . $config_var['help'] . '" onclick="return reqWin(this.href);" class="help"><img src="' . $settings['images_url'] . '/helptopics.gif" alt="' . $txt['help'] . '" /></a>' : ''), '
+							', $config_var['label'], '
+						</h3>
+					</div>';
 			}
 			else
 			{
@@ -179,9 +182,11 @@ function template_information()
 		echo '
 	<div id="sp_admin_main">
 		<div id="sp_live_info" class="sp_float_left">
-			<h3 class="catbg"><span class="left"></span>
-				', $txt['sp-info_live'], '
-			</h3>
+			<div class="cat_bar">
+				<h3 class="catbg">
+					', $txt['sp-info_live'], '
+				</h3>
+			</div>
 			<div class="windowbg2">
 				<span class="topslice"><span></span></span>
 				<div class="sp_content_padding">
@@ -191,9 +196,11 @@ function template_information()
 			</div>
 		</div>
 		<div id="sp_general_info" class="sp_float_right">
-			<h3 class="catbg"><span class="left"></span>
-				', $txt['sp-info_general'], '
-			</h3>
+			<div class="cat_bar">
+				<h3 class="catbg">
+					', $txt['sp-info_general'], '
+				</h3>
+			</div>
 			<div class="windowbg2">
 				<span class="topslice"><span></span></span>
 				<div class="sp_content_padding">
@@ -258,9 +265,11 @@ function template_information()
 	}
 
 	echo '
-	<h3 class="catbg"><span class="left"></span>
-		', $txt['sp-info_title'], '
-	</h3>
+	<div class="cat_bar">
+		<h3 class="catbg">
+			', $txt['sp-info_title'], '
+		</h3>
+	</div>
 	<div class="windowbg2">
 		<span class="topslice"><span></span></span>
 			<div class="sp_content_padding" id="sp_credits">';
