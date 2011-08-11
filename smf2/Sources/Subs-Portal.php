@@ -123,7 +123,7 @@ function sportal_init($standalone = false)
 			$context['can_remove_article'] = allowedTo(array('sp_admin', 'sp_manage_articles', 'sp_remove_article'));
 		}
 
-		sportal_load_compat();
+		$context['SPortal']['core_compat'] = $settings['name'] == 'Core Theme';
 	}
 
 	if (WIRELESS || ($standalone && (isset($_REQUEST['wap']) || isset($_REQUEST['wap2']) || isset($_REQUEST['imode']))) || !empty($settings['disable_sp']) || empty($modSettings['sp_portal_mode']) || ((!empty($modSettings['sp_maintenance']) || !empty($maintenance)) && !allowedTo('admin_forum')) || isset($_GET['debug']) || (empty($modSettings['allow_guestAccess']) && $context['user']['is_guest']))
@@ -265,12 +265,9 @@ function sportal_init_headers()
 	if ($context['user']['is_guest'])
 		$context['html_headers'] .= '
 			document.cookie = "sp_block_" + id + "=" + (mode ? 0 : 1);';
-	elseif ($settings['name'] === 'SMF Default Theme - Curve')
-			$context['html_headers'] .= '
-			smf_setThemeOption("sp_block_" + id, mode ? 0 : 1, null, "' . $context['session_id'] . '", "' . $context['session_var'] . '");';
 	else
 		$context['html_headers'] .= '
-			smf_setThemeOption("sp_block_" + id, mode ? 0 : 1, null, "' . $context['session_id'] . '");';
+			smf_setThemeOption("sp_block_" + id, mode ? 0 : 1, null, "' . $context['session_id'] . '", "' . $context['session_var'] . '");';
 
 	$context['html_headers'] .= '
 			document.getElementById("sp_collapse_" + id).src = smf_images_url + (mode ? "/collapse.gif" : "/expand.gif");
@@ -306,17 +303,7 @@ function sportal_init_headers()
 	}
 
 	$context['html_headers'] .= '
-	// ]]></script>
-	<style type="text/css">
-		h4.catbg span.left, h4.catbg2 span.left, h3.catbg span.left, h3.catbg2 span.left, .table_list tbody.header td span.left
-		{
-			background: url(' . $settings['images_url'] . '/theme/main_block.png) no-repeat 0 -160px;
-		}
-		h4.titlebg span.left, h3.titlebg span.left
-		{
-			background: url(' . $settings['images_url'] . '/theme/main_block.png) no-repeat 0 -200px;
-		}
-	</style>';
+	// ]]></script>';
 
 	$initialized = true;
 }
@@ -1448,32 +1435,6 @@ function sp_prevent_flood($type, $fatal = true)
 	}
 
 	return false;
-}
-
-function sportal_load_compat()
-{
-	global $context, $boarddir, $settings, $forum_version;
-
-	// Someone been messing with the $forum_version variable? Scumbags...
-	$clean_forum_version = $forum_version;
-	if (empty($clean_forum_version) || trim($clean_forum_version) == 'SMF')
-	{
-		// Get out the forum's SMF version number.
-		$data = substr(file_get_contents($boarddir . '/index.php'), 0, 4096);
-		if (preg_match('~\*\s*Software\s+Version:\s+(SMF\s+.+?)[\s]{2}~i', $data, $match))
-			$clean_forum_version = $match[1];
-		elseif (preg_match('~\*\s@version\s+(.+)[\s]{2}~i', $data, $match))
-			$clean_forum_version = 'SMF ' . $match[1];
-	}
-
-	// Are you using and old version of SMF 2? With this mode enabled we can maintain some compatibility with SMF 2 RC1.2 and below.
-	if (in_array($clean_forum_version, array('SMF 2.0 Beta 3 Public', 'SMF 2.0 Beta 3.1 Public', 'SMF 2.0 RC1', 'SMF 2.0 RC1-1', 'SMF 2.0 RC1 1', 'SMF 2.0 RC1.1', 'SMF 2.0 RC1.2')))
-		$context['SPortal']['core_compat'] = 'old';
-	// Are you using a core based theme? With this mod enabled we can maintain compatibility with Core based themes for SMF 2 RC2 and above. 
-	elseif (isset($settings['theme_version']) && (version_compare($settings['theme_version'], '2.0 RC2', '<') || strpos($settings['theme_version'], '2.0 Beta') !== false) || $settings['name'] == 'Core Theme')
-		$context['SPortal']['core_compat'] = 'core';
-	else
-		$context['SPortal']['core_compat'] = false;
 }
 
 ?>

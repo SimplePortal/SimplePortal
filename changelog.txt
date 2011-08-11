@@ -16,6 +16,7 @@ SP 2.3.5
  ! Shoutbox requests did not update user logs.
  ! Parsing was messed up when there was a parsed content in tag parameters.
  ! Removed some compatibility code which is no longer needed.
+ ! Removing more of compatibility codes.
 
 SP 2.3.4
 ================================================================================
