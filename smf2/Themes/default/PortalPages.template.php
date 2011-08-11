@@ -47,9 +47,11 @@ function template_view_page_curve()
 	if (empty($context['SPortal']['page']['style']['no_title']))
 	{
 		echo '
-				<h3 class="', $context['SPortal']['page']['style']['title']['class'], '"', !empty($context['SPortal']['page']['style']['title']['style']) ? ' style="' . $context['SPortal']['page']['style']['title']['style'] . '"' : '', '><span class="left"></span>
+			<div class="', in_array($context['SPortal']['page']['style']['title']['class'], array('titlebg', 'titlebg2')) ? 'title_bar' : 'cat_bar', '"', !empty($context['SPortal']['page']['style']['title']['style']) ? ' style="' . $context['SPortal']['page']['style']['title']['style'] . '"' : '', '>
+				<h3 class="', $context['SPortal']['page']['style']['title']['class'], '">
 					', $context['SPortal']['page']['title'], '
-				</h3>';
+				</h3>
+			</div>';
 	}
 
 	if (strpos($context['SPortal']['page']['style']['body']['class'], 'roundframe') !== false)

@@ -107,7 +107,6 @@ function template_block($block)
 {
 	global $context, $txt;
 
-	// Make sure that we have some valid block data.
 	if (empty($block) || empty($block['type']))
 		return;
 
@@ -173,15 +172,17 @@ function template_block_curve($block)
 	if (empty($block['style']['no_title']))
 	{
 		echo '
-	<h3 class="', $block['style']['title']['class'], '"', !empty($block['style']['title']['style']) ? ' style="' . $block['style']['title']['style'] . '"' : '', '><span class="left"></span>';
+	<div class="', in_array($block['style']['title']['class'], array('titlebg', 'titlebg2')) ? 'title_bar' : 'cat_bar', '"', !empty($block['style']['title']['style']) ? ' style="' . $block['style']['title']['style'] . '"' : '', '>
+		<h3 class="', $block['style']['title']['class'], '">';
 
 		if (empty($block['force_view']))
 			echo '
-		<a class="sp_float_right" style="padding-top: 7px;" href="javascript:void(0);" onclick="sp_collapseBlock(\'', $block['id'], '\')"><img id="sp_collapse_', $block['id'], '" src="', $settings['images_url'], $block['collapsed'] ? '/expand.gif' : '/collapse.gif', '" alt="*" /></a>';
+			<a class="sp_float_right" style="padding-top: 7px;" href="javascript:void(0);" onclick="sp_collapseBlock(\'', $block['id'], '\')"><img id="sp_collapse_', $block['id'], '" src="', $settings['images_url'], $block['collapsed'] ? '/expand.gif' : '/collapse.gif', '" alt="*" /></a>';
 
 		echo '
-		', parse_bbc($block['label']), '
-	</h3>';
+			', parse_bbc($block['label']), '
+		</h3>
+	</div>';
 	}
 
 	echo '
