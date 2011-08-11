@@ -275,11 +275,7 @@ sportal_init();]]></add>
 
 	// If $scripturl is set to nothing, or the SID is not defined (SSI?) just quit.]]></add>
 		</operation>
-		<operation error="ignore">
-			<search position="replace"><![CDATA[\?(?:' . SID . ';)((?:board|topic]]></search>
-			<add><![CDATA[\?(?:' . SID . ';)((?:board|topic|page]]></add>
-		</operation>
-		<operation error="ignore">
+		<operation>
 			<search position="replace"><![CDATA[\?(?:' . SID . '(?:;|&|&amp;))((?:board|topic]]></search>
 			<add><![CDATA[\?(?:' . SID . '(?:;|&|&amp;))((?:board|topic|page]]></add>
 		</operation>
@@ -394,57 +390,7 @@ sportal_init();]]></add>
 			<search position="replace"><![CDATA[cache_put_data('menu_buttons-' . implode('_', $user_info['groups']) . '-' . $user_info['language']]]></search>
 			<add><![CDATA[cache_put_data('menu_buttons-' . implode('_', $user_info['groups']) . '-' . $user_info['language'] . '-' . empty($context['disable_sp'])]]></add>
 		</operation>
-		<operation error="ignore">
-			<search position="replace"><![CDATA[			'home' => array(
-				'title' => $txt['home'],
-				'href' => $scripturl,
-				'show' => true,
-				'sub_buttons' => array(
-				),
-			),]]></search>
-			<add><![CDATA[			'home' => array(
-				'title' => $txt['home'],
-				'href' => $modSettings['sp_portal_mode'] == 3 && empty($context['disable_sp']) ? $modSettings['sp_standalone_url'] : $scripturl,
-				'show' => true,
-				'sub_buttons' => array(
-				),
-			),
-			'forum' => array(
-				'title' => empty($txt['sp-forum']) ? 'Forum' : $txt['sp-forum'],
-				'href' => $scripturl . ($modSettings['sp_portal_mode'] == 1 && empty($context['disable_sp']) ? '?action=forum' : ''),
-				'show' => in_array($modSettings['sp_portal_mode'], array(1, 3)) && empty($context['disable_sp']),
-				'sub_buttons' => array(
-				),
-			),]]></add>
-		</operation>
-		<operation error="ignore">
-			<search position="replace"><![CDATA[			'home' => array(
-				'title' => $txt['home'],
-				'href' => $scripturl,
-				'show' => true,
-				'sub_buttons' => array(
-				),
-				'is_last' => $context['right_to_left'],
-				// 'target' => '_blank',
-			),]]></search>
-			<add><![CDATA[			'home' => array(
-				'title' => $txt['home'],
-				'href' => $modSettings['sp_portal_mode'] == 3 && empty($context['disable_sp']) ? $modSettings['sp_standalone_url'] : $scripturl,
-				'show' => true,
-				'sub_buttons' => array(
-				),
-				'is_last' => $context['right_to_left'],
-				// 'target' => '_blank',
-			),
-			'forum' => array(
-				'title' => empty($txt['sp-forum']) ? 'Forum' : $txt['sp-forum'],
-				'href' => $scripturl . ($modSettings['sp_portal_mode'] == 1 && empty($context['disable_sp']) ? '?action=forum' : ''),
-				'show' => in_array($modSettings['sp_portal_mode'], array(1, 3)) && empty($context['disable_sp']),
-				'sub_buttons' => array(
-				),
-			),]]></add>
-		</operation>
-		<operation error="ignore">
+		<operation>
 			<search position="replace"><![CDATA[			'home' => array(
 				'title' => $txt['home'],
 				'href' => $scripturl,
@@ -468,42 +414,6 @@ sportal_init();]]></add>
 				'sub_buttons' => array(
 				),
 			),]]></add>
-		</operation>
-		<operation error="ignore">
-			<search position="replace"><![CDATA[					'permissions' => array(
-						'title' => $txt['edit_permissions'],
-						'href' => $scripturl . '?action=admin;area=permissions',
-						'show' => allowedTo('manage_permissions'),
-					),]]></search>
-			<add><![CDATA[					'permissions' => array(
-						'title' => $txt['edit_permissions'],
-						'href' => $scripturl . '?action=admin;area=permissions',
-						'show' => allowedTo('manage_permissions'),
-					),
-					'portal' => array(
-						'title' => $txt['sp-adminCatTitle'],
-						'href' => $scripturl . '?action=admin;area=portalconfig',
-						'show' => allowedTo(array('sp_admin', 'sp_manage_settings')),
-					),]]></add>
-		</operation>
-		<operation error="ignore">
-			<search position="replace"><![CDATA[					'permissions' => array(
-						'title' => $txt['edit_permissions'],
-						'href' => $scripturl . '?action=admin;area=permissions',
-						'show' => allowedTo('manage_permissions'),
-						'is_last' => true,
-					),]]></search>
-			<add><![CDATA[					'permissions' => array(
-						'title' => $txt['edit_permissions'],
-						'href' => $scripturl . '?action=admin;area=permissions',
-						'show' => allowedTo('manage_permissions'),
-					),
-					'portal' => array(
-						'title' => $txt['sp-adminCatTitle'],
-						'href' => $scripturl . '?action=admin;area=portalconfig',
-						'show' => allowedTo(array('sp_admin', 'sp_manage_settings')),
-						'is_last' => true,
-					),]]></add>
 		</operation>
 		<operation>
 			<search position="replace"><![CDATA[	$add = preg_match('~^(ftp|http)[s]?://~', $setLocation) == 0 && substr($setLocation, 0, 6) != 'about:';]]></search>
@@ -533,11 +443,7 @@ sportal_init();]]></add>
 	elseif(empty($context['disable_sp']) && ((isset($_GET['board']) || isset($_GET['topic']) || in_array($context['current_action'], array('unread', 'unreadreplies', 'recent', 'stats', 'who'))) && in_array($modSettings['sp_portal_mode'], array(1, 3))))
 		$current_action = 'forum';]]></add>
 		</operation>
-		<operation error="ignore">
-			<search position="replace"><![CDATA[\?(?:' . SID . ';)((?:board|topic]]></search>
-			<add><![CDATA[\?(?:' . SID . ';)((?:board|topic|page]]></add>
-		</operation>
-		<operation error="ignore">
+		<operation>
 			<search position="replace"><![CDATA[\?(?:' . SID . '(?:;|&|&amp;))((?:board|topic]]></search>
 			<add><![CDATA[\?(?:' . SID . '(?:;|&|&amp;))((?:board|topic|page]]></add>
 		</operation>

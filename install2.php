@@ -493,18 +493,8 @@ $deprecated_fields = array(
 	),
 );
 
-// Get out the forum's SMF version number.
-$data = substr(file_get_contents($boarddir . '/index.php'), 0, 4096);
-if (preg_match('~\*\s*Software\s+Version:\s+(SMF\s+.+?)[\s]{2}~i', $data, $match))
-	$forum_version = $match[1];
-elseif (preg_match('~\*\s@version\s+(.+)[\s]{2}~i', $data, $match))
-	$forum_version = 'SMF ' . $match[1];
-
-// They changed how some of the smc functions worked in SMF 2 RC2. :/
-$smf_db_prefix = in_array($forum_version, array('SMF 2.0 Beta 3 Public', 'SMF 2.0 Beta 3.1 Public', 'SMF 2.0 RC1', 'SMF 2.0 RC1-1', 'SMF 2.0 RC1 1', 'SMF 2.0 RC1.1', 'SMF 2.0 RC1.2')) ? '' : '{db_prefix}';
-
 // We always need a fresh functions table.
-$smcFunc['db_drop_table']($smf_db_prefix . 'sp_functions');
+$smcFunc['db_drop_table']('{db_prefix}sp_functions');
 
 $current_tables = $smcFunc['db_list_tables'](false, '%sp%');
 $real_prefix = preg_match('~^(`?)(.+?)\\1\\.(.*?)$~', $db_prefix, $match) === 1 ? $match[3] : $db_prefix;
@@ -521,19 +511,15 @@ foreach ($tables as $table => $data)
 
 		foreach ($data['columns'] as $column)
 		{
-			if (!isset($column['deprecated_name']) || !$smcFunc['db_change_column']($smf_db_prefix . $table, $column['deprecated_name'], $column))
-				$smcFunc['db_add_column']($smf_db_prefix . $table, $column);
+			if (!isset($column['deprecated_name']) || !$smcFunc['db_change_column']('{db_prefix}' . $table, $column['deprecated_name'], $column))
+				$smcFunc['db_add_column']('{db_prefix}' . $table, $column);
 		}
 
 		$info .= '
 			<li>Table columns updated.</li>';
 
-		// This isn't necessary and causes trouble for RC4!
-		if ($forum_version != 'SMF 2.0 RC4')
-		{
-			foreach ($data['indexes'] as $index)
-				$smcFunc['db_add_index']($smf_db_prefix . $table, $index, array(), 'ignore');
-		}
+		foreach ($data['indexes'] as $index)
+			$smcFunc['db_add_index']('{db_prefix}' . $table, $index, array(), 'ignore');
 
 		$info .= '
 			<li>Table indexes updated.</li>
@@ -542,7 +528,7 @@ foreach ($tables as $table => $data)
 	}
 	else
 	{
-		$smcFunc['db_create_table']($smf_db_prefix . $table, $data['columns'], $data['indexes'], array(), 'ignore');
+		$smcFunc['db_create_table']('{db_prefix}' . $table, $data['columns'], $data['indexes'], array(), 'ignore');
 
 		$info .= '<li>"' . $table . '" table created.</li>';
 	}
@@ -608,7 +594,7 @@ if (empty($has_block))
 {
 	foreach ($deprecated_fields as $table => $fields)
 		foreach ($fields as $field)
-			$smcFunc['db_remove_column']($smf_db_prefix . $table, $field);
+			$smcFunc['db_remove_column']('{db_prefix}' . $table, $field);
 
 	$welcome_text = '<h2 style="text-align: center;">Welcome to SimplePortal!</h2>
 <p>SimplePortal is one of several portal mods for Simple Machines Forum (SMF). Although always developing, SimplePortal is produced with the user in mind first. User feedback is the number one method of growth for SimplePortal, and our users are always finding ways for SimplePortal to grow. SimplePortal stays competative with other portal software by adding numerous user-requested features such as articles, block types and the ability to completely customize the portal page.</p>
@@ -861,7 +847,7 @@ else
 	$permission_updates = array('blocks' => 'block', 'pages' => 'page', 'shoutboxes' => 'shoutbox');
 	foreach ($permission_updates as $table => $field)
 	{
-		$columns = $smcFunc['db_list_columns']($smf_db_prefix . 'sp_' . $table, false);
+		$columns = $smcFunc['db_list_columns']('{db_prefix}' . 'sp_' . $table, false);
 		if (in_array('permission_type', $columns))
 		{
 			$request = $smcFunc['db_query']('', '
@@ -992,7 +978,7 @@ else
 				$type
 			);
 
-		$current_columns = $smcFunc['db_list_columns']($smf_db_prefix . 'sp_blocks', false);
+		$current_columns = $smcFunc['db_list_columns']('{db_prefix}' . 'sp_blocks', false);
 		if (in_array('content', $current_columns))
 		{
 			require_once($sourcedir . '/PortalBlocks.php');
@@ -1061,7 +1047,7 @@ else
 
 	foreach ($deprecated_fields as $table => $fields)
 		foreach ($fields as $field)
-			$smcFunc['db_remove_column']($smf_db_prefix . $table, $field);
+			$smcFunc['db_remove_column']('{db_prefix}' . $table, $field);
 
 	$info .= '
 	<li>Block types and parameters updated.</li>';

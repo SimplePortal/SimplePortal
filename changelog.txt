@@ -15,6 +15,7 @@ SP 2.3.5
  ! Copyright injection was too greedy.
  ! Shoutbox requests did not update user logs.
  ! Parsing was messed up when there was a parsed content in tag parameters.
+ ! Removed some compatibility code which is no longer needed.
 
 SP 2.3.4
 ================================================================================
