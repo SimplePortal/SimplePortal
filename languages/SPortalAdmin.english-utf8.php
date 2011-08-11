@@ -419,9 +419,10 @@ $txt['sp_admin_shoutbox_opt_all'] = 'Delete all shouts';
 $txt['sp_admin_shoutbox_opt_days'] = 'Delete shouts older than a number of days';
 $txt['sp_admin_shoutbox_opt_member'] = 'Delete shouts posted by a member';
 
-$txt['sp_admin_shoutbox_block_redirect_message'] = 'Congratulations, you have created a new shoutbox! Although it won\'t be displayed anywhere within your forum yet.<br />
-You will need to create a shoutbox block before your users can use the shoutbox. Click <a href="%s">here</a> to create a new shoutbox block for this shoutbox.<br /><br />
-Click <a href="%s">here</a> to continue to your list of shoutboxes.';
+$txt['sp_admin_shoutbox_block_redirect_message'] = '<p>Congratulations, you have created a new shoutbox!</p>
+<p>Although it won\'t be displayed anywhere within your forum yet. You will need to create a shoutbox block before your users can use the shoutbox.</p>
+<p>Click <a href="%s">here</a> to create a new shoutbox block for this shoutbox.</p>
+<p>Click <a href="%s">here</a> to continue to your list of shoutboxes.</p>';
 
 // General titles
 $txt['sp-adminColumnAction'] = 'Action';

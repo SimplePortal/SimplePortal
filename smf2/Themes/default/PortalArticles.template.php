@@ -9,6 +9,9 @@ function template_articles()
 		template_articles_core();
 	else
 		template_articles_curve();
+
+	echo '
+				<br />';
 }
 
 function template_articles_core()

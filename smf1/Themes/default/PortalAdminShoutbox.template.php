@@ -295,7 +295,7 @@ function template_shoutbox_block_redirect()
 			<td>', $context['page_title'], '</td>
 		</tr>
 		<tr class="windowbg2">
-			<td align="center">
+			<td>
 				', $context['redirect_message'], '
 			</td>
 		</tr>

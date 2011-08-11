@@ -1484,9 +1484,11 @@ function sp_boardNews($parameters, $id, $return_parameters = false)
 		foreach ($return as $news)
 		{
 			echo '
-					<h3 class="catbg"><span class="left"></span>
-						<span class="sp_float_left sp_article_icon">', $news['icon'], '</span><a href="', $news['href'], '" >', $news['subject'], '</a>
-					</h3>
+					<div class="cat_bar">
+						<h3 class="catbg">
+							<span class="sp_float_left sp_article_icon">', $news['icon'], '</span><a href="', $news['href'], '" >', $news['subject'], '</a>
+						</h3>
+					</div>
 					<div class="windowbg">
 						<span class="topslice"><span></span></span>
 						<div class="sp_content_padding">';

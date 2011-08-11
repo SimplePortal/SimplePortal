@@ -326,7 +326,7 @@ function template_shoutbox_block_redirect()
 				', $context['page_title'], '
 			</h3>
 		</div>
-		<div class="sp_center windowbg2">
+		<div class="windowbg2">
 			<span class="topslice"><span></span></span>
 			<div class="sp_content_padding">
 				', $context['redirect_message'], '
