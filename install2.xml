@@ -331,8 +331,7 @@ sportal_init();]]></add>
 			<search position="replace"><![CDATA[	if (empty($bbc_codes) || $message === false || !empty($parse_tags))]]></search>
 			<add><![CDATA[//	if (empty($bbc_codes) || $message === false || !empty($parse_tags))
 	// I wish I didn't had to do this... puff...
-	if (empty($bbc_codes) || $message === false)
-]]></add>
+	if (empty($bbc_codes) || $message === false)]]></add>
 		</operation>
 		<operation>
 			<search position="replace"><![CDATA[			if (empty($parse_tags) || in_array($code['tag'], $parse_tags))
@@ -374,6 +373,14 @@ sportal_init();]]></add>
 
 	if (strpos($message, '[cutoff]') !== false)
 		$message = str_replace('[cutoff]', '', $message);]]></add>
+		</operation>
+		<operation>
+			<search position="replace"><![CDATA[				$data = parse_bbc($data, !empty($tag['parsed_tags_allowed']) ? false : true, '', !empty($tag['parsed_tags_allowed']) ? $tag['parsed_tags_allowed'] : array());]]></search>
+			<add><![CDATA[			{
+				$data = parse_bbc($data, !empty($tag['parsed_tags_allowed']) ? false : true, '', !empty($tag['parsed_tags_allowed']) ? $tag['parsed_tags_allowed'] : array());
+				// Unforuntately, this is the only way to deal with such a failure of a function...
+				parse_bbc('sp');
+			}]]></add>
 		</operation>
 		<operation>
 			<search position="replace"><![CDATA['admin_forum', 'manage_boards']]></search>
