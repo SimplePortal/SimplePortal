@@ -1,0 +1,606 @@
+Changes go downward, versions go upward. Please scroll to the bottom for a legend.
+Changelog started August 1, 2008.
+Changelog last updated November 5, 2010.
+
+SP 2.3.4
+================================================================================
+ ! Articles pagination was broken.
+ ! Who's Online query for pages being viewed was outdated.
+ ! Move icon title wasn't descriptive enough.
+ ! Allow overriding block titles using language strings.
+ ! Replaced the permission system with a simpler and more powerful one.
+ ! Character case difference for expected and given table names.
+ ! Some buttons did not have the proper CSS class.
+ ! Use option groups for block list in page add/edit form.
+ ! Feed content HTML was escaped in most cases.
+ ! Applied board permissions to the article management area.
+ ! Allow selecting blocks (not) to show in pages on page add/edit.
+ ! Flood protection used an undefined variable.
+ ! Changes to newly added function names.
+ ! Implemented basic flood prevention for shoutbox.
+ ! Hopefully the last fix for board news and articles pagination.
+ ! Input ids were missing on block type select page.
+ ! Block id field in paramaters table didn't have a default value.
+ ! Board index pagination link was sometimes broken.
+ ! Minor change to credits.
+ ! Select block type area was not wide enough.
+ ! Display on all pages block option was impossible to select.
+ ! Incorrect return URL on article remove.
+ ! Articles block should be able to filter articles by category.
+ ! Shorten the links in shoutbox.
+ ! Blocks were still loaded in maintenance mode.
+ ! A better and working solution for squashed sides.
+ ! Sides getting squashed due to bad CSS.
+ ! Shoutbox moderator groups couldn't delete shouts.
+ ! Viewing ignored shouts didn't work when viewing shoutbox history.
+ ! Typo in block template was causing undefined index errors.
+ ! Linktree for pages were still missing.
+ ! Stylesheet was not loaded when portal was disabled.
+ ! Incorrect session variable.
+ ! Missing variable in globals.
+ ! Preview was trying to use side information which didn't exist.
+ ! Missing default value for shoutbox moderator groups.
+ ! Updated file versions.
+ ! Updated credits.
+ ! Removed upgrade instructions and files.
+ ! Added header and footer sides.
+ ! Make sure board news pagination variable is unique.
+ ! Fixed MySQL 5.5+ compatibility.
+ ! Copyright was misaligned again due to more recent changes in SMF.
+ ! Minor fixes to shoutbox pruning.
+ ! Shoutbox pruning is now possible.
+ ! Allow groups to be given the permission to moderate shoutboxes.
+ ! Shouts made by ignored users should be hidden.
+ ! Added SMFBlog compatibility to Blog block.
+ ! Version checks failed with updated SMF file headers.
+ ! Allow whispering in shoutbox.
+ ! Hide copyright when portal is disabled.
+ ! page variable was handled incorrectly on standalone mode.
+ ! max-height failed on older browsers.
+ ! Copyright was misaligned due to recent changes in SMF.
+ ! Fixed missing CSS declerations in RTL stylesheet.
+ ! Added RTL support for shoutbox.
+ ! Added linktree for pages.
+ ! Generic permission template was missing label elements.
+ ! cutoff tag was displayed when it shouldn't be.
+ ! Unescaped entities in shout dates could break shoutbox.
+ ! Removed the unnecessary code for Internet Explorer height fix.
+ ! Use a separate permission for removing articles.
+ ! Allow PHP expressions to be used for custom display options.
+ ! Recoded the RSS Feed block.
+ ! Allow blocks to be hidden for admins.
+ ! Use a less common id for page body editor to improve compatibility.
+ ! Make absolutely sure that the block structure is updated only when needed.
+ ! Unpublished categories were listed while adding articles.
+ ! Incorrect description for latest members block.
+ ! Missing language string on cannot shoutbox moderate error.
+ ! Change in img BBC implementation broke image resize.
+ ! Some of the integers fields did not have default values defined.
+ ! Use a clear before bottom blocks to account for possile clear issues.
+ ! Custom theme friendly fix for broken headers.
+ ! Incorrect type of join for article list query.
+ ! Removed highligthing of username of the viewer in shouts.
+ ! Member links were not colored in Top Stats block.
+ ! Shoutbox template causes errors when there are no regular smileys.
+ ! Use a less common tag for shout body to improve compatibility.
+ ! Link avatars to member profiles wherever possible.
+ ! Contribute link in credits was pointing to the old location.
+ ! Fallback to SMF package database functions for table/field collation.
+ ! Improve package database functions collation handling.
+
+SP 2.3.3
+================================================================================
+ ! Wrong help string for Add Article page in Admin
+ ! Admin permission boxes missing "Check all" checkbox.
+ ! Form element from Themeselect block missing action atribute. (SMF 1.1.x)
+ ! Add error message for 'Add Article' template in admin area.
+ ! Reloading the sp_init function doesn't clear old blocks.
+ ! Cleaned sp_init function.
+ ! Wrong help and title strings for Add/Edit block page in Admin.
+ ! missing </li> in sp_calendarInformation
+ ! 'Forum' custom display causes blocks to be shown on pages and the standalone portal.
+ ! Unended ternary statement in Portal.template.php.
+ ! Updated the credits.
+ ! BoardNews block constructPageIndex created invalid url.
+ ! Added checking for valid block data in template_block.
+ ! sp_user_info didn't load the user's custom profile fields.
+ ! Fatal error editing blocks when portal is disabled.
+ ! Allow redirectexit to Portal for standalone portal.
+ ! Help String for "disable portal redirection" is misleading.
+ ! sp_theme_select block assumed it had a valid $current_theme.
+ ! Add comma formating to numerical values.
+ ! PHP code has both tags trimmed from the start and the end.
+ ! Disable_portal variable causes errors with menu caching.
+ ! Page permissions don't allow for admin only permissions.
+ ! BoardNews block and Articles have an ellipsis even when their length is not limited.
+ ! BoardNews block and Articles ignore user timeformat.
+ ! Login block doesn't hash password.
+ ! Shoutbox bbc help variable incorrectly named.
+ ! Add Forum menu item XML instructions failed for SMF 2.0 RC4.
+ ! Some keys were being added twice due to an SMF bug.
+ ! Rounded headers were broken on SMF 2.0 RC4.
+ ! Added updater scripts for SMF 2 RC4.
+ ! Changed the location that the sportal_init function is loaded in the SSI.php file to remove errors for the Standalone mode.
+ ! Added $settings to the global variables used by the sp_userInfo function.
+ ! BoardNews block had an unended 'td' element. (SMF 1.1.x only)
+ ! Updated the SMF 2 SP 2.3.3 updator, so that it ignores some Subs.php edits and makes the correct changes to the relevant forum button code.
+
+SP 2.3.2
+================================================================================
+ ! SP erroneously allows guest access.
+ ! sp_shop doesn't define $count variable.
+ ! 'Forum' advanced display option is ignore in standalone mode.
+ ! "Add Article" button shown when Articles disabled.
+ ! "Search engine friendly URLs" support for pages.
+ ! Rename 'Events in Future' setting.
+ ! Some variables are assumed to be loaded by loadTheme. (SMF 2 RC2 only)
+ ! Shoutbox misnamed [font] as [face].
+ ! Shoutbox reverse direction.
+ ! Shoutbox 'update' field is not used.
+ ! Database Installers set a collation for text columns.
+ ! Shoutbox smiley popup display no smileys. - SMF2 only
+ ! Compat mode inconsistant with SMF compat mode.
+ ! Add checking for the $forum variable for compat mode.
+ ! Custom Pages can't swap from BBC type. SMF2 RC2 only
+ ! Pages [1] should not show when there are no articles.
+ ! Direct users to create shoutbox block after creating new shoutbox.
+ ! Incorrect 'no categories' for non-admin when adding an article.
+ ! Article author's membercolor does not appear to author.
+ ! MemberColorLink foreach invalid item error.
+ ! Updated articles and board news block templates for curve. (SMF 2 RC2 only)
+ ! Board News template updated for curve. (SMF 2 RC2 only)
+ ! Outdated permissions for adding and removing articles.
+ ! BoardIndex was getting a no index meta tag when running under "forum" action.
+ ! Removing enabled tags from bbc array caused infinite loops with auto-linking.
+ + Add SimplePortal sublink to main menu. (SMF2 only)
+ ! Deprecated 'sp_moderate' permission is still used in some cases.
+ ! Shoutbox creating unused 'can_delete_shout' context variable.
+ - Removed sp_truncateText() function.
+ + Added [cutoff] tag support for board news and articles.
+ ! Incorrect information in Custom Display Options help text.
+ ! Improve shoutbox user name higlight regex to prevent incorrect replaces.
+ ! Portal wouldn't preserve its width on lower resolutions.
+ ! Portal context was overrided by admin block list functions.
+ ! Portal button was incorrectly highlighted on some forum actions.
+ ! Status images titles and alternate texts were incosistent across admin areas.
+ ! Center blocks didn't span whole area on a side collapse.
+ ! Catbg listed twice under "Default Title Class" for blocks and pages. (SMF 2)
+ ! Duplicate 'sp-blocksActive' language string in SPortalAdmin file.
+ ! Forum menu block and block overflow didn't like each other.
+ ! Slight changes to board news and articles templates.
+ ! Better handling style options for page and block templates.
+ ! Added Curve compatibility template for shoutbox history.
+ ! Updated PortalAdmin.template.php file.
+ ! Updated PortalAdminBlocks.template.php file.
+ ! Updated PortalAdminPages.template.php file.
+ ! Updated PortalAdminShoutboxes.template.php file.
+ ! Updated PortalGeneric.template.php file.
+ ! Updated PortalAdminArticles.template.php file.
+ ! Outdated 'sp_portal_mode' help string.
+ ! Added support for SMF 2.0 RC3.
+ ! Changed version boundaries to be more flexible.
+ ! Updated redirect.txt markup.
+ ! Admin menu change failed on SMF 2.0 RC3.
+ ! Updated sp_version version.
+ ! Incorrect class in articles block.
+ ! For some reason, pngfix was still being loaded unnecessarily.
+ ! Added helptext buttons back. (though I still think they are just ugly)
+ ! Some fixes to PortalAdminArticles.template.php file.
+ ! Missing $txt global in category delete function.
+ ! Inline permissions template had some typos.
+ ! setupThemeContext() doubled stuff when called twice for SMF 1.1.
+ ! Some helptexts weren't helpful enough.
+ ! Installer was looking to incorrect directory for index.php.
+ + Aeva Media compatibility for Gallery block.
+ ! Blocks had too much padding in SMF 1.1 version.
+ ! WYSIWYG editor was broken.
+ ! Inline permissions template was using incorrect input name.
+ ! Missing comma in sp_showMoreSmileys.
+ ! Smiley code for shoutbox is not escaped for the javascript.
+ ! Incorrect array index for message ids in articles parsing.
+ ! Admins were unable to manage portal when portal mode is set as disabled.
+ ! Side collapse code was unnecessarily loaded when the option is disabled.
+ ! Missing global in settings template.
+ ! Removed a lot of strong elements in new templates for a cleaner look.
+ + Automatically fix the path to forum in PortalStandalone.php on install/upgrade.
+ ! Some new XML install instructions were not applied on upgrades.
+ ! Some typos in PortalAdmin.template.php and PortalArticles.template.php files.
+ ! Default disabled tags were not set correctly when all BBC tags are enabled.
+ ! Selecting a category in Jump To menu resulted in portal index.
+ ! Custom body class and style settings were not working with No Body style option.
+ ! Publish on Portal option should be checked while adding a new category.
+ ! Custom content blocks didn't had their contents properly escaped. (phew...)
+ ! Images should be allowed to be posted alone.
+ ! Board news block pagination URL was incorrect on non-portal-index pages.
+
+SP 2.3.1
+================================================================================
+ ! Duplicate language strings + index typo.
+ ! Recent Image Attachments block: undefined indexes.
+ ! Shoutbox template issue, with session variable.
+ ! SMF 1.1 image resizer issue.
+ ! Missing admin help strings.
+ ! Disable Aeva in Shoutbox.
+ ! 'Can add article' permission is ignored.
+ ! Shoutbox allows an empty shout, with only bbc.
+ ! Shoutbox does not censor shouts.
+ ! Refreshing the shoutbox is recorded as a new page view.
+ ! 'Is_me' check does not escape characters for preg replace.
+ ! Restricting the number of smileys shown on the shoutbox list.
+ ! Php validation issue: changed temp file location to $boarddir.
+ ! No Help Texts on Add/Edit Shoutbox page.
+ ! Issues with the Menu block's display.
+ ! Updated the SP installer for SMF 2 RC2.
+ ! Block name is not validated consistantly by the edit_block function.
+ ! Shoutbox Submit not included in tabindex.
+ ! Calendar block shouldn't link to the calendar when its disabled.
+ ! Updating SP tables, after SMF 1.1 to SMF 2 update.
+ ! 'Remove all Data' option doesn't work after upgrades. (SMF)
+ ! Check that SP works with PostgreSQL and SQLite.
+ ! Editor areas don't display properly in curve.
+ ! Fixed other display errors for curve.
+ ! No confim popups for shoutbox/page deletion.
+ ! Javascript error: portal.js: onShoutReceived doesn't defined some variables.
+ ! 'sp_error_shoutbox_name_duplicate' language string was missing.
+ ! block template function detection doesn't work properly with Standalone.
+ + Add a 'disable_sp' setting, so that sp can disabled for certain themes.
+ + Hide the portal from guests, when the allow_guestAccess setting is inactive.
+
+SP 2.3
+================================================================================
+ ! Times should not be cached as formatted.
+ ! Shoutbox history page was broken.
+ ! There was no way to disable pagination for articles.
+ ! Incorrect template was loaded for public credits page.
+ ! Fixed some language strings.
+ ! Category article count was not decreased on article removal.
+ ! PHP page type had some issues with slashes and html special chars.
+ ! Block containers now have an overflow.
+ ! Admin language file was not loaded for helpadmin action.
+ ! Reinitialization of portal doubled everywhere blocks.
+ ! Some missing text strings for Top Member Stats block.
+ ! Error for disabled pages had blocks around.
+ ! Portal theme setting didn't work on standalone mode.
+ ! Prevent conflicts with SMG mod.
+ ! Block containers now has an overflow which will probably make many happy.
+ ! Recode shoutbox compact template to remove lovely tables.
+ + Allow removing articles in message display.
+ ! Enabling articles should not be necessary to add articles.
+ ! Custom PHP block content was not validated.
+ ! sp_validate_php() failed on some configurations.
+ ! Shoutbox history and xml could have been fooled by incorrect shoubox id.
+ ! IE couldn't catch enter for shouts to submit them.
+ ! Context textbox width rendered incorrectly on IE.
+ ! Everywhere display option failed on help pages.
+ ! Shoutbox height didn't work properly.
+ ! is_me regex for shouts failed with images.
+ ! Wireless users should be redirected on standalone mode.
+ ! Don't try to highlight username for guests.
+ ! star image alt text was incorrect.
+ ! 'can_make_article' was not always set.
+ ! Standalone file didn't load main portal file.
+ ! Uknown label needed to be loaded everywhere.
+ ! Weird margins for contribute text in information area.
+ ! Moved all admin-only strings to admin language file.
+ ! Incorrect parameters for feed strip_tag.
+ ! Revised language files.
+ - Removed Thank-O-Matic block.
+ ! Give a proper error when there are no shoutboxes to select.
+ + Added font size, face and color BBCs to shoutbox.
+ ! Invalid BBCs for shoutbox removed.
+ ! There was always an article per page forced.
+ ! Revised install XMLs to use less edits.
+ ! Some areas were still checking the old permissions.
+ ! Image resize option was hardcoded.
+ ! Contribute notice was hardcoded.
+ ! Old recent blocks were not getting updating.
+ ! Block style parsing was still using the old method.
+ + Page management area now has a BBC editor.
+ + Added an index for state column in blocks table.
+ ! portal.js unnecessarily had defer.
+ - pngfix.js is completely removed.
+ + Replaced png-32 images with png-8 ones for old browsers.
+ + Added Shoutboxes feature.
+ ! Locked polls should not be displayed by show poll block.
+ + Who's Online now detects the pages viewed.
+ + Ability to select boards for recent type block.
+ + Extended management permissions.
+ ! Admin search included incorrect admin file.
+ ! Select Pages for display options was shown even when there were no pages setup.
+ ! Admin areas didn't use proper titles.
+ ! SMF 1.1 failed to detect Internet Explorer 8 as IE.
+ ! Typo in custom display options explode.
+ + Search block can now search in current board and topic.
+ + Recent Topics, Recent Posts and Compact Recent blocks are all combined.
+ + User Online Today mod support is now optional for Who's Online block.
+ ! Who texts was incorrect on different portal modes.
+ ! Permissions was lost when Regular Members was one and only.
+ ! Incorrect language string for board news no posts error.
+ ! $txt variable was missing in articles block globals.
+ ! Board news block should not list "moved" notices.
+ + Added custom pages feature.
+ + Changed the way permissions were checked.
+ + Implement MVC structure as much as possible.
+ + Re-organization of the package.
+ + Added Thank-O-Matic Members/Overall Stats block.
+ + Added Top Member Stats block.
+ + Custom BBC block now uses SMF BBC editor.
+ + Ability to select multiple boards for board news block.
+
+SP 2.2.2
+================================================================================
+ ! Strip out the "Theme" from theme name when it is not necessary.
+ ! Indexes were not added correctly on upgrades.
+ ! Some blocks didn't had built-in member color link support.
+ + Images for board news and articles can now be resized.
+ ! Board news query for all boards was very slow on big boards.
+ ! Some essential data was not loaded when portal was disabled.
+ ! Long theme names was breaking side blocks.
+ ! parameters table had indexes missing.
+ + Added percentage bars for show poll back.
+ ! Board news and article block queries had an incorrect join with attachments table.
+ ! Preview function lost permission settings for new blocks.
+ + Teaser function now preserves the word at the end.
+ ! Custom display options were not trimmed
+ ! Board index was not detected correctly with Integration mode.
+ ! The sp_pngfix.js lacks some definitions
+ ! Member color link function sometimes required reset for the main array
+ ! Better help description for the block permissions
+ ! View board permission were not checked in attachment blocks
+ + Implement the new teaser function
+
+SP 2.2.1
+================================================================================
+ ! A few more typos in install scripts.
+ ! Language typos in Help language files.
+ ! View all link for truncated text caused issues with topic titles with smileys.
+ ! Create category link on article add error when there are no categories were incorrect.
+ + Database tools are now able to fix charset issues.
+ ! Install scripts didn't take SMF charset into consideration while creating tables.
+ ! KickGuest was messing the up the portal page.
+ ! Collapsed blocks stayed collapsed even after a change in force view setting.
+ ! Got a better fix the two template errors.
+ ! Events spanning multiple days were listed multipe times.
+ ! Events future parameter caused undefined index errors.
+ ! sp_db_change_column() failed on some servers.
+ ! Database tools table definitions were incorrect.
+ ! Fix for tags left open after truncate was not doing its job.
+ ! Deprecated database table columns were not removed.
+ ! Some more protection for errors during block updates.
+ ! Portal page highlighted Forum button on standalone mode.
+ ! Again some URLs didn't display portal, more exceptions.
+ ! Active/Deactive buttons/images were reversed.
+ ! Older versions of E-Arcade required its own db abstraction layer.
+ ! Parameters in preview mode was missing stripslashes.
+ ! png fix for SMF 1.1 versions path was incorrect.
+ ! Style options were being showed for board news block.
+ ! Loading theme context on standalone mode twice caused issues.
+ ! Standalone mode copyright wasn't displayed correctly.
+ + Gallery block now supports SMF Gallery Pro version.
+ ! Disable side collapses option was not back-ported to SMF 1.1 version.
+ ! Chrome and Firefox 3 had issues related to white-space.
+ ! Attachment avatars on portal caused issues with guests not allowed forums.
+
+SP 2.2
+================================================================================
+ ! Typo in old block type replace query.
+ ! SPStandalone.php file location was incorrect for uninstall actions.
+ ! Preview div width calculation was inaccurate.
+ ! Move up and down didn't redirected to side lists.
+ ! Portal URL for who's online text was incorrect.
+ ! Mass article delete query had a typo.
+ ! Text type parameter validation used incorrect arguments.
+ ! RSS Feed block url parameters was broken.
+ ! Creating a block for a definite side didn't recognize selected side.
+ ! Fallback for sp_embed_image alt text. (Reported by changelog girl)
+ ! Form tag missing some attributes for theme select.
+ ! Some fixes to Shop block.
+ ! Longest champ mode for Arcade block had errors.
+ ! Some revisions to language files.
+ + Added Items option to shop block.
+ ! Board news display avatars parameter was broken.
+ ! Some functions used getBlockInfo in the wrong way.
+ ! A fatal typo in parameter save query.
+ ! Select Type template for SMF 1.1 version was missing latest revisions.
+ ! On portal detection failed in some cases. (Bug reported by Awesome and Kinky Language Director, Jade "Alundra" Elizabeth)
+ ! Local moderators are now optional for staff block.
+ - We no longer force a unique name for blocks.
+ + A default block name, "No Title", is added.
+ ! Undefined errors caused by errors fatal errors before language file is loaded.
+ ! $context['standalone'] sometimes was not set.
+ ! HTML safe forum was called before it's loaded.
+ ! Add Article button href didn't use dynamic portal url.
+ + Added full Right to Left language support.
+ ! Moderate area was missing in hide integration options.
+ ! Karma label for Member Information block didn't use mod settings value.
+ + Added preview feature for block add/edit.
+ + Advanced Parameter System implemented.
+ + Side collapses are now optional.
+ ! 'Stats' language file was not loaded for board stats block.
+ + Revised *all* language strings.
+ ! Incorrect index for calendar empty day unset.
+ + Some modifications to dividers for blocks.
+ ! A silly typo in 'Blocks' template.
+ + Database update from older versions required some block type changes.
+ + Now we have a shop block too.
+ + Added intelligent arcade block.
+ ! Re-initializing SP caused duplicate headers.
+ ! Failing logic in permission check for add article.
+ + Now, some default blocks are created on installation, if there aren't any.
+ ! Incorrect text string for maintenance mode setting.
+ + General settings area is seperated into subsections.
+ ! sp_validate_php function required stripslashes for SMF 1.1 version.
+ ! HTML block codes were unnecessarily going through htmlspecialchars.
+ ! Side collapse states were not set properly.
+ ! Incorrect theme id -1 was not being fixed.
+ ! Articles block query missing boards table join.
+ ! Finally fixed the mysterious "Forum Menu Block" bug. Whoo-hoo!
+ + Improved side collapses. Still needs some cosmetics.
+ ! Replaced RSS standart dot image with a prettier one.
+ + Added simple side collapse, needs to be revised though...
+ ! ?theme was stripping out portal layers.
+ ! Extra line-break for board news block.
+ ! A tiny "space" bug in block template.
+ ! Some areas and URLs were still using old session vars.
+ ! Replaced old image remnants.
+ ! Changed name of a magical function.
+ ! Changed random bullets to prevent useless load.
+ ! Some style issues with board news block.
+ ! Integration disable multicheck didn't set correctly.
+ + Maintenance mode added.
+ + An article blog for SimplePortal articles added.
+ + Now we have a blog block too.
+ + Pretty pretty staff block added.
+ ! loadTheme() having issues with -1.
+ + Added some pretty icons to admin menu.
+ ! Style issue with version alert in Information area.
+ + Brand new Theme Select block implemented.
+ + Option to disable PHP validation for PHP blocks.
+ ! Fixed LIMIT issues with SQLite
+ ! Moved article category image width to portal.css.
+ + Added Users Online Today Mod support.
+ ! An empty parameter value could not be set.
+ + Added averages option to board stats.
+ + Added missing help strings.
+ + Some arrangements in Configuration area.
+ ! Incorrect url for portal.css in SMF 1.1 version.
+ ! Board news first query was lacking boards table join.
+ + A new mode, "Integration", and revisions to portal modes.
+ + Now we use a lot better PHP validation with sp_validate_php().
+ - Check syntax function removed.
+ + catbg3 added to Title Default Class select.
+ ! Changed linktree start location as forum name.
+ + Improvements in package xml files.
+ + Revised changelog styling. :P
+ ! Prevent double 'portal' layers.
+ + Improved forum integration.
+ + sp_embed_image() added, for lazy DEVs.
+ + Standalone mode added.
+ ! Member color link foreach bug.
+ + Added credits and revised admin area.
+ + Custom display options added.
+ + Revised all javascripts in the mod.
+ + Lot lot lot of coding revisions.
+ + Added horizontal forum menu.
+ + Lot of improvements to RSS Feed block.
+ + Advanced calendar block added.
+ + Intelligent gallery block added.
+ - SMF Gallery block removed.
+ - SMF Media Gallery block removed.
+ - SMF Shop block removed.
+ - SMF Arcade block removed.
+ + Advanced style options added.
+ + We now have a more pretty redirect after install.
+ + portal.css added, now all the styling is there.
+ + Improved install scripts.
+ + Revised *all* blocks.
+ + Now using Fam Fam Fam Silk Icons.
+ ! Link Tree Redirect Bug
+ ! Maintenance Mode
+ + Admin menu consistancy.
+ + Redirect to new block side when moving a block.
+
+SP 2.1.1
+================================================================================
+ ! Recent Side Blocks parameter 1,2
+ ! Recent Image Attachment parameter 1
+ ! Top Poster Block avatar
+ ! View option explode getDisplayInfo()
+ ! Wrong index for ID message
+ ! Article image bug
+ ! Article avatar
+ ! XHTML errors
+ ! parameters implode
+ ! BoardNews template
+ ! boardNews block wrong link
+ ! boardNews collapse
+ ! calendar block sort
+
+SP 2.1
+================================================================================
+ + Complete forum-integration
+ + Changing columns for blocks
+ + Handling copyright with a new system
+ + SMF Media Gallery Block
+ + RSS Feed Block
+ + Complete Calendar Block
+ + Recent Posts/Topics Block for side blocks
+ + Recent Attachments
+ + Recent Image Attachments
+ + Disable redirection fix
+ + PHP blocks can only create, delete and edit by Admins
+ + Content editing boxes size option
+ ! Some urls causing 'mod_security' error
+ ! Wrong selection for active button
+ ! Some blocks ignoring "ignore boards" feature (SMF 2.0)
+ ! Avatar flow for article boxes
+ ! BoardNews block parameter 3 working incorrectly
+ ! Admin template XHTML fixes
+ ! Top Poster block alignment for IE
+ ! SSI not loading SP
+ ! Some issues regarding xml and AJAX
+ ! $txt['smf82'] eval bug
+ ! $txt['sp_function_sp_showPoll_param1']
+ ! The permission sp_moderation is not working
+ ! Quick Search Box Block (Size)
+ ! Gallery Type Bug
+ ! The whole post is if it's over my limit. The BBC is broken.
+ + Inserting default values for settings
+ + Some code optimizations
+ + PHP Block improvements
+
+SP 2.0.4
+================================================================================
+ ! Updating of language strings.
+ + New copyright method/Updated Copyright.
+ ! Link to article.
+ + Add a title="" to the approve/unapprove.
+ ! Link the 'Category' field on the article list page to the actual category.
+ + Check that an admin is running the install.php file.
+ + Small warning messages, if the user add a block to disabled side.
+ + Add a title attribute to the actions in the block list.
+ + Validate some of the General Settings.
+ + Improved the layout of the Simple Portal Admin area.
+ + Added Help strings in the Simple Portal Admin area.
+ + Improved the member color links.
+ + Added a "Type" row to the edit/add block pages.
+ + Replaced the old way of displaying options/parameters on the block add/edit pages.
+ + Added delete confirm boxes to avoid unecessary deletion of blocks/articles/categories.
+ + Extended and improved the permissions system for blocks.
+ + Added the javascript block colapsing feature.
+ ! Replaced with "Force Block" option with a "Not Colapsable" option.
+ + Try to load the English Language if the current language not exists.
+ ! Removed the 'dot' hardcoded alt strings.
+ ! Issue with the editing of a block when it has no other blocks in its side.
+ - Removal of useless help strings.
+ ! Fixing of other language strings.
+ ! The search link that is added to the 'Admin.php' file.
+ ! Loading of SPortalAdmin language file for the 'addarticle' subaction.
+ ! Double load of a Function that not needed.
+ ! Possible to save a block without label?
+ ! Undefined $context['SPortal']['block_info']['id'] when adding a block.
+ ! Language File Duplicates.
+ ! Missing Language String
+ ! 'block_select_type' javascript bug.
+ ! Hard coded Language string.
+ ! Forum Button Showing when Portal Inactive
+ ! Article Locked Bug.
+ ! No Checking for exsistance of mod files for custom mod blocks.
+ ! Unnecessary DB queries.
+ ! "Mark ALL messages as read" redirects to the portal.
+ ! sp_topTopics Adming language Bug.
+ - Unecessary code.
+ ! "Recent Posts Block" Admin Language String error.
+ ! Wireless Support?
+ + Allowing text values for left and right width fields.
+ + Improve Permissions system.
+ + BoardNews error checking.
+ ! Redirects to the Forum instead to the Portal
+ ! Redirection of actions to board index.
+ ! Empty Poster Guest Name on Article List page.
+
+Legend:
+--------------------------------------------------------------------------------
+ ! Minor change or bugfix.
+ + Feature addition or improvement.
+ - Feature or option removal.

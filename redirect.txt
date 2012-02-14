@@ -1,0 +1,7 @@
+<div style="padding-top: 0.5em; line-height: 1.5em;">
+	<div style="border-bottom: 1px dashed; padding-bottom: 0.5em; width: 500px; font-weight: bold; font-size: 130%;">Installation Complete</div>
+	<p style="padding-top: 0.5em;">SimplePortal installation is successfully completed. Thank you for installing SimplePortal.</p>
+	<p>You can visit <a href="http://www.simpleportal.net" title="SimplePortal">www.simpleportal.net</a> for support and general feedback.</p>
+	<p>We hope you enjoy using SimplePortal!</p>
+	<p>- SimplePortal Team</a></p>
+</div>

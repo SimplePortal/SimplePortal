@@ -1,0 +1,189 @@
+<?xml version="1.0"?>
+<!DOCTYPE package-info SYSTEM "http://www.simplemachines.org/xml/package-info">
+<package-info xmlns="http://www.simplemachines.org/xml/package-info" xmlns:smf="http://www.simplemachines.org/">
+	<id>[SiNaN]:SimplePortal</id>
+	<name>SimplePortal</name>
+	<version>2.3.4</version>
+	<type>modification</type>
+
+	<!-- Install actions -->
+
+	<install for="1.1 - 1.1.99">
+		<!-- Read me -->
+		<readme type="inline">This will install SimplePortal 2.3.4 for SMF 1.1.</readme>
+
+		<!-- Modifications -->
+		<modification>install1-1.xml</modification>
+
+		<!-- Source files -->
+		<require-file name="PortalStandalone.php" destination="$boarddir" />
+		<require-dir name="smf1/Sources" destination="$boarddir" />
+
+		<!-- Theme files -->
+		<require-dir name="smf1/Themes" destination="$boarddir" />
+
+		<!-- Language files -->
+		<require-dir name="languages" destination="$themedir" />
+
+		<!-- Image files -->
+		<require-dir name="sp" destination="$imagesdir" />
+
+		<!-- CSS files -->
+		<require-file name="portal.css" destination="$themedir" />
+		<require-file name="portal_rtl.css" destination="$themedir" />
+
+		<!-- JavaScript files -->
+		<require-file name="portal.js" destination="$themedir" />
+
+		<!-- Install scripts -->
+		<code>install1-1.php</code>
+
+		<redirect url="$scripturl?action=manageportal" timeout="5000">redirect.txt</redirect>
+	</install>
+
+	<install for="2.0 - 2.99.99">
+		<!-- Read me -->
+		<readme type="inline">This will install SimplePortal 2.3.4 for SMF 2.0.</readme>
+
+		<!-- Modifications -->
+		<modification>install2.xml</modification>
+
+		<!-- Source files -->
+		<require-file name="PortalStandalone.php" destination="$boarddir" />
+		<require-dir name="smf2/Sources" destination="$boarddir" />
+
+		<!-- Theme files -->
+		<require-dir name="smf2/Themes" destination="$boarddir" />
+
+		<!-- Language files -->
+		<require-dir name="languages" destination="$themedir" />
+
+		<!-- Image files -->
+		<require-dir name="sp" destination="$imagesdir" />
+		<require-dir name="admin" destination="$imagesdir" />
+
+		<!-- CSS files -->
+		<require-file name="portal.css" destination="$themedir/css" />
+		<require-file name="portal_rtl.css" destination="$themedir/css" />
+
+		<!-- JavaScript files -->
+		<require-file name="portal.js" destination="$themedir/scripts" />
+
+		<!-- Install scripts -->
+		<database>install2.php</database>
+
+		<redirect url="$scripturl?action=admin;area=portalconfig" timeout="5000">redirect.txt</redirect>
+	</install>
+
+	<!-- Uninstall actions -->
+
+	<uninstall for="1.1 - 1.1.99">
+		<!-- Read me -->
+		<readme type="inline">This will uninstall SimplePortal 2.3.4 for SMF 1.1.</readme>
+
+		<!-- Modifications -->
+		<modification reverse="true">install1-1.xml</modification>
+
+		<!-- Source files -->
+		<remove-file name="$boarddir/PortalStandalone.php" />
+		<remove-file name="$sourcedir/PortalArticles.php" />
+		<remove-file name="$sourcedir/PortalBlocks.php" />
+		<remove-file name="$sourcedir/PortalMain.php" />
+		<remove-file name="$sourcedir/PortalPages.php" />
+		<remove-file name="$sourcedir/PortalShoutbox.php" />
+		<remove-file name="$sourcedir/PortalAdminArticles.php" />
+		<remove-file name="$sourcedir/PortalAdminBlocks.php" />
+		<remove-file name="$sourcedir/PortalAdminMain.php" />
+		<remove-file name="$sourcedir/PortalAdminPages.php" />
+		<remove-file name="$sourcedir/PortalAdminShoutbox.php" />
+		<remove-file name="$sourcedir/Subs-Portal.php" />
+		<remove-file name="$sourcedir/Subs-PortalAdmin.php" />
+
+		<!-- Theme files -->
+		<remove-file name="$themedir/Portal.template.php" />
+		<remove-file name="$themedir/PortalArticles.template.php" />
+		<remove-file name="$themedir/PortalPages.template.php" />
+		<remove-file name="$themedir/PortalShoutbox.template.php" />
+		<remove-file name="$themedir/PortalAdmin.template.php" />
+		<remove-file name="$themedir/PortalAdminArticles.template.php" />
+		<remove-file name="$themedir/PortalAdminBlocks.template.php" />
+		<remove-file name="$themedir/PortalAdminPages.template.php" />
+		<remove-file name="$themedir/PortalAdminShoutbox.template.php" />
+
+		<!-- Language files -->
+		<remove-file name="$languagedir/SPortal.english.php" />
+		<remove-file name="$languagedir/SPortal.english-utf8.php" />
+		<remove-file name="$languagedir/SPortalAdmin.english.php" />
+		<remove-file name="$languagedir/SPortalAdmin.english-utf8.php" />
+		<remove-file name="$languagedir/SPortalHelp.english.php" />
+		<remove-file name="$languagedir/SPortalHelp.english-utf8.php" />
+
+		<!-- Image files -->
+		<remove-dir name="$imagesdir/sp" />
+
+		<!-- CSS files -->
+		<remove-file name="$themedir/portal.css" />
+		<remove-file name="$themedir/portal_rtl.css" />
+
+		<!-- JavaScript files -->
+		<remove-file name="$themedir/portal.js" />
+	</uninstall>
+
+	<uninstall for="2.0 - 2.99.99">
+		<!-- Read me -->
+		<readme type="inline">This will uninstall SimplePortal 2.3.4 for SMF 2.0.</readme>
+
+		<!-- Modifications -->
+		<modification reverse="true">install2.xml</modification>
+
+		<!-- Source files -->
+		<remove-file name="$boarddir/PortalStandalone.php" />
+		<remove-file name="$sourcedir/PortalArticles.php" />
+		<remove-file name="$sourcedir/PortalBlocks.php" />
+		<remove-file name="$sourcedir/PortalMain.php" />
+		<remove-file name="$sourcedir/PortalPages.php" />
+		<remove-file name="$sourcedir/PortalShoutbox.php" />
+		<remove-file name="$sourcedir/PortalAdminArticles.php" />
+		<remove-file name="$sourcedir/PortalAdminBlocks.php" />
+		<remove-file name="$sourcedir/PortalAdminMain.php" />
+		<remove-file name="$sourcedir/PortalAdminPages.php" />
+		<remove-file name="$sourcedir/PortalAdminShoutbox.php" />
+		<remove-file name="$sourcedir/Subs-Portal.php" />
+		<remove-file name="$sourcedir/Subs-PortalAdmin.php" />
+
+		<!-- Theme files -->
+		<remove-file name="$themedir/Portal.template.php" />
+		<remove-file name="$themedir/PortalArticles.template.php" />
+		<remove-file name="$themedir/PortalPages.template.php" />
+		<remove-file name="$themedir/PortalShoutbox.template.php" />
+		<remove-file name="$themedir/PortalAdmin.template.php" />
+		<remove-file name="$themedir/PortalAdminArticles.template.php" />
+		<remove-file name="$themedir/PortalAdminBlocks.template.php" />
+		<remove-file name="$themedir/PortalAdminPages.template.php" />
+		<remove-file name="$themedir/PortalAdminShoutbox.template.php" />
+
+		<!-- Language files -->
+		<remove-file name="$languagedir/SPortal.english.php" />
+		<remove-file name="$languagedir/SPortal.english-utf8.php" />
+		<remove-file name="$languagedir/SPortalAdmin.english.php" />
+		<remove-file name="$languagedir/SPortalAdmin.english-utf8.php" />
+		<remove-file name="$languagedir/SPortalHelp.english.php" />
+		<remove-file name="$languagedir/SPortalHelp.english-utf8.php" />
+
+		<!-- Image files -->
+		<remove-dir name="$imagesdir/sp" />
+		<remove-file name="$imagesdir/admin/configuration.png" />
+		<remove-file name="$imagesdir/admin/blocks.png" />
+		<remove-file name="$imagesdir/admin/articles.png" />
+		<remove-file name="$imagesdir/admin/pages.png" />
+		<remove-file name="$imagesdir/admin/shoutbox.png" />
+
+		<!-- CSS files -->
+		<remove-file name="$themedir/css/portal.css" />
+		<remove-file name="$themedir/css/portal_rtl.css" />
+
+		<!-- JavaScript files -->
+		<remove-file name="$themedir/scripts/portal.js" />
+	</uninstall>
+
+</package-info>

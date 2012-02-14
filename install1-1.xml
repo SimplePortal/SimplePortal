@@ -1,0 +1,465 @@
+<?xml version="1.0"?>
+<!DOCTYPE modification SYSTEM "http://www.simplemachines.org/xml/modification">
+<modification xmlns="http://www.simplemachines.org/xml/modification" xmlns:smf="http://www.simplemachines.org/">
+	<id>[SiNaN]:SimplePortal</id>
+	<version>2.3.4</version>
+
+	<file name="$boarddir/index.php">
+		<operation>
+			<search position="replace"><![CDATA[require_once($sourcedir . '/Security.php');]]></search>
+			<add><![CDATA[require_once($sourcedir . '/Security.php');
+require_once($sourcedir . '/Subs-Portal.php');]]></add>
+		</operation>
+		<operation>
+			<search position="replace"><![CDATA[	// Is the forum in maintenance mode? (doesn't apply to administrators.)
+	if (!empty($maintenance) && !allowedTo('admin_forum'))]]></search>
+			<add><![CDATA[	// Load SimplePortal.
+	sportal_init();
+
+	// Is the forum in maintenance mode? (doesn't apply to administrators.)
+	if (!empty($maintenance) && !allowedTo('admin_forum'))]]></add>
+		</operation>
+		<operation>
+			<search position="replace"><![CDATA[		'findmember' => array('Subs-Auth.php', 'JSMembers'),]]></search>
+			<add><![CDATA[		'findmember' => array('Subs-Auth.php', 'JSMembers'),
+		'forum' => array('BoardIndex.php', 'BoardIndex'),
+		'portal' => array('PortalMain.php', 'sportal_main'),
+		'manageportal' => array('PortalAdminMain.php', 'sportal_admin_main'),]]></add>
+		</operation>
+		<operation>
+			<search position="replace"><![CDATA[		// Action and board are both empty... BoardIndex!]]></search>
+			<add><![CDATA[		// Go catch it boy! Catch it!
+		$sp_action = sportal_catch_action();
+		if ($sp_action)
+			return $sp_action;
+
+		// Action and board are both empty... BoardIndex!]]></add>
+		</operation>
+		<operation>
+			<search position="replace"><![CDATA[if (empty($_REQUEST['action']) || ]]></search>
+			<add><![CDATA[if (empty($_REQUEST['action']) || !($_REQUEST['action'] == 'portal' && isset($_GET['xml'])) && ]]></add>
+		</operation>
+		<operation>
+			<search position="replace"><![CDATA[	// Get the function and file to include - if it's not there, do the board index.]]></search>
+			<add><![CDATA[	if (!empty($context['disable_sp']))
+		unset($actionArray['portal'], $actionArray['forum']);
+
+	// Get the function and file to include - if it's not there, do the board index.]]></add>
+		</operation>
+	</file>
+
+	<file name="$boarddir/SSI.php">
+		<operation>
+			<search position="replace"><![CDATA[require_once($sourcedir . '/Security.php');]]></search>
+			<add><![CDATA[require_once($sourcedir . '/Security.php');
+require_once($sourcedir . '/Subs-Portal.php');]]></add>
+		</operation>
+		<operation>
+			<search position="replace"><![CDATA[loadPermissions();]]></search>
+			<add><![CDATA[loadPermissions();
+
+// Load some SP stuff.
+sportal_init();]]></add>
+		</operation>
+	</file>
+
+	<file name="$sourcedir/Admin.php">
+		<operation>
+			<search position="replace"><![CDATA['manage_smileys', 'manage_attachments']]></search>
+			<add><![CDATA['manage_smileys', 'manage_attachments', 'sp_admin', 'sp_manage_settings', 'sp_manage_blocks', 'sp_manage_articles', 'sp_manage_pages', 'sp_manage_shoutbox']]></add>
+		</operation>
+	</file>
+
+	<file name="$sourcedir/BoardIndex.php">
+		<operation>
+			<search position="replace"><![CDATA[				'href' => $scripturl . '#' . $row_board['ID_CAT'],]]></search>
+			<add><![CDATA[				'href' => $scripturl . '?action=forum#' . $row_board['ID_CAT'],]]></add>
+		</operation>
+	</file>
+
+	<file name="$sourcedir/Display.php">
+		<operation>
+			<search position="replace"><![CDATA[	// Is this topic sticky, or can it even be?]]></search>
+			<add><![CDATA[	// Is this already an article?
+	$request = db_query("
+		SELECT ID_MESSAGE
+		FROM {$db_prefix}sp_articles
+		WHERE ID_MESSAGE = '$context[topic_first_message]'
+		LIMIT 1", __FILE__, __LINE__);
+	list ($context['topic_is_article']) = mysql_fetch_row($request);
+	mysql_free_result($request);
+
+	// Is this topic sticky, or can it even be?]]></add>
+		</operation>
+	</file>
+
+	<file name="$sourcedir/Help.php">
+		<operation>
+			<search position="replace"><![CDATA[	// Load the admin help language file and template.
+	loadLanguage('Help');]]></search>
+			<add><![CDATA[	// Load the admin help language file and template.
+	loadLanguage('Help');
+	if (loadLanguage('SPortalHelp', '', false) === false)
+		loadLanguage('SPortalHelp', 'english');]]></add>
+		</operation>
+	</file>
+
+	<file name="$sourcedir/Load.php">
+		<operation>
+			<search position="replace"><![CDATA[	// Verify the ID_THEME... no foul play.]]></search>
+			<add><![CDATA[		global $sp_standalone;
+
+	// Maybe we have a portal specific theme?
+	if (!isset($_GET['action']) && !isset($_GET['board']) && !isset($_GET['topic']) && ($modSettings['sp_portal_mode'] == 1 || !empty($sp_standalone)) && !empty($modSettings['portaltheme']))
+		$ID_THEME = (int) $modSettings['portaltheme'];
+
+	// SMF doesn't seem to be liking -1...
+	if ($ID_THEME == -1 && !empty($_SESSION['ID_THEME']))
+	{
+		unset($_SESSION['ID_THEME']);
+		$ID_THEME = $modSettings['theme_guests'];
+	}
+
+	// Verify the ID_THEME... no foul play.]]></add>
+		</operation>
+		<operation>
+			<search position="replace"><![CDATA[	// Wireless mode?  Load up the wireless stuff.]]></search>
+			<add><![CDATA[	// We'll be on the safe side, and load our language here!
+	if (loadLanguage('SPortal', '', false) === false)
+		loadLanguage('SPortal', 'english', false);
+
+	// Wireless mode?  Load up the wireless stuff.]]></add>
+		</operation>
+	</file>
+
+	<file name="$sourcedir/ManagePermissions.php">
+		<operation>
+			<search position="replace"><![CDATA[			'pm' => array(]]></search>
+			<add><![CDATA[			'sp' => array(
+				'sp_admin' => false,
+				'sp_manage_settings' => false,
+				'sp_manage_blocks' => false,
+				'sp_manage_articles' => false,
+				'sp_manage_pages' => false,
+				'sp_manage_shoutbox' => false,
+				'sp_add_article' => false,
+				'sp_auto_article_approval' => false,
+				'sp_remove_article' => false,
+			),
+			'pm' => array(]]></add>
+		</operation>
+	</file>
+
+	<file name="$sourcedir/ManageServer.php">
+		<operation>
+			<search position="replace"><![CDATA[	loadLanguage('Help');]]></search>
+			<add><![CDATA[	loadLanguage('Help');
+	if (loadLanguage('SPortalHelp', '', false) === false)
+		loadLanguage('SPortalHelp', 'english');]]></add>
+		</operation>
+	</file>
+
+	<file name="$sourcedir/QueryString.php">
+		<operation>
+			<search position="replace"><![CDATA[	// If $scripturl is set to nothing, or the SID is not defined (SSI?) just quit.]]></search>
+			<add><![CDATA[	// It's just a blue dream...
+	if (function_exists('sp_query_string'))
+		$buffer = sp_query_string($buffer);
+
+	// If $scripturl is set to nothing, or the SID is not defined (SSI?) just quit.]]></add>
+		</operation>
+		<operation>
+			<search position="replace"><![CDATA[\?(?:' . SID . ';)((?:board|topic]]></search>
+			<add><![CDATA[\?(?:' . SID . ';)((?:board|topic|page]]></add>
+		</operation>
+		<operation>
+			<search position="replace"><![CDATA[\?((?:board|topic]]></search>
+			<add><![CDATA[\?((?:board|topic|page]]></add>
+		</operation>
+	</file>
+
+	<file name="$sourcedir/Recent.php">
+		<operation>
+			<search position="replace"><![CDATA[				'href' => $scripturl . '#' . $row['ID_CAT'],
+				'link' => '<a href="' . $scripturl . '#' . $row['ID_CAT'] . '">' . $row['cname'] . '</a>']]></search>
+			<add><![CDATA[				'href' => $scripturl . '?action=forum#' . $row['ID_CAT'],
+				'link' => '<a href="' . $scripturl . '?action=forum#' . $row['ID_CAT'] . '">' . $row['cname'] . '</a>']]></add>
+		</operation>
+		<operation>
+			<search position="replace"><![CDATA[				'url' => $scripturl . '#' . (int) $_REQUEST['c'],]]></search>
+			<add><![CDATA[				'url' => $scripturl . '?action=forum#' . (int) $_REQUEST['c'],]]></add>
+		</operation>
+		<operation>
+			<search position="replace"><![CDATA[			'url' => $scripturl . '#' . (int) $_REQUEST['c'][0],]]></search>
+			<add><![CDATA[			'url' => $scripturl . '?action=forum#' . (int) $_REQUEST['c'][0],]]></add>
+		</operation>
+	</file>
+
+	<file name="$sourcedir/Subs.php">
+		<operation>
+			<search position="replace"><![CDATA[function parse_bbc($message, $smileys = true, $cache_id = '']]></search>
+			<add><![CDATA[function parse_bbc($message, $smileys = true, $cache_id = '', $parse_tags = false]]></add>
+		</operation>
+		<operation>
+			<search position="replace"><![CDATA[	static $disabled;]]></search>
+			<add><![CDATA[	static $disabled, $default_disabled, $parse_tag_cache;]]></add>
+		</operation>
+		<operation>
+			<search position="replace"><![CDATA[	// Shall we take the time to cache this?]]></search>
+			<add><![CDATA[	if ($parse_tags !== array() && is_array($parse_tags))
+	{
+		$temp_bbc = $bbc_codes;
+		$tags_cache_id = implode(',', $parse_tags);
+
+		if (!isset($default_disabled))
+			$default_disabled = isset($disabled) ? $disabled : array();
+
+		if (isset($parse_tag_cache[$tags_cache_id]))
+			list ($bbc_codes, $disabled) = $parse_tag_cache[$tags_cache_id];
+		else
+		{
+			foreach ($bbc_codes as $key_bbc => $bbc)
+				foreach ($bbc as $key_code => $code)
+					if (!in_array($code['tag'], $parse_tags))
+					{
+						$disabled[$code['tag']] = true;
+						unset($bbc_codes[$key_bbc][$key_code]);
+					}
+
+			$parse_tag_cache = array($tags_cache_id => array($bbc_codes, $disabled));
+		}
+	}
+	elseif (isset($default_disabled))
+		$disabled = $default_disabled;
+
+	if (strpos($message, '[cutoff]') !== false)
+		$message = str_replace('[cutoff]', '', $message);
+
+	// Shall we take the time to cache this?]]></add>
+		</operation>
+		<operation>
+			<search position="replace"><![CDATA[		cache_put_data($cache_key, $message, 240);]]></search>
+			<add><![CDATA[		cache_put_data($cache_key, $message, 240);
+
+	if (isset($temp_bbc))
+	{
+		$bbc_codes = $temp_bbc;
+		$temp_bbc = null;
+	}]]></add>
+		</operation>
+		<operation>
+			<search position="replace"><![CDATA['admin_forum', 'manage_boards']]></search>
+			<add><![CDATA['admin_forum', 'manage_boards', 'sp_admin', 'sp_manage_settings', 'sp_manage_blocks', 'sp_manage_articles', 'sp_manage_pages', 'sp_manage_shoutbox']]></add>
+		</operation>
+		<operation>
+			<search position="replace"><![CDATA[	// Admin area 'Members'.]]></search>
+			<add><![CDATA[	if (allowedTo(array('sp_admin', 'sp_manage_settings', 'sp_manage_blocks', 'sp_manage_articles', 'sp_manage_pages', 'sp_manage_shoutbox')))
+	{
+		if (loadLanguage('SPortalAdmin', '', false) === false)
+			loadLanguage('SPortalAdmin', 'english', false);
+
+		$context['admin_areas']['sportal'] = array(
+			'title' => $txt['sp-adminCatTitle'],
+			'areas' => array()
+		);
+
+		if (allowedTo(array('sp_admin', 'sp_manage_settings')))
+			$context['admin_areas']['sportal']['areas']['portalconfig'] =  '<a href="' . $scripturl . '?action=manageportal;area=portalconfig">' . $txt['sp-adminConfiguration'] . '</a>';
+
+		if (allowedTo(array('sp_admin', 'sp_manage_blocks')))
+			$context['admin_areas']['sportal']['areas']['portalblocks'] =  '<a href="' . $scripturl . '?action=manageportal;area=portalblocks">' . $txt['sp-blocksBlocks'] . '</a>';
+
+		if (allowedTo(array('sp_admin', 'sp_manage_articles')))
+			$context['admin_areas']['sportal']['areas']['portalarticles'] =  '<a href="' . $scripturl . '?action=manageportal;area=portalarticles">' . $txt['sp-adminColumnArticles'] . '</a>';
+
+		if (allowedTo(array('sp_admin', 'sp_manage_pages')))
+			$context['admin_areas']['sportal']['areas']['portalpages'] =  '<a href="' . $scripturl . '?action=manageportal;area=portalpages">' . $txt['sp_admin_pages_title'] . '</a>';
+
+		if (allowedTo(array('sp_admin', 'sp_manage_shoutbox')))
+			$context['admin_areas']['sportal']['areas']['portalshoutbox'] =  '<a href="' . $scripturl . '?action=manageportal;area=portalshoutbox">' . $txt['sp_admin_shoutbox_title'] . '</a>';
+	}
+
+	// Admin area 'Members'.]]></add>
+		</operation>
+		<operation>
+			<search position="replace"><![CDATA[	$add = preg_match('~^(ftp|http)[s]?://~', $setLocation) == 0 && substr($setLocation, 0, 6) != 'about:';]]></search>
+			<add><![CDATA[	$add = preg_match('~^(ftp|http)[s]?://~', $setLocation) == 0 && substr($setLocation, 0, 6) != 'about:';
+
+	// Set the default redirect location as the forum or the portal.
+	if ((empty($setLocation) || $scripturl == $setLocation) && ($modSettings['sp_portal_mode'] == 1 || $modSettings['sp_portal_mode'] == 3))
+	{
+		// Redirect the user to the forum.
+		if (!empty($modSettings['sp_disableForumRedirect']))
+			$setLocation = 'action=forum';
+		// Redirect the user to the SSI.php standalone portal.
+		elseif ($modSettings['sp_portal_mode'] == 3)
+		{
+			$setLocation = $context['portal_url'];
+			$add = false;
+		}
+	}]]></add>
+		</operation>
+		<operation>
+			<search position="replace"><![CDATA[\?(?:' . SID . ';)((?:board|topic]]></search>
+			<add><![CDATA[\?(?:' . SID . ';)((?:board|topic|page]]></add>
+		</operation>
+		<operation>
+			<search position="replace"><![CDATA[\?((?:board|topic]]></search>
+			<add><![CDATA[\?((?:board|topic|page]]></add>
+		</operation>
+		<operation>
+			<search position="replace"><![CDATA[	// Get some news...]]></search>
+			<add><![CDATA[	static $loaded;
+	if (!empty($loaded))
+		return;
+	$loaded = true;
+
+	// Get some news...]]></add>
+		</operation>
+		<operation>
+			<search position="replace"><![CDATA[';start=%d') . '">%s</a> ']]></search>
+			<add><![CDATA[';start=%1$d') . '">%2$s</a> ';]]></add>
+		</operation>
+	</file>
+
+	<file name="$sourcedir/Who.php">
+		<operation>
+			<search position="replace"><![CDATA[	// Actions that require a specific permission level.]]></search>
+			<add><![CDATA[	if ($modSettings['sp_portal_mode'] == 1)
+	{
+		$txt['who_index'] = $txt['sp_who_index'];
+		$txt['whoall_forum'] = $txt['sp_who_forum'];
+	}
+
+	// Actions that require a specific permission level.]]></add>
+		</operation>
+		<operation>
+			<search position="replace"><![CDATA[	$board_ids = array();]]></search>
+			<add><![CDATA[	$board_ids = array();
+	$page_ids = array();]]></add>
+		</operation>
+		<operation>
+			<search position="replace"><![CDATA[			// It's the board index!!  It must be!]]></search>
+			<add><![CDATA[			elseif (isset($actions['page']))
+			{
+				$data[$k] = $txt['who_hidden'];
+				$page_ids[$actions['page']][$k] = $txt['sp_who_page'];
+			}
+			// It's the board index!!  It must be!]]></add>
+		</operation>
+		<operation>
+			<search position="replace"><![CDATA[	// Load member names for the profile.]]></search>
+			<add><![CDATA[	if (!empty($page_ids))
+	{
+		$numeric_ids = array();
+		$string_ids = array();
+		$page_where = array();
+
+		foreach ($page_ids as $page_id => $dummy)
+			if (is_numeric($page_id))
+				$numeric_ids[] = (int) $page_id;
+			else
+				$string_ids[] = '\'' . $page_id . '\'';
+
+		if (!empty($numeric_ids))
+			$page_where[] = 'ID_PAGE IN (' . implode(', ', $numeric_ids) . ')';
+
+		if (!empty($string_ids))
+			$page_where[] = 'namespace IN (' . implode(', ', $string_ids) . ')';
+
+		$result = db_query("
+			SELECT ID_PAGE, namespace, title, permission_set, groups_allowed, groups_denied
+			FROM {$db_prefix}sp_pages
+			WHERE " . implode(' OR ', $page_where) . "
+			LIMIT " . count($page_ids), __FILE__, __LINE__);
+		$page_data = array();
+		while ($row = mysql_fetch_assoc($result))
+		{
+			if (!sp_allowed_to('page', $row['ID_PAGE'], $row['permission_set'], $row['groups_allowed'], $row['groups_denied']))
+				continue;
+
+			$page_data[] = array(
+				'id' => $row['ID_PAGE'],
+				'namespace' => $row['namespace'],
+				'title' => $row['title'],
+			);
+		}
+		mysql_free_result($result);
+
+		if (!empty($page_data))
+		{
+			foreach ($page_data as $page)
+			{
+				if (isset($page_ids[$page['id']]))
+					foreach ($page_ids[$page['id']] as $k => $session_text)
+						$data[$k] = sprintf($session_text, $page['id'], $page['title']);
+
+				if (isset($page_ids[$page['namespace']]))
+					foreach ($page_ids[$page['namespace']] as $k => $session_text)
+						$data[$k] = sprintf($session_text, $page['namespace'], $page['title']);
+			}
+		}
+	}
+
+	// Load member names for the profile.]]></add>
+		</operation>
+	</file>
+
+	<file name="$themedir/index.template.php">
+		<operation>
+			<search position="replace"><![CDATA[	$current_action = 'home';]]></search>
+			<add><![CDATA[	global $modSettings;
+	$current_action = $modSettings['sp_portal_mode'] == 3 && empty($context['standalone']) && empty($context['disable_sp']) ? 'forum' : 'home';]]></add>
+		</operation>
+		<operation>
+			<search position="replace"><![CDATA['login', 'help', 'pm']]></search>
+			<add><![CDATA['login', 'help', 'pm', 'forum']]></add>
+		</operation>
+		<operation>
+			<search position="replace"><![CDATA['smileys', 'viewErrorLog', 'viewmembers']]></search>
+			<add><![CDATA['smileys', 'viewErrorLog', 'viewmembers', 'manageportal']]></add>
+		</operation>
+		<operation>
+			<search position="replace"><![CDATA[		$current_action = 'search';]]></search>
+			<add><![CDATA[		$current_action = 'search';
+	if (empty($context['disable_sp']) && (isset($_GET['board']) || isset($_GET['topic']) || in_array($context['current_action'], array('unread', 'unreadreplies', 'recent', 'stats', 'who'))) && in_array($modSettings['sp_portal_mode'], array(1, 3)))
+		$current_action = 'forum';]]></add>
+		</operation>
+		<operation>
+			<search position="replace"><![CDATA[	// Show the [home] button.
+	echo ($current_action=='home' || $context['browser']['is_ie4']) ? '<td class="maintab_active_' . $first . '">&nbsp;</td>' : '' , '
+				<td valign="top" class="maintab_' , $current_action == 'home' ? 'active_back' : 'back' , '">
+					<a href="', $scripturl, '">' , $txt[103] , '</a>
+				</td>' , $current_action == 'home' ? '<td class="maintab_active_' . $last . '">&nbsp;</td>' : '';]]></search>
+			<add><![CDATA[	// Show the [home] button.
+	echo ($current_action=='home' || $context['browser']['is_ie4']) ? '<td class="maintab_active_' . $first . '">&nbsp;</td>' : '' , '
+				<td valign="top" class="maintab_' , $current_action == 'home' ? 'active_back' : 'back' , '">
+					<a href="', ($modSettings['sp_portal_mode'] == 3 && empty($context['disable_sp']) ? $modSettings['sp_standalone_url'] : $scripturl), '">' , $txt[103] , '</a>
+				</td>' , $current_action == 'home' ? '<td class="maintab_active_' . $last . '">&nbsp;</td>' : '';
+
+	// Show the [forum] button.
+	if (empty($context['disable_sp']) && in_array($modSettings['sp_portal_mode'], array(1, 3)))
+		echo ($current_action=='forum' || $context['browser']['is_ie4']) ? '<td class="maintab_active_' . $first . '">&nbsp;</td>' : '' , '
+				<td valign="top" class="maintab_' , $current_action == 'forum' ? 'active_back' : 'back' , '">
+					<a href="', $scripturl . ($modSettings['sp_portal_mode'] == 1 ? '?action=forum' : ''), '">', empty($txt['sp-forum']) ? 'Forum' : $txt['sp-forum'], '</a>
+				</td>' , $current_action=='forum' ? '<td class="maintab_active_' . $last . '">&nbsp;</td>' : '';]]></add>
+		</operation>
+	</file>
+
+	<file name="$themedir/Display.template.php">
+		<operation>
+			<search position="replace"><![CDATA[	// Show the page index... "Pages: [1]".]]></search>
+			<add><![CDATA[	// Article related buttons...
+	if (!empty($modSettings['articleactive']))
+	{
+		if ($context['can_add_article'] && !$context['topic_is_article'])
+			$normal_buttons['add_article'] = array('text' => 'sp-add_article', 'image' => 'addarticle.gif', 'lang' => true, 'url' => $scripturl . '?action=portal;sa=addarticle;message=' . $context['topic_first_message'] . ';return=' . $context['current_topic'] . '.' . $context['start'] . ';sesc=' . $context['session_id']);
+		if ($context['can_remove_article'] && $context['topic_is_article'])
+			$normal_buttons['remove_article'] = array('text' => 'sp-remove_article', 'image' => 'removearticle.gif', 'lang' => true, 'url' => $scripturl . '?action=portal;sa=removearticle;message=' . $context['topic_first_message'] . ';return=' . $context['current_topic'] . '.' . $context['start'] . ';sesc=' . $context['session_id']);
+	}
+
+	// Show the page index... "Pages: [1]".]]></add>
+		</operation>
+	</file>
+
+</modification>

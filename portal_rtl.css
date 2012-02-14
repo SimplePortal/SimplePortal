@@ -1,0 +1,135 @@
+/* Version 2.3.4; portal_rtl */
+
+/* ************************************* */
+/* Common styles                         */
+/* ************************************* */
+.sp_right
+{
+	text-align: left;
+}
+.sp_left
+{
+	text-align: right;
+}
+.sp_float_left
+{
+	float: right;
+}
+.sp_float_right
+{
+	float: left;
+}
+
+/* ************************************* */
+/* List styles                           */
+/* ************************************* */
+.sp_list
+{
+	text-align: right;
+	padding: 0 5px 0 0;
+}
+.sp_list_indent
+{
+	padding: 0 10px 0 0;
+}
+
+/* ************************************* */
+/* Block specific styles                 */
+/* ************************************* */
+#sp_menu li ul
+{
+	left: 0;
+	right: 75%;
+}
+.sp_article_icon
+{
+	margin: 5px 0 0 10px;
+}
+
+/* ************************************* */
+/* Shoutbox styles                       */
+/* ************************************* */
+.shoutbox_body
+{
+	text-align: right;
+	padding: 0;
+}
+.shoutbox_list_compact li
+{
+	padding: 4px 4px 4px 0;
+	border-bottom: 1px dashed #CCCCCC;
+	border-left: none;
+	border-right: 3px solid #DADADA;
+}
+.shoutbox_list_all li
+{
+	padding: 4px 4px 0 0;
+	border-left: none;
+	border-right: 3px solid #DADADA;
+}
+span.shoutbox_time
+{
+	padding-left: 0;
+	padding-right: 5px;
+}
+span.shoutbox_delete
+{
+	float: left;
+	padding-right: 0;
+	padding-left: 3px;
+}
+.shoutbox_page_index
+{
+	padding: 2px 2px 3px 0;
+}
+li.shoutbox_warning
+{
+	border-left: none;
+	border-right: 3px solid #F66;
+}
+
+/* ************************************* */
+/* Admin styles                          */
+/* ************************************* */
+#spAnnouncements
+{
+	padding-right: 0;
+	padding-left: 1ex;
+}
+#sp_select_block_type li
+{
+	float: right;
+}
+#sp_edit_block ul.sp_display_list li
+{
+	float: right;
+}
+
+dl.sp_form
+{
+	clear: left;
+}
+dl.sp_form dt
+{
+	float: right;
+}
+dl.sp_form dd
+{
+	float: right;
+}
+dl.sp_form img, #sp_add_articles_list_header img
+{
+	margin: 0 0 0 0.2em;
+}
+
+#sp_rich_editor
+{
+	padding-left: 0;
+	padding-right: 2em;
+}
+#sp_text_editor input
+{
+	float: left;
+	margin-right: 0;
+	margin-left: 2px;
+}
