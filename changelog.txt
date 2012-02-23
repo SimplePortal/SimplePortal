@@ -2,6 +2,10 @@ Changes go downward, versions go upward. Please scroll to the bottom for a legen
 Changelog started August 1, 2008.
 Changelog last updated November 5, 2010.
 
+SP 2.3.5
+================================================================================
+ ! addarticle action should not be considered as portal page.
+
 SP 2.3.4
 ================================================================================
  ! Articles pagination was broken.

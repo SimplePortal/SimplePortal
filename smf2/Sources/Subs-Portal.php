@@ -602,7 +602,7 @@ function getShowInfo($block_id = null, $display = null, $custom = null)
 		return true;
 	elseif (!empty($board) && (in_array('allboard', $display) || in_array($board, $display)))
 		return true;
-	elseif (!empty($action) && (in_array('allaction', $display) || in_array($action, $display)))
+	elseif (!empty($action) && $action != 'portal' && (in_array('allaction', $display) || in_array($action, $display)))
 		return true;
 	elseif (!empty($page) && (in_array('allpages', $display) || in_array($page, $display)))
 		return true;
