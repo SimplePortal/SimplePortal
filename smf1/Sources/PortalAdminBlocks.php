@@ -384,6 +384,22 @@ function sportal_admin_block_edit()
 			foreach ($_POST['parameters'] as $variable => $value)
 				$_POST['parameters'][$variable] = stripslashes(!is_array($value) ? $value : implode('|', $value));
 
+		$permission_set = 0;
+		$groups_allowed = $groups_denied = array();
+
+		if (!empty($_POST['permission_set']))
+			$permission_set = (int) $_POST['permission_set'];
+		elseif (!empty($_POST['membergroups']) && is_array($_POST['membergroups']))
+		{
+			foreach ($_POST['membergroups'] as $id => $value)
+			{
+				if ($value == 1)
+					$groups_allowed[] = (int) $id;
+				elseif ($value == -1)
+					$groups_denied[] = (int) $id;
+			}
+		}
+
 		$context['SPortal']['block'] = array(
 			'id' => $_POST['block_id'],
 			'label' => addslashes($func['htmlspecialchars'](stripslashes($_POST['block_name']), ENT_QUOTES)),
@@ -391,9 +407,9 @@ function sportal_admin_block_edit()
 			'type_text' => !empty($txt['sp_function_' . $_POST['block_type'] . '_label']) ? $txt['sp_function_' . $_POST['block_type'] . '_label'] : $txt['sp_function_unknown_label'],
 			'column' => $_POST['block_column'],
 			'row' => !empty($_POST['block_row']) ? $_POST['block_row'] : 0,
-			'permission_set' => $_POST['permission_set'],
-			'groups_allowed' => !empty($_POST['groups_allowed']) ? $_POST['groups_allowed'] : array(),
-			'groups_denied' => !empty($_POST['groups_denied']) ? $_POST['groups_denied'] : array(),
+			'permission_set' => $permission_set,
+			'groups_allowed' => $groups_allowed,
+			'groups_denied' => $groups_denied,
 			'state' => !empty($_POST['block_active']),
 			'force_view' => !empty($_POST['block_force']),
 			'display' => $display,

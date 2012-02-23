@@ -507,15 +507,31 @@ function sportal_admin_page_edit()
 
 	if (!empty($_POST['preview']))
 	{
+		$permission_set = 0;
+		$groups_allowed = $groups_denied = array();
+
+		if (!empty($_POST['permission_set']))
+			$permission_set = (int) $_POST['permission_set'];
+		elseif (!empty($_POST['membergroups']) && is_array($_POST['membergroups']))
+		{
+			foreach ($_POST['membergroups'] as $id => $value)
+			{
+				if ($value == 1)
+					$groups_allowed[] = (int) $id;
+				elseif ($value == -1)
+					$groups_denied[] = (int) $id;
+			}
+		}
+
 		$context['SPortal']['page'] = array(
 			'id' => $_POST['page_id'],
 			'page_id' => $_POST['namespace'],
 			'title' => $smcFunc['htmlspecialchars']($_POST['title'], ENT_QUOTES),
 			'body' => $smcFunc['htmlspecialchars']($_POST['content'], ENT_QUOTES),
 			'type' => $_POST['type'],
-			'permission_set' => $_POST['permission_set'],
-			'groups_allowed' => !empty($_POST['groups_allowed']) ? $_POST['groups_allowed'] : array(),
-			'groups_denied' => !empty($_POST['groups_denied']) ? $_POST['groups_denied'] : array(),
+			'permission_set' => $permission_set,
+			'groups_allowed' => $groups_allowed,
+			'groups_denied' => $groups_denied,
 			'style' => sportal_parse_style('implode'),
 			'status' => !empty($_POST['status']),
 		);
