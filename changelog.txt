@@ -7,6 +7,7 @@ SP 2.3.5
  ! addarticle action should not be considered as portal page.
  ! Undefined index error if RSS feed item description doesn't exist.
  ! Custom permission groups were reset on preview.
+ ! Make sure installation completely relies on SMF functions for collation.
 
 SP 2.3.4
 ================================================================================

@@ -501,8 +501,6 @@ $smcFunc['db_drop_table']($smf_db_prefix . 'sp_functions');
 
 $current_tables = $smcFunc['db_list_tables'](false, '%sp%');
 $real_prefix = preg_match('~^(`?)(.+?)\\1\\.(.*?)$~', $db_prefix, $match) === 1 ? $match[3] : $db_prefix;
-$is_utf8 = !empty($modSettings['global_character_set']) && $modSettings['global_character_set'] === 'UTF-8';
-$need_utf8_fix = $smf_db_prefix == '' || in_array($forum_version, array('SMF 2.0 RC2', 'SMF 2.0 RC3', 'SMF 2.0 RC4'));
 $info = '<ul>';
 
 // Loop through each table and do what needed.
@@ -514,34 +512,10 @@ foreach ($tables as $table => $data)
 	<li>"' . $table . '" table exists, updating table structure.
 		<ul>';
 
-		if ($is_utf8 && $need_utf8_fix)
-		{
-			$smcFunc['db_query']('', '
-				ALTER TABLE {db_prefix}{raw:table}
-				CONVERT TO CHARACTER SET utf8',
-				array(
-					'table' => $table,
-				)
-			);
-		}
-
 		foreach ($data['columns'] as $column)
 		{
 			if (!isset($column['deprecated_name']) || !$smcFunc['db_change_column']($smf_db_prefix . $table, $column['deprecated_name'], $column))
 				$smcFunc['db_add_column']($smf_db_prefix . $table, $column);
-
-			if ($is_utf8 && $need_utf8_fix && in_array($column['type'], array('text', 'tinytext')))
-			{
-				$smcFunc['db_query']('', '
-					ALTER TABLE {db_prefix}{raw:table}
-					CHANGE {raw:name} {raw:name} {raw:type} CHARACTER SET utf8',
-					array(
-						'table' => $table,
-						'name' => $column['name'],
-						'type' => $column['type'],
-					)
-				);
-			}
 		}
 
 		$info .= '
@@ -562,33 +536,6 @@ foreach ($tables as $table => $data)
 	else
 	{
 		$smcFunc['db_create_table']($smf_db_prefix . $table, $data['columns'], $data['indexes'], array(), 'ignore');
-
-		if ($is_utf8 && $need_utf8_fix)
-		{
-			$smcFunc['db_query']('', '
-				ALTER TABLE {db_prefix}{raw:table}
-				CONVERT TO CHARACTER SET utf8',
-				array(
-					'table' => $table,
-				)
-			);
-
-			foreach ($data['columns'] as $column)
-			{
-				if (!in_array($column['type'], array('text', 'tinytext')))
-					continue;
-
-				$smcFunc['db_query']('', '
-					ALTER TABLE {db_prefix}{raw:table}
-					CHANGE {raw:name} {raw:name} {raw:type} CHARACTER SET utf8 COLLATE utf8_general_ci',
-					array(
-						'table' => $table,
-						'name' => $column['name'],
-						'type' => $column['type'],
-					)
-				);
-			}
-		}
 
 		$info .= '<li>"' . $table . '" table created.</li>';
 	}
