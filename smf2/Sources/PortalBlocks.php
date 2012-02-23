@@ -2025,8 +2025,8 @@ function sp_rssFeed($parameters, $id, $return_parameters = false)
 	$items = array();
 	foreach ($rss as $item)
 	{
-		$item['title'] = strip_tags($item['title']);
-		$item['description'] = strip_tags($item['description'], empty($strip_preserve) ? '' : '<' . implode('><', $strip_preserve) . '>');
+		$item['title'] = isset($item['title']) ? strip_tags($item['title']) : '';
+		$item['description'] = isset($item['description']) ? strip_tags($item['description'], empty($strip_preserve) ? '' : '<' . implode('><', $strip_preserve) . '>') : '';
 
 		$items[] = array(
 			'title' => $item['title'],
