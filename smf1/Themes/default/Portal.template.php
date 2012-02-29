@@ -54,11 +54,13 @@ function template_portal_above()
 			<td id="sp_center">';
 
 	if (!empty($context['SPortal']['blocks'][2]))
+	{
 		foreach ($context['SPortal']['blocks'][2] as $block)
 			template_block($block);
 
-	echo '
+		echo '
 				<br class="sp_side_clear" />';
+	}
 }
 
 function template_portal_below()
