@@ -10,6 +10,7 @@ SP 2.3.5
  ! Custom permission groups were reset on preview.
  ! Make sure installation completely relies on SMF functions for collation.
  ! Page blocks were reset in some cases.
+ ! Database error on installation.
 
 SP 2.3.4
 ================================================================================

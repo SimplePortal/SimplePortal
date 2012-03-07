@@ -107,11 +107,13 @@ $tables = array(
 				'name' => 'groups_allowed',
 				'type' => 'varchar',
 				'size' => 255,
+				'default' => '',
 			),
 			array(
 				'name' => 'groups_denied',
 				'type' => 'varchar',
 				'size' => 255,
+				'default' => '',
 			),
 			array(
 				'name' => 'state',
@@ -245,11 +247,13 @@ $tables = array(
 				'name' => 'groups_allowed',
 				'type' => 'varchar',
 				'size' => 255,
+				'default' => '',
 			),
 			array(
 				'name' => 'groups_denied',
 				'type' => 'varchar',
 				'size' => 255,
+				'default' => '',
 			),
 			array(
 				'name' => 'views',
@@ -287,6 +291,7 @@ $tables = array(
 				'name' => 'variable',
 				'type' => 'varchar',
 				'size' => 255,
+				'default' => '',
 			),
 			array(
 				'name' => 'value',
@@ -326,11 +331,13 @@ $tables = array(
 				'name' => 'groups_allowed',
 				'type' => 'varchar',
 				'size' => 255,
+				'default' => '',
 			),
 			array(
 				'name' => 'groups_denied',
 				'type' => 'varchar',
 				'size' => 255,
+				'default' => '',
 			),
 			array(
 				'name' => 'moderator_groups',
