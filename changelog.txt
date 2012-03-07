@@ -12,6 +12,7 @@ SP 2.3.5
  ! Page blocks were reset in some cases.
  ! Database error on installation.
  ! Missing close tag in articles and board news templates.
+ ! Copyright injection was too greedy.
 
 SP 2.3.4
 ================================================================================

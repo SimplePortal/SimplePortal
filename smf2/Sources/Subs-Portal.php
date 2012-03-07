@@ -753,13 +753,13 @@ function sp_query_string($tourniquet)
 
 	$finds = array(
 		', Simple Machines LLC</a>',
-		'>Simple Machines</a>',
+		', <a href="http://www.simplemachines.org" title="Simple Machines" target="_blank" class="new_win">Simple Machines</a>',
 		'class="copywrite"',
 		'class="copyright"',
 	);
 	$replaces = array(
 		', Simple Machines LLC</a><br />' . $fix,
-		'>Simple Machines</a><br />' . $fix,
+		', <a href="http://www.simplemachines.org" title="Simple Machines" target="_blank" class="new_win">Simple Machines</a><br />' . $fix,
 		'class="copywrite" style="line-height: 1em;"',
 		'class="copyright" style="line-height: 1.5em;"',
 	);
