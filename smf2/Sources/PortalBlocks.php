@@ -1452,7 +1452,7 @@ function sp_boardNews($parameters, $id, $return_parameters = false)
 						<table class="sp_block">
 							<tr class="catbg">
 								<td class="sp_middle">', $news['icon'], '</td>
-								<td class="sp_middle sp_regular_padding sp_fullwidth"><a href="', $news['href'], '" >', $news['subject'], '</a>
+								<td class="sp_middle sp_regular_padding sp_fullwidth"><a href="', $news['href'], '" >', $news['subject'], '</a></td>
 							</tr>
 							<tr class="windowbg">
 								<td class="sp_regular_padding" colspan="2">';

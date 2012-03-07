@@ -11,6 +11,7 @@ SP 2.3.5
  ! Make sure installation completely relies on SMF functions for collation.
  ! Page blocks were reset in some cases.
  ! Database error on installation.
+ ! Missing close tag in articles and board news templates.
 
 SP 2.3.4
 ================================================================================

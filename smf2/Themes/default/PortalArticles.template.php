@@ -28,7 +28,7 @@ function template_articles_core()
 						<table class="sp_block">
 							<tr class="catbg">
 								<td class="sp_middle">', $article['message']['icon'], '</td>
-								<td class="sp_middle sp_regular_padding sp_fullwidth">', $article['topic']['link'], '
+								<td class="sp_middle sp_regular_padding sp_fullwidth">', $article['topic']['link'], '</td>
 							</tr>
 							<tr class="windowbg">
 								<td class="sp_regular_padding" colspan="2">';
