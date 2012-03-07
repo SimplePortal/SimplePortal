@@ -9,6 +9,7 @@ SP 2.3.5
  ! Undefined index error if RSS feed item description doesn't exist.
  ! Custom permission groups were reset on preview.
  ! Make sure installation completely relies on SMF functions for collation.
+ ! Page blocks were reset in some cases.
 
 SP 2.3.4
 ================================================================================

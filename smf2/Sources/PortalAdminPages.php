@@ -411,9 +411,9 @@ function sportal_admin_page_edit()
 		$not_to_show = array();
 		$changes = array();
 
-		foreach ($context['page_blocks'] as $blocks)
+		foreach ($context['page_blocks'] as $page_blocks)
 		{
-			foreach ($blocks as $block)
+			foreach ($page_blocks as $block)
 			{
 				if ($block['shown'] && !in_array($block['id'], $_POST['blocks']))
 					$not_to_show[] = $block['id'];
