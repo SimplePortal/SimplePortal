@@ -19,8 +19,9 @@ SP 2.3.5
  ! Removing more of compatibility codes.
  ! First and easier part of header bar updates.
  ! Some cosmetics and a forgotten header bar fix.
- ! Finalizing header bard updates.
+ ! Finalizing header bar updates.
  ! Calendar information events were ordered incorrectly in some cases.
+ ! Removing variables from language files.
 
 SP 2.3.4
 ================================================================================

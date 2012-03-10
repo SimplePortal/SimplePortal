@@ -333,10 +333,11 @@ sportal_init();]]></add>
 	<file name="$sourcedir/Who.php">
 		<operation>
 			<search position="replace"><![CDATA[	// Actions that require a specific permission level.]]></search>
-			<add><![CDATA[	if ($modSettings['sp_portal_mode'] == 1)
+			<add><![CDATA[	global $scripturl;
+	if ($modSettings['sp_portal_mode'] == 1)
 	{
-		$txt['who_index'] = $txt['sp_who_index'];
-		$txt['whoall_forum'] = $txt['sp_who_forum'];
+		$txt['who_index'] = sprintf($txt['sp_who_index'], $scripturl);
+		$txt['whoall_forum'] = sprintf($txt['sp_who_forum'], $scripturl);
 	}
 
 	// Actions that require a specific permission level.]]></add>
@@ -400,11 +401,11 @@ sportal_init();]]></add>
 			{
 				if (isset($page_ids[$page['id']]))
 					foreach ($page_ids[$page['id']] as $k => $session_text)
-						$data[$k] = sprintf($session_text, $page['id'], $page['title']);
+						$data[$k] = sprintf($session_text, $page['id'], $page['title'], $scripturl);
 
 				if (isset($page_ids[$page['namespace']]))
 					foreach ($page_ids[$page['namespace']] as $k => $session_text)
-						$data[$k] = sprintf($session_text, $page['namespace'], $page['title']);
+						$data[$k] = sprintf($session_text, $page['namespace'], $page['title'], $scripturl);
 			}
 		}
 	}

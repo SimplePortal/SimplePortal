@@ -1,8 +1,6 @@
 <?php
 // Version: 2.3.4; SPortal
 
-global $scripturl, $context;
-
 // General strings
 $txt['sp-forum'] = 'Forum';
 $txt['sp-portal'] = 'Portal';
@@ -83,9 +81,9 @@ $txt['sp_topStatsMember_SA_Shop_Purchase'] = 'SA Shop Purchase';
 $txt['sp_topStatsMember_Casino'] = 'Casino Cash';
 
 // Who area strings
-$txt['sp_who_index'] = 'Viewing the <a href="' . $scripturl . '">Portal</a>.';
-$txt['sp_who_forum'] = 'Viewing the <a href="' . $scripturl . '?action=forum">Forum</a>.';
-$txt['sp_who_page'] = 'Viewing the page &quot;<a href="' . $scripturl . '?page=%1$s">%2$s</a>&quot;.';
+$txt['sp_who_index'] = 'Viewing the <a href="%s">Portal</a>.';
+$txt['sp_who_forum'] = 'Viewing the <a href="%s?action=forum">Forum</a>.';
+$txt['sp_who_page'] = 'Viewing the page &quot;<a href="%3$s?page=%1$s">%2$s</a>&quot;.';
 
 // Error messages
 $txt['error_sp_no_message_id'] = 'Invalid message ID.';
@@ -118,7 +116,7 @@ $txt['error_sp_no_shop_found'] = 'There are no shop mods installed.';
 $txt['error_sp_no_arcade_found'] = 'There are no arcade mods installed.';
 $txt['error_sp_no_stats_found'] = 'No statistics found.';
 $txt['error_sp_page_not_found'] = 'The page you requested cannot be found.';
-$txt['error_sp_shoutbox_not_exist'] = $context['user']['is_admin'] ? 'We\'re sorry. It seems this shoutbox only existed in your head.' : 'Sorry, this shoutbox does not exist.';
+$txt['error_sp_shoutbox_not_exist'] = 'Sorry, this shoutbox does not exist.';
 $txt['error_sp_no_shoutbox'] = 'There either aren\'t any shoutboxes created yet or there aren\'t any shoutboxes that haven\'t already been published in a shoutbox block.';
 $txt['error_sp_no_shoutbox_sp_moderator'] = 'A new shoutbox can be created <a href="%s">here</a>.';
 $txt['error_sp_no_shoutbox_normaluser'] = 'Sorry, shoutbox blocks require a shoutbox to be created before you can display a shoutbox using a shoutbox block ! Please ask an administrator to create a new shoutbox.';
