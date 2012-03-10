@@ -17,6 +17,10 @@ SP 2.3.5
  ! Parsing was messed up when there was a parsed content in tag parameters.
  ! Removed some compatibility code which is no longer needed.
  ! Removing more of compatibility codes.
+ ! First and easier part of header bar updates.
+ ! Some cosmetics and a forgotten header bar fix.
+ ! Finalizing header bard updates.
+ ! Calendar information events were ordered incorrectly in some cases.
 
 SP 2.3.4
 ================================================================================

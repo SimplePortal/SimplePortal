@@ -1844,6 +1844,8 @@ function sp_calendarInformation($parameters, $id, $return_parameters = false)
 
 		$events = sp_loadCalendarData('getEvents', $today_date, $event_future_date);
 
+		ksort($events);
+
 		$displayed = array();
 		foreach ($events as $day => $day_events)
 			foreach ($day_events as $event_key => $event)
