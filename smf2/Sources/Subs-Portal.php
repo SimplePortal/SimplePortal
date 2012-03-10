@@ -134,7 +134,7 @@ function sportal_init($standalone = false)
 			$get_string = '';
 			foreach ($_GET as $get_var => $get_value)
 				$get_string .= $get_var . (!empty($get_value) ? '=' . $get_value : '') . ';';
-			redirectExit(substr($get_string, 0, -1));
+			redirectexit(substr($get_string, 0, -1));
 		}
 		return;
 	}
