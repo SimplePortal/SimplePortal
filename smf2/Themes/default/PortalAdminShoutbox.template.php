@@ -1,5 +1,5 @@
 <?php
-// Version: 2.3.4; PortalAdminShoutbox
+// Version: 2.3.5; PortalAdminShoutbox
 
 function template_shoutbox_list()
 {

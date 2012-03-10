@@ -5,7 +5,7 @@
 * SimplePortal                                                                    *
 * SMF Modification Project Founded by [SiNaN] (sinan@simplemachines.org)          *
 * =============================================================================== *
-* Software Version:           SimplePortal 2.3.4                                  *
+* Software Version:           SimplePortal 2.3.5                                  *
 * Software by:                SimplePortal Team (http://www.simpleportal.net)     *
 * Copyright 2008-2009 by:     SimplePortal Team (http://www.simpleportal.net)     *
 * Support, News, Updates at:  http://www.simpleportal.net                         *
@@ -91,16 +91,16 @@ function sportal_init($standalone = false)
 	global $context, $sourcedir, $scripturl, $modSettings, $txt;
 	global $settings, $options, $boarddir, $maintenance, $sportal_version;
 
-	$sportal_version = '2.3.4';
+	$sportal_version = '2.3.5';
 
 	if (!$standalone)
 	{
 		$context['html_headers'] .= '
-		<link rel="stylesheet" type="text/css" href="' . $settings['default_theme_url'] . '/portal.css?234" />';
+		<link rel="stylesheet" type="text/css" href="' . $settings['default_theme_url'] . '/portal.css?235" />';
 
 		if ($context['right_to_left'])
 			$context['html_headers'] .= '
-		<link rel="stylesheet" type="text/css" href="' . $settings['default_theme_url'] . '/portal_rtl.css?234" />';
+		<link rel="stylesheet" type="text/css" href="' . $settings['default_theme_url'] . '/portal_rtl.css?235" />';
 
 		if (!empty($_REQUEST['action']) && in_array($_REQUEST['action'], array('manageportal', 'permissions', 'helpadmin')))
 			if (loadLanguage('SPortalAdmin', '', false) === false)
@@ -129,7 +129,7 @@ function sportal_init($standalone = false)
 			$get_string = '';
 			foreach ($_GET as $get_var => $get_value)
 				$get_string .= $get_var . (!empty($get_value) ? '=' . $get_value : '') . ';';
-			redirectExit(substr($get_string, 0, -1));
+			redirectexit(substr($get_string, 0, -1));
 		}
 		return;
 	}
@@ -255,7 +255,7 @@ function sportal_init_headers()
 	$context['browser']['is_ie'] = $context['browser']['is_ie'] || $context['browser']['is_ie8'];
 
 	$context['html_headers'] .= '
-	<script type="text/javascript" src="' . $settings['default_theme_url'] . '/portal.js?234"></script>';
+	<script type="text/javascript" src="' . $settings['default_theme_url'] . '/portal.js?235"></script>';
 
 	$context['html_headers'] .= '
 	<script language="JavaScript" type="text/javascript"><!-- // --><![CDATA[
@@ -703,7 +703,7 @@ function sp_query_string($tourniquet)
 {
 	global $sportal_version, $context, $modSettings;
 
-	$fix = str_replace('{version}', $sportal_version, '<a href="http://www.simpleportal.net/" target="_blank">SimplePortal {version} &copy; 2008-2011, SimplePortal</a>');
+	$fix = str_replace('{version}', $sportal_version, '<a href="http://www.simpleportal.net/" target="_blank">SimplePortal {version} &copy; 2008-2012, SimplePortal</a>');
 
 	if ((SMF == 'SSI' && empty($context['standalone'])) || empty($context['template_layers']) || WIRELESS || empty($modSettings['sp_portal_mode']) || strpos($tourniquet, $fix) !== false)
 		return $tourniquet;

@@ -1,5 +1,5 @@
 <?php
-// Version: 2.3.4; PortalAdminPages
+// Version: 2.3.5; PortalAdminPages
 
 function template_pages_list()
 {

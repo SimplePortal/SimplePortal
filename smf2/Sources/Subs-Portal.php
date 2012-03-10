@@ -5,7 +5,7 @@
 * SimplePortal                                                                    *
 * SMF Modification Project Founded by [SiNaN] (sinan@simplemachines.org)          *
 * =============================================================================== *
-* Software Version:           SimplePortal 2.3.4                                  *
+* Software Version:           SimplePortal 2.3.5                                  *
 * Software by:                SimplePortal Team (http://www.simpleportal.net)     *
 * Copyright 2008-2009 by:     SimplePortal Team (http://www.simpleportal.net)     *
 * Support, News, Updates at:  http://www.simpleportal.net                         *
@@ -94,7 +94,7 @@ function sportal_init($standalone = false)
 	global $context, $sourcedir, $scripturl, $modSettings, $txt;
 	global $settings, $options, $boarddir, $maintenance, $sportal_version;
 
-	$sportal_version = '2.3.4';
+	$sportal_version = '2.3.5';
 
 	if (isset($_REQUEST['action']) && $_REQUEST['action'] == 'dlattach')
 		return;
@@ -255,7 +255,7 @@ function sportal_init_headers()
 		return;
 
 	$context['html_headers'] .= '
-	<script type="text/javascript" src="' . $settings['default_theme_url'] . '/scripts/portal.js?234"></script>
+	<script type="text/javascript" src="' . $settings['default_theme_url'] . '/scripts/portal.js?235"></script>
 	<script language="JavaScript" type="text/javascript"><!-- // --><![CDATA[
 		var sp_images_url = "' . $settings['sp_images_url'] . '";
 		function sp_collapseBlock(id)
@@ -733,7 +733,7 @@ function sp_query_string($tourniquet)
 {
 	global $sportal_version, $context, $modSettings;
 
-	$fix = str_replace('{version}', $sportal_version, '<a href="http://www.simpleportal.net/" target="_blank" class="new_win">SimplePortal {version} &copy; 2008-2011, SimplePortal</a>');
+	$fix = str_replace('{version}', $sportal_version, '<a href="http://www.simpleportal.net/" target="_blank" class="new_win">SimplePortal {version} &copy; 2008-2012, SimplePortal</a>');
 
 	if ((SMF == 'SSI' && empty($context['standalone'])) || empty($context['template_layers']) || WIRELESS || empty($modSettings['sp_portal_mode']) || strpos($tourniquet, $fix) !== false)
 		return $tourniquet;

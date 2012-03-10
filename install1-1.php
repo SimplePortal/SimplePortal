@@ -5,7 +5,7 @@
 * SimplePortal                                                                    *
 * SMF Modification Project Founded by [SiNaN] (sinan@simplemachines.org)          *
 * =============================================================================== *
-* Software Version:           SimplePortal 2.3.4                                  *
+* Software Version:           SimplePortal 2.3.5                                  *
 * Software by:                SimplePortal Team (http://www.simpleportal.net)     *
 * Copyright 2008-2009 by:     SimplePortal Team (http://www.simpleportal.net)     *
 * Support, News, Updates at:  http://www.simpleportal.net                         *
@@ -1030,7 +1030,7 @@ $defaults = array(
 );
 
 $updates = array(
-	'sp_version' => '2.3.4',
+	'sp_version' => '2.3.5',
 	'sp_smf_version' => '1',
 );
 
@@ -1131,7 +1131,7 @@ if (SMF == 'SSI')
 	<div class="catbg">SimplePortal &bull; Database Tool</div>
 	<p id="info" class="windowbg">This tool will prepare your database to work with SimplePortal. It will also fix database issues related to SimplePortal, if there are any.</p>
 	', $info, '
-	<p id="copy">SimplePortal &copy; 2008-2011</p>
+	<p id="copy">SimplePortal &copy; 2008-2012</p>
 </div>
 </body>
 </html>';

@@ -22,6 +22,7 @@ SP 2.3.5
  ! Finalizing header bar updates.
  ! Calendar information events were ordered incorrectly in some cases.
  ! Removing variables from language files.
+ ! Updated versions.
 
 SP 2.3.4
 ================================================================================

@@ -1,5 +1,5 @@
 <?php
-// Version: 2.3.4; PortalPages
+// Version: 2.3.5; PortalPages
 
 function template_view_page()
 {

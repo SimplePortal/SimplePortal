@@ -1,5 +1,5 @@
 <?php
-// Version: 2.3.4; SPortalAdmin
+// Version: 2.3.5; SPortalAdmin
 
 // Configuration area
 $txt['sp-adminConfiguration'] = 'Configuration';

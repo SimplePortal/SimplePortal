@@ -1,5 +1,5 @@
 <?php
-// Version: 2.3.4; SPortalHelp
+// Version: 2.3.5; SPortalHelp
 
 global $helptxt;
 

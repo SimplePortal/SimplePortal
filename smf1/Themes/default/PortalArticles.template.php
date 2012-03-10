@@ -1,5 +1,5 @@
 <?php
-// Version: 2.3.4; PortalArticles
+// Version: 2.3.5; PortalArticles
 
 function template_articles()
 {

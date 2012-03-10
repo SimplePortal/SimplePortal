@@ -1,5 +1,5 @@
 <?php
-// Version: 2.3.4; SPortal
+// Version: 2.3.5; SPortal
 
 // General strings
 $txt['sp-forum'] = 'Forum';
