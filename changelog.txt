@@ -23,6 +23,7 @@ SP 2.3.5
  ! Calendar information events were ordered incorrectly in some cases.
  ! Removing variables from language files.
  ! Updated versions.
+ ! Removing some compatibility CSS leftover.
 
 SP 2.3.4
 ================================================================================

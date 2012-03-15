@@ -594,21 +594,3 @@ dl.sp_form dt a img, #sp_add_articles_list_header a img
 	float: right;
 	margin-right: 2px;
 }
-
-/* ************************************* */
-/* Compatibility styles                  */
-/* ************************************* */
-h4.catbg span.left, h4.catbg2 span.left, h3.catbg span.left, h3.catbg2 span.left, .table_list tbody.header td span.left
-{
-	float: left;
-	display: block;
-	width: 9px;
-	height: 31px;
-}
-h4.titlebg span.left, h3.titlebg span.left
-{
-	float: left;
-	display: block;
-	width: 9px;
-	height: 31px;
-}
