@@ -1475,8 +1475,7 @@ function sp_boardNews($parameters, $id, $return_parameters = false)
 								</td>
 							</tr>
 						</table>
-					</div>
-					<br />';
+					</div>';
 		}
 	}
 	else
@@ -1506,17 +1505,16 @@ function sp_boardNews($parameters, $id, $return_parameters = false)
 							<div class="sp_right">', $news['link'], ' ',  $news['new_comment'], '</div>
 						</div>
 						<span class="botslice"><span></span></span>
-					</div>
-					<br />';
+					</div>';
 		}	
 	}
 
 	if (!empty($per_page))
 		echo '
 					<div class="sp_page_index">', $txt['sp-articlesPages'], ': ', $page_index, '</div>';
-
-	echo '
-				<br />';
+	else
+		echo '
+					<br />';
 }
 
 function sp_quickSearch($parameters, $id, $return_parameters = false)

@@ -124,6 +124,7 @@ function sportal_init($standalone = false)
 		}
 
 		$context['SPortal']['core_compat'] = $settings['name'] == 'Core Theme';
+		$context['SPortal']['on_portal'] = getShowInfo(0, 'portal', '');
 	}
 
 	if (WIRELESS || ($standalone && (isset($_REQUEST['wap']) || isset($_REQUEST['wap2']) || isset($_REQUEST['imode']))) || !empty($settings['disable_sp']) || empty($modSettings['sp_portal_mode']) || ((!empty($modSettings['sp_maintenance']) || !empty($maintenance)) && !allowedTo('admin_forum')) || isset($_GET['debug']) || (empty($modSettings['allow_guestAccess']) && $context['user']['is_guest']))

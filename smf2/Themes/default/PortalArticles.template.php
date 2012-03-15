@@ -9,9 +9,6 @@ function template_articles()
 		template_articles_core();
 	else
 		template_articles_curve();
-
-	echo '
-				<br />';
 }
 
 function template_articles_core()
@@ -55,8 +52,7 @@ function template_articles_core()
 								</td>
 							</tr>
 						</table>
-					</div>
-					<br />';
+					</div>';
 	}
 
 	if (!empty($modSettings['articleperpage']) && !empty($context['page_index']))
@@ -99,13 +95,15 @@ function template_articles_curve()
 									<div class="sp_right">', $article['article']['link'], ' ',  $article['article']['new_comment'], '</div>
 						</div>
 						<span class="botslice"><span></span></span>
-					</div>
-					<br />';
+					</div>';
 	}
 
 	if (!empty($modSettings['articleperpage']) && !empty($context['page_index']))
 		echo '
 					<div class="sp_page_index">', $txt['sp-articlesPages'], ': ', $context['page_index'], '</div>';
+	else
+		echo '
+					<br />';
 }
 
 function template_add_article()

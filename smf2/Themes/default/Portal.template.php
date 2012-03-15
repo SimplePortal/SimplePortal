@@ -58,7 +58,8 @@ function template_portal_above()
 		foreach ($context['SPortal']['blocks'][2] as $block)
 			template_block($block);
 
-		echo '
+		if (empty($context['SPortal']['is_portal']))
+			echo '
 				<br class="sp_side_clear" />';
 	}
 }
@@ -68,8 +69,14 @@ function template_portal_below()
 	global $context, $modSettings;
 
 	if (!empty($context['SPortal']['blocks'][3]))
+	{
+		if (empty($context['SPortal']['is_portal']))
+			echo '
+				<br class="sp_side_clear" />';
+
 		foreach ($context['SPortal']['blocks'][3] as $block)
 			template_block($block);
+	}
 
 	echo '
 			</td>';

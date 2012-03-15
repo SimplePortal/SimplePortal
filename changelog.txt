@@ -24,6 +24,7 @@ SP 2.3.5
  ! Removing variables from language files.
  ! Updated versions.
  ! Removing some compatibility CSS leftover.
+ ! Some layout changes related to spacing.
 
 SP 2.3.4
 ================================================================================
