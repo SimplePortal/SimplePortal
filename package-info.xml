@@ -3,14 +3,14 @@
 <package-info xmlns="http://www.simplemachines.org/xml/package-info" xmlns:smf="http://www.simplemachines.org/">
 	<id>[SiNaN]:SimplePortal</id>
 	<name>SimplePortal</name>
-	<version>2.3.5</version>
+	<version>2.3.5 RC1</version>
 	<type>modification</type>
 
 	<!-- Install actions -->
 
 	<install for="1.1 - 1.1.99">
 		<!-- Read me -->
-		<readme type="inline">This will install SimplePortal 2.3.5 for SMF 1.1.</readme>
+		<readme type="inline">This will install SimplePortal 2.3.5 RC1 for SMF 1.1.</readme>
 
 		<!-- Modifications -->
 		<modification>install1-1.xml</modification>
@@ -43,7 +43,7 @@
 
 	<install for="2.0 - 2.99.99">
 		<!-- Read me -->
-		<readme type="inline">This will install SimplePortal 2.3.5 for SMF 2.0.</readme>
+		<readme type="inline">This will install SimplePortal 2.3.5 RC1 for SMF 2.0.</readme>
 
 		<!-- Modifications -->
 		<modification>install2.xml</modification>
@@ -79,7 +79,7 @@
 
 	<uninstall for="1.1 - 1.1.99">
 		<!-- Read me -->
-		<readme type="inline">This will uninstall SimplePortal 2.3.5 for SMF 1.1.</readme>
+		<readme type="inline">This will uninstall SimplePortal 2.3.5 RC1 for SMF 1.1.</readme>
 
 		<!-- Modifications -->
 		<modification reverse="true">install1-1.xml</modification>
@@ -131,7 +131,7 @@
 
 	<uninstall for="2.0 - 2.99.99">
 		<!-- Read me -->
-		<readme type="inline">This will uninstall SimplePortal 2.3.5 for SMF 2.0.</readme>
+		<readme type="inline">This will uninstall SimplePortal 2.3.5 RC1 for SMF 2.0.</readme>
 
 		<!-- Modifications -->
 		<modification reverse="true">install2.xml</modification>

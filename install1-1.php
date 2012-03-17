@@ -1030,7 +1030,7 @@ $defaults = array(
 );
 
 $updates = array(
-	'sp_version' => '2.3.5',
+	'sp_version' => '2.3.5 RC1',
 	'sp_smf_version' => '1',
 );
 
