@@ -8,9 +8,6 @@ function template_articles()
 	if (empty($modSettings['articleactive']))
 		return;
 
-	echo '
-				<div class="sp_regular_padding;">';
-
 	while ($article = $context['get_articles']())
 	{
 		echo '
@@ -42,16 +39,12 @@ function template_articles()
 								</td>
 							</tr>
 						</table>
-					</div>
-					<br />';
+					</div>';
 	}
 
 	if (!empty($modSettings['articleperpage']) && !empty($context['page_index']))
 		echo '
 					<div class="sp_page_index">', $txt['sp-articlesPages'], ': ', $context['page_index'], '</div>';
-
-	echo '
-				</div>';
 }
 
 function template_add_article()

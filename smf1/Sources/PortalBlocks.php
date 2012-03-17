@@ -1502,8 +1502,7 @@ function sp_boardNews($parameters, $id, $return_parameters = false)
 								</td>
 							</tr>
 						</table>
-					</div>
-					<br />';
+					</div>';
 	}
 
 	if (!empty($per_page))

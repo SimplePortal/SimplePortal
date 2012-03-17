@@ -58,7 +58,8 @@ function template_portal_above()
 		foreach ($context['SPortal']['blocks'][2] as $block)
 			template_block($block);
 
-		echo '
+		if (empty($context['SPortal']['on_portal']))
+			echo '
 				<br class="sp_side_clear" />';
 	}
 }
@@ -68,8 +69,14 @@ function template_portal_below()
 	global $context, $modSettings;
 
 	if (!empty($context['SPortal']['blocks'][3]))
+	{
+		if (empty($context['SPortal']['on_portal']) || !empty($context['SPortal']['blocks'][2]) || !empty($modSettings['articleactive']))
+			echo '
+				<br class="sp_side_clear" />';
+
 		foreach ($context['SPortal']['blocks'][3] as $block)
 			template_block($block);
+	}
 
 	echo '
 			</td>';
@@ -105,15 +112,20 @@ function template_portal_below()
 
 function template_block($block)
 {
-	global $context, $settings, $txt;
+	global $context, $modSettings, $settings, $txt;
 
-	// Make sure that we have some valid block data.
 	if (empty($block) || empty($block['type']))
 		return;
 
 	if ($block['type'] == 'sp_boardNews')
 	{
+		echo '
+			<div class="sp_block_section', isset($context['SPortal']['sides'][$block['column']]['last']) && $context['SPortal']['sides'][$block['column']]['last'] == $block['id'] && ($block['column'] != 2 || empty($modSettings['articleactive'])) ? '_last' : '', '">';
+
 		$block['type']($block['parameters'], $block['id']);
+
+		echo '
+			</div>';
 
 		return;
 	}
@@ -122,7 +134,7 @@ function template_block($block)
 		$block['label'] = $txt['sp_custom_block_title_' . $block['id']];
 
 	echo '
-			<div class="sp_block_section', isset($context['SPortal']['sides'][$block['column']]['last']) && $context['SPortal']['sides'][$block['column']]['last'] == $block['id'] ? '_last' : '', '">
+			<div class="sp_block_section', isset($context['SPortal']['sides'][$block['column']]['last']) && $context['SPortal']['sides'][$block['column']]['last'] == $block['id'] && ($block['column'] != 2 || empty($modSettings['articleactive'])) ? '_last' : '', '">
 				<div class="sp_block_container', !empty($block['style']['no_body']) ? '' : ' tborder', '">
 					<table class="sp_block">';
 
