@@ -1512,9 +1512,6 @@ function sp_boardNews($parameters, $id, $return_parameters = false)
 	if (!empty($per_page))
 		echo '
 					<div class="sp_page_index">', $txt['sp-articlesPages'], ': ', $page_index, '</div>';
-	else
-		echo '
-					<br />';
 }
 
 function sp_quickSearch($parameters, $id, $return_parameters = false)

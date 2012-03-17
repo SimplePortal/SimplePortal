@@ -101,9 +101,6 @@ function template_articles_curve()
 	if (!empty($modSettings['articleperpage']) && !empty($context['page_index']))
 		echo '
 					<div class="sp_page_index">', $txt['sp-articlesPages'], ': ', $context['page_index'], '</div>';
-	else
-		echo '
-					<br />';
 }
 
 function template_add_article()

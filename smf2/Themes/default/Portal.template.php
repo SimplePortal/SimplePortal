@@ -70,7 +70,7 @@ function template_portal_below()
 
 	if (!empty($context['SPortal']['blocks'][3]))
 	{
-		if (empty($context['SPortal']['is_portal']))
+		if (empty($context['SPortal']['on_portal']) || !empty($context['SPortal']['blocks'][2]))
 			echo '
 				<br class="sp_side_clear" />';
 
@@ -112,14 +112,20 @@ function template_portal_below()
 
 function template_block($block)
 {
-	global $context, $txt;
+	global $context, $modSettings, $txt;
 
 	if (empty($block) || empty($block['type']))
 		return;
 
 	if ($block['type'] == 'sp_boardNews')
 	{
+		echo '
+			<div class="sp_block_section', isset($context['SPortal']['sides'][$block['column']]['last']) && $context['SPortal']['sides'][$block['column']]['last'] == $block['id'] && ($block['column'] != 2 || empty($modSettings['articleactive'])) ? '_last' : '', '">';
+
 		$block['type']($block['parameters'], $block['id']);
+
+		echo '
+			</div>';
 
 		return;
 	}
@@ -135,10 +141,10 @@ function template_block($block)
 
 function template_block_core($block)
 {
-	global $context, $settings;
+	global $context, $modSettings, $settings;
 
 	echo '
-			<div class="sp_block_section', isset($context['SPortal']['sides'][$block['column']]['last']) && $context['SPortal']['sides'][$block['column']]['last'] == $block['id'] ? '_last' : '', '">
+			<div class="sp_block_section', isset($context['SPortal']['sides'][$block['column']]['last']) && $context['SPortal']['sides'][$block['column']]['last'] == $block['id'] && ($block['column'] != 2 || empty($modSettings['articleactive'])) ? '_last' : '', '">
 				<div class="', !empty($block['style']['no_body']) ? '' : ' tborder', '">
 					<table class="sp_block">';
 
@@ -174,7 +180,7 @@ function template_block_core($block)
 
 function template_block_curve($block)
 {
-	global $context, $settings;
+	global $context, $modSettings, $settings;
 
 	if (empty($block['style']['no_title']))
 	{
@@ -193,7 +199,7 @@ function template_block_curve($block)
 	}
 
 	echo '
-	<div id="sp_block_' . $block['id'] . '" class="sp_block_section', isset($context['SPortal']['sides'][$block['column']]['last']) && $context['SPortal']['sides'][$block['column']]['last'] == $block['id'] ? '_last' : '', '" ', $block['collapsed'] && empty($block['force_view']) ? ' style="display: none;"' : '', '>';
+	<div id="sp_block_' . $block['id'] . '" class="sp_block_section', isset($context['SPortal']['sides'][$block['column']]['last']) && $context['SPortal']['sides'][$block['column']]['last'] == $block['id'] && ($block['column'] != 2 || empty($modSettings['articleactive'])) ? '_last' : '', '" ', $block['collapsed'] && empty($block['force_view']) ? ' style="display: none;"' : '', '>';
 
 	if (strpos($block['style']['body']['class'], 'roundframe') !== false)
 	{
