@@ -58,7 +58,7 @@ function template_portal_above()
 		foreach ($context['SPortal']['blocks'][2] as $block)
 			template_block($block);
 
-		if (empty($context['SPortal']['is_portal']))
+		if (empty($context['SPortal']['on_portal']))
 			echo '
 				<br class="sp_side_clear" />';
 	}
@@ -70,7 +70,7 @@ function template_portal_below()
 
 	if (!empty($context['SPortal']['blocks'][3]))
 	{
-		if (empty($context['SPortal']['on_portal']) || !empty($context['SPortal']['blocks'][2]))
+		if (empty($context['SPortal']['on_portal']) || !empty($context['SPortal']['blocks'][2]) || !empty($modSettings['articleactive']))
 			echo '
 				<br class="sp_side_clear" />';
 
