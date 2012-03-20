@@ -21,7 +21,7 @@ function template_articles_core()
 	while ($article = $context['get_articles']())
 	{
 		echo '
-					<div class="tborder">
+					<div class="tborder sp_article_content">
 						<table class="sp_block">
 							<tr class="catbg">
 								<td class="sp_middle">', $article['message']['icon'], '</td>
@@ -72,7 +72,7 @@ function template_articles_curve()
 							<span class="sp_float_left sp_article_icon">', $article['message']['icon'], '</span>', $article['topic']['link'], '
 						</h3>
 					</div>
-					<div class="windowbg">
+					<div class="windowbg sp_article_content">
 						<span class="topslice"><span></span></span>
 						<div class="sp_content_padding">';
 

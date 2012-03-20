@@ -1448,7 +1448,7 @@ function sp_boardNews($parameters, $id, $return_parameters = false)
 		foreach ($return as $news)
 		{
 			echo '
-					<div class="tborder">
+					<div class="tborder sp_article_content">
 						<table class="sp_block">
 							<tr class="catbg">
 								<td class="sp_middle">', $news['icon'], '</td>
@@ -1488,7 +1488,7 @@ function sp_boardNews($parameters, $id, $return_parameters = false)
 							<span class="sp_float_left sp_article_icon">', $news['icon'], '</span><a href="', $news['href'], '" >', $news['subject'], '</a>
 						</h3>
 					</div>
-					<div class="windowbg">
+					<div class="windowbg sp_article_content">
 						<span class="topslice"><span></span></span>
 						<div class="sp_content_padding">';
 

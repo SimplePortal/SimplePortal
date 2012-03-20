@@ -11,7 +11,7 @@ function template_articles()
 	while ($article = $context['get_articles']())
 	{
 		echo '
-					<div class="tborder">
+					<div class="tborder sp_article_content">
 						<table class="sp_block">
 							<tr class="catbg">
 								<td class="sp_middle">', $article['message']['icon'], '</td>
