@@ -305,7 +305,7 @@ function sp_whosOnline($parameters, $id, $return_parameters = false)
 	echo '
 								<ul class="sp_list">
 									<li>', sp_embed_image('dot'), ' ', $txt['guests'], ': ', $stats['guests'], '</li>
-									<li>', sp_embed_image('dot'), ' ', $txt['hidden'], ': ', $stats['hidden'], '</li>
+									<li>', sp_embed_image('dot'), ' ', $txt['sp-hidden'], ': ', $stats['hidden'], '</li>
 									<li>', sp_embed_image('dot'), ' ', $txt['users'], ': ', $stats['num_users'], '</li>';
 
 	if (!empty($stats['users']))
