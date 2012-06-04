@@ -19,6 +19,7 @@ $txt['sp_link'] = '[link]';
 $txt['sp_function_unknown_label'] = 'Unknown Block Type';
 
 // Block specific strings
+$txt['sp-hidden'] = 'Hidden';
 $txt['sp-usertmessage'] = 'Total Messages';
 $txt['sp-usernmessage'] = 'New Messages';
 $txt['sp-articlesComments'] = 'Comments';
