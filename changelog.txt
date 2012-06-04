@@ -26,6 +26,7 @@ SP 2.3.5
  ! Removing some compatibility CSS leftover.
  ! Some layout changes related to spacing.
  ! One last fix to board news and articles spacing.
+ ! Updated versions for final.
 
 SP 2.3.4
 ================================================================================

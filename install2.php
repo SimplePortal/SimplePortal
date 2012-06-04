@@ -1067,7 +1067,7 @@ $defaults = array(
 );
 
 $updates = array(
-	'sp_version' => '2.3.5 RC1',
+	'sp_version' => '2.3.5',
 	'sp_smf_version' => '2',
 );
 
@@ -1109,7 +1109,7 @@ if (SMF == 'SSI')
 <head>
 	<meta http-equiv="Content-Type" content="text/html; charset=', $context['character_set'], '" />
 	<title>SimplePortal &bull; Database Tool</title>
-	<link rel="stylesheet" type="text/css" href="', $settings['theme_url'], '/css/index.css?rc3" />
+	<link rel="stylesheet" type="text/css" href="', $settings['theme_url'], '/css/index.css?235" />
 	<meta name="robots" content="noindex" />
 	<style type="text/css">
 		body, html
