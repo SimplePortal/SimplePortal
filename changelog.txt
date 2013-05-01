@@ -4,6 +4,10 @@ Changelog last updated November 5, 2010.
 
 SP 2.3.5
 ================================================================================
+ Some clean-up and renaming.
+
+SP 2.3.5
+================================================================================
  ! Line break for side clear was inserted unnecessarily.
  ! addarticle action should not be considered as portal page.
  ! Undefined index error if RSS feed item description doesn't exist.
