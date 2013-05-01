@@ -1,506 +1,153 @@
 <?php
-/**********************************************************************************
-* install2.php                                                                    *
-***********************************************************************************
-* SimplePortal                                                                    *
-* SMF Modification Project Founded by [SiNaN] (sinan@simplemachines.org)          *
-* =============================================================================== *
-* Software Version:           SimplePortal 2.3.5                                  *
-* Software by:                SimplePortal Team (http://www.simpleportal.net)     *
-* Copyright 2008-2009 by:     SimplePortal Team (http://www.simpleportal.net)     *
-* Support, News, Updates at:  http://www.simpleportal.net                         *
-***********************************************************************************
-* This program is free software; you may redistribute it and/or modify it under   *
-* the terms of the provided license as published by Simple Machines LLC.          *
-*                                                                                 *
-* This program is distributed in the hope that it is and will be useful, but      *
-* WITHOUT ANY WARRANTIES; without even any implied warranty of MERCHANTABILITY    *
-* or FITNESS FOR A PARTICULAR PURPOSE.                                            *
-*                                                                                 *
-* See the "license.txt" file for details of the Simple Machines license.          *
-* The latest version can always be found at http://www.simplemachines.org.        *
-**********************************************************************************/
 
-// Handle running this file by using SSI.php
 if (file_exists(dirname(__FILE__) . '/SSI.php') && !defined('SMF'))
 {
 	$_GET['debug'] = 'Blue Dream!';
 	require_once(dirname(__FILE__) . '/SSI.php');
 }
-// Hmm... no SSI.php and no SMF?
 elseif (!defined('SMF'))
 	die('<b>Error:</b> Cannot install - please verify you put this in the same place as SMF\'s index.php.');
 
 global $smcFunc, $db_prefix, $modSettings, $sourcedir, $boarddir, $settings, $db_package_log, $package_cache;
 
-// Make sure that we have the package database functions.
 if (!array_key_exists('db_add_column', $smcFunc))
 	db_extend('packages');
 
-// Load all tables.
 $tables = array(
 	'sp_articles' => array(
 		'columns' => array(
-			array(
-				'name' => 'id_article',
-				'type' => 'int',
-				'size' => '10',
-				'auto' => true,
-				'deprecated_name' => 'ID_ARTICLE',
-			),
-			array(
-				'name' => 'id_category',
-				'type' => 'int',
-				'size' => '10',
-				'default' => 0,
-				'deprecated_name' => 'ID_CATEGORY',
-			),
-			array(
-				'name' => 'id_message',
-				'type' => 'int',
-				'size' => '10',
-				'default' => 0,
-				'deprecated_name' => 'ID_MESSAGE',
-			),
-			array(
-				'name' => 'approved',
-				'type' => 'tinyint',
-				'size' => '2',
-				'default' => 0,
-			),
+			array('name' => 'id_article', 'type' => 'int', 'size' => '10', 'auto' => true, 'deprecated_name' => 'ID_ARTICLE'),
+			array('name' => 'id_category', 'type' => 'int', 'size' => '10', 'default' => 0, 'deprecated_name' => 'ID_CATEGORY'),
+			array('name' => 'id_message', 'type' => 'int', 'size' => '10', 'default' => 0, 'deprecated_name' => 'ID_MESSAGE'),
+			array('name' => 'approved', 'type' => 'tinyint', 'size' => '2', 'default' => 0),
 		),
 		'indexes' => array(
-			array(
-				'type' => 'primary',
-				'columns' => array('id_article'),
-			),
+			array('type' => 'primary', 'columns' => array('id_article')),
 		),
 	),
 	'sp_blocks' => array(
 		'columns' => array(
-			array(
-				'name' => 'id_block',
-				'type' => 'int',
-				'size' => '10',
-				'auto' => true,
-				'deprecated_name' => 'ID_BLOCK',
-			),
-			array(
-				'name' => 'label',
-				'type' => 'tinytext',
-			),
-			array(
-				'name' => 'type',
-				'type' => 'text',
-			),
-			array(
-				'name' => 'col',
-				'type' => 'tinyint',
-				'size' => '4',
-				'default' => 0,
-			),
-			array(
-				'name' => 'row',
-				'type' => 'tinyint',
-				'size' => '4',
-				'default' => 0,
-			),
-			array(
-				'name' => 'permission_set',
-				'type' => 'tinyint',
-				'size' => '4',
-				'default' => 0,
-			),
-			array(
-				'name' => 'groups_allowed',
-				'type' => 'varchar',
-				'size' => 255,
-				'default' => '',
-			),
-			array(
-				'name' => 'groups_denied',
-				'type' => 'varchar',
-				'size' => 255,
-				'default' => '',
-			),
-			array(
-				'name' => 'state',
-				'type' => 'tinyint',
-				'size' => '4',
-				'default' => 1,
-			),
-			array(
-				'name' => 'force_view',
-				'type' => 'tinyint',
-				'size' => '2',
-				'default' => 0,
-			),
-			array(
-				'name' => 'display',
-				'type' => 'text',
-			),
-			array(
-				'name' => 'display_custom',
-				'type' => 'text',
-			),
-			array(
-				'name' => 'style',
-				'type' => 'text',
-			),
+			array('name' => 'id_block', 'type' => 'int', 'size' => '10', 'auto' => true, 'deprecated_name' => 'ID_BLOCK'),
+			array('name' => 'label', 'type' => 'tinytext'),
+			array('name' => 'type', 'type' => 'text'),
+			array('name' => 'col', 'type' => 'tinyint', 'size' => '4', 'default' => 0),
+			array('name' => 'row', 'type' => 'tinyint', 'size' => '4', 'default' => 0),
+			array('name' => 'permission_set', 'type' => 'tinyint', 'size' => '4', 'default' => 0),
+			array('name' => 'groups_allowed', 'type' => 'varchar', 'size' => 255, 'default' => ''),
+			array('name' => 'groups_denied', 'type' => 'varchar', 'size' => 255, 'default' => ''),
+			array('name' => 'state', 'type' => 'tinyint', 'size' => '4', 'default' => 1),
+			array('name' => 'force_view', 'type' => 'tinyint', 'size' => '2', 'default' => 0),
+			array('name' => 'display', 'type' => 'text', ),
+			array('name' => 'display_custom', 'type' => 'text'),
+			array('name' => 'style', 'type' => 'text'),
 		),
 		'indexes' => array(
-			array(
-				'type' => 'primary',
-				'columns' => array('id_block'),
-			),
-			array(
-				'type' => 'index',
-				'columns' => array('state'),
-			),
+			array('type' => 'primary', 'columns' => array('id_block')),
+			array('type' => 'index', 'columns' => array('state')),
 		),
 	),
 	'sp_categories' => array(
 		'columns' => array(
-			array(
-				'name' => 'id_category',
-				'type' => 'int',
-				'size' => '10',
-				'auto' => true,
-				'deprecated_name' => 'ID_CATEGORY',
-			),
-			array(
-				'name' => 'name',
-				'type' => 'tinytext',
-			),
-			array(
-				'name' => 'picture',
-				'type' => 'tinytext',
-			),
-			array(
-				'name' => 'articles',
-				'type' => 'tinyint',
-				'size' => '4',
-				'default' => 0,
-			),
-			array(
-				'name' => 'publish',
-				'type' => 'tinyint',
-				'size' => '1',
-				'default' => 0,
-			),
+			array('name' => 'id_category', 'type' => 'int', 'size' => '10', 'auto' => true, 'deprecated_name' => 'ID_CATEGORY'),
+			array('name' => 'name', 'type' => 'tinytext'),
+			array('name' => 'picture', 'type' => 'tinytext'),
+			array('name' => 'articles', 'type' => 'tinyint', 'size' => '4', 'default' => 0),
+			array('name' => 'publish', 'type' => 'tinyint', 'size' => '1', 'default' => 0),
 		),
 		'indexes' => array(
-			array(
-				'type' => 'primary',
-				'columns' => array('id_category'),
-			),
+			array('type' => 'primary', 'columns' => array('id_category')),
 		),
 	),
 	'sp_functions' => array(
 		'columns' => array(
-			array(
-				'name' => 'id_function',
-				'type' => 'tinyint',
-				'size' => '4',
-				'auto' => true,
-				'deprecated_name' => 'ID_FUNCTION',
-			),
-			array(
-				'name' => 'function_order',
-				'type' => 'tinyint',
-				'size' => '4',
-				'default' => 0,
-			),
-			array(
-				'name' => 'name',
-				'type' => 'tinytext',
-			),
+			array('name' => 'id_function', 'type' => 'tinyint', 'size' => '4', 'auto' => true, 'deprecated_name' => 'ID_FUNCTION'),
+			array('name' => 'function_order', 'type' => 'tinyint', 'size' => '4', 'default' => 0),
+			array('name' => 'name', 'type' => 'tinytext'),
 		),
 		'indexes' => array(
-			array(
-				'type' => 'primary',
-				'columns' => array('id_function'),
-			),
+			array('type' => 'primary', 'columns' => array('id_function')),
 		),
 	),
 	'sp_pages' => array(
 		'columns' => array(
-			array(
-				'name' => 'id_page',
-				'type' => 'int',
-				'size' => 10,
-				'auto' => true,
-				'deprecated_name' => 'ID_PAGE',
-			),
-			array(
-				'name' => 'namespace',
-				'type' => 'tinytext',
-			),
-			array(
-				'name' => 'title',
-				'type' => 'tinytext',
-			),
-			array(
-				'name' => 'body',
-				'type' => 'text',
-			),
-			array(
-				'name' => 'type',
-				'type' => 'tinytext',
-			),
-			array(
-				'name' => 'permission_set',
-				'type' => 'tinyint',
-				'size' => '4',
-				'default' => 0,
-			),
-			array(
-				'name' => 'groups_allowed',
-				'type' => 'varchar',
-				'size' => 255,
-				'default' => '',
-			),
-			array(
-				'name' => 'groups_denied',
-				'type' => 'varchar',
-				'size' => 255,
-				'default' => '',
-			),
-			array(
-				'name' => 'views',
-				'type' => 'int',
-				'size' => 10,
-				'default' => 0,
-			),
-			array(
-				'name' => 'style',
-				'type' => 'text',
-			),
-			array(
-				'name' => 'status',
-				'type' => 'tinyint',
-				'size' => 4,
-				'default' => 1,
-			),
+			array('name' => 'id_page', 'type' => 'int', 'size' => 10, 'auto' => true, 'deprecated_name' => 'ID_PAGE'),
+			array('name' => 'namespace', 'type' => 'tinytext'),
+			array('name' => 'title', 'type' => 'tinytext'),
+			array('name' => 'body', 'type' => 'text'),
+			array('name' => 'type', 'type' => 'tinytext'),
+			array('name' => 'permission_set', 'type' => 'tinyint', 'size' => '4', 'default' => 0),
+			array('name' => 'groups_allowed', 'type' => 'varchar', 'size' => 255, 'default' => ''),
+			array('name' => 'groups_denied', 'type' => 'varchar', 'size' => 255, 'default' => ''),
+			array('name' => 'views', 'type' => 'int', 'size' => 10, 'default' => 0),
+			array('name' => 'style', 'type' => 'text'),
+			array('name' => 'status', 'type' => 'tinyint', 'size' => 4, 'default' => 1),
 		),
 		'indexes' => array(
-			array(
-				'type' => 'primary',
-				'columns' => array('id_page'),
-			),
+			array('type' => 'primary', 'columns' => array('id_page')),
 		),
 	),
 	'sp_parameters' => array(
 		'columns' => array(
-			array(
-				'name' => 'id_block',
-				'type' => 'int',
-				'size' => '10',
-				'default' => 0,
-				'deprecated_name' => 'ID_BLOCK',
-			),
-			array(
-				'name' => 'variable',
-				'type' => 'varchar',
-				'size' => 255,
-				'default' => '',
-			),
-			array(
-				'name' => 'value',
-				'type' => 'text',
-			),
+			array('name' => 'id_block', 'type' => 'int', 'size' => '10', 'default' => 0, 'deprecated_name' => 'ID_BLOCK'),
+			array('name' => 'variable', 'type' => 'varchar', 'size' => 255, 'default' => ''),
+			array('name' => 'value', 'type' => 'text'),
 		),
 		'indexes' => array(
-			array(
-				'type' => 'primary',
-				'columns' => array('id_block', 'variable')
-			),
-			array(
-				'type' => 'key',
-				'columns' => array('variable')
-			),
+			array('type' => 'primary', 'columns' => array('id_block', 'variable')),
+			array('type' => 'key', 'columns' => array('variable')),
 		),
 	),
 	'sp_shoutboxes' => array(
 		'columns' => array(
-			array(
-				'name' => 'id_shoutbox',
-				'type' => 'int',
-				'size' => 10,
-				'auto' => true,
-				'deprecated_name' => 'ID_SHOUTBOX',
-			),
-			array(
-				'name' => 'name',
-				'type' => 'tinytext',
-			),
-			array(
-				'name' => 'permission_set',
-				'type' => 'tinyint',
-				'size' => '4',
-				'default' => 0,
-			),
-			array(
-				'name' => 'groups_allowed',
-				'type' => 'varchar',
-				'size' => 255,
-				'default' => '',
-			),
-			array(
-				'name' => 'groups_denied',
-				'type' => 'varchar',
-				'size' => 255,
-				'default' => '',
-			),
-			array(
-				'name' => 'moderator_groups',
-				'type' => 'text',
-			),
-			array(
-				'name' => 'warning',
-				'type' => 'text',
-			),
-			array(
-				'name' => 'allowed_bbc',
-				'type' => 'text',
-			),
-			array(
-				'name' => 'height',
-				'type' => 'smallint',
-				'size' => 5,
-				'default' => 200,
-			),
-			array(
-				'name' => 'num_show',
-				'type' => 'smallint',
-				'size' => 5,
-				'default' => 20,
-			),
-			array(
-				'name' => 'num_max',
-				'type' => 'mediumint',
-				'size' => 8,
-				'default' => 1000,
-			),
-			array(
-				'name' => 'refresh',
-				'type' => 'tinyint',
-				'size' => 4,
-				'default' => 1,
-			),
-			array(
-				'name' => 'reverse',
-				'type' => 'tinyint',
-				'size' => 4,
-				'default' => 0,
-			),
-			array(
-				'name' => 'caching',
-				'type' => 'tinyint',
-				'size' => 4,
-				'default' => 1,
-			),
-			array(
-				'name' => 'status',
-				'type' => 'tinyint',
-				'size' => 4,
-				'default' => 1,
-			),
-			array(
-				'name' => 'num_shouts',
-				'type' => 'mediumint',
-				'size' => 8,
-				'default' => 0,
-			),
-			array(
-				'name' => 'last_update',
-				'type' => 'int',
-				'size' => 10,
-				'default' => 0,
-			),
+			array('name' => 'id_shoutbox', 'type' => 'int', 'size' => 10, 'auto' => true, 'deprecated_name' => 'ID_SHOUTBOX'),
+			array('name' => 'name', 'type' => 'tinytext'),
+			array('name' => 'permission_set', 'type' => 'tinyint', 'size' => '4', 'default' => 0),
+			array('name' => 'groups_allowed', 'type' => 'varchar', 'size' => 255, 'default' => ''),
+			array('name' => 'groups_denied', 'type' => 'varchar', 'size' => 255, 'default' => ''),
+			array('name' => 'moderator_groups', 'type' => 'text'),
+			array('name' => 'warning', 'type' => 'text'),
+			array('name' => 'allowed_bbc', 'type' => 'text'),
+			array('name' => 'height', 'type' => 'smallint', 'size' => 5, 'default' => 200),
+			array('name' => 'num_show', 'type' => 'smallint', 'size' => 5, 'default' => 20),
+			array('name' => 'num_max', 'type' => 'mediumint', 'size' => 8, 'default' => 1000),
+			array('name' => 'refresh', 'type' => 'tinyint', 'size' => 4, 'default' => 1),
+			array('name' => 'reverse', 'type' => 'tinyint', 'size' => 4, 'default' => 0),
+			array('name' => 'caching', 'type' => 'tinyint', 'size' => 4, 'default' => 1),
+			array('name' => 'status', 'type' => 'tinyint', 'size' => 4, 'default' => 1),
+			array('name' => 'num_shouts', 'type' => 'mediumint', 'size' => 8, 'default' => 0),
+			array('name' => 'last_update', 'type' => 'int', 'size' => 10, 'default' => 0),
 		),
 		'indexes' => array(
-			array(
-				'type' => 'primary',
-				'columns' => array('id_shoutbox'),
-			),
+			array('type' => 'primary','columns' => array('id_shoutbox')),
 		),
 	),
 	'sp_shouts' => array(
 		'columns' => array(
-			array(
-				'name' => 'id_shout',
-				'type' => 'mediumint',
-				'size' => '8',
-				'auto' => true,
-				'deprecated_name' => 'ID_SHOUT',
-			),
-			array(
-				'name' => 'id_shoutbox',
-				'type' => 'int',
-				'size' => 10,
-				'default' => 0,
-				'deprecated_name' => 'ID_SHOUTBOX',
-			),
-			array(
-				'name' => 'id_member',
-				'type' => 'mediumint',
-				'size' => '8',
-				'default' => 0,
-				'deprecated_name' => 'ID_MEMBER',
-			),
-			array(
-				'name' => 'member_name',
-				'type' => 'varchar',
-				'size' => '80',
-				'default' => 0,
-				'deprecated_name' => 'memberName',
-			),
-			array(
-				'name' => 'log_time',
-				'type' => 'int',
-				'size' => '10',
-				'default' => 0,
-			),
-			array(
-				'name' => 'body',
-				'type' => 'text',
-			),
+			array('name' => 'id_shout', 'type' => 'mediumint', 'size' => '8', 'auto' => true, 'deprecated_name' => 'ID_SHOUT'),
+			array('name' => 'id_shoutbox', 'type' => 'int', 'size' => 10, 'default' => 0, 'deprecated_name' => 'ID_SHOUTBOX'),
+			array('name' => 'id_member', 'type' => 'mediumint', 'size' => '8', 'default' => 0, 'deprecated_name' => 'ID_MEMBER'),
+			array('name' => 'member_name', 'type' => 'varchar', 'size' => '80', 'default' => 0, 'deprecated_name' => 'memberName'),
+			array('name' => 'log_time', 'type' => 'int', 'size' => '10', 'default' => 0),
+			array('name' => 'body', 'type' => 'text'),
 		),
 		'indexes' => array(
-			array(
-				'type' => 'primary',
-				'columns' => array('id_shout'),
-			),
+			array('type' => 'primary','columns' => array('id_shout')),
 		),
 	),
 );
 
 $deprecated_fields = array(
-	'sp_blocks' => array(
-		'content',
-		'parameters',
-		'permission_type',
-		'allowed_groups',
-	),
-	'sp_pages' => array(
-		'permission_type',
-		'allowed_groups',
-	),
-	'sp_shoutboxes' => array(
-		'permission_type',
-		'allowed_groups',
-	),
+	'sp_blocks' => array('content', 'parameters', 'permission_type', 'allowed_groups'),
+	'sp_pages' => array('permission_type', 'allowed_groups'),
+	'sp_shoutboxes' => array('permission_type', 'allowed_groups'),
 );
 
-// We always need a fresh functions table.
 $smcFunc['db_drop_table']('{db_prefix}sp_functions');
 
 $current_tables = $smcFunc['db_list_tables'](false, '%sp%');
 $real_prefix = preg_match('~^(`?)(.+?)\\1\\.(.*?)$~', $db_prefix, $match) === 1 ? $match[3] : $db_prefix;
 $info = '<ul>';
 
-// Loop through each table and do what needed.
 foreach ($tables as $table => $data)
 {
 	if (in_array(strtolower($real_prefix . $table), array_map('strtolower', $current_tables)))
@@ -534,7 +181,6 @@ foreach ($tables as $table => $data)
 	}
 }
 
-// Insert current functions.
 $smcFunc['db_insert']('ignore',
 	'{db_prefix}sp_functions',
 	array(
@@ -598,161 +244,23 @@ if (empty($has_block))
 
 	$welcome_text = '<h2 style="text-align: center;">Welcome to SimplePortal!</h2>
 <p>SimplePortal is one of several portal mods for Simple Machines Forum (SMF). Although always developing, SimplePortal is produced with the user in mind first. User feedback is the number one method of growth for SimplePortal, and our users are always finding ways for SimplePortal to grow. SimplePortal stays competative with other portal software by adding numerous user-requested features such as articles, block types and the ability to completely customize the portal page.</p>
-<p>All this and SimplePortal has remained Simple! SimplePortal is built for simplicity and ease of use; ensuring the average forum administrator can install SimplePortal, configure a few settings, and show off the brand new portal to the users in minutes. Confusing menus, undesired pre-loaded blocks and settings that cannot be found are all avoided as much as possible. Because when it comes down to it, SimplePortal is YOUR portal, and should reflect your taste as much as possible.</p>
-<p><strong>Ultimate Simplicity</strong>
-<br />
-The simplest portal you can ever think of... You only need a few clicks to install it through Package Manager. A few more to create your own blocks and articles. Your portal is ready to go within a couple of minutes, and simple to customise to reflect YOU.</p>
-<p><strong>Install Friendly</strong>
-<br />
-With the ingenius design of install and update packages, SimplePortal is incredibly install and update friendly. You will never need any manual changes even on a heavily modified forum.</p>
-<p><strong>Incredible Theme Support</strong>
-<br />
-The simple but powerful structure of SimplePortal brings you wide-range theme support too. You can use SimplePortal with all SMF themes by just adding a button for it.</p>
-<p><strong>Professional Support</strong>
-<br />
-SimplePortal offers high quality professional support with its own well known support team.</p>';
+<p>All this and SimplePortal has remained Simple! SimplePortal is built for simplicity and ease of use; ensuring the average forum administrator can install SimplePortal, configure a few settings, and show off the brand new portal to the users in minutes. Confusing menus, undesired pre-loaded blocks and settings that cannot be found are all avoided as much as possible. Because when it comes down to it, SimplePortal is YOUR portal, and should reflect your taste as much as possible.</p>';
 
 	$default_blocks = array(
-		'user_info' => array(
-			'label' => 'User Info',
-			'type' => 'sp_userInfo',
-			'col' => 1,
-			'row' => 1,
-			'permission_set' => '3',
-			'display' => '',
-			'display_custom' => '',
-			'style' => '',
-		),
-		'whos_online' => array(
-			'label' => 'Who&#039;s Online',
-			'type' => 'sp_whosOnline',
-			'col' => 1,
-			'row' => 2,
-			'permission_set' => '3',
-			'display' => '',
-			'display_custom' => '',
-			'style' => '',
-		),
-		'board_stats' => array(
-			'label' => 'Board Stats',
-			'type' => 'sp_boardStats',
-			'col' => 1,
-			'row' => 3,
-			'permission_set' => '3',
-			'display' => '',
-			'display_custom' => '',
-			'style' => '',
-		),
-		'theme_select' => array(
-			'label' => 'Theme Select',
-			'type' => 'sp_theme_select',
-			'col' => 1,
-			'row' => 4,
-			'permission_set' => '3',
-			'display' => '',
-			'display_custom' => '',
-			'style' => '',
-		),
-		'search' => array(
-			'label' => 'Search',
-			'type' => 'sp_quickSearch',
-			'col' => 1,
-			'row' => 5,
-			'permission_set' => '3',
-			'display' => '',
-			'display_custom' => '',
-			'style' => '',
-		),
-		'news' => array(
-			'label' => 'News',
-			'type' => 'sp_news',
-			'col' => 2,
-			'row' => 1,
-			'permission_set' => '3',
-			'display' => '',
-			'display_custom' => '',
-			'style' => 'title_default_class~|title_custom_class~|title_custom_style~|body_default_class~windowbg|body_custom_class~|body_custom_style~|no_title~1|no_body~',
-		),
-		'welcome' => array(
-			'label' => 'Welcome',
-			'type' => 'sp_html',
-			'col' => 2,
-			'row' => 2,
-			'permission_set' => '3',
-			'display' => '',
-			'display_custom' => '',
-			'style' => 'title_default_class~|title_custom_class~|title_custom_style~|body_default_class~windowbg|body_custom_class~|body_custom_style~|no_title~1|no_body~',
-		),
-		'board_news' => array(
-			'label' => 'Board News',
-			'type' => 'sp_boardNews',
-			'col' => 2,
-			'row' => 3,
-			'permission_set' => '3',
-			'display' => '',
-			'display_custom' => '',
-			'style' => '',
-		),
-		'recent_topics' => array(
-			'label' => 'Recent Topics',
-			'type' => 'sp_recent',
-			'col' => 3,
-			'row' => 1,
-			'permission_set' => '3',
-			'display' => '',
-			'display_custom' => '',
-			'style' => '',
-		),
-		'top_poster' => array(
-			'label' => 'Top Poster',
-			'type' => 'sp_topPoster',
-			'col' => 4,
-			'row' => 1,
-			'permission_set' => '3',
-			'display' => '',
-			'display_custom' => '',
-			'style' => '',
-		),
-		'recent_posts' => array(
-			'label' => 'Recent Posts',
-			'type' => 'sp_recent',
-			'col' => 4,
-			'row' => 2,
-			'permission_set' => '3',
-			'display' => '',
-			'display_custom' => '',
-			'style' => '',
-		),
-		'staff' => array(
-			'label' => 'Forum Staff',
-			'type' => 'sp_staff',
-			'col' => 4,
-			'row' => 3,
-			'permission_set' => '3',
-			'display' => '',
-			'display_custom' => '',
-			'style' => '',
-		),
-		'calendar' => array(
-			'label' => 'Calendar',
-			'type' => 'sp_calendar',
-			'col' => 4,
-			'row' => 4,
-			'permission_set' => '3',
-			'display' => '',
-			'display_custom' => '',
-			'style' => '',
-		),
-		'top_boards' => array(
-			'label' => 'Top Boards',
-			'type' => 'sp_topBoards',
-			'col' => 4,
-			'row' => 5,
-			'permission_set' => '3',
-			'display' => '',
-			'display_custom' => '',
-			'style' => '',
-		),
+		'user_info' => array( 'label' => 'User Info', 'type' => 'sp_userInfo', 'col' => 1, 'row' => 1, 'permission_set' => '3', 'display' => '', 'display_custom' => '', 'style' => ''),
+		'whos_online' => array( 'label' => 'Who&#039;s Online', 'type' => 'sp_whosOnline', 'col' => 1, 'row' => 2, 'permission_set' => '3', 'display' => '', 'display_custom' => '', 'style' => ''),
+		'board_stats' => array( 'label' => 'Board Stats', 'type' => 'sp_boardStats', 'col' => 1, 'row' => 3, 'permission_set' => '3', 'display' => '', 'display_custom' => '', 'style' => ''),
+		'theme_select' => array( 'label' => 'Theme Select', 'type' => 'sp_theme_select', 'col' => 1, 'row' => 4, 'permission_set' => '3', 'display' => '', 'display_custom' => '', 'style' => ''),
+		'search' => array( 'label' => 'Search', 'type' => 'sp_quickSearch', 'col' => 1, 'row' => 5, 'permission_set' => '3', 'display' => '', 'display_custom' => '', 'style' => ''),
+		'news' => array( 'label' => 'News', 'type' => 'sp_news', 'col' => 2, 'row' => 1, 'permission_set' => '3', 'display' => '', 'display_custom' => '', 'style' => 'title_default_class~|title_custom_class~|title_custom_style~|body_default_class~windowbg|body_custom_class~|body_custom_style~|no_title~1|no_body~'),
+		'welcome' => array( 'label' => 'Welcome', 'type' => 'sp_html', 'col' => 2, 'row' => 2, 'permission_set' => '3', 'display' => '', 'display_custom' => '', 'style' => 'title_default_class~|title_custom_class~|title_custom_style~|body_default_class~windowbg|body_custom_class~|body_custom_style~|no_title~1|no_body~'),
+		'board_news' => array( 'label' => 'Board News', 'type' => 'sp_boardNews', 'col' => 2, 'row' => 3, 'permission_set' => '3', 'display' => '', 'display_custom' => '', 'style' => ''),
+		'recent_topics' => array( 'label' => 'Recent Topics', 'type' => 'sp_recent', 'col' => 3, 'row' => 1, 'permission_set' => '3', 'display' => '', 'display_custom' => '', 'style' => ''),
+		'top_poster' => array( 'label' => 'Top Poster', 'type' => 'sp_topPoster', 'col' => 4, 'row' => 1, 'permission_set' => '3', 'display' => '', 'display_custom' => '', 'style' => ''),
+		'recent_posts' => array( 'label' => 'Recent Posts', 'type' => 'sp_recent', 'col' => 4, 'row' => 2, 'permission_set' => '3', 'display' => '', 'display_custom' => '', 'style' => ''),
+		'staff' => array( 'label' => 'Forum Staff', 'type' => 'sp_staff', 'col' => 4, 'row' => 3, 'permission_set' => '3', 'display' => '', 'display_custom' => '', 'style' => ''),
+		'calendar' => array( 'label' => 'Calendar', 'type' => 'sp_calendar', 'col' => 4, 'row' => 4, 'permission_set' => '3', 'display' => '', 'display_custom' => '', 'style' => ''),
+		'top_boards' => array( 'label' => 'Top Boards', 'type' => 'sp_topBoards', 'col' => 4, 'row' => 5, 'permission_set' => '3', 'display' => '', 'display_custom' => '', 'style' => ''),
 	);
 
 	$smcFunc['db_insert']('ignore',
@@ -786,46 +294,14 @@ SimplePortal offers high quality professional support with its own well known su
 	$smcFunc['db_free_result']($request);
 
 	$default_parameters = array(
-		array(
-			'id_block' => $block_ids['sp_html'],
-			'variable' => 'content',
-			'value' => htmlspecialchars($welcome_text),
-		),
-		array(
-			'id_block' => $block_ids['sp_boardNews'],
-			'variable' => 'avatar',
-			'value' => 1,
-		),
-		array(
-			'id_block' => $block_ids['sp_boardNews'],
-			'variable' => 'per_page',
-			'value' => 3,
-		),
-		array(
-			'id_block' => $block_ids['sp_calendar'],
-			'variable' => 'events',
-			'value' => 1,
-		),
-		array(
-			'id_block' => $block_ids['sp_calendar'],
-			'variable' => 'birthdays',
-			'value' => 1,
-		),
-		array(
-			'id_block' => $block_ids['sp_calendar'],
-			'variable' => 'holidays',
-			'value' => 1,
-		),
-		array(
-			'id_block' => $block_ids['sp_recent'],
-			'variable' => 'type',
-			'value' => 1,
-		),
-		array(
-			'id_block' => $block_ids['sp_recent'],
-			'variable' => 'display',
-			'value' => 1,
-		),
+		array( 'id_block' => $block_ids['sp_html'], 'variable' => 'content', 'value' => htmlspecialchars($welcome_text)),
+		array( 'id_block' => $block_ids['sp_boardNews'], 'variable' => 'avatar', 'value' => 1),
+		array( 'id_block' => $block_ids['sp_boardNews'], 'variable' => 'per_page', 'value' => 3),
+		array( 'id_block' => $block_ids['sp_calendar'], 'variable' => 'events', 'value' => 1),
+		array( 'id_block' => $block_ids['sp_calendar'], 'variable' => 'birthdays', 'value' => 1),
+		array( 'id_block' => $block_ids['sp_calendar'], 'variable' => 'holidays', 'value' => 1),
+		array( 'id_block' => $block_ids['sp_recent'], 'variable' => 'type', 'value' => 1),
+		array( 'id_block' => $block_ids['sp_recent'], 'variable' => 'display', 'value' => 1),
 	);
 
 	$smcFunc['db_insert']('replace',
@@ -1053,7 +529,6 @@ else
 	<li>Block types and parameters updated.</li>';
 }
 
-// Let's setup some standard settings.
 $defaults = array(
 	'sp_portal_mode' => 1,
 	'sp_disableForumRedirect' => 1,
@@ -1067,8 +542,7 @@ $defaults = array(
 );
 
 $updates = array(
-	'sp_version' => '2.3.5',
-	'sp_smf_version' => '2',
+	'sp_version' => '2.4',
 );
 
 foreach ($defaults as $index => $value)
@@ -1077,7 +551,6 @@ foreach ($defaults as $index => $value)
 
 updateSettings($updates);
 
-// Take control of the $db_package_log array(), Mahahahaha!!!
 $db_package_log = array();
 foreach ($tables as $table_name => $null)
 	$db_package_log[] = array('remove_table', $db_prefix . $table_name);
@@ -1101,82 +574,7 @@ elseif (file_exists($standalone_file))
 	}
 }
 
-// Show them a nice message.
 if (SMF == 'SSI')
-{
-	echo '<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml"', $context['right_to_left'] ? ' dir="rtl"' : '', '>
-<head>
-	<meta http-equiv="Content-Type" content="text/html; charset=', $context['character_set'], '" />
-	<title>SimplePortal &bull; Database Tool</title>
-	<link rel="stylesheet" type="text/css" href="', $settings['theme_url'], '/css/index.css?235" />
-	<meta name="robots" content="noindex" />
-	<style type="text/css">
-		body, html
-		{
-			height: 100%;
-			overflow: auto;
-			padding: 0;
-		}
-		body
-		{
-			font-size: 12px;
-			text-align: center;
-		}
-		ul
-		{
-			padding-left: 3em;
-			line-height: 1.5em;
-		}
-		ul li, li
-		{
-			list-style: disc;
-		}
-		h1
-		{
-			padding-left: 5px;
-		}
-		#page
-		{
-			width: 600px;
-			border: 1px solid #000000;
-			padding: 1px;
-			margin: 0 auto;
-			text-align: left;
-			line-height: 28px;
-			clear: left;
-		}
-		#info
-		{
-			padding-left: 20px;
-			border: 1px solid #DDDDDD;
-			margin-left: 10px;
-			margin-right: 10px;
-		}
-		#distance
-		{
-			float: left;
-			height: 50%;
-			margin-top: -300px;
-			width: 1px;
-		}
-		#copy
-		{
-			font-size: x-small;
-			text-align: center;
-		}
-	</style>
-</head>
-<body>
-<div id="distance"></div>
-<div id="page" class="windowbg2">
-	<h1 class="catbg">SimplePortal &bull; Database Tool</h1>
-	<p id="info" class="windowbg">This tool will prepare your database to work with SimplePortal. It will also fix database issues related to SimplePortal, if there are any.</p>
-	', $info, '
-	<p id="copy">SimplePortal &copy; 2008-2012</p>
-</div>
-</body>
-</html>';
-}
+	echo $info;
 
 ?>

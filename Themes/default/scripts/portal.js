@@ -1,11 +1,3 @@
-// Version 2.3.5; portal.js
-
-// Define the version of SMF that we are using.
-if (typeof(smf_editorArray) == "undefined")
-	portal_smf_version = 1.1;
-else
-	portal_smf_version = 2;
-
 function sp_collapse_object(id, has_image)
 {
 	mode = document.getElementById("sp_object_" + id).style.display == '' ? 0 : 1;
@@ -20,7 +12,7 @@ function sp_image_resize()
 	var possible_images = document.getElementsByTagName("img");
 	for (var i = 0; i < possible_images.length; i++)
 	{
-		if (possible_images[i].className != (portal_smf_version == 1.1 ? "sp_article" : "bbc_img sp_article"))
+		if (possible_images[i].className != "bbc_img sp_article")
 			continue;
 
 		var temp_image = new Image();
@@ -53,10 +45,7 @@ function sp_submit_shout(shoutbox_id, sSessionVar, sSessionId)
 
 		var shout_body = "";
 
-		if (portal_smf_version == 1.1)
-			shout_body = escape(textToEntities(document.getElementById('new_shout_' + shoutbox_id).value.replace(/&#/g, "&#38;#"))).replace(/\+/g, "%2B");
-		else
-			shout_body = escape(document.getElementById('new_shout_' + shoutbox_id).value.replace(/&#/g, "&#").php_to8bit()).replace(/\+/g, "%2B");
+		shout_body = escape(document.getElementById('new_shout_' + shoutbox_id).value.replace(/&#/g, "&#").php_to8bit()).replace(/\+/g, "%2B");
 
 		sendXMLDocument(smf_prepareScriptUrl(smf_scripturl) + 'action=portal;sa=shoutbox;xml', 'shoutbox_id=' + shoutbox_id + '&shout=' + shout_body + '&' + sSessionVar + '=' + sSessionId, onShoutReceived);
 
@@ -90,7 +79,6 @@ function sp_refresh_shout(shoutbox_id, last_refresh)
 	}
 }
 
-// Function to handle the receiving of new shout data from the xml request.
 function onShoutReceived(XMLDoc)
 {
 	var shouts = XMLDoc.getElementsByTagName("smf")[0].getElementsByTagName("shout");
@@ -183,30 +171,6 @@ function smf_prepareScriptUrl(sUrl)
 	return sUrl.indexOf('?') == -1 ? sUrl + '?' : sUrl + (sUrl.charAt(sUrl.length - 1) == '?' || sUrl.charAt(sUrl.length - 1) == '&' || sUrl.charAt(sUrl.length - 1) == ';' ? '' : ';');
 }
 
-// This function is for SMF 1.1.x as well as SMF 2RC1.2 and below.
-function sp_compat_showMoreSmileys(postbox, sTitleText, sPickText, sCloseText, smf_theme_url, smf_smileys_url)
-{
-	if (this.oSmileyPopupWindow)
-		this.oSmileyPopupWindow.close();
-
-	this.oSmileyPopupWindow = window.open('', 'add_smileys', 'toolbar=no,location=no,status=no,menubar=no,scrollbars=yes,width=480,height=220,resizable=yes');
-	this.oSmileyPopupWindow.document.write('<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">\n<html>');
-	this.oSmileyPopupWindow.document.write('\n\t<head>\n\t\t<title>' + sTitleText + '</title>\n\t\t<link rel="stylesheet" type="text/css" href="' + smf_theme_url + '/style.css" />\n\t</head>');
-	this.oSmileyPopupWindow.document.write('\n\t<body style="margin: 1ex;">\n\t\t<table width="100%" cellpadding="5" cellspacing="0" border="0" class="tborder">\n\t\t\t<tr class="titlebg"><td align="left">' + sPickText + '</td></tr>\n\t\t\t<tr class="windowbg"><td align="left">');
-
-	for (i = 0; i < sp_smileys.length; i++)
-	{
-		sp_smileys[i][2] = sp_smileys[i][2].replace(/"/g, '&quot;');
-		sp_smileys[i][0] = sp_smileys[i][0].replace(/"/g, '&quot;');
-		this.oSmileyPopupWindow.document.write('<a href="javascript:void(0);" onclick="window.opener.replaceText(\' ' + (portal_smf_version == 1.1 ? sp_smileys[i][0] : smf_addslashes(sp_smileys[i][0])) + '\', window.opener.document.getElementById(\'new_shout_' + postbox + '\')); window.focus(); return false;"><img src="' + smf_smileys_url + '/' + sp_smileys[i][1] + '" id="sml_' + sp_smileys[i][1] + '" alt="' + sp_smileys[i][2] + '" title="' + sp_smileys[i][2] + '" style="padding: 4px;" border="0" /></a> ');
-	}
-
-	this.oSmileyPopupWindow.document.write('</td></tr>\n\t\t\t<tr><td align="center" class="windowbg"><a href="javascript:window.close();">' + sCloseText + '</a></td></tr>\n\t\t</table>');
-	this.oSmileyPopupWindow.document.write('\n\t</body>\n</html>');
-	this.oSmileyPopupWindow.document.close();
-}
-
-// This function is for SMF 2 RC2 and above.
 function sp_showMoreSmileys(postbox, sTitleText, sPickText, sCloseText, smf_theme_url, smf_smileys_url)
 {
 	if (this.oSmileyPopupWindow != null && 'closed' in this.oSmileyPopupWindow && !this.oSmileyPopupWindow.closed)
@@ -229,7 +193,6 @@ function sp_showMoreSmileys(postbox, sTitleText, sPickText, sCloseText, smf_them
 
 	this.oSmileyPopupWindow = window.open('', 'add_smileys', 'toolbar=no,location=no,status=no,menubar=no,scrollbars=yes,width=480,height=220,resizable=yes');
 
-	// Paste the template in the popup.
 	this.oSmileyPopupWindow.document.open('text/html', 'replace');
 	this.oSmileyPopupWindow.document.write(sp_moreSmileysTemplate.easyReplace({
 		smileyRows: sp_smileyRowsContent

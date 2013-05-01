@@ -4,6 +4,7 @@ Changelog last updated November 5, 2010.
 
 SP 2.3.5
 ================================================================================
+ More of the clean-up.
  Some clean-up and renaming.
 
 SP 2.3.5
