@@ -3,5 +3,5 @@
 	<p style="padding-top: 0.5em;">SimplePortal installation is successfully completed. Thank you for installing SimplePortal.</p>
 	<p>You can visit <a href="http://www.simpleportal.net" title="SimplePortal">www.simpleportal.net</a> for support and general feedback.</p>
 	<p>We hope you enjoy using SimplePortal!</p>
-	<p>- SimplePortal Team</a></p>
+	<p>-SimplePortal Team</a></p>
 </div>

@@ -146,38 +146,23 @@ $smcFunc['db_drop_table']('{db_prefix}sp_functions');
 
 $current_tables = $smcFunc['db_list_tables'](false, '%sp%');
 $real_prefix = preg_match('~^(`?)(.+?)\\1\\.(.*?)$~', $db_prefix, $match) === 1 ? $match[3] : $db_prefix;
-$info = '<ul>';
 
 foreach ($tables as $table => $data)
 {
 	if (in_array(strtolower($real_prefix . $table), array_map('strtolower', $current_tables)))
 	{
-		$info .= '
-	<li>"' . $table . '" table exists, updating table structure.
-		<ul>';
-
 		foreach ($data['columns'] as $column)
 		{
 			if (!isset($column['deprecated_name']) || !$smcFunc['db_change_column']('{db_prefix}' . $table, $column['deprecated_name'], $column))
 				$smcFunc['db_add_column']('{db_prefix}' . $table, $column);
 		}
 
-		$info .= '
-			<li>Table columns updated.</li>';
-
 		foreach ($data['indexes'] as $index)
 			$smcFunc['db_add_index']('{db_prefix}' . $table, $index, array(), 'ignore');
-
-		$info .= '
-			<li>Table indexes updated.</li>
-		</ul>
-	</li>';
 	}
 	else
 	{
 		$smcFunc['db_create_table']('{db_prefix}' . $table, $data['columns'], $data['indexes'], array(), 'ignore');
-
-		$info .= '<li>"' . $table . '" table created.</li>';
 	}
 }
 
@@ -222,9 +207,6 @@ $smcFunc['db_insert']('ignore',
 	),
 	array('id_function')
 );
-
-$info .= '
-	<li>"sp_functions" table data inserted.</li>';
 
 $result = $smcFunc['db_query']('','
 	SELECT id_block
@@ -314,9 +296,6 @@ if (empty($has_block))
 		$default_parameters,
 		array()
 	);
-
-	$info .= '
-	<li>Default blocks created.</li>';
 }
 else
 {
@@ -524,9 +503,6 @@ else
 	foreach ($deprecated_fields as $table => $fields)
 		foreach ($fields as $field)
 			$smcFunc['db_remove_column']('{db_prefix}' . $table, $field);
-
-	$info .= '
-	<li>Block types and parameters updated.</li>';
 }
 
 $defaults = array(
@@ -555,11 +531,6 @@ $db_package_log = array();
 foreach ($tables as $table_name => $null)
 	$db_package_log[] = array('remove_table', $db_prefix . $table_name);
 
-$info .= '
-	<li>Default settings inserted.</li>';
-
-$info .= '</ul>';
-
 $standalone_file = $boarddir . '/PortalStandalone.php';
 if (isset($package_cache[$standalone_file]))
 	$package_cache[$standalone_file] = str_replace('full/path/to/forum', $boarddir, $package_cache[$standalone_file]);
@@ -575,6 +546,6 @@ elseif (file_exists($standalone_file))
 }
 
 if (SMF == 'SSI')
-	echo $info;
+	echo 'Database changes were carried out successfully.';
 
 ?>
