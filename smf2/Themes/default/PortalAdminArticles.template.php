@@ -3,7 +3,7 @@
 
 function template_article_list()
 {
-	global $context, $settings, $options, $scripturl, $txt, $modSettings;
+	global $context, $settings, $scripturl, $txt;
 
 	echo '
 	<div id="sp_manage_articles">
@@ -81,7 +81,7 @@ function template_article_list()
 
 function template_article_add()
 {
-	global $context, $settings, $options, $txt, $scripturl;
+	global $context, $settings, $txt, $scripturl;
 
 	echo '
 	<div id="sp_article_add">
@@ -184,7 +184,7 @@ function template_article_add()
 
 function template_article_edit()
 {
-	global $context, $settings, $options, $scripturl, $txt, $modSettings;
+	global $context, $settings, $scripturl, $txt;
 
 	echo '
 	<div id="sp_edit_category">
@@ -235,7 +235,7 @@ function template_article_edit()
 
 function template_category_list()
 {
-	global $context, $settings, $options, $scripturl, $txt;
+	global $context, $scripturl, $txt;
 
 	echo '
 		<table class="table_grid" cellspacing="0" width="100%">
@@ -281,7 +281,7 @@ function template_category_list()
 
 function template_category_edit()
 {
-	global $context, $settings, $scripturl, $txt, $modSettings;
+	global $context, $settings, $scripturl, $txt;
 
 	echo '
 	<div id="sp_edit_category">
@@ -335,7 +335,7 @@ function template_category_edit()
 
 function template_category_delete()
 {
-	global $context, $settings, $options, $scripturl, $txt, $modSettings;
+	global $context, $settings, $scripturl, $txt;
 
 	echo '
 	<div id="sp_edit_category">

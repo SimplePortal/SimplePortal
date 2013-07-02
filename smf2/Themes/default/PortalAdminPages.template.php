@@ -3,7 +3,7 @@
 
 function template_pages_list()
 {
-	global $context, $settings, $options, $scripturl, $txt, $modSettings;
+	global $context, $settings, $scripturl, $txt;
 
 	echo '
 	<div id="sp_manage_pages">
@@ -80,7 +80,7 @@ function template_pages_list()
 
 function template_pages_edit()
 {
-	global $context, $settings, $options, $scripturl, $txt, $helptxt, $modSettings;
+	global $context, $settings, $scripturl, $txt;
 
 	if (!empty($context['SPortal']['preview']))
 	{

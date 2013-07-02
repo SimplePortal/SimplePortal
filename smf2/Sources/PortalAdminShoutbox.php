@@ -43,7 +43,7 @@ if (!defined('SMF'))
 
 function sportal_admin_shoutbox_main()
 {
-	global $context, $txt, $scripturl, $sourcedir;
+	global $context, $txt, $sourcedir;
 
 	if (!allowedTo('sp_admin'))
 		isAllowedTo('sp_manage_shoutbox');

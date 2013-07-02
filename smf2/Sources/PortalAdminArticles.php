@@ -58,7 +58,7 @@ if (!defined('SMF'))
 
 function sportal_admin_articles_main()
 {
-	global $context, $txt, $scripturl, $sourcedir;
+	global $context, $txt, $sourcedir;
 
 	if (!allowedTo('sp_admin'))
 		isAllowedTo('sp_manage_articles');
@@ -267,7 +267,7 @@ function sportal_admin_article_list()
 // Call-back for getting a row of article data.
 function sportal_admin_articles_callback($reset = false)
 {
-	global $scripturl, $article_request, $txt, $context, $settings, $smcFunc;
+	global $scripturl, $article_request, $txt, $context, $smcFunc;
 
 	if ($article_request == false)
 		return false;
@@ -460,7 +460,6 @@ function sportal_admin_article_add()
 function sportal_admin_article_edit()
 {
 	global $txt, $smcFunc, $context;
-	global $func;
 
 	// Seems that we aren't ready.
 	if(empty($_POST['add_article']))
@@ -514,7 +513,7 @@ function sportal_admin_article_edit()
 // Deleting an article...
 function sportal_admin_article_delete()
 {
-	global $smcFunc, $context;
+	global $smcFunc;
 
 	// Check if he can?
 	checkSession('get');
@@ -584,7 +583,7 @@ function sportal_admin_category_list()
 // Function for adding a category.
 function sportal_admin_category_add()
 {
-	global $txt, $smcFunc, $context, $func;
+	global $txt, $smcFunc, $context;
 
 	// Not actually adding a category? Show the add category page.
 	if(empty($_POST['edit_category']))
@@ -639,7 +638,7 @@ function sportal_admin_category_add()
 // Handles the category edit issue.
 function sportal_admin_category_edit()
 {
-	global $txt, $smcFunc, $context, $func;
+	global $txt, $smcFunc, $context;
 
 	// Not Time to edit? Show the cagegory edit page.
 	if(empty($_POST['edit_category']))

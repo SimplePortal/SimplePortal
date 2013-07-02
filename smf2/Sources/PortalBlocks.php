@@ -231,7 +231,7 @@ function sp_userInfo($parameters, $id, $return_parameters = false)
 
 function sp_latestMember($parameters, $id, $return_parameters = false)
 {
-	global $smcFunc, $context, $scripturl, $txt, $color_profile;
+	global $smcFunc, $scripturl, $txt, $color_profile;
 
 	$block_parameters = array(
 		'limit' => 'int',
@@ -1081,7 +1081,7 @@ function sp_recent($parameters, $id, $return_parameters = false)
 
 function sp_topTopics($parameters, $id, $return_parameters = false)
 {
-	global $smcFunc, $txt, $scripturl, $user_info, $user_info, $modSettings, $topics;
+	global $txt, $user_info, $user_info, $topics;
 
 	$block_parameters = array(
 		'type' => 'select',
@@ -1119,7 +1119,7 @@ function sp_topTopics($parameters, $id, $return_parameters = false)
 
 function sp_topBoards($parameters, $id, $return_parameters = false)
 {
-	global $context, $settings, $smcFunc, $txt, $scripturl, $user_info, $user_info, $modSettings, $boards;
+	global$txt, $user_info, $user_info, $boards;
 
 	$block_parameters = array(
 		'limit' => 'int',
@@ -1795,7 +1795,7 @@ function sp_calendar($parameters, $id, $return_parameters = false)
 
 function sp_calendarInformation($parameters, $id, $return_parameters = false)
 {
-	global $scripturl, $modSettings, $txt;
+	global $scripturl, $txt;
 
 	$block_parameters = array(
 		'events' => 'check',
@@ -2822,7 +2822,7 @@ function sp_gallery($parameters, $id, $return_parameters = false)
 
 function sp_arcade($parameters, $id, $return_parameters = false)
 {
-	global $smcFunc, $sourcedir, $scripturl, $settings, $txt, $color_profile;
+	global $smcFunc, $sourcedir, $settings, $txt;
 	static $mod;
 
 	$block_parameters = array(

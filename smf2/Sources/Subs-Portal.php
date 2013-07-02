@@ -91,7 +91,7 @@ if (!defined('SMF'))
 
 function sportal_init($standalone = false)
 {
-	global $context, $sourcedir, $scripturl, $modSettings, $txt;
+	global $context, $sourcedir, $scripturl, $modSettings;
 	global $settings, $options, $boarddir, $maintenance, $sportal_version;
 
 	$sportal_version = '2.3.5';
@@ -336,7 +336,7 @@ function sportal_catch_action()
 // This function, returns all of the information about particular blocks.
 function getBlockInfo($column_id = null, $block_id = null, $state = null, $show = null, $permission = null)
 {
-	global $smcFunc, $context, $settings, $options, $txt;
+	global $smcFunc, $context, $options, $txt;
 
 	$query = array();
 	$parameters = array();
@@ -769,8 +769,7 @@ This will help to make it possible to load each time the english language!
 */
 function sp_languageSelect($template_name)
 {
-	global $user_info, $language, $settings, $context;
-	global $sourcedir;
+	global $user_info, $language, $settings, $sourcedir;
 	static $already_loaded = array();
 
 	if(isset($already_loaded[$template_name]))

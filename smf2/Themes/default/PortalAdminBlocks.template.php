@@ -3,7 +3,7 @@
 
 function template_block_list()
 {
-	global $context, $settings, $options, $scripturl, $txt;
+	global $context, $settings, $scripturl, $txt;
 
 	echo '
 	<div id="sp_manage_blocks">';

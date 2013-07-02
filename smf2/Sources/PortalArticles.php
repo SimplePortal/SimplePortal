@@ -134,7 +134,7 @@ function sportal_articles()
 
 function sportal_articles_callback($reset = false)
 {
-	global $smcFunc, $context, $scripturl, $modSettings, $settings, $txt, $color_profile, $article_request, $current;
+	global $smcFunc, $scripturl, $modSettings, $settings, $txt, $color_profile, $article_request, $current;
 
 	if ($article_request == false)
 		return false;

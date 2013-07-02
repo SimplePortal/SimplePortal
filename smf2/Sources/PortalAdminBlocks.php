@@ -49,7 +49,7 @@ if (!defined('SMF'))
 
 function sportal_admin_blocks_main()
 {
-	global $context, $txt, $scripturl, $sourcedir;
+	global $context, $txt, $sourcedir;
 
 	if (!allowedTo('sp_admin'))
 		isAllowedTo('sp_manage_blocks');
@@ -1010,7 +1010,7 @@ function sportal_admin_block_move()
 // Function for deleting a block.
 function sportal_admin_block_delete()
 {
-	global $smcFunc;
+	global $smcFunc, $context;
 
 	// Check if he can?
 	checkSession('get');

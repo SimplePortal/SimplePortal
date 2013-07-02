@@ -13,7 +13,7 @@ function template_shoutbox_all()
 
 function template_shoutbox_all_core()
 {
-	global $context, $scripturl, $settings, $txt;
+	global $context, $txt;
 
 	echo '
 	<div class="tborder">
@@ -49,7 +49,7 @@ function template_shoutbox_all_core()
 
 function template_shoutbox_all_curve()
 {
-	global $context, $scripturl, $settings, $txt;
+	global $context, $txt;
 
 	echo '
 	<div class="cat_bar">
