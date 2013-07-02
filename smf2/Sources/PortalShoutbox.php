@@ -31,7 +31,7 @@ if (!defined('SMF'))
 
 function sportal_shoutbox()
 {
-	global $smcFunc, $context, $scripturl, $txt, $sourcedir, $user_info;
+	global $smcFunc, $context, $scripturl, $sourcedir, $user_info;
 
 	$shoutbox_id = !empty($_REQUEST['shoutbox_id']) ? (int) $_REQUEST['shoutbox_id'] : 0;
 	$request_time = !empty($_REQUEST['time']) ? (int) $_REQUEST['time'] : 0;
