@@ -207,7 +207,7 @@ function createArticle($articleOptions)
 
 function getCategoryInfo($category_id = null, $publish = false)
 {
-	global $scripturl, $context, $smcFunc, $settings, $txt;
+	global $smcFunc;
 
 	$query = array();
 	$parameters = array();

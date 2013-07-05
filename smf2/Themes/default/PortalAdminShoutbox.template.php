@@ -3,7 +3,7 @@
 
 function template_shoutbox_list()
 {
-	global $context, $settings, $options, $scripturl, $txt, $modSettings;
+	global $context, $settings, $scripturl, $txt;
 
 	echo '
 	<div id="sp_manage_shoutboxes">

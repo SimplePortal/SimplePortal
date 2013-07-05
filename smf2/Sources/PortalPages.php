@@ -31,7 +31,7 @@ if (!defined('SMF'))
 
 function sportal_pages()
 {
-	global $smcFunc, $context, $txt, $scripturl, $sourcedir, $user_info;
+	global $smcFunc, $context, $scripturl;
 
 	loadTemplate('PortalPages');
 
