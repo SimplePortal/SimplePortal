@@ -3,19 +3,20 @@
 <package-info xmlns="http://www.simplemachines.org/xml/package-info" xmlns:smf="http://www.simplemachines.org/">
 	<id>[SiNaN]:SimplePortal</id>
 	<name>SimplePortal</name>
-	<version>2.3.5</version>
+	<version>2.4</version>
 	<type>modification</type>
 	<install for="2.0 - 2.99.99">
-		<readme type="inline">This will install SimplePortal 2.3.5 for SMF.</readme>
+		<readme type="inline">This will install SimplePortal 2.4 for SMF.</readme>
 		<modification>modification.xml</modification>
 		<require-file name="PortalStandalone.php" destination="$boarddir" />
 		<require-dir name="Sources" destination="$boarddir" />
 		<require-dir name="Themes" destination="$boarddir" />
 		<database>database.php</database>
-		<redirect url="$scripturl?action=admin;area=portalconfig" timeout="5000">redirect.txt</redirect>
+		<code>integration.php</code>
+		<redirect url="$scripturl?action=admin;area=portalconfig" timeout="5000" parsebbc="true">redirect</redirect>
 	</install>
 	<uninstall for="2.0 - 2.99.99">
-		<readme type="inline">This will uninstall SimplePortal 2.3.5 for SMF.</readme>
+		<readme type="inline">This will uninstall SimplePortal 2.4 for SMF.</readme>
 		<modification reverse="true">modification.xml</modification>
 		<remove-file name="$boarddir/PortalStandalone.php" />
 		<remove-file name="$sourcedir/PortalArticles.php" />
@@ -29,6 +30,7 @@
 		<remove-file name="$sourcedir/PortalAdminPages.php" />
 		<remove-file name="$sourcedir/PortalAdminShoutbox.php" />
 		<remove-file name="$sourcedir/Subs-Portal.php" />
+		<remove-file name="$sourcedir/Subs-PortalIntegration.php" />
 		<remove-file name="$sourcedir/Subs-PortalAdmin.php" />
 		<remove-file name="$themedir/Portal.template.php" />
 		<remove-file name="$themedir/PortalArticles.template.php" />
@@ -54,5 +56,6 @@
 		<remove-file name="$themedir/css/portal.css" />
 		<remove-file name="$themedir/css/portal_rtl.css" />
 		<remove-file name="$themedir/scripts/portal.js" />
+		<code>integration.php</code>
 	</uninstall>
 </package-info>

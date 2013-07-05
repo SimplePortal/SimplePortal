@@ -2,8 +2,11 @@ Changes go downward, versions go upward. Please scroll to the bottom for a legen
 Changelog started August 1, 2008.
 Changelog last updated November 5, 2010.
 
-SP 2.3.5
+SP 2.4
 ================================================================================
+ Removed articles feature. (for now)
+ Added some hooks to lessen file edits.
+ Some more of the clean-up and structuring.
  More of the clean-up.
  Some clean-up and renaming.
 

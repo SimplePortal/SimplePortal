@@ -2,23 +2,9 @@
 <!DOCTYPE modification SYSTEM "http://www.simplemachines.org/xml/modification">
 <modification xmlns="http://www.simplemachines.org/xml/modification" xmlns:smf="http://www.simplemachines.org/">
 	<id>[SiNaN]:SimplePortal</id>
-	<version>2.3.5</version>
+	<version>2.4</version>
 
 	<file name="$boarddir/index.php">
-		<operation>
-			<search position="replace"><![CDATA[require_once($sourcedir . '/Security.php');]]></search>
-			<add><![CDATA[require_once($sourcedir . '/Security.php');
-require_once($sourcedir . '/Subs-Portal.php');]]></add>
-		</operation>
-		<operation>
-			<search position="replace"><![CDATA[	// Is the forum in maintenance mode? (doesn't apply to administrators.)
-	if (!empty($maintenance) && !allowedTo('admin_forum'))]]></search>
-			<add><![CDATA[	// Load SimplePortal.
-	sportal_init();
-
-	// Is the forum in maintenance mode? (doesn't apply to administrators.)
-	if (!empty($maintenance) && !allowedTo('admin_forum'))]]></add>
-		</operation>
 		<operation>
 			<search position="replace"><![CDATA[		// Action and board are both empty... BoardIndex!]]></search>
 			<add><![CDATA[		// Go catch it boy! Catch it!
@@ -28,166 +14,12 @@ require_once($sourcedir . '/Subs-Portal.php');]]></add>
 
 		// Action and board are both empty... BoardIndex!]]></add>
 		</operation>
-		<operation>
-			<search position="replace"><![CDATA[		'findmember' => array('Subs-Auth.php', 'JSMembers'),]]></search>
-			<add><![CDATA[		'findmember' => array('Subs-Auth.php', 'JSMembers'),
-		'forum' => array('BoardIndex.php', 'BoardIndex'),
-		'portal' => array('PortalMain.php', 'sportal_main'),]]></add>
-		</operation>
-		<operation>
-			<search position="replace"><![CDATA[		// Track forum statistics and hits...?
-		if (!empty($modSettings['hitStats']))
-			trackStats(array('hits' => '+'));]]></search>
-			<add><![CDATA[		// Don't track stats of portal xml actions.
-		if (empty($_REQUEST['action']) || $_REQUEST['action'] != 'portal' || !isset($_GET['xml']))
-		{
-			// Track forum statistics and hits...?
-			if (!empty($modSettings['hitStats']))
-				trackStats(array('hits' => '+'));
-		}]]></add>
-		</operation>
-		<operation>
-			<search position="replace"><![CDATA[	// Get the function and file to include - if it's not there, do the board index.]]></search>
-			<add><![CDATA[	if (!empty($context['disable_sp']))
-		unset($actionArray['portal'], $actionArray['forum']);
-
-	// Get the function and file to include - if it's not there, do the board index.]]></add>
-		</operation>
-	</file>
-
-	<file name="$boarddir/SSI.php">
-		<operation>
-			<search position="replace"><![CDATA[require_once($sourcedir . '/Security.php');]]></search>
-			<add><![CDATA[require_once($sourcedir . '/Security.php');
-require_once($sourcedir . '/Subs-Portal.php');]]></add>
-		</operation>
-		<operation>
-			<search position="replace"><![CDATA[loadTheme(isset($ssi_theme) ? (int) $ssi_theme : 0);]]></search>
-			<add><![CDATA[loadTheme(isset($ssi_theme) ? (int) $ssi_theme : 0);
-
-// Load some SP stuff.
-sportal_init();]]></add>
-		</operation>
-	</file>
-
-	<file name="$sourcedir/Admin.php">
-		<operation>
-			<search position="replace"><![CDATA[		),
-		'members' => array(]]></search>
-			<add><![CDATA[		),
-		'portal' => array(
-			'title' => $txt['sp-adminCatTitle'],
-			'permission' => array('sp_admin', 'sp_manage_settings', 'sp_manage_blocks', 'sp_manage_articles', 'sp_manage_pages', 'sp_manage_shoutbox'),
-			'areas' => array(
-				'portalconfig' => array(
-					'label' => $txt['sp-adminConfiguration'],
-					'file' => 'PortalAdminMain.php',
-					'function' => 'sportal_admin_config_main',
-					'icon' => 'configuration.png',
-					'permission' => array('sp_admin', 'sp_manage_settings'),
-					'subsections' => array(
-						'information' => array($txt['sp-info_title']),
-						'generalsettings' => array($txt['sp-adminGeneralSettingsName']),
-						'blocksettings' => array($txt['sp-adminBlockSettingsName']),
-						'articlesettings' => array($txt['sp-adminArticleSettingsName']),
-					),
-				),
-				'portalblocks' => array(
-					'label' => $txt['sp-blocksBlocks'],
-					'file' => 'PortalAdminBlocks.php',
-					'function' => 'sportal_admin_blocks_main',
-					'icon' => 'blocks.png',
-					'permission' => array('sp_admin', 'sp_manage_blocks'),
-					'subsections' => array(
-						'list' => array($txt['sp-adminBlockListName']),
-						'add' => array($txt['sp-adminBlockAddName']),
-						'header' => array($txt['sp-positionHeader']),
-						'left' => array($txt['sp-positionLeft']),
-						'top' => array($txt['sp-positionTop']),
-						'bottom' => array($txt['sp-positionBottom']),
-						'right' => array($txt['sp-positionRight']),
-						'footer' => array($txt['sp-positionFooter']),
-					),
-				),
-				'portalarticles' => array(
-					'label' => $txt['sp-adminColumnArticles'],
-					'file' => 'PortalAdminArticles.php',
-					'function' => 'sportal_admin_articles_main',
-					'icon' => 'articles.png',
-					'permission' => array('sp_admin', 'sp_manage_articles'),
-					'subsections' => array(
-						'articles' => array($txt['sp-adminArticleListName']),
-						'addarticle' => array($txt['sp-adminArticleAddName']),
-						'categories' => array($txt['sp-adminCategoryListName']),
-						'addcategory' => array($txt['sp-adminCategoryAddName']),
-					),
-				),
-				'portalpages' => array(
-					'label' => $txt['sp_admin_pages_title'],
-					'file' => 'PortalAdminPages.php',
-					'function' => 'sportal_admin_pages_main',
-					'icon' => 'pages.png',
-					'permission' => array('sp_admin', 'sp_manage_pages'),
-					'subsections' => array(
-						'list' => array($txt['sp_admin_pages_list']),
-						'add' => array($txt['sp_admin_pages_add']),
-					),
-				),
-				'portalshoutbox' => array(
-					'label' => $txt['sp_admin_shoutbox_title'],
-					'file' => 'PortalAdminShoutbox.php',
-					'function' => 'sportal_admin_shoutbox_main',
-					'icon' => 'shoutbox.png',
-					'permission' => array('sp_admin', 'sp_manage_shoutbox'),
-					'subsections' => array(
-						'list' => array($txt['sp_admin_shoutbox_list']),
-						'add' => array($txt['sp_admin_shoutbox_add']),
-					),
-				),
-			),
-		),
-		'members' => array(]]></add>
-		</operation>
-		<operation>
-			<search position="replace"><![CDATA['ManageSearchEngines', 'ManageServer', 'ManageSmileys',]]></search>
-			<add><![CDATA['ManageSearchEngines', 'ManageServer', 'ManageSmileys', 'PortalAdminMain',]]></add>
-		</operation>
-		<operation>
-			<search position="replace"><![CDATA[	foreach ($settings_search as $setting_area)]]></search>
-			<add><![CDATA[	// We are more than "real freaking good" Grudge. ;P
-	$settings_search = array_merge($settings_search, array(
-		array('sportal_admin_general_settings', 'area=portalconfig;sa=generalsettings'),
-		array('sportal_admin_block_settings', 'area=portalconfig;sa=blocksettings'),
-		array('sportal_admin_article_settings', 'area=portalconfig;sa=articlesettings'),
-	));
-
-	foreach ($settings_search as $setting_area)]]></add>
-		</operation>
 	</file>
 
 	<file name="$sourcedir/BoardIndex.php">
 		<operation error="ignore">
 			<search position="replace"><![CDATA[if (!empty($_GET))]]></search>
 			<add><![CDATA[if (!empty($_GET) && $_GET !== array('action' => 'forum'))]]></add>
-		</operation>
-	</file>
-
-	<file name="$sourcedir/Display.php">
-		<operation>
-			<search position="replace"><![CDATA[	// Is this topic sticky, or can it even be?]]></search>
-			<add><![CDATA[	// Is this already an article?
-	$request = $smcFunc['db_query']('','
-		SELECT id_message
-		FROM {db_prefix}sp_articles
-		WHERE id_message = {int:message}',
-		array(
-			'message' => $context['topic_first_message'],
-		)
-	);
-	list ($context['topic_is_article']) = $smcFunc['db_fetch_row']($request);
-	$smcFunc['db_free_result']($request);
-
-	// Is this topic sticky, or can it even be?]]></add>
 		</operation>
 	</file>
 
@@ -560,22 +392,6 @@ sportal_init();]]></add>
 	}
 
 	// Load member names for the profile.]]></add>
-		</operation>
-	</file>
-
-	<file name="$themedir/Display.template.php">
-		<operation>
-			<search position="replace"><![CDATA[	// Show the page index... "Pages: [1]".]]></search>
-			<add><![CDATA[	// Article related buttons...
-	if (!empty($modSettings['articleactive']))
-	{
-		if ($context['can_add_article'] && !$context['topic_is_article'])
-			$normal_buttons['add_article'] = array('text' => 'sp-add_article', 'image' => 'addarticle.gif', 'lang' => true, 'url' => $scripturl . '?action=portal;sa=addarticle;message=' . $context['topic_first_message'] . ';return=' . $context['current_topic'] . '.' . $context['start'] . ';sesc=' . $context['session_id']);
-		if ($context['can_remove_article'] && $context['topic_is_article'])
-			$normal_buttons['remove_article'] = array('text' => 'sp-remove_article', 'image' => 'removearticle.gif', 'lang' => true, 'url' => $scripturl . '?action=portal;sa=removearticle;message=' . $context['topic_first_message'] . ';return=' . $context['current_topic'] . '.' . $context['start'] . ';sesc=' . $context['session_id']);
-	}
-
-	// Show the page index... "Pages: [1]".]]></add>
 		</operation>
 	</file>
 

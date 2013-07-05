@@ -14,17 +14,6 @@ if (!array_key_exists('db_add_column', $smcFunc))
 	db_extend('packages');
 
 $tables = array(
-	'sp_articles' => array(
-		'columns' => array(
-			array('name' => 'id_article', 'type' => 'int', 'size' => '10', 'auto' => true, 'deprecated_name' => 'ID_ARTICLE'),
-			array('name' => 'id_category', 'type' => 'int', 'size' => '10', 'default' => 0, 'deprecated_name' => 'ID_CATEGORY'),
-			array('name' => 'id_message', 'type' => 'int', 'size' => '10', 'default' => 0, 'deprecated_name' => 'ID_MESSAGE'),
-			array('name' => 'approved', 'type' => 'tinyint', 'size' => '2', 'default' => 0),
-		),
-		'indexes' => array(
-			array('type' => 'primary', 'columns' => array('id_article')),
-		),
-	),
 	'sp_blocks' => array(
 		'columns' => array(
 			array('name' => 'id_block', 'type' => 'int', 'size' => '10', 'auto' => true, 'deprecated_name' => 'ID_BLOCK'),
@@ -44,18 +33,6 @@ $tables = array(
 		'indexes' => array(
 			array('type' => 'primary', 'columns' => array('id_block')),
 			array('type' => 'index', 'columns' => array('state')),
-		),
-	),
-	'sp_categories' => array(
-		'columns' => array(
-			array('name' => 'id_category', 'type' => 'int', 'size' => '10', 'auto' => true, 'deprecated_name' => 'ID_CATEGORY'),
-			array('name' => 'name', 'type' => 'tinytext'),
-			array('name' => 'picture', 'type' => 'tinytext'),
-			array('name' => 'articles', 'type' => 'tinyint', 'size' => '4', 'default' => 0),
-			array('name' => 'publish', 'type' => 'tinyint', 'size' => '1', 'default' => 0),
-		),
-		'indexes' => array(
-			array('type' => 'primary', 'columns' => array('id_category')),
 		),
 	),
 	'sp_functions' => array(
@@ -229,20 +206,20 @@ if (empty($has_block))
 <p>All this and SimplePortal has remained Simple! SimplePortal is built for simplicity and ease of use; ensuring the average forum administrator can install SimplePortal, configure a few settings, and show off the brand new portal to the users in minutes. Confusing menus, undesired pre-loaded blocks and settings that cannot be found are all avoided as much as possible. Because when it comes down to it, SimplePortal is YOUR portal, and should reflect your taste as much as possible.</p>';
 
 	$default_blocks = array(
-		'user_info' => array( 'label' => 'User Info', 'type' => 'sp_userInfo', 'col' => 1, 'row' => 1, 'permission_set' => '3', 'display' => '', 'display_custom' => '', 'style' => ''),
-		'whos_online' => array( 'label' => 'Who&#039;s Online', 'type' => 'sp_whosOnline', 'col' => 1, 'row' => 2, 'permission_set' => '3', 'display' => '', 'display_custom' => '', 'style' => ''),
-		'board_stats' => array( 'label' => 'Board Stats', 'type' => 'sp_boardStats', 'col' => 1, 'row' => 3, 'permission_set' => '3', 'display' => '', 'display_custom' => '', 'style' => ''),
-		'theme_select' => array( 'label' => 'Theme Select', 'type' => 'sp_theme_select', 'col' => 1, 'row' => 4, 'permission_set' => '3', 'display' => '', 'display_custom' => '', 'style' => ''),
-		'search' => array( 'label' => 'Search', 'type' => 'sp_quickSearch', 'col' => 1, 'row' => 5, 'permission_set' => '3', 'display' => '', 'display_custom' => '', 'style' => ''),
-		'news' => array( 'label' => 'News', 'type' => 'sp_news', 'col' => 2, 'row' => 1, 'permission_set' => '3', 'display' => '', 'display_custom' => '', 'style' => 'title_default_class~|title_custom_class~|title_custom_style~|body_default_class~windowbg|body_custom_class~|body_custom_style~|no_title~1|no_body~'),
-		'welcome' => array( 'label' => 'Welcome', 'type' => 'sp_html', 'col' => 2, 'row' => 2, 'permission_set' => '3', 'display' => '', 'display_custom' => '', 'style' => 'title_default_class~|title_custom_class~|title_custom_style~|body_default_class~windowbg|body_custom_class~|body_custom_style~|no_title~1|no_body~'),
-		'board_news' => array( 'label' => 'Board News', 'type' => 'sp_boardNews', 'col' => 2, 'row' => 3, 'permission_set' => '3', 'display' => '', 'display_custom' => '', 'style' => ''),
-		'recent_topics' => array( 'label' => 'Recent Topics', 'type' => 'sp_recent', 'col' => 3, 'row' => 1, 'permission_set' => '3', 'display' => '', 'display_custom' => '', 'style' => ''),
-		'top_poster' => array( 'label' => 'Top Poster', 'type' => 'sp_topPoster', 'col' => 4, 'row' => 1, 'permission_set' => '3', 'display' => '', 'display_custom' => '', 'style' => ''),
-		'recent_posts' => array( 'label' => 'Recent Posts', 'type' => 'sp_recent', 'col' => 4, 'row' => 2, 'permission_set' => '3', 'display' => '', 'display_custom' => '', 'style' => ''),
-		'staff' => array( 'label' => 'Forum Staff', 'type' => 'sp_staff', 'col' => 4, 'row' => 3, 'permission_set' => '3', 'display' => '', 'display_custom' => '', 'style' => ''),
-		'calendar' => array( 'label' => 'Calendar', 'type' => 'sp_calendar', 'col' => 4, 'row' => 4, 'permission_set' => '3', 'display' => '', 'display_custom' => '', 'style' => ''),
-		'top_boards' => array( 'label' => 'Top Boards', 'type' => 'sp_topBoards', 'col' => 4, 'row' => 5, 'permission_set' => '3', 'display' => '', 'display_custom' => '', 'style' => ''),
+		'user_info' => array('label' => 'User Info', 'type' => 'sp_userInfo', 'col' => 1, 'row' => 1, 'permission_set' => '3', 'display' => '', 'display_custom' => '', 'style' => ''),
+		'whos_online' => array('label' => 'Who&#039;s Online', 'type' => 'sp_whosOnline', 'col' => 1, 'row' => 2, 'permission_set' => '3', 'display' => '', 'display_custom' => '', 'style' => ''),
+		'board_stats' => array('label' => 'Board Stats', 'type' => 'sp_boardStats', 'col' => 1, 'row' => 3, 'permission_set' => '3', 'display' => '', 'display_custom' => '', 'style' => ''),
+		'theme_select' => array('label' => 'Theme Select', 'type' => 'sp_theme_select', 'col' => 1, 'row' => 4, 'permission_set' => '3', 'display' => '', 'display_custom' => '', 'style' => ''),
+		'search' => array('label' => 'Search', 'type' => 'sp_quickSearch', 'col' => 1, 'row' => 5, 'permission_set' => '3', 'display' => '', 'display_custom' => '', 'style' => ''),
+		'news' => array('label' => 'News', 'type' => 'sp_news', 'col' => 2, 'row' => 1, 'permission_set' => '3', 'display' => '', 'display_custom' => '', 'style' => 'title_default_class~|title_custom_class~|title_custom_style~|body_default_class~windowbg|body_custom_class~|body_custom_style~|no_title~1|no_body~'),
+		'welcome' => array('label' => 'Welcome', 'type' => 'sp_html', 'col' => 2, 'row' => 2, 'permission_set' => '3', 'display' => '', 'display_custom' => '', 'style' => 'title_default_class~|title_custom_class~|title_custom_style~|body_default_class~windowbg|body_custom_class~|body_custom_style~|no_title~1|no_body~'),
+		'board_news' => array('label' => 'Board News', 'type' => 'sp_boardNews', 'col' => 2, 'row' => 3, 'permission_set' => '3', 'display' => '', 'display_custom' => '', 'style' => ''),
+		'recent_topics' => array('label' => 'Recent Topics', 'type' => 'sp_recent', 'col' => 3, 'row' => 1, 'permission_set' => '3', 'display' => '', 'display_custom' => '', 'style' => ''),
+		'top_poster' => array('label' => 'Top Poster', 'type' => 'sp_topPoster', 'col' => 4, 'row' => 1, 'permission_set' => '3', 'display' => '', 'display_custom' => '', 'style' => ''),
+		'recent_posts' => array('label' => 'Recent Posts', 'type' => 'sp_recent', 'col' => 4, 'row' => 2, 'permission_set' => '3', 'display' => '', 'display_custom' => '', 'style' => ''),
+		'staff' => array('label' => 'Forum Staff', 'type' => 'sp_staff', 'col' => 4, 'row' => 3, 'permission_set' => '3', 'display' => '', 'display_custom' => '', 'style' => ''),
+		'calendar' => array('label' => 'Calendar', 'type' => 'sp_calendar', 'col' => 4, 'row' => 4, 'permission_set' => '3', 'display' => '', 'display_custom' => '', 'style' => ''),
+		'top_boards' => array('label' => 'Top Boards', 'type' => 'sp_topBoards', 'col' => 4, 'row' => 5, 'permission_set' => '3', 'display' => '', 'display_custom' => '', 'style' => ''),
 	);
 
 	$smcFunc['db_insert']('ignore',
@@ -276,14 +253,14 @@ if (empty($has_block))
 	$smcFunc['db_free_result']($request);
 
 	$default_parameters = array(
-		array( 'id_block' => $block_ids['sp_html'], 'variable' => 'content', 'value' => htmlspecialchars($welcome_text)),
-		array( 'id_block' => $block_ids['sp_boardNews'], 'variable' => 'avatar', 'value' => 1),
-		array( 'id_block' => $block_ids['sp_boardNews'], 'variable' => 'per_page', 'value' => 3),
-		array( 'id_block' => $block_ids['sp_calendar'], 'variable' => 'events', 'value' => 1),
-		array( 'id_block' => $block_ids['sp_calendar'], 'variable' => 'birthdays', 'value' => 1),
-		array( 'id_block' => $block_ids['sp_calendar'], 'variable' => 'holidays', 'value' => 1),
-		array( 'id_block' => $block_ids['sp_recent'], 'variable' => 'type', 'value' => 1),
-		array( 'id_block' => $block_ids['sp_recent'], 'variable' => 'display', 'value' => 1),
+		array('id_block' => $block_ids['sp_html'], 'variable' => 'content', 'value' => htmlspecialchars($welcome_text)),
+		array('id_block' => $block_ids['sp_boardNews'], 'variable' => 'avatar', 'value' => 1),
+		array('id_block' => $block_ids['sp_boardNews'], 'variable' => 'per_page', 'value' => 3),
+		array('id_block' => $block_ids['sp_calendar'], 'variable' => 'events', 'value' => 1),
+		array('id_block' => $block_ids['sp_calendar'], 'variable' => 'birthdays', 'value' => 1),
+		array('id_block' => $block_ids['sp_calendar'], 'variable' => 'holidays', 'value' => 1),
+		array('id_block' => $block_ids['sp_recent'], 'variable' => 'type', 'value' => 1),
+		array('id_block' => $block_ids['sp_recent'], 'variable' => 'display', 'value' => 1),
 	);
 
 	$smcFunc['db_insert']('replace',

@@ -48,11 +48,9 @@ function sportal_main()
 		setupMenuContext();
 
 	$actions = array(
-		'addarticle' => array('PortalArticles.php', 'sportal_add_article'),
 		'articles' => array('PortalArticles.php', 'sportal_articles'),
 		'credits' => array('', 'sportal_credits'),
 		'pages' => array('PortalPages.php', 'sportal_pages'),
-		'removearticle' => array('PortalArticles.php', 'sportal_remove_article'),
 		'shoutbox' => array('PortalShoutbox.php', 'sportal_shoutbox'),
 	);
 

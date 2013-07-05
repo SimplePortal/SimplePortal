@@ -117,12 +117,6 @@ function sportal_init($standalone = false)
 				$settings['sp_images_url'] =  $settings['default_theme_url'] . '/images/sp';
 		}
 
-		if (!empty($context['current_topic']))
-		{
-			$context['can_add_article'] = allowedTo(array('sp_admin', 'sp_manage_articles', 'sp_add_article'));
-			$context['can_remove_article'] = allowedTo(array('sp_admin', 'sp_manage_articles', 'sp_remove_article'));
-		}
-
 		$context['SPortal']['core_compat'] = $settings['name'] == 'Core Theme';
 		$context['SPortal']['on_portal'] = getShowInfo(0, 'portal', '');
 	}
