@@ -49,8 +49,9 @@
 		<remove-file name="$languagedir/SPortalHelp.english-utf8.php" />
 		<remove-dir name="$imagesdir/sp" />
 		<remove-file name="$imagesdir/admin/configuration.png" />
-		<remove-file name="$imagesdir/admin/blocks.png" />
 		<remove-file name="$imagesdir/admin/articles.png" />
+		<remove-file name="$imagesdir/admin/blocks.png" />
+		<remove-file name="$imagesdir/admin/categories.png" />
 		<remove-file name="$imagesdir/admin/pages.png" />
 		<remove-file name="$imagesdir/admin/shoutbox.png" />
 		<remove-file name="$themedir/css/portal.css" />

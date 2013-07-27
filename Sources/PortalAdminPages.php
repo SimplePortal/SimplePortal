@@ -56,8 +56,8 @@ function sportal_admin_pages_main()
 		'list' => 'sportal_admin_page_list',
 		'add' => 'sportal_admin_page_edit',
 		'edit' => 'sportal_admin_page_edit',
-		'delete' => 'sportal_admin_page_delete',
 		'status' => 'sportal_admin_page_status',
+		'delete' => 'sportal_admin_page_delete',
 	);
 
 	$_REQUEST['sa'] = isset($_REQUEST['sa']) && isset($subActions[$_REQUEST['sa']]) ? $_REQUEST['sa'] : 'list';
@@ -592,25 +592,6 @@ function sportal_admin_page_edit()
 	$context['sub_template'] = 'pages_edit';
 }
 
-function sportal_admin_page_delete()
-{
-	global $smcFunc;
-
-	checkSession('get');
-
-	$page_id = !empty($_REQUEST['page_id']) ? (int) $_REQUEST['page_id'] : 0;
-
-	$smcFunc['db_query']('','
-		DELETE FROM {db_prefix}sp_pages
-		WHERE id_page = {int:id}',
-		array(
-			'id' => $page_id,
-		)
-	);
-
-	redirectexit('action=admin;area=portalpages');
-}
-
 function sportal_admin_page_status()
 {
 	global $smcFunc;
@@ -625,6 +606,25 @@ function sportal_admin_page_status()
 		WHERE id_page = {int:id}',
 		array(
 			'is_active' => 1,
+			'id' => $page_id,
+		)
+	);
+
+	redirectexit('action=admin;area=portalpages');
+}
+
+function sportal_admin_page_delete()
+{
+	global $smcFunc;
+
+	checkSession('get');
+
+	$page_id = !empty($_REQUEST['page_id']) ? (int) $_REQUEST['page_id'] : 0;
+
+	$smcFunc['db_query']('','
+		DELETE FROM {db_prefix}sp_pages
+		WHERE id_page = {int:id}',
+		array(
 			'id' => $page_id,
 		)
 	);

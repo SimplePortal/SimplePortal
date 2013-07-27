@@ -611,9 +611,17 @@ function sp_allowed_to($type, $id, $set = null, $allowed = null, $denied = null)
 	if (!isset($types))
 	{
 		$types = array(
+			'article' => array(
+				'table' => 'articless',
+				'id' => 'id_article',
+			),
 			'block' => array(
 				'table' => 'blocks',
 				'id' => 'id_block',
+			),
+			'category' => array(
+				'table' => 'categories',
+				'id' => 'id_category',
 			),
 			'page' => array(
 				'table' => 'pages',
@@ -1078,14 +1086,147 @@ function sportal_parse_style($action, $setting = '', $process = false)
 	return $style;
 }
 
-function sportal_get_pages($page_id = null, $active = false, $allowed = false)
+function sportal_get_articles($article_id = null, $active = false, $allowed = false, $sort = 'spa.title')
+{
+	global $smcFunc, $scripturl;
+
+	$query = array();
+	$parameters = array('sort' => $sort);
+
+	if (!empty($article_id) && is_int($article_id))
+	{
+		$query[] = 'spa.id_article = {int:article_id}';
+		$parameters['article_id'] = (int) $article_id;
+	}
+	elseif (!empty($article_id))
+	{
+		$query[] = 'spa.namespace = {string:namespace}';
+		$parameters['namespace'] = $article_id;
+	}
+	if (!empty($active))
+	{
+		$query[] = 'spa.status = {int:status}';
+		$parameters['status'] = 1;
+	}
+
+	$request = $smcFunc['db_query']('','
+		SELECT
+			spa.id_article, spa.id_category, spc.name, spc.namespace AS category_namespace,
+			IFNULL(m.id_member, 0) AS id_author, IFNULL(m.real_name, spa.member_name) AS author_name,
+			spa.namespace AS article_namespace, spa.title, spa.body, spa.type, spa.date, spa.status,
+			spa.permission_set, spa.groups_allowed, spa.groups_denied, spa.views, spa.comments
+		FROM {db_prefix}sp_articles AS spa
+			INNER JOIN {db_prefix}sp_categories AS spc ON (spc.id_category = spa.id_category)
+			LEFT JOIN {db_prefix}members AS m ON (m.id_member = spa.id_member)' . (!empty($query) ? '
+		WHERE ' . implode(' AND ', $query) : '') . '
+		ORDER BY {raw:sort}',
+		$parameters
+	);
+	$return = array();
+	while ($row = $smcFunc['db_fetch_assoc']($request))
+	{
+		if (!empty($allowed) && !sp_allowed_to('article', $row['id_article'], $row['permission_set'], $row['groups_allowed'], $row['groups_denied']))
+			continue;
+
+		$return[$row['id_article']] = array(
+			'id' => $row['id_article'],
+			'category' => array(
+				'id' => $row['id_category'],
+				'name' => $row['name'],
+				'href' => $scripturl . '?category=' . $row['category_namespace'],
+				'link' => '<a href="' . $scripturl . '?category=' . $row['category_namespace'] . '">' . $row['name'] . '</a>',
+			),
+			'author' => array(
+				'id' => $row['id_author'],
+				'name' => $row['author_name'],
+				'href' => $scripturl . '?action=profile;u=' . $row['id_author'],
+				'link' => $row['id_author'] ? ('<a href="' . $scripturl . '?action=profile;u=' . $row['id_author'] . '">' . $row['author_name'] . '</a>') : $row['author_name'],
+			),
+			'article_id' => $row['article_namespace'],
+			'title' => $row['title'],
+			'href' => $scripturl . '?article=' . $row['article_namespace'],
+			'link' => '<a href="' . $scripturl . '?article=' . $row['article_namespace'] . '">' . $row['title'] . '</a>',
+			'body' => $row['body'],
+			'type' => $row['type'],
+			'date' => $row['date'],
+			'permission_set' => $row['permission_set'],
+			'groups_allowed' => $row['groups_allowed'] !== '' ? explode(',', $row['groups_allowed']) : array(), 
+			'groups_denied' => $row['groups_denied'] !== '' ? explode(',', $row['groups_denied']) : array(), 
+			'views' => $row['views'],
+			'comments' => $row['comments'],
+			'status' => $row['status'],
+		);
+	}
+	$smcFunc['db_free_result']($request);
+
+	return !empty($article_id) ? current($return) : $return;
+}
+
+function sportal_get_categories($category_id = null, $active = false, $allowed = false, $sort = 'name')
+{
+	global $smcFunc, $scripturl;
+
+	$query = array();
+	$parameters = array('sort' => $sort);
+
+	if (!empty($category_id) && is_int($category_id))
+	{
+		$query[] = 'id_category = {int:category_id}';
+		$parameters['category_id'] = (int) $category_id;
+	}
+	elseif (!empty($category_id))
+	{
+		$query[] = 'namespace = {string:namespace}';
+		$parameters['namespace'] = $category_id;
+	}
+	if (!empty($active))
+	{
+		$query[] = 'status = {int:status}';
+		$parameters['status'] = 1;
+	}
+
+	$request = $smcFunc['db_query']('','
+		SELECT
+			id_category, namespace, name, description, permission_set,
+			groups_allowed, groups_denied, articles, status
+		FROM {db_prefix}sp_categories' . (!empty($query) ? '
+		WHERE ' . implode(' AND ', $query) : '') . '
+		ORDER BY {raw:sort}',
+		$parameters
+	);
+	$return = array();
+	while ($row = $smcFunc['db_fetch_assoc']($request))
+	{
+		if (!empty($allowed) && !sp_allowed_to('category', $row['id_category'], $row['permission_set'], $row['groups_allowed'], $row['groups_denied']))
+			continue;
+
+		$return[$row['id_category']] = array(
+			'id' => $row['id_category'],
+			'category_id' => $row['namespace'],
+			'name' => $row['name'],
+			'href' => $scripturl . '?category=' . $row['namespace'],
+			'link' => '<a href="' . $scripturl . '?category=' . $row['namespace'] . '">' . $row['name'] . '</a>',
+			'description' => $row['description'],
+			'permission_set' => $row['permission_set'],
+			'groups_allowed' => $row['groups_allowed'] !== '' ? explode(',', $row['groups_allowed']) : array(), 
+			'groups_denied' => $row['groups_denied'] !== '' ? explode(',', $row['groups_denied']) : array(), 
+			'articles' => $row['articles'],
+			'status' => $row['status'],
+		);
+	}
+	$smcFunc['db_free_result']($request);
+
+	return !empty($category_id) ? current($return) : $return;
+}
+
+function sportal_get_pages($page_id = null, $active = false, $allowed = false, $sort = 'title')
 {
 	global $smcFunc;
 
 	$query = array();
-	$parameters = array();
+	$parameters = array('sort' => $sort);
 
-	if (!empty($page_id) && is_numeric($page_id))
+	if (!empty($page_id) && is_int($page_id))
 	{
 		$query[] = 'id_page = {int:page_id}';
 		$parameters['page_id'] = (int) $page_id;
@@ -1107,7 +1248,7 @@ function sportal_get_pages($page_id = null, $active = false, $allowed = false)
 			groups_allowed, groups_denied, views, style, status
 		FROM {db_prefix}sp_pages' . (!empty($query) ? '
 		WHERE ' . implode(' AND ', $query) : '') . '
-		ORDER BY title',
+		ORDER BY {raw:sort}',
 		$parameters
 	);
 	$return = array();
@@ -1120,6 +1261,8 @@ function sportal_get_pages($page_id = null, $active = false, $allowed = false)
 			'id' => $row['id_page'],
 			'page_id' => $row['namespace'],
 			'title' => $row['title'],
+			'href' => $scripturl . '?page=' . $row['namespace'],
+			'link' => '<a href="' . $scripturl . '?page=' . $row['namespace'] . '">' . $row['name'] . '</a>',
 			'body' => $row['body'],
 			'type' => $row['type'],
 			'permission_set' => $row['permission_set'],

@@ -1,9 +1,12 @@
 Changes go downward, versions go upward. Please scroll to the bottom for a legend.
 Changelog started August 1, 2008.
-Changelog last updated November 5, 2010.
+Changelog last updated July 27, 2013.
 
 SP 2.4
 ================================================================================
+ New admin and category management modules.
+ Some minor fixes and improvements to pages.
+ Cleaned up database script and redirect text.
  Removed articles feature. (for now)
  Added some hooks to lessen file edits.
  Some more of the clean-up and structuring.

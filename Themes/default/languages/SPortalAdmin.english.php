@@ -259,65 +259,96 @@ $txt['sp_param_sp_shop_sort_options'] = 'Recent|Random';
 $txt['sp_param_sp_blog_type_options'] = 'Articles|Blogs';
 $txt['sp_param_sp_blog_sort_options'] = 'Latest|Random';
 
-// Articles area
-$txt['sp-adminArticleListName'] = 'Article List';
-$txt['sp-adminArticleListDesc'] = 'This page displays a list of all topics that have been added as articles. These can be modified by selecting the appropriate options.';
-$txt['sp-adminArticleAddName'] = 'Add Article';
-$txt['sp-adminArticleAddDesc'] = 'This page enables articles to be added to the portal page.';
-$txt['sp-adminArticleAddNoTopics'] = 'This board has no remaining topics that can be added as articles.';
+// Articles Area
+$txt['sp_admin_articles_title'] = 'Articles';
+$txt['sp_admin_articles_list'] = 'Article List';
+$txt['sp_admin_articles_add'] = 'Add Article';
+$txt['sp_admin_articles_edit'] = 'Edit Article';
+$txt['sp_admin_articles_remove'] = 'Remove Articles';
+$txt['sp_admin_articles_preview'] = 'Preview';
+$txt['sp_admin_articles_general'] = 'General Settings';
 
-// Article list
-$txt['sp-articlesRemove'] = 'Remove Selected';
-$txt['sp-articlesConfirm'] = 'Are you sure you want to delete these articles?';
-$txt['sp-articlesDeleteConfirm'] = 'Are you sure you want to delete this article?';
+$txt['sp_admin_articles_desc'] = 'You can create and manage SimplePortal articles in this area.';
+$txt['sp_articles_remove_confirm'] = 'Are you sure that you want to remove the selected articles?';
+$txt['sp_admin_articles_delete_confirm'] = 'Are you sure you want to delete this article?';
+$txt['sp_error_no_articles'] = 'There are no articles available.';
+$txt['sp_error_article_name_empty'] = 'Sorry, you left the article name empty.';
+$txt['sp_error_article_namespace_empty'] = 'Sorry, you left the article ID empty.';
+$txt['sp_error_article_namespace_duplicate'] = 'Sorry, that article ID is already in use.';
+$txt['sp_error_article_namespace_invalid_chars'] = 'Sorry, there are invalid characters in the article ID. Article ID\'s can only contain letters, numbers and underscores.';
+$txt['sp_error_article_namespace_numeric'] = 'Sorry, article ID\'s cannot be only numbers. Article ID\'s need letters, and or an underscore';
 
-// Add/Edit articles
-$txt['sp-articlesAdd'] = 'Add Article';
-$txt['sp-articlesEdit'] = 'Edit Article';
-$txt['sp-articlesCategory'] = 'Article Category';
-$txt['sp-articlesApproved'] = 'Approved';
+$txt['sp_admin_articles_col_title'] = 'Title';
+$txt['sp_admin_articles_col_namespace'] = 'Article ID';
+$txt['sp_admin_articles_col_category'] = 'Category';
+$txt['sp_admin_articles_col_author'] = 'Author';
+$txt['sp_admin_articles_col_body'] = 'Body';
+$txt['sp_admin_articles_col_type'] = 'Type';
+$txt['sp_admin_articles_col_status'] = 'Active';
+$txt['sp_admin_articles_col_date'] = 'Date';
+$txt['sp_admin_articles_col_actions'] = 'Actions';
+$txt['sp_admin_articles_col_permissions'] = 'Permissions';
+$txt['sp_admin_articles_permissions_set_custom'] = 'Custom';
+$txt['sp_admin_articles_permissions_set_guests'] = 'Guests';
+$txt['sp_admin_articles_permissions_set_members'] = 'Members';
+$txt['sp_admin_articles_permissions_set_everyone'] = 'Everyone';
+$txt['sp_admin_articles_col_custom_permissions'] = 'Custom Permissions';
+$txt['sp_admin_articles_custom_permissions_membergroup'] = 'Membergroup';
+$txt['sp_admin_articles_custom_permissions_allowed_short'] = 'A';
+$txt['sp_admin_articles_custom_permissions_disallowed_short'] = 'X';
+$txt['sp_admin_articles_custom_permissions_denied_short'] = 'D';
+$txt['sp_admin_articles_custom_permissions_allowed'] = 'Allowed';
+$txt['sp_admin_articles_custom_permissions_disallowed'] = 'Disallowed';
+$txt['sp_admin_articles_custom_permissions_denied'] = 'Denied';
+$txt['sp_admin_articles_activate'] = 'Activate';
+$txt['sp_admin_articles_deactivate'] = 'Deactivate';
 
-// Categories area
-$txt['sp-adminCategoryListName'] = 'Category List';
-$txt['sp-adminCategoryListDesc'] = 'This page displays a list of article categories that have been created. These can be modified by selecting the appropriate options.';
-$txt['sp-adminCategoryAddName'] = 'Add Category';
-$txt['sp-adminCategoryAddDesc'] = 'This page enables new categories to be added for articles to be placed in.';
+$txt['sp_articles_default_title'] = 'Untitled Article';
 
-// Category list
-$txt['sp-categoriesCategories'] = 'Categories';
+$txt['sp_articles_type_bbc'] = 'BBC';
+$txt['sp_articles_type_html'] = 'HTML';
+$txt['sp_articles_type_php'] = 'PHP';
 
-// Add/Edit category
-$txt['sp-categoriesAdd'] = 'Add Category';
-$txt['sp-categoriesEdit'] = 'Edit Category';
-$txt['sp-categoriesName'] = 'Name';
-$txt['sp-categoriesPicture'] = 'Image URL';
-$txt['sp-categoriesPublish'] = 'Publish on Portal';
+// Categories Area
+$txt['sp_admin_categories_title'] = 'Categories';
+$txt['sp_admin_categories_list'] = 'Category List';
+$txt['sp_admin_categories_add'] = 'Add Category';
+$txt['sp_admin_categories_edit'] = 'Edit Category';
+$txt['sp_admin_categories_remove'] = 'Remove Categories';
 
-// Delete category
-$txt['sp-categoriesDelete'] = 'Delete Category';
-$txt['sp-categoriesDeleteCount'] = 'There are %s article(s) in this category.';
-$txt['sp-categoriesDeleteOption1'] = 'Do you want to move these articles to another category?';
-$txt['sp-categoriesDeleteOption2'] = 'By deleting this category your articles will also be deleted.';
-$txt['sp-categoriesDeleteConfirm'] = 'Are you sure you wish to delete this category?';
-$txt['sp-categoriesMove'] = 'Move';
-$txt['sp-categoriesMoveTo'] = 'Move To';
+$txt['sp_admin_categories_desc'] = 'You can create and manage SimplePortal categories in this area.';
+$txt['sp_categories_remove_confirm'] = 'Are you sure that you want to remove the selected categories?';
+$txt['sp_admin_categories_delete_confirm'] = 'Are you sure you want to delete this category?';
+$txt['sp_error_no_categories'] = 'There are no categories available.';
+$txt['sp_error_category_name_empty'] = 'Sorry, you left the category name empty.';
+$txt['sp_error_category_namespace_empty'] = 'Sorry, you left the category ID empty.';
+$txt['sp_error_category_namespace_duplicate'] = 'Sorry, that category ID is already in use.';
+$txt['sp_error_category_namespace_invalid_chars'] = 'Sorry, there are invalid characters in the category ID. Category ID\'s can only contain letters, numbers and underscores.';
+$txt['sp_error_category_namespace_numeric'] = 'Sorry, category ID\'s cannot be only numbers. Category ID\'s need letters, and or an underscore';
 
-// Block list titles
-$txt['sp-adminColumnType'] = 'Type';
-$txt['sp-adminColumnMove'] = 'Move';
+$txt['sp_admin_categories_col_name'] = 'Name';
+$txt['sp_admin_categories_col_namespace'] = 'Category ID';
+$txt['sp_admin_categories_col_description'] = 'Description';
+$txt['sp_admin_categories_col_articles'] = 'Articles';
+$txt['sp_admin_categories_col_status'] = 'Active';
+$txt['sp_admin_categories_col_actions'] = 'Actions';
+$txt['sp_admin_categories_col_permissions'] = 'Permissions';
+$txt['sp_admin_categories_permissions_set_custom'] = 'Custom';
+$txt['sp_admin_categories_permissions_set_guests'] = 'Guests';
+$txt['sp_admin_categories_permissions_set_members'] = 'Members';
+$txt['sp_admin_categories_permissions_set_everyone'] = 'Everyone';
+$txt['sp_admin_categories_col_custom_permissions'] = 'Custom Permissions';
+$txt['sp_admin_categories_custom_permissions_membergroup'] = 'Membergroup';
+$txt['sp_admin_categories_custom_permissions_allowed_short'] = 'A';
+$txt['sp_admin_categories_custom_permissions_disallowed_short'] = 'X';
+$txt['sp_admin_categories_custom_permissions_denied_short'] = 'D';
+$txt['sp_admin_categories_custom_permissions_allowed'] = 'Allowed';
+$txt['sp_admin_categories_custom_permissions_disallowed'] = 'Disallowed';
+$txt['sp_admin_categories_custom_permissions_denied'] = 'Denied';
+$txt['sp_admin_categories_activate'] = 'Activate';
+$txt['sp_admin_categories_deactivate'] = 'Deactivate';
 
-// Article list titles
-$txt['sp-adminColumnTopic'] = 'Topic';
-$txt['sp-adminColumnBoard'] = 'Board';
-$txt['sp-adminColumnPoster'] = 'Poster';
-$txt['sp-adminColumnTime'] = 'Time';
-$txt['sp-adminColumnCategory'] = 'Category';
-$txt['sp-adminColumnApproved'] = 'Approved';
-
-// Category list titles
-$txt['sp-adminColumnPicture'] = 'Picture';
-$txt['sp-adminColumnArticles'] = 'Articles';
-$txt['sp-adminColumnPublish'] = 'Publish';
+$txt['sp_categories_default_name'] = 'Unnamed Category';
 
 // Pages Area
 $txt['sp_admin_pages_title'] = 'Pages';
@@ -427,6 +458,10 @@ $txt['sp_admin_shoutbox_block_redirect_message'] = '<p>Congratulations, you have
 // General titles
 $txt['sp-adminColumnAction'] = 'Action';
 $txt['sp-adminColumnName'] = 'Name';
+
+// Block list titles
+$txt['sp-adminColumnType'] = 'Type';
+$txt['sp-adminColumnMove'] = 'Move';
 
 // Miscellaneous strings
 $txt['sp-positionLeft'] = 'Left';

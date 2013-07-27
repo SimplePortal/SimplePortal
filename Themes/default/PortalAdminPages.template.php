@@ -209,7 +209,8 @@ function template_pages_edit()
 							<label for="page_status">', $txt['sp_admin_pages_col_status'], ':</label>
 						</dt>
 						<dd>
-							<input type="checkbox" name="status" id="page_status" value="1"', $context['SPortal']['page']['status'] ? ' checked="checked"' : '', ' class="input_check" /></dd>
+							<input type="checkbox" name="status" id="page_status" value="1"', $context['SPortal']['page']['status'] ? ' checked="checked"' : '', ' class="input_check" />
+						</dd>
 						<dt>
 							', $txt['sp_admin_pages_col_body'], ':
 						</dt>

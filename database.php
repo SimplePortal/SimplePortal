@@ -14,19 +14,41 @@ if (!array_key_exists('db_add_column', $smcFunc))
 	db_extend('packages');
 
 $tables = array(
-	'sp_blocks' => array(
+	'sp_articles' => array(
 		'columns' => array(
-			array('name' => 'id_block', 'type' => 'int', 'size' => '10', 'auto' => true, 'deprecated_name' => 'ID_BLOCK'),
-			array('name' => 'label', 'type' => 'tinytext'),
-			array('name' => 'type', 'type' => 'text'),
-			array('name' => 'col', 'type' => 'tinyint', 'size' => '4', 'default' => 0),
-			array('name' => 'row', 'type' => 'tinyint', 'size' => '4', 'default' => 0),
-			array('name' => 'permission_set', 'type' => 'tinyint', 'size' => '4', 'default' => 0),
+			array('name' => 'id_article', 'type' => 'mediumint', 'size' => 8, 'auto' => true),
+			array('name' => 'id_category', 'type' => 'mediumint', 'size' => 8, 'default' => 0),
+			array('name' => 'id_member', 'type' => 'mediumint', 'size' => 8, 'default' => 0),
+			array('name' => 'member_name', 'type' => 'varchar', 'size' => 80, 'default' => 0),
+			array('name' => 'namespace', 'type' => 'tinytext'),
+			array('name' => 'title', 'type' => 'tinytext'),
+			array('name' => 'body', 'type' => 'text'),
+			array('name' => 'type', 'type' => 'tinytext'),
+			array('name' => 'date', 'type' => 'int', 'size' => 10, 'default' => 0),
+			array('name' => 'permission_set', 'type' => 'tinyint', 'size' => 4, 'default' => 0),
 			array('name' => 'groups_allowed', 'type' => 'varchar', 'size' => 255, 'default' => ''),
 			array('name' => 'groups_denied', 'type' => 'varchar', 'size' => 255, 'default' => ''),
-			array('name' => 'state', 'type' => 'tinyint', 'size' => '4', 'default' => 1),
-			array('name' => 'force_view', 'type' => 'tinyint', 'size' => '2', 'default' => 0),
-			array('name' => 'display', 'type' => 'text', ),
+			array('name' => 'views', 'type' => 'int', 'size' => 10, 'default' => 0),
+			array('name' => 'comments', 'type' => 'int', 'size' => 10, 'default' => 0),
+			array('name' => 'status', 'type' => 'tinyint', 'size' => 4, 'default' => 1),
+		),
+		'indexes' => array(
+			array('type' => 'primary', 'columns' => array('id_article')),
+		),
+	),
+	'sp_blocks' => array(
+		'columns' => array(
+			array('name' => 'id_block', 'type' => 'int', 'size' => 10, 'auto' => true),
+			array('name' => 'label', 'type' => 'tinytext'),
+			array('name' => 'type', 'type' => 'text'),
+			array('name' => 'col', 'type' => 'tinyint', 'size' => 4, 'default' => 0),
+			array('name' => 'row', 'type' => 'tinyint', 'size' => 4, 'default' => 0),
+			array('name' => 'permission_set', 'type' => 'tinyint', 'size' => 4, 'default' => 0),
+			array('name' => 'groups_allowed', 'type' => 'varchar', 'size' => 255, 'default' => ''),
+			array('name' => 'groups_denied', 'type' => 'varchar', 'size' => 255, 'default' => ''),
+			array('name' => 'state', 'type' => 'tinyint', 'size' => 4, 'default' => 1),
+			array('name' => 'force_view', 'type' => 'tinyint', 'size' => 2, 'default' => 0),
+			array('name' => 'display', 'type' => 'text',),
 			array('name' => 'display_custom', 'type' => 'text'),
 			array('name' => 'style', 'type' => 'text'),
 		),
@@ -35,10 +57,26 @@ $tables = array(
 			array('type' => 'index', 'columns' => array('state')),
 		),
 	),
+	'sp_categories' => array(
+		'columns' => array(
+			array('name' => 'id_category', 'type' => 'mediumint', 'size' => 8, 'auto' => true),
+			array('name' => 'namespace', 'type' => 'tinytext'),
+			array('name' => 'name', 'type' => 'tinytext'),
+			array('name' => 'description', 'type' => 'text'),
+			array('name' => 'permission_set', 'type' => 'tinyint', 'size' => 4, 'default' => 0),
+			array('name' => 'groups_allowed', 'type' => 'varchar', 'size' => 255, 'default' => ''),
+			array('name' => 'groups_denied', 'type' => 'varchar', 'size' => 255, 'default' => ''),
+			array('name' => 'articles', 'type' => 'int', 'size' => 10, 'default' => 0),
+			array('name' => 'status', 'type' => 'tinyint', 'size' => 4, 'default' => 1),
+		),
+		'indexes' => array(
+			array('type' => 'primary', 'columns' => array('id_category')),
+		),
+	),
 	'sp_functions' => array(
 		'columns' => array(
-			array('name' => 'id_function', 'type' => 'tinyint', 'size' => '4', 'auto' => true, 'deprecated_name' => 'ID_FUNCTION'),
-			array('name' => 'function_order', 'type' => 'tinyint', 'size' => '4', 'default' => 0),
+			array('name' => 'id_function', 'type' => 'tinyint', 'size' => 4, 'auto' => true),
+			array('name' => 'function_order', 'type' => 'tinyint', 'size' => 4, 'default' => 0),
 			array('name' => 'name', 'type' => 'tinytext'),
 		),
 		'indexes' => array(
@@ -47,12 +85,12 @@ $tables = array(
 	),
 	'sp_pages' => array(
 		'columns' => array(
-			array('name' => 'id_page', 'type' => 'int', 'size' => 10, 'auto' => true, 'deprecated_name' => 'ID_PAGE'),
+			array('name' => 'id_page', 'type' => 'int', 'size' => 10, 'auto' => true),
 			array('name' => 'namespace', 'type' => 'tinytext'),
 			array('name' => 'title', 'type' => 'tinytext'),
 			array('name' => 'body', 'type' => 'text'),
 			array('name' => 'type', 'type' => 'tinytext'),
-			array('name' => 'permission_set', 'type' => 'tinyint', 'size' => '4', 'default' => 0),
+			array('name' => 'permission_set', 'type' => 'tinyint', 'size' => 4, 'default' => 0),
 			array('name' => 'groups_allowed', 'type' => 'varchar', 'size' => 255, 'default' => ''),
 			array('name' => 'groups_denied', 'type' => 'varchar', 'size' => 255, 'default' => ''),
 			array('name' => 'views', 'type' => 'int', 'size' => 10, 'default' => 0),
@@ -65,7 +103,7 @@ $tables = array(
 	),
 	'sp_parameters' => array(
 		'columns' => array(
-			array('name' => 'id_block', 'type' => 'int', 'size' => '10', 'default' => 0, 'deprecated_name' => 'ID_BLOCK'),
+			array('name' => 'id_block', 'type' => 'int', 'size' => 10, 'default' => 0),
 			array('name' => 'variable', 'type' => 'varchar', 'size' => 255, 'default' => ''),
 			array('name' => 'value', 'type' => 'text'),
 		),
@@ -76,9 +114,9 @@ $tables = array(
 	),
 	'sp_shoutboxes' => array(
 		'columns' => array(
-			array('name' => 'id_shoutbox', 'type' => 'int', 'size' => 10, 'auto' => true, 'deprecated_name' => 'ID_SHOUTBOX'),
+			array('name' => 'id_shoutbox', 'type' => 'int', 'size' => 10, 'auto' => true),
 			array('name' => 'name', 'type' => 'tinytext'),
-			array('name' => 'permission_set', 'type' => 'tinyint', 'size' => '4', 'default' => 0),
+			array('name' => 'permission_set', 'type' => 'tinyint', 'size' => 4, 'default' => 0),
 			array('name' => 'groups_allowed', 'type' => 'varchar', 'size' => 255, 'default' => ''),
 			array('name' => 'groups_denied', 'type' => 'varchar', 'size' => 255, 'default' => ''),
 			array('name' => 'moderator_groups', 'type' => 'text'),
@@ -100,11 +138,11 @@ $tables = array(
 	),
 	'sp_shouts' => array(
 		'columns' => array(
-			array('name' => 'id_shout', 'type' => 'mediumint', 'size' => '8', 'auto' => true, 'deprecated_name' => 'ID_SHOUT'),
-			array('name' => 'id_shoutbox', 'type' => 'int', 'size' => 10, 'default' => 0, 'deprecated_name' => 'ID_SHOUTBOX'),
-			array('name' => 'id_member', 'type' => 'mediumint', 'size' => '8', 'default' => 0, 'deprecated_name' => 'ID_MEMBER'),
-			array('name' => 'member_name', 'type' => 'varchar', 'size' => '80', 'default' => 0, 'deprecated_name' => 'memberName'),
-			array('name' => 'log_time', 'type' => 'int', 'size' => '10', 'default' => 0),
+			array('name' => 'id_shout', 'type' => 'mediumint', 'size' => 8, 'auto' => true),
+			array('name' => 'id_shoutbox', 'type' => 'int', 'size' => 10, 'default' => 0),
+			array('name' => 'id_member', 'type' => 'mediumint', 'size' => 8, 'default' => 0),
+			array('name' => 'member_name', 'type' => 'varchar', 'size' => 80, 'default' => 0),
+			array('name' => 'log_time', 'type' => 'int', 'size' => 10, 'default' => 0),
 			array('name' => 'body', 'type' => 'text'),
 		),
 		'indexes' => array(
@@ -113,43 +151,12 @@ $tables = array(
 	),
 );
 
-$deprecated_fields = array(
-	'sp_blocks' => array('content', 'parameters', 'permission_type', 'allowed_groups'),
-	'sp_pages' => array('permission_type', 'allowed_groups'),
-	'sp_shoutboxes' => array('permission_type', 'allowed_groups'),
-);
-
-$smcFunc['db_drop_table']('{db_prefix}sp_functions');
-
-$current_tables = $smcFunc['db_list_tables'](false, '%sp%');
-$real_prefix = preg_match('~^(`?)(.+?)\\1\\.(.*?)$~', $db_prefix, $match) === 1 ? $match[3] : $db_prefix;
-
 foreach ($tables as $table => $data)
-{
-	if (in_array(strtolower($real_prefix . $table), array_map('strtolower', $current_tables)))
-	{
-		foreach ($data['columns'] as $column)
-		{
-			if (!isset($column['deprecated_name']) || !$smcFunc['db_change_column']('{db_prefix}' . $table, $column['deprecated_name'], $column))
-				$smcFunc['db_add_column']('{db_prefix}' . $table, $column);
-		}
-
-		foreach ($data['indexes'] as $index)
-			$smcFunc['db_add_index']('{db_prefix}' . $table, $index, array(), 'ignore');
-	}
-	else
-	{
-		$smcFunc['db_create_table']('{db_prefix}' . $table, $data['columns'], $data['indexes'], array(), 'ignore');
-	}
-}
+	$smcFunc['db_create_table']('{db_prefix}' . $table, $data['columns'], $data['indexes'], array(), 'ignore');
 
 $smcFunc['db_insert']('ignore',
 	'{db_prefix}sp_functions',
-	array(
-		'id_function' => 'int',
-		'function_order' => 'int',
-		'name' => 'string',
-	),
+	array('id_function' => 'int', 'function_order' => 'int', 'name' => 'string'),
 	array(
 		array(1, 1, 'sp_userInfo'),
 		array(2, 2, 'sp_latestMember'),
@@ -197,10 +204,6 @@ $smcFunc['db_free_result']($result);
 
 if (empty($has_block))
 {
-	foreach ($deprecated_fields as $table => $fields)
-		foreach ($fields as $field)
-			$smcFunc['db_remove_column']('{db_prefix}' . $table, $field);
-
 	$welcome_text = '<h2 style="text-align: center;">Welcome to SimplePortal!</h2>
 <p>SimplePortal is one of several portal mods for Simple Machines Forum (SMF). Although always developing, SimplePortal is produced with the user in mind first. User feedback is the number one method of growth for SimplePortal, and our users are always finding ways for SimplePortal to grow. SimplePortal stays competative with other portal software by adding numerous user-requested features such as articles, block types and the ability to completely customize the portal page.</p>
 <p>All this and SimplePortal has remained Simple! SimplePortal is built for simplicity and ease of use; ensuring the average forum administrator can install SimplePortal, configure a few settings, and show off the brand new portal to the users in minutes. Confusing menus, undesired pre-loaded blocks and settings that cannot be found are all avoided as much as possible. Because when it comes down to it, SimplePortal is YOUR portal, and should reflect your taste as much as possible.</p>';
@@ -224,16 +227,7 @@ if (empty($has_block))
 
 	$smcFunc['db_insert']('ignore',
 		'{db_prefix}sp_blocks',
-		array(
-			'label' => 'text',
-			'type' => 'text',
-			'col' => 'int',
-			'row' => 'int',
-			'permission_set' => 'int',
-			'display' => 'text',
-			'display_custom' => 'text',
-			'style' => 'text',
-		),
+		array('label' => 'text', 'type' => 'text', 'col' => 'int', 'row' => 'int', 'permission_set' => 'int', 'display' => 'text', 'display_custom' => 'text', 'style' => 'text'),
 		$default_blocks,
 		array('id_block')
 	);
@@ -265,221 +259,10 @@ if (empty($has_block))
 
 	$smcFunc['db_insert']('replace',
 		'{db_prefix}sp_parameters',
-		array(
-			'id_block' => 'int',
-			'variable' => 'text',
-			'value' => 'text',
-		),
+		array('id_block' => 'int', 'variable' => 'text', 'value' => 'text'),
 		$default_parameters,
 		array()
 	);
-}
-else
-{
-	$permission_updates = array('blocks' => 'block', 'pages' => 'page', 'shoutboxes' => 'shoutbox');
-	foreach ($permission_updates as $table => $field)
-	{
-		$columns = $smcFunc['db_list_columns']('{db_prefix}' . 'sp_' . $table, false);
-		if (in_array('permission_type', $columns))
-		{
-			$request = $smcFunc['db_query']('', '
-				SELECT id_{raw:field}, permission_type, allowed_groups
-				FROM {db_prefix}sp_{raw:table}',
-				array(
-					'field' => $field,
-					'table' => $table,
-				)
-			);
-			$permissions = array();
-			while ($row = $smcFunc['db_fetch_assoc']($request))
-				$permissions[] = $row;
-			$smcFunc['db_free_result']($request);
-
-			$modified = array();
-			foreach ($permissions as $item)
-			{
-				$set = $allowed = $denied = '';
-
-				if ($item['permission_type'] == 2)
-					$set = '3';
-				elseif ($item['allowed_groups'] == '-1')
-					$set = '1';
-				else
-				{
-					$set = '0';
-					$allowed = $item['allowed_groups'];
-				}
-
-				$modified[] = array(
-					'id' => $item['id_' . $field],
-					'permission_set' => $set,
-					'groups_allowed' => $allowed,
-					'groups_denied' => $denied,
-				);
-			}
-
-			foreach ($modified as $item)
-			{
-				$smcFunc['db_query']('', '
-					UPDATE {db_prefix}sp_{raw:table}
-					SET
-						permission_set = {string:permission_set},
-						groups_allowed = {string:groups_allowed},
-						groups_denied = {string:groups_denied}
-					WHERE id_{raw:field} = {int:id}',
-					array_merge($item, array(
-						'table' => $table,
-						'field' => $field,
-					))
-				);
-			}
-		}
-	}
-
-	if (empty($modSettings['sp_version']) || $modSettings['sp_version'] < '2.3')
-	{
-		$request = $smcFunc['db_query']('', '
-			SELECT id_block, type
-			FROM {db_prefix}sp_blocks
-			WHERE type IN ({array_string:types})',
-			array(
-				'types' => array('sp_recentTopics', 'sp_recentPosts'),
-			)
-		);
-		$replace_blocks = array();
-		$add_parameters = array();
-		while ($row = $smcFunc['db_fetch_assoc']($request))
-		{
-			$replace_blocks[] = $row['id_block'];
-			$add_parameters[] = array(
-				'id_block' => $row['id_block'],
-				'variable' => 'display',
-				'value' => 1,
-			);
-			$add_parameters[] = array(
-				'id_block' => $row['id_block'],
-				'variable' => 'type',
-				'value' => $row['type'] == 'sp_recentPosts' ? 0 : 1,
-			);
-		}
-		$smcFunc['db_free_result']($request);
-
-		if (!empty($replace_blocks) && !empty($add_parameters))
-		{
-			$smcFunc['db_query']('', '
-				UPDATE {db_prefix}sp_blocks
-				SET type = {string:new_type}
-				WHERE id_block IN ({array_int:block_ids})',
-				array(
-					'new_type' => 'sp_recent',
-					'block_ids' => $replace_blocks,
-				)
-			);
-
-			$smcFunc['db_insert']('replace',
-				'{db_prefix}sp_parameters',
-				array(
-					'id_block' => 'int',
-					'variable' => 'text',
-					'value' => 'text',
-				),
-				$add_parameters,
-				array()
-			);
-		}
-	}
-
-	if (empty($modSettings['sp_version']) || $modSettings['sp_version'] < '2.2')
-	{
-		$block_updates = array(
-			array(
-				'old' => 'sp_smfGallery',
-				'new' => 'sp_gallery'
-			),
-			array(
-				'old' => 'sp_mgallery',
-				'new' => 'sp_gallery'
-			),
-		);
-
-		foreach ($block_updates as $type)
-			$smcFunc['db_query']('', '
-				UPDATE {db_prefix}sp_blocks
-				SET type = {string:new}
-				WHERE type = {string:old}',
-				$type
-			);
-
-		$current_columns = $smcFunc['db_list_columns']('{db_prefix}' . 'sp_blocks', false);
-		if (in_array('content', $current_columns))
-		{
-			require_once($sourcedir . '/PortalBlocks.php');
-			$old_parameters = array();
-
-			$request = $smcFunc['db_query']('', '
-				SELECT id_block, type, content, parameters
-				FROM {db_prefix}sp_blocks',
-				array(
-				)
-			);
-			while ($row = $smcFunc['db_fetch_assoc']($request))
-			{
-				if (in_array($row['type'], array('sp_bbc', 'sp_html', 'sp_php')))
-				{
-					$old_parameters[] = array(
-						'id_block' => $row['id_block'],
-						'variable' => 'content',
-						'value' => $row['content'],
-					);
-				}
-				elseif (function_exists($row['type']))
-				{
-					$type_parameters = $row['type'](array(), 0, true);
-
-					if (empty($row['parameters']) || empty($type_parameters))
-						continue;
-
-					$row['parameters'] = explode(',', $row['parameters']);
-
-					foreach ($type_parameters as $variable => $value)
-					{
-						$old = current($row['parameters']);
-						next($row['parameters']);
-
-						if (empty($old))
-							continue;
-
-						$old_parameters[] = array(
-							'id_block' => $row['id_block'],
-							'variable' => $variable,
-							'value' => $old,
-						);
-					}
-				}
-				else
-					continue;
-			}
-			$smcFunc['db_free_result']($request);
-
-			if (!empty($old_parameters))
-			{
-				$smcFunc['db_insert']('replace',
-					'{db_prefix}sp_parameters',
-					array(
-						'id_block' => 'int',
-						'variable' => 'text',
-						'value' => 'text',
-					),
-					$old_parameters,
-					array()
-				);
-			}
-		}
-	}
-
-	foreach ($deprecated_fields as $table => $fields)
-		foreach ($fields as $field)
-			$smcFunc['db_remove_column']('{db_prefix}' . $table, $field);
 }
 
 $defaults = array(

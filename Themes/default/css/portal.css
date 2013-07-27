@@ -440,35 +440,20 @@ li.shoutbox_warning
 {
 	margin: 0.4em 0;
 }
-#sp_article_add
+#sp_edit_article
 {
-	width: 65%;
+	width: 70%;
 	margin: 0 auto;
 }
-#sp_add_articles_category
+
+#sp_manage_categories table.table_grid
 {
-	margin-bottom: 0.5em;
-}
-#sp_add_articles_list
-{
-	list-style: none;
-}
-#sp_add_articles_list_header
-{
-	list-style: none;
-}
-#sp_add_articles_list li
-{
-	margin-top: 0.2em;
+	margin: 0.4em 0;
 }
 #sp_edit_category
 {
-	width: 60%;
+	width: 70%;
 	margin: 0 auto;
-}
-#sp_add_articles_button
-{
-	padding-top: 0em;
 }
 
 #sp_manage_pages table.table_grid

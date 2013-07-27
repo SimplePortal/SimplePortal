@@ -62,11 +62,26 @@ function sp_integrate_admin_areas(&$admin_areas)
 						),
 					),
 					'portalarticles' => array(
-						'label' => $txt['sp-adminColumnArticles'],
+						'label' => $txt['sp_admin_articles_title'],
 						'file' => 'PortalAdminArticles.php',
 						'function' => 'sportal_admin_articles_main',
 						'icon' => 'articles.png',
 						'permission' => array('sp_admin', 'sp_manage_articles'),
+						'subsections' => array(
+							'list' => array($txt['sp_admin_articles_list']),
+							'add' => array($txt['sp_admin_articles_add']),
+						),
+					),
+					'portalcategories' => array(
+						'label' => $txt['sp_admin_categories_title'],
+						'file' => 'PortalAdminCategories.php',
+						'function' => 'sportal_admin_categories_main',
+						'icon' => 'categories.png',
+						'permission' => array('sp_admin', 'sp_manage_articles'),
+						'subsections' => array(
+							'list' => array($txt['sp_admin_categories_list']),
+							'add' => array($txt['sp_admin_categories_add']),
+						),
 					),
 					'portalpages' => array(
 						'label' => $txt['sp_admin_pages_title'],

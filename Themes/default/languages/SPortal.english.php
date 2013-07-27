@@ -84,6 +84,8 @@ $txt['sp_topStatsMember_Casino'] = 'Casino Cash';
 $txt['sp_who_index'] = 'Viewing the <a href="%s">Portal</a>.';
 $txt['sp_who_forum'] = 'Viewing the <a href="%s?action=forum">Forum</a>.';
 $txt['sp_who_page'] = 'Viewing the page &quot;<a href="%3$s?page=%1$s">%2$s</a>&quot;.';
+$txt['sp_who_article'] = 'Viewing the article &quot;<a href="%3$s?page=%1$s">%2$s</a>&quot;.';
+$txt['sp_who_category'] = 'Viewing the category &quot;<a href="%3$s?page=%1$s">%2$s</a>&quot;.';
 
 // Error messages
 $txt['error_sp_no_message_id'] = 'Invalid message ID.';
@@ -112,10 +114,13 @@ $txt['error_sp_no_items_day'] = 'No calendar events were found.';
 $txt['error_sp_no_blog_found'] = 'There are no blog mods installed.';
 $txt['error_sp_no_blogs_found'] = 'No blogs were found.';
 $txt['error_sp_no_articles_found'] = 'There are no articles to display.';
+$txt['error_sp_no_categories_found'] = 'There are no categories to display.';
 $txt['error_sp_no_shop_found'] = 'There are no shop mods installed.';
 $txt['error_sp_no_arcade_found'] = 'There are no arcade mods installed.';
 $txt['error_sp_no_stats_found'] = 'No statistics found.';
 $txt['error_sp_page_not_found'] = 'The page you requested cannot be found.';
+$txt['error_sp_article_not_found'] = 'The article you requested cannot be found.';
+$txt['error_sp_category_not_found'] = 'The category you requested cannot be found.';
 $txt['error_sp_shoutbox_not_exist'] = 'Sorry, this shoutbox does not exist.';
 $txt['error_sp_no_shoutbox'] = 'There either aren\'t any shoutboxes created yet or there aren\'t any shoutboxes that haven\'t already been published in a shoutbox block.';
 $txt['error_sp_no_shoutbox_sp_moderator'] = 'A new shoutbox can be created <a href="%s">here</a>.';
