@@ -1,3 +1,12 @@
+/**
+ * @package SimplePortal
+ *
+ * @author SimplePortal Team
+ * @copyright 2013 SimplePortal Team
+ * @license BSD 3-clause 
+ *
+ * @version 2.4
+ */
 function sp_collapse_object(id, has_image)
 {
 	mode = document.getElementById("sp_object_" + id).style.display == '' ? 0 : 1;

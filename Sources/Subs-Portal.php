@@ -1,100 +1,24 @@
 <?php
-/**********************************************************************************
-* Subs-Portal.php                                                                 *
-***********************************************************************************
-* SimplePortal                                                                    *
-* SMF Modification Project Founded by [SiNaN] (sinan@simplemachines.org)          *
-* =============================================================================== *
-* Software Version:           SimplePortal 2.3.5                                  *
-* Software by:                SimplePortal Team (http://www.simpleportal.net)     *
-* Copyright 2008-2009 by:     SimplePortal Team (http://www.simpleportal.net)     *
-* Support, News, Updates at:  http://www.simpleportal.net                         *
-***********************************************************************************
-* This program is free software; you may redistribute it and/or modify it under   *
-* the terms of the provided license as published by Simple Machines LLC.          *
-*                                                                                 *
-* This program is distributed in the hope that it is and will be useful, but      *
-* WITHOUT ANY WARRANTIES; without even any implied warranty of MERCHANTABILITY    *
-* or FITNESS FOR A PARTICULAR PURPOSE.                                            *
-*                                                                                 *
-* See the "license.txt" file for details of the Simple Machines license.          *
-* The latest version can always be found at http://www.simplemachines.org.        *
-**********************************************************************************/
+
+/**
+ * @package SimplePortal
+ *
+ * @author SimplePortal Team
+ * @copyright 2013 SimplePortal Team
+ * @license BSD 3-clause 
+ *
+ * @version 2.4
+ */
 
 if (!defined('SMF'))
 	die('Hacking attempt...');
-
-/*
-	void sportal_init()
-		// !!!
-
-	void sportal_init_headers()
-		// !!!
-
-	string sportal_catch_action()
-		// !!!
-
-	array getBlockInfo()
-		// !!!
-
-	bool getShowInfo()
-		// !!!
-
-	bool sp_loadPermissions()
-		// !!!
-
-	bool sp_allowed_to()
-		// !!!
-
-	string sp_languageSelect()
-		// !!!
-
-	array sp_loadCalendarData()
-		// !!!
-
-	mixed sp_loadColors()
-		// !!!
-
-	string sp_embed_image()
-		// !!!
-
-	array sportal_parse_style()
-		// !!!
-
-	array sportal_get_pages()
-		// !!!
-
-	mixed sportal_parse_page()
-		// !!!
-
-	array sportal_get_shoutbox()
-		// !!!
-
-	array sportal_get_shouts()
-		// !!!
-
-	void sportal_create_shout()
-		// !!!
-
-	void sportal_delete_shout()
-		// !!!
-
-	void sportal_update_shoutbox()
-		// !!!
-
-	mixed sp_prevent_flood()
-		// !!!
-
-	void sportal_load_compat()
-		// !!!
-*/
 
 function sportal_init($standalone = false)
 {
 	global $context, $sourcedir, $scripturl, $modSettings, $txt;
 	global $settings, $options, $boarddir, $maintenance, $sportal_version;
 
-	$sportal_version = '2.3.5';
+	$sportal_version = '2.4';
 
 	if (isset($_REQUEST['action']) && $_REQUEST['action'] == 'dlattach')
 		return;
@@ -250,7 +174,7 @@ function sportal_init_headers()
 		return;
 
 	$context['html_headers'] .= '
-	<script type="text/javascript" src="' . $settings['default_theme_url'] . '/scripts/portal.js?235"></script>
+	<script type="text/javascript" src="' . $settings['default_theme_url'] . '/scripts/portal.js?24"></script>
 	<script language="JavaScript" type="text/javascript"><!-- // --><![CDATA[
 		var sp_images_url = "' . $settings['sp_images_url'] . '";
 		function sp_collapseBlock(id)

@@ -1,120 +1,17 @@
 <?php
-/**********************************************************************************
-* PortalBlocks.php                                                                *
-***********************************************************************************
-* SimplePortal                                                                    *
-* SMF Modification Project Founded by [SiNaN] (sinan@simplemachines.org)          *
-* =============================================================================== *
-* Software Version:           SimplePortal 2.3.5                                  *
-* Software by:                SimplePortal Team (http://www.simpleportal.net)     *
-* Copyright 2008-2009 by:     SimplePortal Team (http://www.simpleportal.net)     *
-* Support, News, Updates at:  http://www.simpleportal.net                         *
-***********************************************************************************
-* This program is free software; you may redistribute it and/or modify it under   *
-* the terms of the provided license as published by Simple Machines LLC.          *
-*                                                                                 *
-* This program is distributed in the hope that it is and will be useful, but      *
-* WITHOUT ANY WARRANTIES; without even any implied warranty of MERCHANTABILITY    *
-* or FITNESS FOR A PARTICULAR PURPOSE.                                            *
-*                                                                                 *
-* See the "license.txt" file for details of the Simple Machines license.          *
-* The latest version can always be found at http://www.simplemachines.org.        *
-**********************************************************************************/
+
+/**
+ * @package SimplePortal
+ *
+ * @author SimplePortal Team
+ * @copyright 2013 SimplePortal Team
+ * @license BSD 3-clause 
+ *
+ * @version 2.4
+ */
 
 if (!defined('SMF'))
 	die('Hacking attempt...');
-
-/*
-	void sp_userInfo()
-		// !!!
-
-	void sp_latestMember()
-		// !!!
-
-	void sp_whosOnline()
-		// !!!
-
-	void sp_boardStats()
-		// !!!
-
-	void sp_topPoster()
-		// !!!
-
-	void sp_topStatsMember()
-		// !!
-
-	void sp_recent()
-		// !!!
-
-	void sp_topTopics()
-		// !!!
-
-	void sp_topBoards()
-		// !!!
-
-	void sp_showPoll()
-		// !!!
-
-	void sp_boardNews()
-		// !!!
-
-	void sp_quickSearch()
-		// !!!
-
-	void sp_news()
-		// !!!
-
-	void sp_attachmentImage()
-		// !!!
-
-	void sp_attachmentRecent()
-		// !!!
-
-	void sp_calendar()
-		// !!!
-
-	void sp_calendarInformation()
-		// !!!
-
-	void sp_rssFeed()
-		// !!!
-
-	void sp_theme_select()
-		// !!!
-
-	void sp_staff()
-		// !!!
-
-	void sp_articles()
-		// !!!
-
-	void sp_shoutbox()
-		// !!!
-
-	void sp_gallery()
-		// !!!
-
-	void sp_arcade()
-		// !!!
-
-	void sp_shop()
-		// !!!
-
-	void sp_blog()
-		// !!!
-
-	void sp_menu()
-		// !!!
-
-	void sp_bbc()
-		// !!!
-
-	void sp_html()
-		// !!!
-
-	void sp_php()
-		// !!!
-*/
 
 function sp_userInfo($parameters, $id, $return_parameters = false)
 {
