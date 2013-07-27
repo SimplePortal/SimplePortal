@@ -10,6 +10,42 @@
  * @version 2.4
  */
 
+function template_view_pages()
+{
+	global $context, $txt;
+
+	echo '
+	<div id="sp_view_pages">
+		<div class="cat_bar">
+			<h3 class="catbg">
+				', $context['page_title'], '
+			</h3>
+		</div>';
+
+	if (empty($context['SPortal']['pages']))
+	{
+		echo '
+		<div class="windowbg2">
+			<span class="topslice"><span></span></span>
+			<div class="sp_content_padding">', $txt['error_sp_no_pages'], '</div>
+			<span class="botslice"><span></span></span>
+		</div>';
+	}
+
+	foreach ($context['SPortal']['pages'] as $page)
+	{
+		echo '
+		<div class="windowbg2">
+			<span class="topslice"><span></span></span>
+			<div class="sp_content_padding">', $page['link'], ' - ', sprintf($page['views'] == 1 ? $txt['sp_viewed_time'] : $txt['sp_viewed_times'], $page['views']) ,'</div>
+			<span class="botslice"><span></span></span>
+		</div>';
+	}
+
+	echo '
+	</div>';
+}
+
 function template_view_page()
 {
 	global $context;

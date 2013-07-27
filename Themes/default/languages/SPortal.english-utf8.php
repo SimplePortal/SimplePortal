@@ -13,6 +13,7 @@
 // General strings
 $txt['sp-forum'] = 'Forum';
 $txt['sp-portal'] = 'Portal';
+$txt['sp-pages'] = 'Pages';
 $txt['sp-adminTitle'] = 'SimplePortal Admin';
 $txt['sp-adminCatTitle'] = 'SimplePortal';
 $txt['sp-add_article'] = 'Add as Article';
@@ -25,6 +26,8 @@ $txt['sp_no'] = 'No';
 $txt['sp_move'] = 'Move';
 $txt['sp_all'] = 'All';
 $txt['sp_link'] = '[link]';
+$txt['sp_viewed_time'] = 'viewed %d time';
+$txt['sp_viewed_times'] = 'viewed %d times';
 $txt['sp_function_unknown_label'] = 'Unknown Block Type';
 
 // Block specific strings
@@ -92,8 +95,11 @@ $txt['sp_topStatsMember_Casino'] = 'Casino Cash';
 // Who area strings
 $txt['sp_who_index'] = 'Viewing the <a href="%s">Portal</a>.';
 $txt['sp_who_forum'] = 'Viewing the <a href="%s?action=forum">Forum</a>.';
+$txt['sp_who_pages'] = 'Viewing the page list.';
 $txt['sp_who_page'] = 'Viewing the page &quot;<a href="%3$s?page=%1$s">%2$s</a>&quot;.';
+$txt['sp_who_articles'] = 'Viewing the article list.';
 $txt['sp_who_article'] = 'Viewing the article &quot;<a href="%3$s?page=%1$s">%2$s</a>&quot;.';
+$txt['sp_who_categories'] = 'Viewing the category list.';
 $txt['sp_who_category'] = 'Viewing the category &quot;<a href="%3$s?page=%1$s">%2$s</a>&quot;.';
 
 // Error messages
@@ -127,6 +133,9 @@ $txt['error_sp_no_categories_found'] = 'There are no categories to display.';
 $txt['error_sp_no_shop_found'] = 'There are no shop mods installed.';
 $txt['error_sp_no_arcade_found'] = 'There are no arcade mods installed.';
 $txt['error_sp_no_stats_found'] = 'No statistics found.';
+$txt['error_sp_no_pages'] = 'There are no pages available.';
+$txt['error_sp_no_categories'] = 'There are no categories available.';
+$txt['error_sp_no_articles'] = 'There are no articles available.';
 $txt['error_sp_page_not_found'] = 'The page you requested cannot be found.';
 $txt['error_sp_article_not_found'] = 'The article you requested cannot be found.';
 $txt['error_sp_category_not_found'] = 'The category you requested cannot be found.';

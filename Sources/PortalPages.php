@@ -15,12 +15,30 @@ if (!defined('SMF'))
 
 function sportal_pages()
 {
-	global $smcFunc, $context, $txt, $scripturl, $sourcedir, $user_info;
+	global $context, $scripturl, $txt;
+
+	loadTemplate('PortalPages');
+
+	$context['SPortal']['pages'] = sportal_get_pages(0, true, true);
+
+	$context['linktree'][] = array(
+		'url' => $scripturl . '?action=portal;sa=pages',
+		'name' => $txt['sp-pages'],
+	);
+
+	$context['page_title'] = $txt['sp-pages'];
+	$context['sub_template'] = 'view_pages';
+}
+
+function sportal_page()
+{
+	global $smcFunc, $context, $scripturl, $txt;
 
 	loadTemplate('PortalPages');
 
 	$page_id = !empty($_REQUEST['page']) ? $_REQUEST['page'] : 0;
-	if (is_numeric($page_id))
+
+	if (is_int($page_id))
 		$page_id = (int) $page_id;
 	else
 		$page_id = $smcFunc['htmlspecialchars']($page_id, ENT_QUOTES);

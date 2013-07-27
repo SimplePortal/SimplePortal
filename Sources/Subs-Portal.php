@@ -244,7 +244,7 @@ function sportal_catch_action()
 		elseif (empty($board) && empty($topic) && !empty($_GET['page']))
 		{
 			require_once($sourcedir . '/PortalPages.php');
-			return 'sportal_pages';
+			return 'sportal_page';
 		}
 	}
 
@@ -1145,7 +1145,7 @@ function sportal_get_categories($category_id = null, $active = false, $allowed =
 
 function sportal_get_pages($page_id = null, $active = false, $allowed = false, $sort = 'title')
 {
-	global $smcFunc;
+	global $smcFunc, $scripturl;
 
 	$query = array();
 	$parameters = array('sort' => $sort);
@@ -1186,7 +1186,7 @@ function sportal_get_pages($page_id = null, $active = false, $allowed = false, $
 			'page_id' => $row['namespace'],
 			'title' => $row['title'],
 			'href' => $scripturl . '?page=' . $row['namespace'],
-			'link' => '<a href="' . $scripturl . '?page=' . $row['namespace'] . '">' . $row['name'] . '</a>',
+			'link' => '<a href="' . $scripturl . '?page=' . $row['namespace'] . '">' . $row['title'] . '</a>',
 			'body' => $row['body'],
 			'type' => $row['type'],
 			'permission_set' => $row['permission_set'],

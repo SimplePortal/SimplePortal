@@ -55,7 +55,7 @@ function template_articles_list()
 	{
 		echo '
 					<tr class="windowbg2">
-						<td class="sp_center" colspan="', count($context['columns']) + 1, '">', $txt['sp_error_no_articles'], '</td>
+						<td class="sp_center" colspan="', count($context['columns']) + 1, '">', $txt['error_sp_no_articles'], '</td>
 					</tr>';
 	}
 
