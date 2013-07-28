@@ -30,6 +30,7 @@ function sportal_main()
 
 	$actions = array(
 		'articles' => array('PortalArticles.php', 'sportal_articles'),
+		'categories' => array('PortalCategories.php', 'sportal_categories'),
 		'credits' => array('', 'sportal_credits'),
 		'pages' => array('PortalPages.php', 'sportal_pages'),
 		'shoutbox' => array('PortalShoutbox.php', 'sportal_shoutbox'),

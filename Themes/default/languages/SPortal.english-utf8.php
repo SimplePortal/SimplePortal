@@ -14,6 +14,8 @@
 $txt['sp-forum'] = 'Forum';
 $txt['sp-portal'] = 'Portal';
 $txt['sp-pages'] = 'Pages';
+$txt['sp-categories'] = 'Categories';
+$txt['sp-articles'] = 'Articles';
 $txt['sp-adminTitle'] = 'SimplePortal Admin';
 $txt['sp-adminCatTitle'] = 'SimplePortal';
 $txt['sp-add_article'] = 'Add as Article';
@@ -28,6 +30,11 @@ $txt['sp_all'] = 'All';
 $txt['sp_link'] = '[link]';
 $txt['sp_viewed_time'] = 'viewed %d time';
 $txt['sp_viewed_times'] = 'viewed %d times';
+$txt['sp_has_article'] = '%d article';
+$txt['sp_has_articles'] = '%d articles';
+$txt['sp_commented_on_time'] = 'commented on %d time';
+$txt['sp_commented_on_times'] = 'commented on %d times';
+$txt['sp_posted_in_on_by'] = 'posted in %1$s on %2$s by %3$s';
 $txt['sp_function_unknown_label'] = 'Unknown Block Type';
 
 // Block specific strings

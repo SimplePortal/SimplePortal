@@ -361,6 +361,18 @@ li.shoutbox_warning
 	color: #FF0000;
 }
 
+#sp_view_categories h4, #sp_view_articles h4
+{
+	font-size: 1.1em;
+}
+#sp_view_categories p, #sp_view_articles p
+{
+	margin: 0.5em 0;
+}
+#sp_view_categories span, #sp_view_articles span
+{
+	font-size: 0.9em;
+}
 
 #sp_admin_main
 {
