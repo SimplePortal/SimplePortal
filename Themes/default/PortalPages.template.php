@@ -117,7 +117,7 @@ function template_view_page_curve()
 	echo '
 					<div class="sp_content_padding"', !empty($context['SPortal']['page']['style']['body']['style']) ? ' style="' . $context['SPortal']['page']['style']['body']['style'] . '"' : '', '>';
 
-	sportal_parse_page($context['SPortal']['page']['body'], $context['SPortal']['page']['type']);
+	sportal_parse_content($context['SPortal']['page']['body'], $context['SPortal']['page']['type']);
 
 	echo '
 					</div>';

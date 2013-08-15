@@ -361,17 +361,25 @@ li.shoutbox_warning
 	color: #FF0000;
 }
 
-#sp_view_categories h4, #sp_view_articles h4
+#sp_index div.cat_bar
+{
+	margin-top: 0.5em;
+}
+#sp_view_categories h4, #sp_view_articles h4, #sp_view_category h4
 {
 	font-size: 1.1em;
 }
-#sp_view_categories p, #sp_view_articles p
+#sp_index p, #sp_view_categories p, #sp_view_articles p, #sp_view_category p
 {
 	margin: 0.5em 0;
 }
-#sp_view_categories span, #sp_view_articles span
+#sp_index span, #sp_view_categories span, #sp_view_articles span, #sp_view_category span, #sp_view_article span
 {
 	font-size: 0.9em;
+}
+#sp_view_article div.sp_content_padding div
+{
+	margin-top: 1em;
 }
 
 #sp_admin_main

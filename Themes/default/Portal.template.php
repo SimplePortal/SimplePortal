@@ -10,6 +10,36 @@
  * @version 2.4
  */
 
+function template_portal_index()
+{
+	global $context, $txt;
+
+	echo '
+	<div id="sp_index">';
+
+	foreach ($context['articles'] as $article)
+	{
+		echo '
+		<div class="cat_bar">
+			<h3 class="catbg">
+				', $article['link'], '
+			</h3>
+		</div>
+		<div class="windowbg2">
+			<span class="topslice"><span></span></span>
+			<div class="sp_content_padding">
+				<span>', sprintf($txt['sp_posted_in_on_by'], $article['category']['link'], $article['date'], $article['author']['link']), '</span>
+				<p>', $article['preview'], '<a href="', $article['href'], '">...</a></p>
+				<span>', sprintf($article['views'] == 1 ? $txt['sp_viewed_time'] : $txt['sp_viewed_times'], $article['views']) ,', ', sprintf($article['comments'] == 1 ? $txt['sp_commented_on_time'] : $txt['sp_commented_on_times'], $article['comments']), '</span>
+			</div>
+			<span class="botslice"><span></span></span>
+		</div>';
+	}
+
+	echo '
+	</div>';
+}
+
 function template_portal_above()
 {
 	global $context, $modSettings;

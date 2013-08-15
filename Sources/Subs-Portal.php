@@ -236,7 +236,7 @@ function sportal_catch_action()
 
 	if (empty($context['disable_sp']))
 	{
-		if (empty($board) && empty($topic) && empty($_GET['page']) && $modSettings['sp_portal_mode'] == 1)
+		if (empty($board) && empty($topic) && empty($_GET['page']) && empty($_GET['article']) && empty($_GET['category']) && $modSettings['sp_portal_mode'] == 1)
 		{
 			require_once($sourcedir . '/PortalMain.php');
 			return 'sportal_main';
@@ -245,6 +245,16 @@ function sportal_catch_action()
 		{
 			require_once($sourcedir . '/PortalPages.php');
 			return 'sportal_page';
+		}
+		elseif (empty($board) && empty($topic) && !empty($_GET['article']))
+		{
+			require_once($sourcedir . '/PortalArticles.php');
+			return 'sportal_article';
+		}
+		elseif (empty($board) && empty($topic) && !empty($_GET['category']))
+		{
+			require_once($sourcedir . '/PortalCategories.php');
+			return 'sportal_category';
 		}
 	}
 
@@ -1010,7 +1020,7 @@ function sportal_parse_style($action, $setting = '', $process = false)
 	return $style;
 }
 
-function sportal_get_articles($article_id = null, $active = false, $allowed = false, $sort = 'spa.title')
+function sportal_get_articles($article_id = null, $active = false, $allowed = false, $sort = 'spa.title', $category_id = null)
 {
 	global $smcFunc, $scripturl;
 
@@ -1026,6 +1036,11 @@ function sportal_get_articles($article_id = null, $active = false, $allowed = fa
 	{
 		$query[] = 'spa.namespace = {string:namespace}';
 		$parameters['namespace'] = $article_id;
+	}
+	if (!empty($category_id))
+	{
+		$query[] = 'spa.id_category = {int:category_id}';
+		$parameters['category_id'] = (int) $category_id;
 	}
 	if (!empty($active))
 	{
@@ -1056,6 +1071,7 @@ function sportal_get_articles($article_id = null, $active = false, $allowed = fa
 			'id' => $row['id_article'],
 			'category' => array(
 				'id' => $row['id_category'],
+				'category_id' => $row['category_namespace'],
 				'name' => $row['name'],
 				'href' => $scripturl . '?category=' . $row['category_namespace'],
 				'link' => '<a href="' . $scripturl . '?category=' . $row['category_namespace'] . '">' . $row['name'] . '</a>',
@@ -1202,7 +1218,7 @@ function sportal_get_pages($page_id = null, $active = false, $allowed = false, $
 	return !empty($page_id) ? current($return) : $return;
 }
 
-function sportal_parse_page($body, $type)
+function sportal_parse_content($body, $type)
 {
 	if (strtolower($body) === 'el psy congroo')
 		echo 'Steins;Gate';

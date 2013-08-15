@@ -229,7 +229,7 @@ function sportal_admin_article_list()
 
 function sportal_admin_article_edit()
 {
-	global $smcFunc, $context, $sourcedir, $modSettings, $user_info, $options, $txt;
+	global $smcFunc, $context, $sourcedir, $scripturl, $modSettings, $user_info, $options, $txt;
 
 	require_once($sourcedir . '/Subs-Editor.php');
 	require_once($sourcedir . '/Subs-Post.php');
@@ -424,16 +424,31 @@ function sportal_admin_article_edit()
 			}
 		}
 
+		if (!$context['is_new'])
+		{
+			$_REQUEST['article_id'] = (int) $_REQUEST['article_id'];
+			$current = sportal_get_articles($_REQUEST['article_id']);
+			$author = $current['author'];
+			$date = timeformat($current['date']);
+		}
+		else
+		{
+			$author = array('link' => '<a href="' . $scripturl .'?action=profile;u=' . $user_info['id'] . '">' . $user_info['name'] . '</a>');
+			$date = timeformat(time());
+		}
+
 		$context['article'] = array(
 			'id' => $_POST['article_id'],
 			'article_id' => $_POST['namespace'],
 			'category' => sportal_get_categories((int) $_POST['category_id']),
+			'author' => $author,
 			'title' => $smcFunc['htmlspecialchars']($_POST['title'], ENT_QUOTES),
 			'body' => $smcFunc['htmlspecialchars']($_POST['content'], ENT_QUOTES),
 			'type' => $_POST['type'],
 			'permission_set' => $permission_set,
 			'groups_allowed' => $groups_allowed,
 			'groups_denied' => $groups_denied,
+			'date' => $date,
 			'status' => !empty($_POST['status']),
 		);
 

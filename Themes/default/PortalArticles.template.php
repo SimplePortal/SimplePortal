@@ -22,7 +22,7 @@ function template_view_articles()
 			</h3>
 		</div>';
 
-	if (empty($context['SPortal']['articles']))
+	if (empty($context['articles']))
 	{
 		echo '
 		<div class="windowbg2">
@@ -32,7 +32,7 @@ function template_view_articles()
 		</div>';
 	}
 
-	foreach ($context['SPortal']['articles'] as $article)
+	foreach ($context['articles'] as $article)
 	{
 		echo '
 		<div class="windowbg2">
@@ -48,6 +48,34 @@ function template_view_articles()
 	}
 
 	echo '
+	</div>';
+}
+
+function template_view_article()
+{
+	global $context, $txt;
+
+
+	echo '
+	<div id="sp_view_article">
+		<div class="cat_bar">
+			<h3 class="catbg">
+				', $context['article']['title'], '
+			</h3>
+		</div>
+		<div class="windowbg">
+			<span class="topslice"><span></span></span>
+			<div class="sp_content_padding">
+				<span>', sprintf($txt['sp_posted_in_on_by'], $context['article']['category']['link'], $context['article']['date'], $context['article']['author']['link']), '</span>
+				<div>';
+
+	sportal_parse_content($context['article']['body'], $context['article']['type']);
+
+	echo '
+				</div>
+			</div>
+			<span class="botslice"><span></span></span>
+		</div>
 	</div>';
 }
 

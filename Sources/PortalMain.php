@@ -32,17 +32,36 @@ function sportal_main()
 		'articles' => array('PortalArticles.php', 'sportal_articles'),
 		'categories' => array('PortalCategories.php', 'sportal_categories'),
 		'credits' => array('', 'sportal_credits'),
+		'index' => array('', 'sportal_index'),
 		'pages' => array('PortalPages.php', 'sportal_pages'),
 		'shoutbox' => array('PortalShoutbox.php', 'sportal_shoutbox'),
 	);
 
 	if (!isset($_REQUEST['sa']) || !isset($actions[$_REQUEST['sa']]))
-		$_REQUEST['sa'] = 'articles';
+		$_REQUEST['sa'] = 'index';
 
 	if (!empty($actions[$_REQUEST['sa']][0]))
 		require_once($sourcedir . '/' . $actions[$_REQUEST['sa']][0]);
 
 	$actions[$_REQUEST['sa']][1]();
+}
+
+function sportal_index()
+{
+	global $smcFunc, $context, $scripturl, $txt;
+
+	$context['articles'] = sportal_get_articles(0, true, true, 'spa.id_article DESC');
+
+	foreach ($context['articles'] as $article)
+	{
+		if (($cutoff = $smcFunc['strpos']($article['body'], '[cutoff]')) !== false)
+			$article['body'] = $smcFunc['substr']($article['body'], 0, $cutoff);
+
+		$context['articles'][$article['id']]['preview'] = parse_bbc($article['body']);
+		$context['articles'][$article['id']]['date'] = timeformat($article['date']);
+	}
+
+	$context['sub_template'] = 'portal_index';
 }
 
 function sportal_credits()
