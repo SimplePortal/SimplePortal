@@ -75,32 +75,6 @@
 		</operation>
 	</file>
 
-	<file name="$sourcedir/ManagePermissions.php">
-		<operation>
-			<search position="replace"><![CDATA[			'pm_read' => array(false, 'pm', 'use_pm_system'),]]></search>
-			<add><![CDATA[			'pm_read' => array(false, 'pm', 'use_pm_system'),
-			'sp_admin' => array(false, 'sp', 'sp'),
-			'sp_manage_settings' => array(false, 'sp', 'sp'),
-			'sp_manage_blocks' => array(false, 'sp', 'sp'),
-			'sp_manage_articles' => array(false, 'sp', 'sp'),
-			'sp_manage_pages' => array(false, 'sp', 'sp'),
-			'sp_manage_shoutbox' => array(false, 'sp', 'sp'),
-			'sp_add_article' => array(false, 'sp', 'sp'),
-			'sp_auto_article_approval' => array(false, 'sp', 'sp'),
-			'sp_remove_article' => array(false, 'sp', 'sp'),]]></add>
-		</operation>
-		<operation>
-			<search position="replace"><![CDATA[				'pm',]]></search>
-			<add><![CDATA[				'pm',
-				'sp',]]></add>
-		</operation>
-		<operation>
-			<search position="replace"><![CDATA[				'use_pm_system',]]></search>
-			<add><![CDATA[				'use_pm_system',
-				'sp',]]></add>
-		</operation>
-	</file>
-
 	<file name="$sourcedir/ManageServer.php">
 		<operation>
 			<search position="replace"><![CDATA[	loadLanguage('Help');]]></search>
@@ -110,14 +84,6 @@
 	</file>
 
 	<file name="$sourcedir/QueryString.php">
-		<operation>
-			<search position="replace"><![CDATA[	// If $scripturl is set to nothing, or the SID is not defined (SSI?) just quit.]]></search>
-			<add><![CDATA[	// It's just a blue dream...
-	if (function_exists('sp_query_string'))
-		$buffer = sp_query_string($buffer);
-
-	// If $scripturl is set to nothing, or the SID is not defined (SSI?) just quit.]]></add>
-		</operation>
 		<operation>
 			<search position="replace"><![CDATA[\?(?:' . SID . '(?:;|&|&amp;))((?:board|topic]]></search>
 			<add><![CDATA[\?(?:' . SID . '(?:;|&|&amp;))((?:board|topic|page]]></add>

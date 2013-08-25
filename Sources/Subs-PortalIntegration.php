@@ -121,4 +121,21 @@ function sp_integrate_admin_areas(&$admin_areas)
 	}
 }
 
+function sp_integrate_load_permissions(&$permission_groups, &$permission_list, &$left_permission_groups, &$hidden_permissions, &$relabel_permissions)
+{
+	$permission_groups['membergroup']['simple'][] = 'sp';
+	$permission_groups['membergroup']['classic'][] = 'sp';
+
+	$permission_list['membergroup'] = array_merge($permission_list['membergroup'], array(
+		'sp_admin' => array(false, 'sp', 'sp'),
+		'sp_manage_settings' => array(false, 'sp', 'sp'),
+		'sp_manage_blocks' => array(false, 'sp', 'sp'),
+		'sp_manage_articles' => array(false, 'sp', 'sp'),
+		'sp_manage_pages' => array(false, 'sp', 'sp'),
+		'sp_manage_shoutbox' => array(false, 'sp', 'sp')
+	));
+
+	$left_permission_groups[] = 'sp';
+}
+
 ?>

@@ -521,18 +521,12 @@ $txt['permissionname_sp_manage_settings'] = 'Manage portal settings';
 $txt['permissionhelp_sp_manage_settings'] = 'This permission allows users to manage SimplePortal settings.';
 $txt['permissionname_sp_manage_blocks'] = 'Manage portal blocks';
 $txt['permissionhelp_sp_manage_blocks'] = 'This permission allows users to manage SimplePortal blocks.';
-$txt['permissionname_sp_manage_articles'] = 'Manage portal articles';
-$txt['permissionhelp_sp_manage_articles'] = 'This permission allows users to manage SimplePortal articles.';
+$txt['permissionname_sp_manage_articles'] = 'Manage portal categories and articles';
+$txt['permissionhelp_sp_manage_articles'] = 'This permission allows users to manage SimplePortal categories and articles.';
 $txt['permissionname_sp_manage_pages'] = 'Manage portal pages';
 $txt['permissionhelp_sp_manage_pages'] = 'This permission allows users to manage SimplePortal pages.';
 $txt['permissionname_sp_manage_shoutbox'] = 'Manage portal shoutboxes';
 $txt['permissionhelp_sp_manage_shoutbox'] = 'This permission allows users to manage SimplePortal shoutboxes.';
-$txt['permissionname_sp_add_article'] = 'Can add article';
-$txt['permissionhelp_sp_add_article'] = 'This permission allows users to add articles.';
-$txt['permissionname_sp_auto_article_approval'] = 'Automatic article approval';
-$txt['permissionhelp_sp_auto_article_approval'] = 'This permission allows users to add articles without requiring approval.';
-$txt['permissionname_sp_remove_article'] = 'Can remove article';
-$txt['permissionhelp_sp_remove_article'] = 'This permission allows users to remove articles.';
 
 // Compatibility strings
 $txt['sp-adminCatHelp'] = 'Here you can manage and configure SimplePortal.';

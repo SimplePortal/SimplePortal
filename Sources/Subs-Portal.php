@@ -1044,8 +1044,10 @@ function sportal_get_articles($article_id = null, $active = false, $allowed = fa
 	}
 	if (!empty($active))
 	{
-		$query[] = 'spa.status = {int:status}';
-		$parameters['status'] = 1;
+		$query[] = 'spa.status = {int:article_status}';
+		$parameters['article_status'] = 1;
+		$query[] = 'spc.status = {int:category_status}';
+		$parameters['category_status'] = 1;
 	}
 
 	$request = $smcFunc['db_query']('','
@@ -1053,7 +1055,10 @@ function sportal_get_articles($article_id = null, $active = false, $allowed = fa
 			spa.id_article, spa.id_category, spc.name, spc.namespace AS category_namespace,
 			IFNULL(m.id_member, 0) AS id_author, IFNULL(m.real_name, spa.member_name) AS author_name,
 			spa.namespace AS article_namespace, spa.title, spa.body, spa.type, spa.date, spa.status,
-			spa.permission_set, spa.groups_allowed, spa.groups_denied, spa.views, spa.comments
+			spa.permission_set AS article_permission_set, spa.groups_allowed AS article_groups_allowed,
+			spa.groups_denied AS article_groups_denied, spc.permission_set AS category_permission_set,
+			spc.groups_allowed AS category_groups_allowed, spc.groups_denied AS category_groups_denied,
+			spa.views, spa.comments
 		FROM {db_prefix}sp_articles AS spa
 			INNER JOIN {db_prefix}sp_categories AS spc ON (spc.id_category = spa.id_category)
 			LEFT JOIN {db_prefix}members AS m ON (m.id_member = spa.id_member)' . (!empty($query) ? '
@@ -1064,7 +1069,10 @@ function sportal_get_articles($article_id = null, $active = false, $allowed = fa
 	$return = array();
 	while ($row = $smcFunc['db_fetch_assoc']($request))
 	{
-		if (!empty($allowed) && !sp_allowed_to('article', $row['id_article'], $row['permission_set'], $row['groups_allowed'], $row['groups_denied']))
+		if (!empty($allowed) && !sp_allowed_to('article', $row['id_article'], $row['article_permission_set'], $row['article_groups_allowed'], $row['article_groups_denied']))
+			continue;
+
+		if (!empty($allowed) && !sp_allowed_to('category', $row['id_category'], $row['category_permission_set'], $row['category_groups_allowed'], $row['category_groups_denied']))
 			continue;
 
 		$return[$row['id_article']] = array(

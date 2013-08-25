@@ -25,6 +25,8 @@ $hooks = array(
 	'integrate_load_theme' => array('sportal_init'),
 	'integrate_actions' => array('sp_integrate_actions'),
 	'integrate_admin_areas' => array('sp_integrate_admin_areas'),
+	'integrate_load_permissions' => array('sp_integrate_load_permissions'),
+	'integrate_buffer' => array('sp_query_string'),
 );
 
 $integration_function = empty($context['uninstalling']) ? 'add_integration_function' : 'remove_integration_function';
