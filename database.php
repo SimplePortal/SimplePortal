@@ -16,9 +16,9 @@ if (file_exists(dirname(__FILE__) . '/SSI.php') && !defined('SMF'))
 	require_once(dirname(__FILE__) . '/SSI.php');
 }
 elseif (!defined('SMF'))
-	die('<b>Error:</b> Cannot install - please verify you put this in the same place as SMF\'s index.php.');
+	exit('<b>Error:</b> Cannot install - please verify you put this in the same place as SMF\'s index.php.');
 
-global $smcFunc, $db_prefix, $modSettings, $sourcedir, $boarddir, $settings, $db_package_log, $package_cache;
+global $smcFunc, $db_prefix, $db_package_log;
 
 if (!array_key_exists('db_add_column', $smcFunc))
 	db_extend('packages');
@@ -81,6 +81,19 @@ $tables = array(
 		),
 		'indexes' => array(
 			array('type' => 'primary', 'columns' => array('id_category')),
+		),
+	),
+	'sp_comments' => array(
+		'columns' => array(
+			array('name' => 'id_comment', 'type' => 'mediumint', 'size' => 8, 'auto' => true),
+			array('name' => 'id_article', 'type' => 'mediumint', 'size' => 8, 'default' => 0),
+			array('name' => 'id_member', 'type' => 'mediumint', 'size' => 8, 'default' => 0),
+			array('name' => 'member_name', 'type' => 'varchar', 'size' => 80, 'default' => 0),
+			array('name' => 'body', 'type' => 'text'),
+			array('name' => 'log_time', 'type' => 'int', 'size' => 10, 'default' => 0),
+		),
+		'indexes' => array(
+			array('type' => 'primary', 'columns' => array('id_comment')),
 		),
 	),
 	'sp_functions' => array(
@@ -275,45 +288,9 @@ if (empty($has_block))
 	);
 }
 
-$defaults = array(
-	'sp_portal_mode' => 1,
-	'sp_disableForumRedirect' => 1,
-	'showleft' => 1,
-	'showright' => 1,
-	'leftwidth' => 200,
-	'rightwidth' => 200,
-	'sp_enableIntegration' => 1,
-	'sp_adminIntegrationHide' => 1,
-	'sp_resize_images' => 1,
-);
-
-$updates = array(
-	'sp_version' => '2.4',
-);
-
-foreach ($defaults as $index => $value)
-	if (!isset($modSettings[$index]))
-		$updates[$index] = $value;
-
-updateSettings($updates);
-
 $db_package_log = array();
 foreach ($tables as $table_name => $null)
 	$db_package_log[] = array('remove_table', $db_prefix . $table_name);
-
-$standalone_file = $boarddir . '/PortalStandalone.php';
-if (isset($package_cache[$standalone_file]))
-	$package_cache[$standalone_file] = str_replace('full/path/to/forum', $boarddir, $package_cache[$standalone_file]);
-elseif (file_exists($standalone_file))
-{
-	$current_data = file_get_contents($standalone_file);
-	if (strpos($current_data, 'full/path/to/forum') !== false)
-	{
-		$fp = fopen($standalone_file, 'w+');
-		fwrite($fp, str_replace('full/path/to/forum', $boarddir, $current_data));
-		fclose($fp);
-	}
-}
 
 if (SMF == 'SSI')
 	echo 'Database changes were carried out successfully.';

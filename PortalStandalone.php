@@ -16,7 +16,7 @@ $forum_dir = 'full/path/to/forum';
 $sp_standalone = true;
 
 if (!file_exists($forum_dir . '/index.php'))
-	die('Wrong $forum_dir value. Please make sure that the $forum_value variable points to your forum\'s directory.');
+	exit('Wrong $forum_dir value. Please make sure that the $forum_dir variable points to your forum\'s directory.');
 
 $data = substr(file_get_contents($forum_dir . '/index.php'), 0, 4096);
 if (preg_match('~\*\s@version\s+(.+)[\s]{2}~i', $data, $match))

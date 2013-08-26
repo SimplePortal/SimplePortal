@@ -23,6 +23,7 @@
 		<require-dir name="Sources" destination="$boarddir" />
 		<require-dir name="Themes" destination="$boarddir" />
 		<database>database.php</database>
+		<code>settings.php</code>
 		<code>integration.php</code>
 		<redirect url="$scripturl?action=admin;area=portalconfig" timeout="5000" parsebbc="true">redirect</redirect>
 	</install>
