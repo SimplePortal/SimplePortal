@@ -1097,9 +1097,9 @@ function sportal_get_articles($article_id = null, $active = false, $allowed = fa
 			'body' => $row['body'],
 			'type' => $row['type'],
 			'date' => $row['date'],
-			'permission_set' => $row['permission_set'],
-			'groups_allowed' => $row['groups_allowed'] !== '' ? explode(',', $row['groups_allowed']) : array(), 
-			'groups_denied' => $row['groups_denied'] !== '' ? explode(',', $row['groups_denied']) : array(), 
+			'permission_set' => $row['article_permission_set'],
+			'groups_allowed' => $row['article_groups_allowed'] !== '' ? explode(',', $row['article_groups_allowed']) : array(), 
+			'groups_denied' => $row['article_groups_denied'] !== '' ? explode(',', $row['article_groups_denied']) : array(), 
 			'views' => $row['views'],
 			'comments' => $row['comments'],
 			'status' => $row['status'],
@@ -1165,6 +1165,128 @@ function sportal_get_categories($category_id = null, $active = false, $allowed =
 	$smcFunc['db_free_result']($request);
 
 	return !empty($category_id) ? current($return) : $return;
+}
+
+function sportal_get_comments($article_id = null)
+{
+	global $smcFunc, $scripturl, $user_info;
+
+	$request = $smcFunc['db_query']('', '
+		SELECT
+			spc.id_comment, IFNULL(spc.id_member, 0) AS id_author,
+			IFNULL(m.real_name, spc.member_name) AS author_name,
+			spc.body, spc.log_time
+		FROM {db_prefix}sp_comments AS spc
+			LEFT JOIN {db_prefix}members AS m ON (m.id_member = spc.id_member)
+		WHERE spc.id_article = {int:article_id}
+		ORDER BY spc.id_comment',
+		array(
+			'article_id' => (int) $article_id,
+		)
+	);
+	$return = array();
+	while ($row = $smcFunc['db_fetch_assoc']($request))
+	{
+		$return[$row['id_comment']] = array(
+			'id' => $row['id_comment'],
+			'body' => parse_bbc($row['body']),
+			'time' => timeformat($row['log_time']),
+			'author' => array(
+				'id' => $row['id_author'],
+				'name' => $row['author_name'],
+				'href' => $scripturl . '?action=profile;u=' . $row['id_author'],
+				'link' => $row['id_author'] ? ('<a href="' . $scripturl . '?action=profile;u=' . $row['id_author'] . '">' . $row['author_name'] . '</a>') : $row['author_name'],
+			),
+			'can_moderate' => allowedTo('sp_admin') || allowedTo('sp_manage_articles') || (!$user_info['is_guest'] && $user_info['id'] == $row['id_author']),
+		);
+	}
+	$smcFunc['db_free_result']($request);
+
+	return $return;
+}
+
+function sportal_create_comment($article_id, $body)
+{
+	global $smcFunc, $user_info;
+
+	$smcFunc['db_insert']('',
+		'{db_prefix}sp_comments',
+		array(
+			'id_article' => 'int',
+			'id_member' => 'int',
+			'member_name' => 'string',
+			'log_time' => 'int',
+			'body' => 'string',
+		),
+		array(
+			$article_id,
+			$user_info['id'],
+			$user_info['name'],
+			time(),
+			$body,
+		),
+		array('id_comment')
+	);
+
+	sportal_recount_comments($article_id);
+}
+
+function sportal_modify_comment($comment_id, $body)
+{
+	global $smcFunc;
+
+	$smcFunc['db_query']('', '
+		UPDATE {db_prefix}sp_comments
+		SET body = {text:body}
+		WHERE id_comment = {int:comment_id}',
+		array(
+			'comment_id' => $comment_id,
+			'body' => $body,
+		)
+	);
+}
+
+function sportal_delete_comment($article_id, $comment_id)
+{
+	global $smcFunc;
+
+	$smcFunc['db_query']('', '
+		DELETE FROM {db_prefix}sp_comments
+		WHERE id_comment = {int:comment_id}',
+		array(
+			'comment_id' => $comment_id,
+		)
+	);
+
+	sportal_recount_comments($article_id);
+}
+
+function sportal_recount_comments($article_id)
+{
+	global $smcFunc;
+
+	$request = $smcFunc['db_query']('','
+		SELECT COUNT(*)
+		FROM {db_prefix}sp_comments
+		WHERE id_article = {int:article_id}
+		LIMIT {int:limit}',
+		array(
+			'article_id' => $article_id,
+			'limit' => 1,
+		)
+	);
+	list ($comments) = $smcFunc['db_fetch_row']($request);
+	$smcFunc['db_free_result']($request);
+
+	$smcFunc['db_query']('', '
+		UPDATE {db_prefix}sp_articles
+		SET comments = {int:comments}
+		WHERE id_article = {int:article_id}',
+		array(
+			'article_id' => $article_id,
+			'comments' => $comments,
+		)
+	);
 }
 
 function sportal_get_pages($page_id = null, $active = false, $allowed = false, $sort = 'title')
@@ -1488,6 +1610,7 @@ function sp_prevent_flood($type, $fatal = true)
 
 	$limits = array(
 		'spsbp' => 2,
+		'spacp' => 5,
 	);
 
 	if (!allowedTo('admin_forum'))
