@@ -5,7 +5,7 @@
  *
  * @author SimplePortal Team
  * @copyright 2013 SimplePortal Team
- * @license BSD 3-clause 
+ * @license BSD 3-clause
  *
  * @version 2.4
  */
@@ -13,6 +13,9 @@
 if (!defined('SMF'))
 	die('Hacking attempt...');
 
+/**
+ * Load all articles for selection
+ */
 function sportal_articles()
 {
 	global $smcFunc, $context, $scripturl, $txt;
@@ -39,6 +42,10 @@ function sportal_articles()
 	$context['sub_template'] = 'view_articles';
 }
 
+/**
+ * Display a chosen article
+ * Update the stats, like #views etc
+ */
 function sportal_article()
 {
 	global $smcFunc, $context, $sourcedir, $scripturl, $user_info, $txt;

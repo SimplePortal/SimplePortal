@@ -5,7 +5,7 @@
  *
  * @author SimplePortal Team
  * @copyright 2013 SimplePortal Team
- * @license BSD 3-clause 
+ * @license BSD 3-clause
  *
  * @version 2.4
  */
@@ -202,18 +202,17 @@ require_once(\'' . $boarddir . '/SSI.php\');
 	return $error;
 }
 
-/*
-	void sp_loadMemberGroups(Array $selectedGroups = array, Array $removeGroups = array(), string $show = 'normal', string $contextName = 'member_groups')
-	This will file the $context['member_groups'] to the given options
-	$selectedGroups means all groups who should be shown as selcted, if you like to check all than insert an 'all'
-		You can also Give the function a string with '2,3,4'
-	$removeGroups this group id should not shown in the list
-	$show have follow options
-		'normal' => will show all groups, and add a guest and regular member (Standard)
-		'post' => will load only post groups
-		'master' => will load only not postbased groups
-	$contextName where the datas should stored in the $context.
-*/
+/**
+ * This will file the $context['member_groups'] to the given options
+ *
+ * @param type $selectedGroups - all groups who should be shown as selcted, if you like to check all than insert an 'all'
+ *								 You can also Give the function a string with '2,3,4'
+ * @param type $show -  'normal' => will show all groups, and add a guest and regular member (Standard)
+ *						'post' => will load only post groups
+ *						'master' => will load only not postbased groups
+ * @param type $contextName - where the datas should stored in the $context
+ * @param type $subContext
+ */
 function sp_loadMemberGroups($selectedGroups = array(), $show = 'normal', $contextName = 'member_groups', $subContext = 'SPortal')
 {
 	global $context, $smcFunc, $txt;

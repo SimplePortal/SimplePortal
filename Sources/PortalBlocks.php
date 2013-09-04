@@ -5,7 +5,7 @@
  *
  * @author SimplePortal Team
  * @copyright 2013 SimplePortal Team
- * @license BSD 3-clause 
+ * @license BSD 3-clause
  *
  * @version 2.4
  */
@@ -13,6 +13,13 @@
 if (!defined('SMF'))
 	die('Hacking attempt...');
 
+/**
+ * User info block, shows avatar, group, icons, posts, karma, etc
+ *
+ * @param array $parameters, not used in this block
+ * @param int $id - not used in this block
+ * @param boolean $return_parameters if true returns the configuration options for the block
+ */
 function sp_userInfo($parameters, $id, $return_parameters = false)
 {
 	global $context, $txt, $scripturl, $memberContext, $modSettings, $user_info, $color_profile, $settings;
@@ -50,13 +57,13 @@ function sp_userInfo($parameters, $id, $return_parameters = false)
 												<td><input type="submit" value="', $txt['login'], '" class="button_submit" /></td>
 											</tr>
 										</table>
-										<input type="hidden" name="hash_passwrd" value="" /> 
+										<input type="hidden" name="hash_passwrd" value="" />
 									</form>', sprintf($txt['welcome_guest'], $txt['guest_title']);
 	}
 	else
 	{
 		loadMemberData($user_info['id']);
-		loadMemberContext($user_info['id'], true); 
+		loadMemberContext($user_info['id'], true);
 
 		$member_info = $memberContext[$user_info['id']];
 
@@ -126,6 +133,13 @@ function sp_userInfo($parameters, $id, $return_parameters = false)
 								</div>';
 }
 
+/**
+ * Latest member block, shows name and join date for X latest members
+ *
+ * @param array $parameters 'limit' => number of members to show
+ * @param int $id - not used in this block
+ * @param boolean $return_parameters if true returns the configuration options for the block
+ */
 function sp_latestMember($parameters, $id, $return_parameters = false)
 {
 	global $smcFunc, $context, $scripturl, $txt, $color_profile;
@@ -194,6 +208,13 @@ function sp_latestMember($parameters, $id, $return_parameters = false)
 								</ul>';
 }
 
+/**
+ * Who's online block, shows count of users online names
+ *
+ * @param array $parameters 'online_today' => shows all users that were online today (requires user online today addon)
+ * @param int $id - not used in this block
+ * @param boolean $return_parameters if true returns the configuration options for the block
+ */
 function sp_whosOnline($parameters, $id, $return_parameters = false)
 {
 	global $scripturl, $sourcedir, $modSettings, $txt;
@@ -278,6 +299,13 @@ function sp_whosOnline($parameters, $id, $return_parameters = false)
 	}
 }
 
+/**
+ * Board Stats block, shows count of users online names
+ *
+ * @param array $parameters 'averages' => Will calculate the daily average (posts, topics, registrations, etc)
+ * @param int $id - not used in this block
+ * @param boolean $return_parameters if true returns the configuration options for the block
+ */
 function sp_boardStats($parameters, $id, $return_parameters = false)
 {
 	global $smcFunc, $scripturl, $modSettings, $txt;
@@ -295,6 +323,7 @@ function sp_boardStats($parameters, $id, $return_parameters = false)
 
 	$totals = ssi_boardStats('array');
 
+	// Get the averages from the activity log, its the most recent snapshot
 	if ($averages)
 	{
 		$result = $smcFunc['db_query']('', '
@@ -339,6 +368,15 @@ function sp_boardStats($parameters, $id, $return_parameters = false)
 	}
 }
 
+/**
+ * Top Posters block, shows the top posters on the site, with avatar and name
+ *
+ * @param array $parameters
+ *		'limit' => number of top posters to show
+ *		'type' => period to determine the top poster, 0 all time, 1 today, 2 week, 3 month
+ * @param int $id - not used in this block
+ * @param boolean $return_parameters if true returns the configuration options for the block
+ */
 function sp_topPoster($parameters, $id, $return_parameters = false)
 {
 	global $smcFunc, $context, $scripturl, $modSettings, $txt, $color_profile;
@@ -354,15 +392,19 @@ function sp_topPoster($parameters, $id, $return_parameters = false)
 	$limit = !empty($parameters['limit']) ? (int) $parameters['limit'] : 5;
 	$type = !empty($parameters['type']) ? (int) $parameters['type'] : 0;
 
+	// If not top poster of all time we need to set a start time
 	if (!empty($type))
 	{
+		// Today
 		if ($type == 1)
 		{
 			list($year, $month, $day) = explode('-', date('Y-m-d'));
 			$start_time = mktime(0, 0, 0, $month, $day, $year);
 		}
+		// This week
 		elseif ($type == 2)
 			$start_time = mktime(0, 0, 0, date("n"), date("j"), date("Y")) - (date("N") * 3600 * 24);
+		// This month
 		elseif ($type == 3)
 		{
 			$months = array( 1 => 31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31);
@@ -473,6 +515,20 @@ function sp_topPoster($parameters, $id, $return_parameters = false)
 								</table>';
 }
 
+/**
+ * Top stats block, shows the top x members who has achieved top position of various stats
+ * Designed to be flexible so adding additional member stats is easy
+ *
+ * @param array $parameters
+ *		'limit' => number of top posters to show
+ *		'type' => top stat to show
+ *		'sort_asc' => direction to show the list
+ * 		'last_active_limit'
+ * 		'enable_label' => use the label
+ * 		'list_label' => title for the list
+ * @param int $id - not used in this block
+ * @param boolean $return_parameters if true returns the configuration options for the block
+ */
 function sp_topStatsMember($parameters, $id, $return_parameters = false)
 {
 	global $context, $settings, $txt, $scripturl, $user_info, $user_info, $modSettings, $boards, $color_profile;
@@ -494,7 +550,7 @@ function sp_topStatsMember($parameters, $id, $return_parameters = false)
 			'sa_shop_trades' => $txt['sp_topStatsMember_SA_Shop_Trades'],
 			'sa_shop_purchase' => $txt['sp_topStatsMember_SA_Shop_Purchase'],
 			'casino' => $txt['sp_topStatsMember_Casino'],
-		), 
+		),
 		'limit' => 'int',
 		'sort_asc' => 'check',
 		'last_active_limit' => 'int',
@@ -508,31 +564,18 @@ function sp_topStatsMember($parameters, $id, $return_parameters = false)
 	if (empty($sp_topStatsSystem))
 	{
 		/*
-			The system setup array, order depend on the $txt array of the select
-			name
-				It's for better knowing what this option can do.
-			mod_id
-				Only as information
-			field
-				The members field that should be loaded
-				Please don't forget to add mem. before the field names
-				(That what is after the SELECT Statment)
-			order
-				What is the field name i need to be sort after
-			where
-				Here you can add additional where statments :)
-			output_text
-				What should be outputed after the avatar and nickname
-				For example if you field is karmaGood
-				'output' => $txt['karma'] . '%karmaGood%';
-			output_function
-				With this you can add to the $row of the query some infomartions.
-			reverse
-				On true it change the reverse cause, if not set it will be false :)
-			enabled
-				true = mod exists or is possible to use :D
-
-			'error_msg' => $txt['my_error_msg'];; You can insert here what kind of error message should appear if the modification not exists =D
+		 * The system setup array, order depend on the $txt array of the select name
+		 *
+		 * 'mod_id' - Only used as information
+		 * 'field' - The members field that should be loaded.  Please don't forget to add mem. before the field names
+		 * 'order' - What is the field name i need to be sort after
+		 * 'where' - Here you can add additional where statements
+		 * 'output_text' - What should be displayed after the avatar and nickname
+		 *				For example if your field is karmaGood 'output_text' => $txt['karma'] . '%karmaGood%';
+		 * 'output_function' - With this you can add to the $row of the query some information.
+		 * 'reverse' - On true it change the reverse cause, if not set it will be false :)
+		 * 'enabled' - true = mod exists or is possible to use :D
+		 * 'error_msg' => $txt['my_error_msg']; You can insert here what kind of error message should appear if the modification not exists =D
 		*/
 		$sp_topStatsSystem = array(
 			'0' => array(
@@ -730,7 +773,7 @@ function sp_topStatsMember($parameters, $id, $return_parameters = false)
 		return;
 	}
 
-	// Possible to ouput?
+	// Possible to output?
 	if (empty($current_system['enabled']))
 	{
 		echo (!empty($current_system['error_msg']) ? $current_system['error_msg'] : '');
@@ -744,13 +787,13 @@ function sp_topStatsMember($parameters, $id, $return_parameters = false)
 		return;
 	}
 
-	// Switch the reverse? (It's a reverse to reverse the allready reverse, fun byside :P)
+	// Switch the reverse? (It's a reverse to reverse the already reverse, fun beside :P)
 	$sort_asc = !empty($current_system['reverse']) ? !$sort_asc : $sort_asc;
 
-	// Create the where statment :)
+	// Create the where statement :)
 	$where = array();
-	
-	// Some cached data availible?
+
+	// Some cached data available?
 	$chache_id = 'sp_chache_' . $id . '_topStatsMember';
 	if (empty($modSettings['sp_disableChache']) && !empty($modSettings[$chache_id]))
 	{
@@ -805,7 +848,7 @@ function sp_topStatsMember($parameters, $id, $return_parameters = false)
 		$chache_member_ids[$row['id_member']] = $row['id_member'];
 		if($count++ > $limit)
 			continue;
-		
+
 		$colorids[$row['id_member']] = $row['id_member'];
 
 		if ($modSettings['avatar_action_too_large'] == 'option_html_resize' || $modSettings['avatar_action_too_large'] == 'option_js_resize')
@@ -856,14 +899,14 @@ function sp_topStatsMember($parameters, $id, $return_parameters = false)
 								', $txt['error_sp_no_members_found'];
 		return;
 	}
-	
+
 	// Update the cache, at least around 100 members are needed for a good working version
 	if (empty($modSettings['sp_disableChache']) && $context['common_stats']['total_members'] > 0 && !empty($chache_member_ids) && count($chache_member_ids) > $limit && empty($modSettings[$chache_id]))
 	{
 		$toCache = array($type, $limit, ($sort_asc ? 1 : 0), time(), implode(',', $chache_member_ids));
 		updateSettings(array($chache_id => implode(';', $toCache)));
 	}
-	// One time error, if this happen the chache need an update (Next reload is mystical fixed)
+	// One time error, if this happen the cache need an update (Next reload is mystical fixed)
 	elseif(!empty($modSettings[$chache_id]))
 		updateSettings(array($chache_id => '0;0;0;1000;0'));
 
@@ -878,13 +921,13 @@ function sp_topStatsMember($parameters, $id, $return_parameters = false)
 
 	echo '
 								<table class="sp_fullwidth">';
-	
+
 	if($enable_label)
 		echo '
 									<tr>
 										<td class="sp_top_poster sp_center" colspan="2"><strong>', $list_label,'</strong></td>
 									</tr>';
-	
+
 	foreach ($members as $member)
 	{
 		echo '
@@ -902,6 +945,17 @@ function sp_topStatsMember($parameters, $id, $return_parameters = false)
 
 }
 
+/**
+ * Recent Post or Topic block, shows the most recent posts or topics on the forum
+ *
+ * @param array $parameters
+ *		'boards' => list of boards to get posts from,
+ *		'limit' => number of topics/posts to show
+ *		'type' => recent 0 posts or 1 topics
+ * 		'display' => compact or full view of the post/topic
+ * @param int $id - not used in this block
+ * @param boolean $return_parameters if true returns the configuration options for the block
+ */
 function sp_recent($parameters, $id, $return_parameters = false)
 {
 	global $txt, $scripturl, $settings, $context, $color_profile;
@@ -921,6 +975,7 @@ function sp_recent($parameters, $id, $return_parameters = false)
 	$type = 'ssi_recent' . (empty($parameters['type']) ? 'Posts' : 'Topics');
 	$display = empty($parameters['display']) ? 'compact' : 'full';
 
+	// Pass the values to the ssi_ function
 	$items = $type($limit, null, $boards, 'array');
 
 	if (empty($items))
@@ -945,6 +1000,7 @@ function sp_recent($parameters, $id, $return_parameters = false)
 		}
 	}
 
+	// Show the data in either a compact or full format
 	if ($display == 'compact')
 	{
 		foreach ($items as $key => $item)
@@ -976,6 +1032,15 @@ function sp_recent($parameters, $id, $return_parameters = false)
 	}
 }
 
+/**
+ * Top Topics Block, shows top topics by number of view or number of posts
+ *
+ * @param array $parameters
+ *		'limit' => number of posts to show
+ *		'type' => 0 replies or 1 views
+ * @param int $id - not used in this block
+ * @param boolean $return_parameters if true returns the configuration options for the block
+ */
 function sp_topTopics($parameters, $id, $return_parameters = false)
 {
 	global $smcFunc, $txt, $scripturl, $user_info, $user_info, $modSettings, $topics;
@@ -991,6 +1056,7 @@ function sp_topTopics($parameters, $id, $return_parameters = false)
 	$type = !empty($parameters['type']) ? $parameters['type'] : 0;
 	$limit = !empty($parameters['limit']) ? $parameters['limit'] : 5;
 
+	// Use the ssi function to get the data
 	$topics = ssi_topTopics($type ? 'views' : 'replies', $limit, 'array');
 
 	if (empty($topics))
@@ -1014,6 +1080,14 @@ function sp_topTopics($parameters, $id, $return_parameters = false)
 								</ul>';
 }
 
+/**
+ * Top Boards Block, shows top boards by number of posts
+ *
+ * @param array $parameters
+ *		'limit' => number of boards to show
+ * @param int $id - not used in this block
+ * @param boolean $return_parameters if true returns the configuration options for the block
+ */
 function sp_topBoards($parameters, $id, $return_parameters = false)
 {
 	global $context, $settings, $smcFunc, $txt, $scripturl, $user_info, $user_info, $modSettings, $boards;
@@ -1050,6 +1124,16 @@ function sp_topBoards($parameters, $id, $return_parameters = false)
 								</ul>';
 }
 
+/**
+ * Poll Block, Shows a specific poll, the most recent or a random poll
+ * If user can vote, provides for voting selection
+ *
+ * @param array $parameters
+ *		'topic' => topic id of the poll
+ *		'type' => 1 the most recently posted poll, 2 displays a random poll, null for specific topic
+ * @param int $id - not used in this block
+ * @param boolean $return_parameters if true returns the configuration options for the block
+ */
 function sp_showPoll($parameters, $id, $return_parameters = false)
 {
 	global $smcFunc, $context, $scripturl, $modSettings, $boardurl, $txt;
@@ -1152,6 +1236,19 @@ function sp_showPoll($parameters, $id, $return_parameters = false)
 								', $txt['poll_cannot_see'];
 }
 
+/**
+ * Board Block, Displays a list of posts from selected board(s)
+ *
+ * @param array $parameters
+ *		'board' => Board(s) to select posts from
+ *		'limit' => max number of posts to show
+ *		'start' => id of post to start from
+ *		'length' => preview length of the post
+ *		'avatar' => show the poster avatar
+ *		'per_page' => number of posts per page to show
+ * @param int $id - not used in this block
+ * @param boolean $return_parameters if true returns the configuration options for the block
+ */
 function sp_boardNews($parameters, $id, $return_parameters = false)
 {
 	global $scripturl, $txt, $settings, $modSettings, $context, $smcFunc, $color_profile;
@@ -1403,7 +1500,7 @@ function sp_boardNews($parameters, $id, $return_parameters = false)
 						</div>
 						<span class="botslice"><span></span></span>
 					</div>';
-		}	
+		}
 	}
 
 	if (!empty($per_page))
@@ -1411,6 +1508,13 @@ function sp_boardNews($parameters, $id, $return_parameters = false)
 					<div class="sp_page_index">', $txt['sp-articlesPages'], ': ', $page_index, '</div>';
 }
 
+/**
+ * Quick Search Block, Displays a quick search box
+ *
+ * @param array $parameters, not used in this block
+ * @param int $id - not used in this block
+ * @param boolean $return_parameters if true returns the configuration options for the block
+ */
 function sp_quickSearch($parameters, $id, $return_parameters = false)
 {
 	global $scripturl, $txt, $context;
@@ -1430,6 +1534,13 @@ function sp_quickSearch($parameters, $id, $return_parameters = false)
 								</form>';
 }
 
+/**
+ * News Block, Displays the forum news
+ *
+ * @param array $parameters, not used in this block
+ * @param int $id - not used in this block
+ * @param boolean $return_parameters if true returns the configuration options for the block
+ */
 function sp_news($parameters, $id, $return_parameters = false)
 {
 	global $context;
@@ -1443,6 +1554,18 @@ function sp_news($parameters, $id, $return_parameters = false)
 								<div class="sp_center sp_fullwidth">', $context['random_news_line'], '</div>';
 }
 
+/**
+ * Image Attachment Block, Displays a list of recent post image attachments
+ *
+ * @param array $parameters
+ *		'limit' => Board(s) to select posts from
+ *		'direction' => 0 Horizontal or 1 Vertical display
+ *		'disablePoster' => don't show the poster of the attachment
+ *		'disableDownloads' => don't show a download link
+ *		'disableLink' => don't show a link to the post
+ * @param int $id - not used in this block
+ * @param boolean $return_parameters if true returns the configuration options for the block
+ */
 function sp_attachmentImage($parameters, $id, $return_parameters = false)
 {
 	global $boarddir, $txt, $color_profile;
@@ -1465,6 +1588,7 @@ function sp_attachmentImage($parameters, $id, $return_parameters = false)
 	$showDownloads = empty($parameters['disableDownloads']);
 	$showLink = empty($parameters['disableLink']);
 
+	// Let ssi get the attachments
 	$items = ssi_recentAttachments($limit, $type, 'array');
 
 	if (empty($items))
@@ -1511,6 +1635,14 @@ function sp_attachmentImage($parameters, $id, $return_parameters = false)
 								</table>';
 }
 
+/**
+ * Attachment Block, Displays a list of recent attachments (by name)
+ *
+ * @param array $parameters
+ *		'limit' => Board(s) to select posts from
+ * @param int $id - not used in this block
+ * @param boolean $return_parameters if true returns the configuration options for the block
+ */
 function sp_attachmentRecent($parameters, $id, $return_parameters = false)
 {
 	global $txt;
@@ -1546,6 +1678,16 @@ function sp_attachmentRecent($parameters, $id, $return_parameters = false)
 								</ul>';
 }
 
+/**
+ * Calendar Block, Displays a full calendar block
+ *
+ * @param array $parameters
+ *		'events' => show events
+ *		'birthdays' => show birthdays
+ *		'holidays' => show holidays
+ * @param int $id - not used in this block
+ * @param boolean $return_parameters if true returns the configuration options for the block
+ */
 function sp_calendar($parameters, $id, $return_parameters = false)
 {
 	global $context, $sourcedir, $modSettings, $options, $scripturl, $txt;
@@ -1690,6 +1832,17 @@ function sp_calendar($parameters, $id, $return_parameters = false)
 									// ]]></script>';
 }
 
+/**
+ * Calendar Info Block, Displays basic calendar ... birthdays, events and holidays.
+ *
+ * @param array $parameters
+ *		'events' => show events
+ *		'future' => how many months out to look for items
+ *		'birthdays' => show birthdays
+ *		'holidays' => show holidays
+ * @param int $id - not used in this block
+ * @param boolean $return_parameters if true returns the configuration options for the block
+ */
 function sp_calendarInformation($parameters, $id, $return_parameters = false)
 {
 	global $scripturl, $modSettings, $txt;
@@ -1837,6 +1990,20 @@ function sp_calendarInformation($parameters, $id, $return_parameters = false)
 	}
 }
 
+/**
+ * RSS Block, Displays rss feed in a block.
+ *
+ * @param array $parameters
+ *		'url' => url of the feed
+ *		'show_title' => Show the feed title
+ *		'show_content' => Show the content of the feed
+ *		'show_date' => Show the date of the feed item
+ *		'strip_preserve' => preserve tags
+ * 		'count' => number of items to show
+ * 		'limit' => number of characters of content to show
+ * @param int $id - not used in this block
+ * @param boolean $return_parameters if true returns the configuration options for the block
+ */
 function sp_rssFeed($parameters, $id, $return_parameters = false)
 {
 	global $smcFunc, $sourcedir, $context, $txt;
@@ -1975,6 +2142,13 @@ function sp_rssFeed($parameters, $id, $return_parameters = false)
 	}
 }
 
+/**
+ * Theme Selection Block, Displays themes available for user selection
+ *
+ * @param array $parameters not used in this block
+ * @param int $id - not used in this block
+ * @param boolean $return_parameters if true returns the configuration options for the block
+ */
 function sp_theme_select($parameters, $id, $return_parameters = false)
 {
 	global $smcFunc, $context, $modSettings, $user_info, $settings, $language, $txt;
@@ -2117,6 +2291,14 @@ function sp_theme_select($parameters, $id, $return_parameters = false)
 								// ]]></script>';
 }
 
+/**
+ * Staff Block, show the list of forum staff members
+ *
+ * @param array $parameters
+ *		'lmod' => set to include local moderators as well
+ * @param int $id - not used in this block
+ * @param boolean $return_parameters if true returns the configuration options for the block
+ */
 function sp_staff($parameters, $id, $return_parameters = false)
 {
 	global $smcFunc, $sourcedir, $scripturl, $modSettings, $color_profile;
@@ -2241,6 +2423,17 @@ function sp_staff($parameters, $id, $return_parameters = false)
 								</table>';
 }
 
+/**
+ * Article Block, show the list of forum staff members
+ *
+ * @param array $parameters
+ *		'category' => list of categories to choose article from
+ *		'limit' => number of articles to show
+ *		'type' => 0 latest 1 random
+ *		'image' => type of image to show with the post, poster avatar or cat image
+ * @param int $id - not used in this block
+ * @param boolean $return_parameters if true returns the configuration options for the block
+ */
 function sp_articles($parameters, $id, $return_parameters = false)
 {
 	global $smcFunc, $sourcedir, $modSettings, $scripturl, $txt, $color_profile;
@@ -2391,6 +2584,14 @@ function sp_articles($parameters, $id, $return_parameters = false)
 	}
 }
 
+/**
+ * Shoutbox Block, show the shoutbox thoughts box
+ *
+ * @param array $parameters
+ *		'shoutbox' => list of categories to choose article from
+ * @param int $id - not used in this block
+ * @param boolean $return_parameters if true returns the configuration options for the block
+ */
 function sp_shoutbox($parameters, $id, $return_parameters = false)
 {
 	global $smcFunc, $context, $sourcedir, $modSettings, $user_info, $settings, $txt, $scripturl;
@@ -2563,6 +2764,16 @@ function sp_shoutbox($parameters, $id, $return_parameters = false)
 	template_shoutbox_embed($shoutbox);
 }
 
+/**
+ * Gallery Block, show a gallery box with gallery items
+ *
+ * @param array $parameters
+ *		'limit' => number of gallery items to show
+ *		'type' =>
+ *		'direction' => 0 horizontal or 1 vertical display in the block
+ * @param int $id - not used in this block
+ * @param boolean $return_parameters if true returns the configuration options for the block
+ */
 function sp_gallery($parameters, $id, $return_parameters = false)
 {
 	global $smcFunc, $context, $modSettings, $scripturl;
@@ -3368,6 +3579,14 @@ function sp_blog($parameters, $id, $return_parameters = false)
 	}
 }
 
+/**
+ * Menu Block, creates a sidebar menu block based on the system main menu
+ * @todo needs updating .. superfish it?
+ *
+ * @param array $parameters -  not used in this block
+ * @param int $id - not used in this block
+ * @param boolean $return_parameters if true returns the configuration options for the block
+ */
 function sp_menu($parameters, $id, $return_parameters = false)
 {
 	global $context;
@@ -3408,6 +3627,13 @@ function sp_menu($parameters, $id, $return_parameters = false)
 								</ul>';
 }
 
+/**
+ * Generic BBC Block, creates a BBC formatted block with parse_bbc
+ *
+ * @param array $parameters -  not used in this block
+ * @param int $id - not used in this block
+ * @param boolean $return_parameters if true returns the configuration options for the block
+ */
 function sp_bbc($parameters, $id, $return_parameters = false)
 {
 	$block_parameters = array(
@@ -3423,6 +3649,13 @@ function sp_bbc($parameters, $id, $return_parameters = false)
 								', parse_bbc($content);
 }
 
+/**
+ * Generic HTML Block, creates a formatted block with HTML
+ *
+ * @param array $parameters -  not used in this block
+ * @param int $id - not used in this block
+ * @param boolean $return_parameters if true returns the configuration options for the block
+ */
 function sp_html($parameters, $id, $return_parameters = false)
 {
 	$block_parameters = array(
@@ -3438,6 +3671,14 @@ function sp_html($parameters, $id, $return_parameters = false)
 								', un_htmlspecialchars($content);
 }
 
+/**
+ * Generic PHP Block, creates a PHP block to do whatever you can imagine :D
+ *
+ * @param array $parameters
+ *		'textarea' =>
+ * @param int $id - not used in this block
+ * @param boolean $return_parameters if true returns the configuration options for the block
+ */
 function sp_php($parameters, $id, $return_parameters = false)
 {
 	$block_parameters = array(

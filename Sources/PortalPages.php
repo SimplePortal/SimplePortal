@@ -5,7 +5,7 @@
  *
  * @author SimplePortal Team
  * @copyright 2013 SimplePortal Team
- * @license BSD 3-clause 
+ * @license BSD 3-clause
  *
  * @version 2.4
  */
@@ -13,6 +13,9 @@
 if (!defined('SMF'))
 	die('Hacking attempt...');
 
+/**
+ * List the available pages in the system
+ */
 function sportal_pages()
 {
 	global $context, $scripturl, $txt;
@@ -30,6 +33,9 @@ function sportal_pages()
 	$context['sub_template'] = 'view_pages';
 }
 
+/**
+ * View a specific page in the system
+ */
 function sportal_page()
 {
 	global $smcFunc, $context, $scripturl, $txt;

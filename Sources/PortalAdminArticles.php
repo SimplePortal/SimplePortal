@@ -5,7 +5,7 @@
  *
  * @author SimplePortal Team
  * @copyright 2013 SimplePortal Team
- * @license BSD 3-clause 
+ * @license BSD 3-clause
  *
  * @version 2.4
  */
@@ -13,6 +13,10 @@
 if (!defined('SMF'))
 	die('Hacking attempt...');
 
+/**
+ * Entry point for SimplePortal Article
+ * Checks permissions, passes off processing to the appropriate function
+ */
 function sportal_admin_articles_main()
 {
 	global $context, $sourcedir, $txt;
@@ -51,6 +55,9 @@ function sportal_admin_articles_main()
 	$sub_actions[$context['sub_action']]();
 }
 
+/**
+ * Show a listing of articles in the system
+ */
 function sportal_admin_article_list()
 {
 	global $smcFunc, $context, $scripturl, $txt;
@@ -227,6 +234,10 @@ function sportal_admin_article_list()
 	$context['page_title'] = $txt['sp_admin_articles_list'];
 }
 
+/**
+ * Edits an existing or adds a new article to the system
+ * Handles the previewing of an article
+ */
 function sportal_admin_article_edit()
 {
 	global $smcFunc, $context, $sourcedir, $scripturl, $modSettings, $user_info, $options, $txt;
@@ -511,6 +522,9 @@ function sportal_admin_article_edit()
 	$context['sub_template'] = 'articles_edit';
 }
 
+/**
+ * Update an articles active status
+ */
 function sportal_admin_article_status()
 {
 	global $smcFunc;
@@ -532,6 +546,9 @@ function sportal_admin_article_status()
 	redirectexit('action=admin;area=portalarticles');
 }
 
+/**
+ * Remove an article from the system
+ */
 function sportal_admin_article_delete()
 {
 	global $smcFunc;
