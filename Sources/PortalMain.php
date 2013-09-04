@@ -5,7 +5,7 @@
  *
  * @author SimplePortal Team
  * @copyright 2013 SimplePortal Team
- * @license BSD 3-clause 
+ * @license BSD 3-clause
  *
  * @version 2.4
  */
@@ -13,6 +13,10 @@
 if (!defined('SMF'))
 	die('Hacking attempt...');
 
+/**
+ * Entry point for SimplePortal
+ * Passes off processing to the appropriate portal file/function
+ */
 function sportal_main()
 {
 	global $smcFunc, $context, $sourcedir;
@@ -46,6 +50,9 @@ function sportal_main()
 	$actions[$_REQUEST['sa']][1]();
 }
 
+/**
+ * Loads article preview for display with the portal index template
+ */
 function sportal_index()
 {
 	global $smcFunc, $context, $scripturl, $txt;
@@ -64,6 +71,9 @@ function sportal_index()
 	$context['sub_template'] = 'portal_index';
 }
 
+/**
+ * Displays the credit page outside of the admin area
+ */
 function sportal_credits()
 {
 	global $sourcedir, $context, $txt;

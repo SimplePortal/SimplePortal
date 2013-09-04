@@ -5,7 +5,7 @@
  *
  * @author SimplePortal Team
  * @copyright 2013 SimplePortal Team
- * @license BSD 3-clause 
+ * @license BSD 3-clause
  *
  * @version 2.4
  */
@@ -13,6 +13,10 @@
 if (!defined('SMF'))
 	die('Hacking attempt...');
 
+/**
+ * Main dispatcher.
+ * This function checks permissions and passes control through.
+ */
 function sportal_admin_categories_main()
 {
 	global $context, $sourcedir, $txt;
@@ -51,6 +55,9 @@ function sportal_admin_categories_main()
 	$sub_actions[$context['sub_action']]();
 }
 
+/**
+ * Show a listing of categories in the system
+ */
 function sportal_admin_category_list()
 {
 	global $smcFunc, $context, $scripturl, $txt;
@@ -189,6 +196,9 @@ function sportal_admin_category_list()
 	$context['page_title'] = $txt['sp_admin_categories_list'];
 }
 
+/**
+ * Edit or add a category
+ */
 function sportal_admin_category_edit()
 {
 	global $smcFunc, $context, $sourcedir, $modSettings, $options, $txt;
@@ -325,6 +335,9 @@ function sportal_admin_category_edit()
 	$context['sub_template'] = 'categories_edit';
 }
 
+/**
+ * Switch the active status (on/off) of a category
+ */
 function sportal_admin_category_status()
 {
 	global $smcFunc;
@@ -346,6 +359,9 @@ function sportal_admin_category_status()
 	redirectexit('action=admin;area=portalcategories');
 }
 
+/**
+ * Delete a category or group of categories by id
+ */
 function sportal_admin_category_delete()
 {
 	global $smcFunc;

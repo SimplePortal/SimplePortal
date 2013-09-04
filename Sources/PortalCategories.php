@@ -5,7 +5,7 @@
  *
  * @author SimplePortal Team
  * @copyright 2013 SimplePortal Team
- * @license BSD 3-clause 
+ * @license BSD 3-clause
  *
  * @version 2.4
  */
@@ -13,6 +13,9 @@
 if (!defined('SMF'))
 	die('Hacking attempt...');
 
+/**
+ * Display a list of categories for selection
+ */
 function sportal_categories()
 {
 	global $context, $scripturl, $txt;
@@ -30,6 +33,9 @@ function sportal_categories()
 	$context['sub_template'] = 'view_categories';
 }
 
+/**
+ * View a specific category, showing all articles it contains
+ */
 function sportal_category()
 {
 	global $smcFunc, $context, $scripturl, $txt;
