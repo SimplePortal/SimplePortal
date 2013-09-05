@@ -183,5 +183,3 @@ function sportal_article()
 	$context['page_title'] = $context['article']['title'];
 	$context['sub_template'] = 'view_article';
 }
-
-?>

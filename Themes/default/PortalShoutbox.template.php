@@ -282,5 +282,3 @@ function template_shoutbox_xml()
 	echo '
 </smf>';
 }
-
-?>

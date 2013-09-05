@@ -137,5 +137,3 @@ function template_view_page_curve()
 				<span class="lowerframe"><span></span></span>';
 	}
 }
-
-?>

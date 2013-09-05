@@ -344,5 +344,3 @@ function template_shoutbox_block_redirect()
 		</div>
 	</div>';
 }
-
-?>

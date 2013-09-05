@@ -111,5 +111,3 @@ function sportal_shoutbox()
 	$context['sub_template'] = 'shoutbox_all';
 	$context['page_title'] = $context['SPortal']['shoutbox']['name'];
 }
-
-?>

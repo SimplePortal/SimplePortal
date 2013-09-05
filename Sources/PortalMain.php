@@ -76,5 +76,3 @@ function sportal_credits()
 	$context['page_title'] = $txt['sp-info_title'];
 	$context['sub_template'] = 'information';
 }
-
-?>

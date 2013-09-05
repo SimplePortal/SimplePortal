@@ -281,5 +281,3 @@ function template_block_curve($block)
 	echo '
 	</div>';
 }
-
-?>

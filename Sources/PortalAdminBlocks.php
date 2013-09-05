@@ -1022,5 +1022,3 @@ function sportal_admin_block_delete()
 	// Return back to the block list.
 	redirectexit('action=admin;area=portalblocks');
 }
-
-?>

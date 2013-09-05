@@ -316,5 +316,3 @@ function sportal_information($in_admin = true)
 	$context['sub_template'] = 'information';
 	$context['page_title'] = $txt['sp-info_title'];
 }
-
-?>

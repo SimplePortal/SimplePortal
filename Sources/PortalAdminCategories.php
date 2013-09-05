@@ -372,5 +372,3 @@ function sportal_admin_category_delete()
 
 	redirectexit('action=admin;area=portalcategories');
 }
-
-?>

@@ -72,5 +72,3 @@ function sportal_page()
 	$context['page_title'] = $context['SPortal']['page']['title'];
 	$context['sub_template'] = 'view_page';
 }
-
-?>
