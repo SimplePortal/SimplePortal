@@ -3698,5 +3698,3 @@ function sp_php($parameters, $id, $return_parameters = false)
 
 	eval($content);
 }
-
-?>

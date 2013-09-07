@@ -258,5 +258,3 @@ function template_articles_edit()
 		}
 	// ]]></script>';
 }
-
-?>

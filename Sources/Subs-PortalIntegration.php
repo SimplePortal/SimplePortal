@@ -137,5 +137,3 @@ function sp_integrate_load_permissions(&$permission_groups, &$permission_list, &
 
 	$left_permission_groups[] = 'sp';
 }
-
-?>

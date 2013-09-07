@@ -574,5 +574,3 @@ function template_block_select_type()
 		</form>
 	</div>';
 }
-
-?>

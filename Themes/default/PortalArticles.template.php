@@ -149,5 +149,3 @@ function template_view_article()
 	echo '
 	</div>';
 }
-
-?>

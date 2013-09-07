@@ -619,5 +619,3 @@ function sportal_admin_page_delete()
 
 	redirectexit('action=admin;area=portalpages');
 }
-
-?>

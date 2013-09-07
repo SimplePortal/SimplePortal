@@ -330,5 +330,3 @@ function sp_load_membergroups()
 
 	return $groups;
 }
-
-?>
