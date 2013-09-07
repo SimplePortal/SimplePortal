@@ -5,7 +5,7 @@
  *
  * @author SimplePortal Team
  * @copyright 2013 SimplePortal Team
- * @license BSD 3-clause 
+ * @license BSD 3-clause
  *
  * @version 2.4
  */
@@ -13,6 +13,10 @@
 if (!defined('SMF'))
 	die('Hacking attempt...');
 
+/**
+ * Main dispatcher.
+ * This function checks permissions and passes control through.
+ */
 function sportal_admin_blocks_main()
 {
 	global $context, $txt, $scripturl, $sourcedir;
@@ -78,7 +82,9 @@ function sportal_admin_blocks_main()
 	$subActions[$_REQUEST['sa']]();
 }
 
-// Show the Block List.
+/**
+ * Show the Block List.
+ */
 function sportal_admin_block_list()
 {
 	global $txt, $context, $scripturl;
@@ -173,7 +179,7 @@ function sportal_admin_block_list()
 			if ($context['block_move'])
 			{
 				$context['blocks'][$side['name']][$block_id]['move_insert'] = '<a href="' . $scripturl . '?action=admin;area=portalblocks;sa=move;block_id=' . $context['block_move'] . ';col=' . $block['column'] . ';row=' . $block['row'] . ';' . $context['session_var'] . '=' . $context['session_id'] . '">' . sp_embed_image('arrow', $txt['sp-blocks_move_here']) . '</a>';
-	
+
 				if ($context['block_move'] == $block_id)
 					$context['move_title'] = sprintf($txt['sp-blocks_select_destination'], htmlspecialchars($block['label']));
 			}
@@ -185,7 +191,9 @@ function sportal_admin_block_list()
 	$context['page_title'] = $txt['sp-adminBlockListName'];
 }
 
-// Adding or editing a block.
+/**
+ * Adding or editing a block.
+ */
 function sportal_admin_block_edit()
 {
 	global $txt, $context, $modSettings, $smcFunc, $sourcedir, $boarddir, $boards;
@@ -194,7 +202,7 @@ function sportal_admin_block_edit()
 	require_once($sourcedir . '/PortalBlocks.php');
 
 	$context['SPortal']['is_new'] = empty($_REQUEST['block_id']);
-	
+
 	// BBC Fix move the parameter to the correct position.
 	if (!empty($_POST['bbc_name']))
 	{
@@ -564,10 +572,10 @@ function sportal_admin_block_edit()
 						'value' => $form_message,
 						'form' => 'sp_block',
 					);
-					
+
 					// Run the SMF bbc editor rutine
 					create_control_richedit($message_data);
-					
+
 					// Store the updated data on the parameters
 					$context['SPortal']['block']['parameters'][$name] = $form_message;
 				}
@@ -878,7 +886,9 @@ function sportal_admin_block_edit()
 	}
 }
 
-// Function for moving a block.
+/**
+ * Function for moving a block.
+ */
 function sportal_admin_block_move()
 {
 	global $smcFunc;
@@ -973,7 +983,9 @@ function sportal_admin_block_move()
 	redirectexit('action=admin;area=portalblocks');
 }
 
-// Function for deleting a block.
+/**
+ * Function for deleting a block.
+ */
 function sportal_admin_block_delete()
 {
 	global $smcFunc;

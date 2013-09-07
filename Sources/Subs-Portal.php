@@ -5,7 +5,7 @@
  *
  * @author SimplePortal Team
  * @copyright 2013 SimplePortal Team
- * @license BSD 3-clause 
+ * @license BSD 3-clause
  *
  * @version 2.4
  */
@@ -164,19 +164,24 @@ function sportal_init($standalone = false)
 		$context['template_layers'][] = 'portal';
 }
 
-// Deals with the initialization of SimplePortal headers.
+/**
+ * Deals with the initialization of SimplePortal headers.
+ */
 function sportal_init_headers()
 {
 	global $context, $settings, $modSettings;
 	static $initialized;
 
+	// If already loaded just return
 	if (!empty($initialized))
 		return;
-
+	// Load up some javascript!
 	$context['html_headers'] .= '
 	<script type="text/javascript" src="' . $settings['default_theme_url'] . '/scripts/portal.js?24"></script>
 	<script language="JavaScript" type="text/javascript"><!-- // --><![CDATA[
 		var sp_images_url = "' . $settings['sp_images_url'] . '";
+
+	// Used to collapse an individual block
 		function sp_collapseBlock(id)
 		{
 			mode = document.getElementById("sp_block_" + id).style.display == "" ? 0 : 1;';
@@ -196,6 +201,8 @@ function sportal_init_headers()
 	if (empty($modSettings['sp_disable_side_collapse']))
 	{
 		$context['html_headers'] .= '
+
+		// Used to collapse side (if enabled)
 		function sp_collapseSide(id)
 		{
 			var sp_sides = new Array();
@@ -204,6 +211,7 @@ function sportal_init_headers()
 			mode = document.getElementById(sp_sides[id]).style.display == "" ? 0 : 1;' . ($context['user']['is_guest'] ? '
 			document.cookie = sp_sides[id] + "=" + (mode ? 0 : 1);' : '
 			smf_setThemeOption(sp_sides[id], mode ? 0 : 1, null, "' . $context['session_id'] . '");') . '
+			// Update the side expand/collapse image
 			document.getElementById("sp_collapse_side" + id).src = sp_images_url + (mode ? "/collapse.png" : "/expand.png");
 			document.getElementById(sp_sides[id]).style.display = mode ? "" : "none";' . ($context['browser']['is_ie8'] ? '
 			document.getElementById("sp_center").style.width = "100%";' : '') . '
@@ -261,7 +269,15 @@ function sportal_catch_action()
 	return false;
 }
 
-// This function, returns all of the information about particular blocks.
+/**
+ * This function, returns all of the information about particular blocks.
+ *
+ * @param int $column_id
+ * @param int $block_id
+ * @param boolean $state
+ * @param boolean $show
+ * @param boolean $permission
+ */
 function getBlockInfo($column_id = null, $block_id = null, $state = null, $show = null, $permission = null)
 {
 	global $smcFunc, $context, $settings, $options, $txt;
@@ -315,8 +331,8 @@ function getBlockInfo($column_id = null, $block_id = null, $state = null, $show 
 				'column' => $row['col'],
 				'row' => $row['row'],
 				'permission_set' => $row['permission_set'],
-				'groups_allowed' => $row['groups_allowed'] !== '' ? explode(',', $row['groups_allowed']) : array(), 
-				'groups_denied' => $row['groups_denied'] !== '' ? explode(',', $row['groups_denied']) : array(), 
+				'groups_allowed' => $row['groups_allowed'] !== '' ? explode(',', $row['groups_allowed']) : array(),
+				'groups_denied' => $row['groups_denied'] !== '' ? explode(',', $row['groups_denied']) : array(),
 				'state' => empty($row['state']) ? 0 : 1,
 				'force_view' => $row['force_view'],
 				'display' => $row['display'],
@@ -335,7 +351,13 @@ function getBlockInfo($column_id = null, $block_id = null, $state = null, $show 
 	return $return;
 }
 
-// Function to get a block's display/show information.
+/**
+ * Function to get a block's display/show information.
+ *
+ * @param int $block_id
+ * @param string $display
+ * @param string $custom
+ */
 function getShowInfo($block_id = null, $display = null, $custom = null)
 {
 	global $smcFunc, $context, $modSettings;
@@ -523,7 +545,7 @@ function getShowInfo($block_id = null, $display = null, $custom = null)
 	elseif (!empty($page) && (in_array('allpages', $display) || in_array($page, $display)))
 		return true;
 	elseif (empty($action) && empty($board) && empty($_GET['page']) && !$portal && ($modSettings['sp_portal_mode'] == 2 || $modSettings['sp_portal_mode'] == 3) && in_array('forum', $display))
-		return true; 
+		return true;
 
 	// For mods using weird urls...
 	foreach ($special as $key => $value)
@@ -699,10 +721,12 @@ function sp_query_string($tourniquet)
 	return $tourniquet;
 }
 
-/*
-This is a simple function that return nothing if the language file exist and english if it not exists
-This will help to make it possible to load each time the english language!
-*/
+/**
+ * This is a simple function that return nothing if the language file exist and english if it does not exist
+ * This will help to make it possible to load each time the english language!
+ *
+ * @param string $template_name
+ */
 function sp_languageSelect($template_name)
 {
 	global $user_info, $language, $settings, $context;
@@ -789,7 +813,11 @@ function sp_loadCalendarData($type, $low_date, $high_date = false)
 		return array();
 }
 
-// This is a small script to load colors for SPortal.
+/**
+ * This is a small script to load colors for SPortal.
+ *
+ * @param array $users
+ */
 function sp_loadColors($users = array())
 {
 	global $color_profile, $smcFunc, $scripturl, $modSettings;
@@ -806,11 +834,11 @@ function sp_loadColors($users = array())
 	if (!empty($modSettings['MemberColorLinkInstalled']))
 	{
 		$colorData = load_onlineColors($users);
-		
+
 		// This happen only on not existing Members... but given ids...
 		if(empty($colorData))
 			return false;
- 
+
 		$loaded_ids = array_keys($colorData);
 
 		foreach($loaded_ids as $id)
@@ -1098,8 +1126,8 @@ function sportal_get_articles($article_id = null, $active = false, $allowed = fa
 			'type' => $row['type'],
 			'date' => $row['date'],
 			'permission_set' => $row['article_permission_set'],
-			'groups_allowed' => $row['article_groups_allowed'] !== '' ? explode(',', $row['article_groups_allowed']) : array(), 
-			'groups_denied' => $row['article_groups_denied'] !== '' ? explode(',', $row['article_groups_denied']) : array(), 
+			'groups_allowed' => $row['article_groups_allowed'] !== '' ? explode(',', $row['article_groups_allowed']) : array(),
+			'groups_denied' => $row['article_groups_denied'] !== '' ? explode(',', $row['article_groups_denied']) : array(),
 			'views' => $row['views'],
 			'comments' => $row['comments'],
 			'status' => $row['status'],
@@ -1156,8 +1184,8 @@ function sportal_get_categories($category_id = null, $active = false, $allowed =
 			'link' => '<a href="' . $scripturl . '?category=' . $row['namespace'] . '">' . $row['name'] . '</a>',
 			'description' => $row['description'],
 			'permission_set' => $row['permission_set'],
-			'groups_allowed' => $row['groups_allowed'] !== '' ? explode(',', $row['groups_allowed']) : array(), 
-			'groups_denied' => $row['groups_denied'] !== '' ? explode(',', $row['groups_denied']) : array(), 
+			'groups_allowed' => $row['groups_allowed'] !== '' ? explode(',', $row['groups_allowed']) : array(),
+			'groups_denied' => $row['groups_denied'] !== '' ? explode(',', $row['groups_denied']) : array(),
 			'articles' => $row['articles'],
 			'status' => $row['status'],
 		);
@@ -1336,8 +1364,8 @@ function sportal_get_pages($page_id = null, $active = false, $allowed = false, $
 			'body' => $row['body'],
 			'type' => $row['type'],
 			'permission_set' => $row['permission_set'],
-			'groups_allowed' => $row['groups_allowed'] !== '' ? explode(',', $row['groups_allowed']) : array(), 
-			'groups_denied' => $row['groups_denied'] !== '' ? explode(',', $row['groups_denied']) : array(), 
+			'groups_allowed' => $row['groups_allowed'] !== '' ? explode(',', $row['groups_allowed']) : array(),
+			'groups_denied' => $row['groups_denied'] !== '' ? explode(',', $row['groups_denied']) : array(),
 			'views' => $row['views'],
 			'style' => $row['style'],
 			'status' => $row['status'],
@@ -1403,8 +1431,8 @@ function sportal_get_shoutbox($shoutbox_id = null, $active = false, $allowed = f
 			'id' => $row['id_shoutbox'],
 			'name' => $row['name'],
 			'permission_set' => $row['permission_set'],
-			'groups_allowed' => $row['groups_allowed'] !== '' ? explode(',', $row['groups_allowed']) : array(), 
-			'groups_denied' => $row['groups_denied'] !== '' ? explode(',', $row['groups_denied']) : array(), 
+			'groups_allowed' => $row['groups_allowed'] !== '' ? explode(',', $row['groups_allowed']) : array(),
+			'groups_denied' => $row['groups_denied'] !== '' ? explode(',', $row['groups_denied']) : array(),
 			'moderator_groups' => $row['moderator_groups'] !== '' ? explode(',', $row['moderator_groups']) : array(),
 			'warning' => $row['warning'],
 			'allowed_bbc' => explode(',', $row['allowed_bbc']),

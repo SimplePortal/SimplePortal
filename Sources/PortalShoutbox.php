@@ -5,7 +5,7 @@
  *
  * @author SimplePortal Team
  * @copyright 2013 SimplePortal Team
- * @license BSD 3-clause 
+ * @license BSD 3-clause
  *
  * @version 2.4
  */
@@ -13,6 +13,9 @@
 if (!defined('SMF'))
 	die('Hacking attempt...');
 
+/**
+ * The Shoutbox ... allows for the adding, editing, deleting and viewing of shouts
+ */
 function sportal_shoutbox()
 {
 	global $smcFunc, $context, $scripturl, $txt, $sourcedir, $user_info;

@@ -5,7 +5,7 @@
  *
  * @author SimplePortal Team
  * @copyright 2013 SimplePortal Team
- * @license BSD 3-clause 
+ * @license BSD 3-clause
  *
  * @version 2.4
  */
@@ -13,6 +13,10 @@
 if (!defined('SMF'))
 	die('Hacking attempt...');
 
+/**
+ * Main dispatcher.
+ * This function checks permissions and passes control through.
+ */
 function sportal_admin_config_main()
 {
 	global $sourcedir, $context, $txt;
@@ -43,6 +47,9 @@ function sportal_admin_config_main()
 	$subActions[$_REQUEST['sa']]();
 }
 
+/**
+ * General settings that control global portal actions
+ */
 function sportal_admin_general_settings($return_config = '')
 {
 	global $smcFunc, $context, $scripturl, $txt;
@@ -96,6 +103,9 @@ function sportal_admin_general_settings($return_config = '')
 	prepareDBSettingContext($config_vars);
 }
 
+/**
+ * Settings that control how blocks behave
+ */
 function sportal_admin_block_settings($return_config = '')
 {
 	global $context, $scripturl, $txt;
@@ -167,6 +177,9 @@ function sportal_admin_block_settings($return_config = '')
 	prepareDBSettingContext($config_vars);
 }
 
+/**
+ * Settings to control articles
+ */
 function sportal_admin_article_settings($return_config = '')
 {
 	global $context, $scripturl, $txt;
@@ -197,6 +210,11 @@ function sportal_admin_article_settings($return_config = '')
 	prepareDBSettingContext($config_vars);
 }
 
+/**
+ * Our about page etc.
+ *
+ * @param boolean $in_admin true if viewing the about page via the ACP interface
+ */
 function sportal_information($in_admin = true)
 {
 	global $context, $scripturl, $txt, $sourcedir, $sportal_version, $user_profile;

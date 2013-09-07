@@ -5,7 +5,7 @@
  *
  * @author SimplePortal Team
  * @copyright 2013 SimplePortal Team
- * @license BSD 3-clause 
+ * @license BSD 3-clause
  *
  * @version 2.4
  */
@@ -13,6 +13,10 @@
 if (!defined('SMF'))
 	die('Hacking attempt...');
 
+/**
+ * Main dispatcher.
+ * This function checks permissions and passes control through.
+ */
 function sportal_admin_pages_main()
 {
 	global $context, $txt, $scripturl, $sourcedir;
@@ -51,6 +55,9 @@ function sportal_admin_pages_main()
 	$subActions[$_REQUEST['sa']]();
 }
 
+/**
+ * Show page listing of all portal pages in the system
+ */
 function sportal_admin_page_list()
 {
 	global $txt, $smcFunc, $context, $scripturl;
@@ -192,6 +199,9 @@ function sportal_admin_page_list()
 	$context['page_title'] = $txt['sp_admin_pages_list'];
 }
 
+/**
+ * Interface for adding/editing a page
+ */
 function sportal_admin_page_edit()
 {
 	global $txt, $context, $modSettings, $smcFunc, $sourcedir, $options;
@@ -564,6 +574,9 @@ function sportal_admin_page_edit()
 	$context['sub_template'] = 'pages_edit';
 }
 
+/**
+ * Update the page status / active on/off
+ */
 function sportal_admin_page_status()
 {
 	global $smcFunc;
@@ -585,6 +598,9 @@ function sportal_admin_page_status()
 	redirectexit('action=admin;area=portalpages');
 }
 
+/**
+ * Delete a page from the system
+ */
 function sportal_admin_page_delete()
 {
 	global $smcFunc;

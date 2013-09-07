@@ -5,7 +5,7 @@
  *
  * @author SimplePortal Team
  * @copyright 2013 SimplePortal Team
- * @license BSD 3-clause 
+ * @license BSD 3-clause
  *
  * @version 2.4
  */
@@ -13,6 +13,10 @@
 if (!defined('SMF'))
 	die('Hacking attempt...');
 
+/**
+ * Main dispatcher.
+ * This function checks permissions and passes control through.
+ */
 function sportal_admin_shoutbox_main()
 {
 	global $context, $txt, $scripturl, $sourcedir;
@@ -53,6 +57,9 @@ function sportal_admin_shoutbox_main()
 	$subActions[$_REQUEST['sa']]();
 }
 
+/**
+ * List all the shouts in the system
+ */
 function sportal_admin_shoutbox_list()
 {
 	global $txt, $smcFunc, $context, $scripturl;
@@ -190,6 +197,9 @@ function sportal_admin_shoutbox_list()
 	$context['page_title'] = $txt['sp_admin_shoutbox_list'];
 }
 
+/**
+ * Edit an existing shout or add a new one
+ */
 function sportal_admin_shoutbox_edit()
 {
 	global $txt, $context, $modSettings, $smcFunc;
@@ -404,6 +414,9 @@ function sportal_admin_shoutbox_edit()
 	$context['sub_template'] = 'shoutbox_edit';
 }
 
+/**
+ * Who does not like prunes .. or maybe cut down the shout list
+ */
 function sportal_admin_shoutbox_prune()
 {
 	global $smcFunc, $context, $txt;
@@ -498,6 +511,9 @@ function sportal_admin_shoutbox_prune()
 	$context['sub_template'] = 'shoutbox_prune';
 }
 
+/**
+ * Remove a shout from the system
+ */
 function sportal_admin_shoutbox_delete()
 {
 	global $smcFunc;
@@ -525,6 +541,9 @@ function sportal_admin_shoutbox_delete()
 	redirectexit('action=admin;area=portalshoutbox');
 }
 
+/**
+ * Updates the system status of the shoutout, toggle on/off
+ */
 function sportal_admin_shoutbox_status()
 {
 	global $smcFunc;
@@ -546,6 +565,9 @@ function sportal_admin_shoutbox_status()
 	redirectexit('action=admin;area=portalshoutbox');
 }
 
+/**
+ * Used to gain access to the add a shoutbox block
+ */
 function sportal_admin_shoutbox_block_redirect()
 {
 	global $context, $scripturl, $txt;
