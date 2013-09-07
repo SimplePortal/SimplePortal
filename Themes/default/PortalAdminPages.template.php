@@ -344,5 +344,3 @@ function template_pages_edit()
 		}
 	// ]]></script>';
 }
-
-?>

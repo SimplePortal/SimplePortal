@@ -195,5 +195,3 @@ function template_categories_edit()
 		}
 	// ]]></script>';
 }
-
-?>

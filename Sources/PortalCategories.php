@@ -73,5 +73,3 @@ function sportal_category()
 	$context['page_title'] = $context['category']['name'];
 	$context['sub_template'] = 'view_category';
 }
-
-?>

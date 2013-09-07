@@ -318,5 +318,3 @@ function template_information()
 		<span class="botslice"><span></span></span>
 	</div>';
 }
-
-?>

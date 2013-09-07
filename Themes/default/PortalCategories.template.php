@@ -90,5 +90,3 @@ function template_view_category()
 	echo '
 	</div>';
 }
-
-?>

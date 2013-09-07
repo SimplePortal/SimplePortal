@@ -1673,5 +1673,3 @@ function sp_prevent_flood($type, $fatal = true)
 
 	return false;
 }
-
-?>
