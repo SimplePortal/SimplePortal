@@ -156,51 +156,17 @@ function template_articles_edit()
 							</select>
 						</dd>
 						<dt>
-							<a href="', $scripturl, '?action=helpadmin;help=sp_permissions" onclick="return reqWin(this.href);" class="help"><img src="', $settings['images_url'], '/helptopics.gif" alt="', $txt['help'], '" class="icon" /></a>
-							<label for="article_permission_set">', $txt['sp_admin_articles_col_permissions'], ':</label>
+							<label for="article_permissions">', $txt['sp_admin_articles_col_permissions'], ':</label>
 						</dt>
 						<dd>
-							<select name="permission_set" id="article_permission_set" onchange="sp_update_permissions();">';
+							<select name="permissions" id="article_permissions">';
 
-	$permission_sets = array(1 => 'guests', 2 => 'members', 3 => 'everyone', 0 => 'custom');
-	foreach ($permission_sets as $id => $label)
+	foreach ($context['article']['permission_profiles'] as $profile)
 		echo '
-								<option value="', $id, '"', $id == $context['article']['permission_set'] ? ' selected="selected"' : '', '>', $txt['sp_admin_articles_permissions_set_' . $label], '</option>';
+								<option value="', $profile['id'], '"', $profile['id'] == $context['article']['permissions'] ? ' selected="selected"' : '', '>', $profile['label'], '</option>';
 
 	echo '
 							</select>
-						</dd>
-						<dt id="article_custom_permissions_label">
-							', $txt['sp_admin_articles_col_custom_permissions'], ':
-						</dt>
-						<dd id="article_custom_permissions_input">
-							<table>
-								<tr>
-									<th>', $txt['sp_admin_articles_custom_permissions_membergroup'], '</td>
-									<th title="', $txt['sp_admin_articles_custom_permissions_allowed'], '">', $txt['sp_admin_articles_custom_permissions_allowed_short'], '</th>
-									<th title="', $txt['sp_admin_articles_custom_permissions_disallowed'], '">', $txt['sp_admin_articles_custom_permissions_disallowed_short'], '</th>
-									<th title="', $txt['sp_admin_articles_custom_permissions_denied'], '">', $txt['sp_admin_articles_custom_permissions_denied_short'], '</th>
-								</tr>';
-
-	foreach ($context['article']['groups'] as $id => $label)
-	{
-		$current = 0;
-		if (in_array($id, $context['article']['groups_allowed']))
-			$current = 1;
-		elseif (in_array($id, $context['article']['groups_denied']))
-			$current = -1;
-
-		echo '
-								<tr>
-									<td>', $label, '</td>
-									<td><input type="radio" name="membergroups[', $id, ']" value="1"', $current == 1 ? ' checked="checked"' : '', ' class="input_radio"></td>
-									<td><input type="radio" name="membergroups[', $id, ']" value="0"', $current == 0 ? ' checked="checked"' : '', ' class="input_radio"></td>
-									<td><input type="radio" name="membergroups[', $id, ']" value="-1"', $current == -1 ? ' checked="checked"' : '', ' class="input_radio"></td>
-								</tr>';
-	}
-
-	echo '
-							</table>
 						</dd>
 						<dt>
 							<label for="article_status">', $txt['sp_admin_articles_col_status'], ':</label>
@@ -230,8 +196,6 @@ function template_articles_edit()
 		</form>
 	</div>
 	<script language="JavaScript" type="text/javascript"><!-- // --><![CDATA[
-		sp_update_permissions();
-
 		function sp_update_editor()
 		{
 			var new_state = document.getElementById("article_type").value;
@@ -248,13 +212,6 @@ function template_articles_edit()
 				document.getElementById("sp_rich_bbc").style.display = "none";
 				document.getElementById("sp_rich_smileys").style.display = "none";
 			}
-		}
-
-		function sp_update_permissions()
-		{
-			var new_state = document.getElementById("article_permission_set").value;
-			document.getElementById("article_custom_permissions_label").style.display = new_state != 0 ? "none" : "";
-			document.getElementById("article_custom_permissions_input").style.display = new_state != 0 ? "none" : "";
 		}
 	// ]]></script>';
 }

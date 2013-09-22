@@ -253,9 +253,7 @@ function sportal_admin_block_edit()
 			'type_text' => !empty($txt['sp_function_' . $_POST['selected_type'][0] . '_label']) ? $txt['sp_function_' . $_POST['selected_type'][0] . '_label'] : $txt['sp_function_unknown_label'],
 			'column' => !empty($_POST['block_column']) ? $_POST['block_column'] : 0,
 			'row' => 0,
-			'permission_set' => 3,
-			'groups_allowed' => array(),
-			'groups_denied' => array(),
+			'permissions' => 3,
 			'state' => 1,
 			'force_view' => 0,
 			'display' => '',
@@ -353,22 +351,6 @@ function sportal_admin_block_edit()
 			$custom = empty($custom) ? '' : implode(',', $custom);
 		}
 
-		$permission_set = 0;
-		$groups_allowed = $groups_denied = array();
-
-		if (!empty($_POST['permission_set']))
-			$permission_set = (int) $_POST['permission_set'];
-		elseif (!empty($_POST['membergroups']) && is_array($_POST['membergroups']))
-		{
-			foreach ($_POST['membergroups'] as $id => $value)
-			{
-				if ($value == 1)
-					$groups_allowed[] = (int) $id;
-				elseif ($value == -1)
-					$groups_denied[] = (int) $id;
-			}
-		}
-
 		$context['SPortal']['block'] = array(
 			'id' => $_POST['block_id'],
 			'label' => $smcFunc['htmlspecialchars']($_POST['block_name'], ENT_QUOTES),
@@ -376,9 +358,7 @@ function sportal_admin_block_edit()
 			'type_text' => !empty($txt['sp_function_' . $_POST['block_type'] . '_label']) ? $txt['sp_function_' . $_POST['block_type'] . '_label'] : $txt['sp_function_unknown_label'],
 			'column' => $_POST['block_column'],
 			'row' => !empty($_POST['block_row']) ? $_POST['block_row'] : 0,
-			'permission_set' => $permission_set,
-			'groups_allowed' => $groups_allowed,
-			'groups_denied' => $groups_denied,
+			'permissions' => $_POST['permissions'],
 			'state' => !empty($_POST['block_active']),
 			'force_view' => !empty($_POST['block_force']),
 			'display' => $display,
@@ -436,7 +416,10 @@ function sportal_admin_block_edit()
 
 		loadLanguage('SPortalHelp', sp_languageSelect('SPortalHelp'));
 
-		$context['SPortal']['block']['groups'] = sp_load_membergroups();
+		$context['SPortal']['block']['permission_profiles'] = sportal_get_profiles(null, 1, 'name');
+
+		if (empty($context['SPortal']['block']['permission_profiles']))
+			fatal_lang_error('error_sp_no_permission_profiles', false);
 
 		$context['simple_actions'] = array(
 			'sportal' => $txt['sp-portal'],
@@ -707,27 +690,6 @@ function sportal_admin_block_edit()
 		else
 			$_POST['parameters'] = array();
 
-		$permission_set = 0;
-		$groups_allowed = $groups_denied = '';
-
-		if (!empty($_POST['permission_set']))
-			$permission_set = (int) $_POST['permission_set'];
-		elseif (!empty($_POST['membergroups']) && is_array($_POST['membergroups']))
-		{
-			$groups_allowed = $groups_denied = array();
-
-			foreach ($_POST['membergroups'] as $id => $value)
-			{
-				if ($value == 1)
-					$groups_allowed[] = (int) $id;
-				elseif ($value == -1)
-					$groups_denied[] = (int) $id;
-			}
-
-			$groups_allowed = implode(',', $groups_allowed);
-			$groups_denied = implode(',', $groups_denied);
-		}
-
 		if (empty($_POST['display_advanced']))
 		{
 			if (!empty($_POST['display_simple']) && in_array($_POST['display_simple'], array('all', 'sportal', 'sforum', 'allaction', 'allboard', 'allpages')))
@@ -789,9 +751,7 @@ function sportal_admin_block_edit()
 			'type' => $_POST['block_type'],
 			'col' => $_POST['block_column'],
 			'row' => $row,
-			'permission_set' => $permission_set,
-			'groups_allowed' => $groups_allowed,
-			'groups_denied' => $groups_denied,
+			'permissions' => (int) $_POST['permissions'],
 			'state' => !empty($_POST['block_active']) ? 1 : 0,
 			'force_view' => !empty($_POST['block_force']) ? 1 : 0,
 			'display' => $display,
@@ -810,9 +770,7 @@ function sportal_admin_block_edit()
 					'type' => 'string',
 					'col' => 'int',
 					'row' => 'int',
-					'permission_set' => 'int',
-					'groups_allowed' => 'string',
-					'groups_denied' => 'string',
+					'permissions' => 'int',
 					'state' => 'int',
 					'force_view' => 'int',
 					'display' => 'string',
@@ -829,9 +787,7 @@ function sportal_admin_block_edit()
 		{
 			$block_fields = array(
 				"label = {string:label}",
-				"permission_set = {int:permission_set}",
-				"groups_allowed = {string:groups_allowed}",
-				"groups_denied = {string:groups_denied}",
+				"permissions = {int:permissions}",
 				"state = {int:state}",
 				"force_view = {int:force_view}",
 				"display = {string:display}",

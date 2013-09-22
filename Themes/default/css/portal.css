@@ -523,7 +523,17 @@ li.shoutbox_warning
 }
 #sp_shoutbox_redirect
 {
-	width: 50%;
+	width: 70%;
+	margin: 0 auto;
+}
+
+#sp_manage_profiles table.table_grid
+{
+	margin: 0.4em 0;
+}
+#sp_edit_profile
+{
+	width: 60%;
 	margin: 0 auto;
 }
 

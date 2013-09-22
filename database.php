@@ -35,9 +35,7 @@ $tables = array(
 			array('name' => 'body', 'type' => 'text'),
 			array('name' => 'type', 'type' => 'tinytext'),
 			array('name' => 'date', 'type' => 'int', 'size' => 10, 'default' => 0),
-			array('name' => 'permission_set', 'type' => 'tinyint', 'size' => 4, 'default' => 0),
-			array('name' => 'groups_allowed', 'type' => 'varchar', 'size' => 255, 'default' => ''),
-			array('name' => 'groups_denied', 'type' => 'varchar', 'size' => 255, 'default' => ''),
+			array('name' => 'permissions', 'type' => 'mediumint', 'size' => 8, 'default' => 0),
 			array('name' => 'views', 'type' => 'int', 'size' => 10, 'default' => 0),
 			array('name' => 'comments', 'type' => 'int', 'size' => 10, 'default' => 0),
 			array('name' => 'status', 'type' => 'tinyint', 'size' => 4, 'default' => 1),
@@ -53,9 +51,7 @@ $tables = array(
 			array('name' => 'type', 'type' => 'text'),
 			array('name' => 'col', 'type' => 'tinyint', 'size' => 4, 'default' => 0),
 			array('name' => 'row', 'type' => 'tinyint', 'size' => 4, 'default' => 0),
-			array('name' => 'permission_set', 'type' => 'tinyint', 'size' => 4, 'default' => 0),
-			array('name' => 'groups_allowed', 'type' => 'varchar', 'size' => 255, 'default' => ''),
-			array('name' => 'groups_denied', 'type' => 'varchar', 'size' => 255, 'default' => ''),
+			array('name' => 'permissions', 'type' => 'mediumint', 'size' => 8, 'default' => 0),
 			array('name' => 'state', 'type' => 'tinyint', 'size' => 4, 'default' => 1),
 			array('name' => 'force_view', 'type' => 'tinyint', 'size' => 2, 'default' => 0),
 			array('name' => 'display', 'type' => 'text',),
@@ -73,9 +69,7 @@ $tables = array(
 			array('name' => 'namespace', 'type' => 'tinytext'),
 			array('name' => 'name', 'type' => 'tinytext'),
 			array('name' => 'description', 'type' => 'text'),
-			array('name' => 'permission_set', 'type' => 'tinyint', 'size' => 4, 'default' => 0),
-			array('name' => 'groups_allowed', 'type' => 'varchar', 'size' => 255, 'default' => ''),
-			array('name' => 'groups_denied', 'type' => 'varchar', 'size' => 255, 'default' => ''),
+			array('name' => 'permissions', 'type' => 'mediumint', 'size' => 8, 'default' => 0),
 			array('name' => 'articles', 'type' => 'int', 'size' => 10, 'default' => 0),
 			array('name' => 'status', 'type' => 'tinyint', 'size' => 4, 'default' => 1),
 		),
@@ -113,9 +107,7 @@ $tables = array(
 			array('name' => 'title', 'type' => 'tinytext'),
 			array('name' => 'body', 'type' => 'text'),
 			array('name' => 'type', 'type' => 'tinytext'),
-			array('name' => 'permission_set', 'type' => 'tinyint', 'size' => 4, 'default' => 0),
-			array('name' => 'groups_allowed', 'type' => 'varchar', 'size' => 255, 'default' => ''),
-			array('name' => 'groups_denied', 'type' => 'varchar', 'size' => 255, 'default' => ''),
+			array('name' => 'permissions', 'type' => 'mediumint', 'size' => 8, 'default' => 0),
 			array('name' => 'views', 'type' => 'int', 'size' => 10, 'default' => 0),
 			array('name' => 'style', 'type' => 'text'),
 			array('name' => 'status', 'type' => 'tinyint', 'size' => 4, 'default' => 1),
@@ -135,13 +127,22 @@ $tables = array(
 			array('type' => 'key', 'columns' => array('variable')),
 		),
 	),
+	'sp_profiles' => array(
+		'columns' => array(
+			array('name' => 'id_profile', 'type' => 'mediumint', 'size' => 8, 'auto' => true),
+			array('name' => 'type', 'type' => 'tinyint', 'size' => 4, 'default' => 0),
+			array('name' => 'name', 'type' => 'tinytext'),
+			array('name' => 'value', 'type' => 'text'),
+		),
+		'indexes' => array(
+			array('type' => 'primary', 'columns' => array('id_profile')),
+		),
+	),
 	'sp_shoutboxes' => array(
 		'columns' => array(
 			array('name' => 'id_shoutbox', 'type' => 'int', 'size' => 10, 'auto' => true),
 			array('name' => 'name', 'type' => 'tinytext'),
-			array('name' => 'permission_set', 'type' => 'tinyint', 'size' => 4, 'default' => 0),
-			array('name' => 'groups_allowed', 'type' => 'varchar', 'size' => 255, 'default' => ''),
-			array('name' => 'groups_denied', 'type' => 'varchar', 'size' => 255, 'default' => ''),
+			array('name' => 'permissions', 'type' => 'mediumint', 'size' => 8, 'default' => 0),
 			array('name' => 'moderator_groups', 'type' => 'text'),
 			array('name' => 'warning', 'type' => 'text'),
 			array('name' => 'allowed_bbc', 'type' => 'text'),
@@ -232,27 +233,27 @@ if (empty($has_block))
 <p>All this and SimplePortal has remained Simple! SimplePortal is built for simplicity and ease of use; ensuring the average forum administrator can install SimplePortal, configure a few settings, and show off the brand new portal to the users in minutes. Confusing menus, undesired pre-loaded blocks and settings that cannot be found are all avoided as much as possible. Because when it comes down to it, SimplePortal is YOUR portal, and should reflect your taste as much as possible.</p>';
 
 	$default_blocks = array(
-		'user_info' => array('label' => 'User Info', 'type' => 'sp_userInfo', 'col' => 1, 'row' => 1, 'permission_set' => '3', 'display' => '', 'display_custom' => '', 'style' => ''),
-		'whos_online' => array('label' => 'Who&#039;s Online', 'type' => 'sp_whosOnline', 'col' => 1, 'row' => 2, 'permission_set' => '3', 'display' => '', 'display_custom' => '', 'style' => ''),
-		'board_stats' => array('label' => 'Board Stats', 'type' => 'sp_boardStats', 'col' => 1, 'row' => 3, 'permission_set' => '3', 'display' => '', 'display_custom' => '', 'style' => ''),
-		'theme_select' => array('label' => 'Theme Select', 'type' => 'sp_theme_select', 'col' => 1, 'row' => 4, 'permission_set' => '3', 'display' => '', 'display_custom' => '', 'style' => ''),
-		'search' => array('label' => 'Search', 'type' => 'sp_quickSearch', 'col' => 1, 'row' => 5, 'permission_set' => '3', 'display' => '', 'display_custom' => '', 'style' => ''),
-		'news' => array('label' => 'News', 'type' => 'sp_news', 'col' => 2, 'row' => 1, 'permission_set' => '3', 'display' => '', 'display_custom' => '', 'style' => 'title_default_class~|title_custom_class~|title_custom_style~|body_default_class~windowbg|body_custom_class~|body_custom_style~|no_title~1|no_body~'),
-		'welcome' => array('label' => 'Welcome', 'type' => 'sp_html', 'col' => 2, 'row' => 2, 'permission_set' => '3', 'display' => '', 'display_custom' => '', 'style' => 'title_default_class~|title_custom_class~|title_custom_style~|body_default_class~windowbg|body_custom_class~|body_custom_style~|no_title~1|no_body~'),
-		'board_news' => array('label' => 'Board News', 'type' => 'sp_boardNews', 'col' => 2, 'row' => 3, 'permission_set' => '3', 'display' => '', 'display_custom' => '', 'style' => ''),
-		'recent_topics' => array('label' => 'Recent Topics', 'type' => 'sp_recent', 'col' => 3, 'row' => 1, 'permission_set' => '3', 'display' => '', 'display_custom' => '', 'style' => ''),
-		'top_poster' => array('label' => 'Top Poster', 'type' => 'sp_topPoster', 'col' => 4, 'row' => 1, 'permission_set' => '3', 'display' => '', 'display_custom' => '', 'style' => ''),
-		'recent_posts' => array('label' => 'Recent Posts', 'type' => 'sp_recent', 'col' => 4, 'row' => 2, 'permission_set' => '3', 'display' => '', 'display_custom' => '', 'style' => ''),
-		'staff' => array('label' => 'Forum Staff', 'type' => 'sp_staff', 'col' => 4, 'row' => 3, 'permission_set' => '3', 'display' => '', 'display_custom' => '', 'style' => ''),
-		'calendar' => array('label' => 'Calendar', 'type' => 'sp_calendar', 'col' => 4, 'row' => 4, 'permission_set' => '3', 'display' => '', 'display_custom' => '', 'style' => ''),
-		'top_boards' => array('label' => 'Top Boards', 'type' => 'sp_topBoards', 'col' => 4, 'row' => 5, 'permission_set' => '3', 'display' => '', 'display_custom' => '', 'style' => ''),
+		'user_info' => array('label' => 'User Info', 'type' => 'sp_userInfo', 'col' => 1, 'row' => 1, 'permissions' => 3, 'display' => '', 'display_custom' => '', 'style' => ''),
+		'whos_online' => array('label' => 'Who&#039;s Online', 'type' => 'sp_whosOnline', 'col' => 1, 'row' => 2, 'permissions' => 3, 'display' => '', 'display_custom' => '', 'style' => ''),
+		'board_stats' => array('label' => 'Board Stats', 'type' => 'sp_boardStats', 'col' => 1, 'row' => 3, 'permissions' => 3, 'display' => '', 'display_custom' => '', 'style' => ''),
+		'theme_select' => array('label' => 'Theme Select', 'type' => 'sp_theme_select', 'col' => 1, 'row' => 4, 'permissions' => 3, 'display' => '', 'display_custom' => '', 'style' => ''),
+		'search' => array('label' => 'Search', 'type' => 'sp_quickSearch', 'col' => 1, 'row' => 5, 'permissions' => 3, 'display' => '', 'display_custom' => '', 'style' => ''),
+		'news' => array('label' => 'News', 'type' => 'sp_news', 'col' => 2, 'row' => 1, 'permissions' => 3, 'display' => '', 'display_custom' => '', 'style' => 'title_default_class~|title_custom_class~|title_custom_style~|body_default_class~windowbg|body_custom_class~|body_custom_style~|no_title~1|no_body~'),
+		'welcome' => array('label' => 'Welcome', 'type' => 'sp_html', 'col' => 2, 'row' => 2, 'permissions' => 3, 'display' => '', 'display_custom' => '', 'style' => 'title_default_class~|title_custom_class~|title_custom_style~|body_default_class~windowbg|body_custom_class~|body_custom_style~|no_title~1|no_body~'),
+		'board_news' => array('label' => 'Board News', 'type' => 'sp_boardNews', 'col' => 2, 'row' => 3, 'permissions' => 3, 'display' => '', 'display_custom' => '', 'style' => ''),
+		'recent_topics' => array('label' => 'Recent Topics', 'type' => 'sp_recent', 'col' => 3, 'row' => 1, 'permissions' => 3, 'display' => '', 'display_custom' => '', 'style' => ''),
+		'top_poster' => array('label' => 'Top Poster', 'type' => 'sp_topPoster', 'col' => 4, 'row' => 1, 'permissions' => 3, 'display' => '', 'display_custom' => '', 'style' => ''),
+		'recent_posts' => array('label' => 'Recent Posts', 'type' => 'sp_recent', 'col' => 4, 'row' => 2, 'permissions' => 3, 'display' => '', 'display_custom' => '', 'style' => ''),
+		'staff' => array('label' => 'Forum Staff', 'type' => 'sp_staff', 'col' => 4, 'row' => 3, 'permissions' => 3, 'display' => '', 'display_custom' => '', 'style' => ''),
+		'calendar' => array('label' => 'Calendar', 'type' => 'sp_calendar', 'col' => 4, 'row' => 4, 'permissions' => 3, 'display' => '', 'display_custom' => '', 'style' => ''),
+		'top_boards' => array('label' => 'Top Boards', 'type' => 'sp_topBoards', 'col' => 4, 'row' => 5, 'permissions' => 3, 'display' => '', 'display_custom' => '', 'style' => ''),
 	);
 
 	$smcFunc['db_insert']('ignore',
 		'{db_prefix}sp_blocks',
-		array('label' => 'text', 'type' => 'text', 'col' => 'int', 'row' => 'int', 'permission_set' => 'int', 'display' => 'text', 'display_custom' => 'text', 'style' => 'text'),
+		array('label' => 'text', 'type' => 'text', 'col' => 'int', 'row' => 'int', 'permissions' => 'int', 'display' => 'text', 'display_custom' => 'text', 'style' => 'text'),
 		$default_blocks,
-		array('id_block')
+		array('id_block', 'state')
 	);
 
 	$request = $smcFunc['db_query']('', '
@@ -284,7 +285,47 @@ if (empty($has_block))
 		'{db_prefix}sp_parameters',
 		array('id_block' => 'int', 'variable' => 'text', 'value' => 'text'),
 		$default_parameters,
-		array()
+		array('id_block', 'variable')
+	);
+}
+
+$result = $smcFunc['db_query']('','
+	SELECT id_profile
+	FROM {db_prefix}sp_profiles
+	WHERE type = {int:type}
+	LIMIT {int:limit}',
+	array(
+		'type' => 1,
+		'limit' => 1,
+	)
+);
+list ($has_permission_profiles) = $smcFunc['db_fetch_row']($result);
+$smcFunc['db_free_result']($result);
+
+if (empty($has_permission_profiles))
+{
+	$request = $smcFunc['db_query']('', '
+		SELECT id_group
+		FROM {db_prefix}membergroups
+		WHERE min_posts != {int:min_posts}',
+		array(
+			'min_posts' => -1,
+		)
+	);
+	$post_groups = array();
+	while ($row = $smcFunc['db_fetch_assoc']($request))
+		$post_groups[] = $row['id_group'];
+	$smcFunc['db_free_result']($request);
+
+	$smcFunc['db_insert']('replace',
+		'{db_prefix}sp_profiles',
+		array('id_profile' => 'int', 'type' => 'int', 'name' => 'text', 'value' => 'text'),
+		array(
+			array(1, 1, '$_guests', '-1|'),
+			array(2, 1, '$_members', implode(',', $post_groups) . ',0|'),
+			array(3, 1, '$_everyone', implode(',', $post_groups) . ',0,-1|'),
+		),
+		array('id_profile')
 	);
 }
 
@@ -294,5 +335,3 @@ foreach ($tables as $table_name => $null)
 
 if (SMF == 'SSI')
 	echo 'Database changes were carried out successfully.';
-
-?>

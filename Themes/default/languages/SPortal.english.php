@@ -144,6 +144,7 @@ $txt['error_sp_no_categories_found'] = 'There are no categories to display.';
 $txt['error_sp_no_shop_found'] = 'There are no shop mods installed.';
 $txt['error_sp_no_arcade_found'] = 'There are no arcade mods installed.';
 $txt['error_sp_no_stats_found'] = 'No statistics found.';
+$txt['error_sp_no_permission_profiles'] = 'There are no permission profiles available.';
 $txt['error_sp_no_pages'] = 'There are no pages available.';
 $txt['error_sp_no_categories'] = 'There are no categories available.';
 $txt['error_sp_no_articles'] = 'There are no articles available.';
@@ -160,5 +161,3 @@ $txt['error_sp_no_shoutbox_normaluser'] = 'Sorry, shoutbox blocks require a shou
 $txt['error_sp_cannot_shoutbox_moderate'] = 'You don\'t have permission to moderate this shoutbox.';
 $txt['error_sp_no_block'] = 'There aren\'t any blocks created yet.';
 $txt['error_sp_flood_spsbp'] = 'Your last shout was less than %1$d seconds ago. Please try again later.';
-
-?>

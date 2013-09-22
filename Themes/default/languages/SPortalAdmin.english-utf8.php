@@ -81,18 +81,6 @@ $txt['sp-blocksDisabledRight'] = 'Right side blocks are currently disabled';
 $txt['sp-blocksContent'] = 'Content';
 $txt['sp-blocksColumn'] = 'Column';
 $txt['sp_admin_blocks_col_permissions'] = 'Permissions';
-$txt['sp_admin_blocks_permissions_set_custom'] = 'Custom';
-$txt['sp_admin_blocks_permissions_set_guests'] = 'Guests';
-$txt['sp_admin_blocks_permissions_set_members'] = 'Members';
-$txt['sp_admin_blocks_permissions_set_everyone'] = 'Everyone';
-$txt['sp_admin_blocks_col_custom_permissions'] = 'Custom Permissions';
-$txt['sp_admin_blocks_custom_permissions_membergroup'] = 'Membergroup';
-$txt['sp_admin_blocks_custom_permissions_allowed_short'] = 'A';
-$txt['sp_admin_blocks_custom_permissions_disallowed_short'] = 'X';
-$txt['sp_admin_blocks_custom_permissions_denied_short'] = 'D';
-$txt['sp_admin_blocks_custom_permissions_allowed'] = 'Allowed';
-$txt['sp_admin_blocks_custom_permissions_disallowed'] = 'Disallowed';
-$txt['sp_admin_blocks_custom_permissions_denied'] = 'Denied';
 $txt['sp-blocksRow'] = 'Order';
 $txt['sp-blocksForce'] = 'Not Collapsible';
 $txt['sp-blocksDisplayOptions'] = 'Display Options';
@@ -296,18 +284,6 @@ $txt['sp_admin_articles_col_status'] = 'Active';
 $txt['sp_admin_articles_col_date'] = 'Date';
 $txt['sp_admin_articles_col_actions'] = 'Actions';
 $txt['sp_admin_articles_col_permissions'] = 'Permissions';
-$txt['sp_admin_articles_permissions_set_custom'] = 'Custom';
-$txt['sp_admin_articles_permissions_set_guests'] = 'Guests';
-$txt['sp_admin_articles_permissions_set_members'] = 'Members';
-$txt['sp_admin_articles_permissions_set_everyone'] = 'Everyone';
-$txt['sp_admin_articles_col_custom_permissions'] = 'Custom Permissions';
-$txt['sp_admin_articles_custom_permissions_membergroup'] = 'Membergroup';
-$txt['sp_admin_articles_custom_permissions_allowed_short'] = 'A';
-$txt['sp_admin_articles_custom_permissions_disallowed_short'] = 'X';
-$txt['sp_admin_articles_custom_permissions_denied_short'] = 'D';
-$txt['sp_admin_articles_custom_permissions_allowed'] = 'Allowed';
-$txt['sp_admin_articles_custom_permissions_disallowed'] = 'Disallowed';
-$txt['sp_admin_articles_custom_permissions_denied'] = 'Denied';
 $txt['sp_admin_articles_activate'] = 'Activate';
 $txt['sp_admin_articles_deactivate'] = 'Deactivate';
 
@@ -340,18 +316,6 @@ $txt['sp_admin_categories_col_articles'] = 'Articles';
 $txt['sp_admin_categories_col_status'] = 'Active';
 $txt['sp_admin_categories_col_actions'] = 'Actions';
 $txt['sp_admin_categories_col_permissions'] = 'Permissions';
-$txt['sp_admin_categories_permissions_set_custom'] = 'Custom';
-$txt['sp_admin_categories_permissions_set_guests'] = 'Guests';
-$txt['sp_admin_categories_permissions_set_members'] = 'Members';
-$txt['sp_admin_categories_permissions_set_everyone'] = 'Everyone';
-$txt['sp_admin_categories_col_custom_permissions'] = 'Custom Permissions';
-$txt['sp_admin_categories_custom_permissions_membergroup'] = 'Membergroup';
-$txt['sp_admin_categories_custom_permissions_allowed_short'] = 'A';
-$txt['sp_admin_categories_custom_permissions_disallowed_short'] = 'X';
-$txt['sp_admin_categories_custom_permissions_denied_short'] = 'D';
-$txt['sp_admin_categories_custom_permissions_allowed'] = 'Allowed';
-$txt['sp_admin_categories_custom_permissions_disallowed'] = 'Disallowed';
-$txt['sp_admin_categories_custom_permissions_denied'] = 'Denied';
 $txt['sp_admin_categories_activate'] = 'Activate';
 $txt['sp_admin_categories_deactivate'] = 'Deactivate';
 
@@ -384,18 +348,6 @@ $txt['sp_admin_pages_col_views'] = 'Views';
 $txt['sp_admin_pages_col_status'] = 'Active';
 $txt['sp_admin_pages_col_actions'] = 'Actions';
 $txt['sp_admin_pages_col_permissions'] = 'Permissions';
-$txt['sp_admin_pages_permissions_set_custom'] = 'Custom';
-$txt['sp_admin_pages_permissions_set_guests'] = 'Guests';
-$txt['sp_admin_pages_permissions_set_members'] = 'Members';
-$txt['sp_admin_pages_permissions_set_everyone'] = 'Everyone';
-$txt['sp_admin_pages_col_custom_permissions'] = 'Custom Permissions';
-$txt['sp_admin_pages_custom_permissions_membergroup'] = 'Membergroup';
-$txt['sp_admin_pages_custom_permissions_allowed_short'] = 'A';
-$txt['sp_admin_pages_custom_permissions_disallowed_short'] = 'X';
-$txt['sp_admin_pages_custom_permissions_denied_short'] = 'D';
-$txt['sp_admin_pages_custom_permissions_allowed'] = 'Allowed';
-$txt['sp_admin_pages_custom_permissions_disallowed'] = 'Disallowed';
-$txt['sp_admin_pages_custom_permissions_denied'] = 'Denied';
 $txt['sp_admin_pages_col_blocks'] = 'Blocks';
 $txt['sp_admin_pages_activate'] = 'Activate';
 $txt['sp_admin_pages_deactivate'] = 'Deactivate';
@@ -426,18 +378,6 @@ $txt['sp_admin_shoutbox_col_caching'] = 'Caching';
 $txt['sp_admin_shoutbox_col_status'] = 'Status';
 $txt['sp_admin_shoutbox_col_actions'] = 'Actions';
 $txt['sp_admin_shoutbox_col_permissions'] = 'Permissions';
-$txt['sp_admin_shoutbox_permissions_set_custom'] = 'Custom';
-$txt['sp_admin_shoutbox_permissions_set_guests'] = 'Guests';
-$txt['sp_admin_shoutbox_permissions_set_members'] = 'Members';
-$txt['sp_admin_shoutbox_permissions_set_everyone'] = 'Everyone';
-$txt['sp_admin_shoutbox_col_custom_permissions'] = 'Custom Permissions';
-$txt['sp_admin_shoutbox_custom_permissions_membergroup'] = 'Membergroup';
-$txt['sp_admin_shoutbox_custom_permissions_allowed_short'] = 'A';
-$txt['sp_admin_shoutbox_custom_permissions_disallowed_short'] = 'X';
-$txt['sp_admin_shoutbox_custom_permissions_denied_short'] = 'D';
-$txt['sp_admin_shoutbox_custom_permissions_allowed'] = 'Allowed';
-$txt['sp_admin_shoutbox_custom_permissions_disallowed'] = 'Disallowed';
-$txt['sp_admin_shoutbox_custom_permissions_denied'] = 'Denied';
 $txt['sp_admin_shoutbox_col_moderators'] = 'Moderators';
 $txt['sp_admin_shoutbox_col_reverse'] = 'Reverse Order';
 $txt['sp_admin_shoutbox_activate'] = 'Activate';
@@ -460,6 +400,44 @@ $txt['sp_admin_shoutbox_block_redirect_message'] = '<p>Congratulations, you have
 <p>Although it won\'t be displayed anywhere within your forum yet. You will need to create a shoutbox block before your users can use the shoutbox.</p>
 <p>Click <a href="%s">here</a> to create a new shoutbox block for this shoutbox.</p>
 <p>Click <a href="%s">here</a> to continue to your list of shoutboxes.</p>';
+
+// Profiles Area
+$txt['sp_admin_profiles_title'] = 'Profiles';
+$txt['sp_admin_profiles_add'] = 'Add Profile';
+$txt['sp_admin_profiles_edit'] = 'Edit Profile';
+$txt['sp_admin_profiles_remove'] = 'Remove Profiles';
+
+$txt['sp_admin_permission_profiles_list'] = 'Permission Profiles List';
+$txt['sp_admin_permission_profiles_add'] = 'Add Permission Profile';
+
+$txt['sp_admin_profiles_desc'] = 'You can create and manage SimplePortal profiles in this area.';
+$txt['sp_admin_profiles_delete_confirm'] = 'Are you sure you want to delete this profile?';
+$txt['sp_profiles_remove_confirm'] = 'Are you sure that you want to remove the selected profiles?';
+$txt['sp_error_profile_name_empty'] = 'Sorry, you left the profile name empty.';
+$txt['sp_error_no_profiles'] = 'There are no profiles available.';
+
+$txt['sp_admin_profiles_col_name'] = 'Name';
+$txt['sp_admin_profiles_col_articles'] = 'Articles';
+$txt['sp_admin_profiles_col_blocks'] = 'Blocks';
+$txt['sp_admin_profiles_col_categories'] = 'Categories';
+$txt['sp_admin_profiles_col_pages'] = 'Pages';
+$txt['sp_admin_profiles_col_shoutboxes'] = 'Shoutboxes';
+$txt['sp_admin_profiles_col_permissions'] = 'Permissions';
+$txt['sp_admin_profiles_col_actions'] = 'Actions';
+
+$txt['sp_profiles_default_name'] = 'Unnamed Profile';
+
+$txt['sp_admin_profiles_permissions_membergroup'] = 'Membergroup';
+$txt['sp_admin_profiles_permissions_allowed_short'] = 'A';
+$txt['sp_admin_profiles_permissions_disallowed_short'] = 'X';
+$txt['sp_admin_profiles_permissions_denied_short'] = 'D';
+$txt['sp_admin_profiles_permissions_allowed'] = 'Allowed';
+$txt['sp_admin_profiles_permissions_disallowed'] = 'Disallowed';
+$txt['sp_admin_profiles_permissions_denied'] = 'Denied';
+
+$txt['sp_admin_profiles_guests'] = 'Guests';
+$txt['sp_admin_profiles_members'] = 'Members';
+$txt['sp_admin_profiles_everyone'] = 'Everyone';
 
 // General titles
 $txt['sp-adminColumnAction'] = 'Action';
@@ -527,9 +505,9 @@ $txt['permissionname_sp_manage_pages'] = 'Manage portal pages';
 $txt['permissionhelp_sp_manage_pages'] = 'This permission allows users to manage SimplePortal pages.';
 $txt['permissionname_sp_manage_shoutbox'] = 'Manage portal shoutboxes';
 $txt['permissionhelp_sp_manage_shoutbox'] = 'This permission allows users to manage SimplePortal shoutboxes.';
+$txt['permissionname_sp_manage_profiles'] = 'Manage portal profiles';
+$txt['permissionhelp_sp_manage_profiles'] = 'This permission allows users to manage SimplePortal profiles.';
 
 // Compatibility strings
 $txt['sp-adminCatHelp'] = 'Here you can manage and configure SimplePortal.';
 $txt['sp-adminCatDesc'] = 'Here you can manage and configure SimplePortal.';
-
-?>

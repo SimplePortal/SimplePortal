@@ -25,7 +25,7 @@
 		<database>database.php</database>
 		<code>settings.php</code>
 		<code>integration.php</code>
-		<redirect url="$scripturl?action=admin;area=portalconfig" timeout="5000" parsebbc="true">redirect</redirect>
+		<redirect url="$scripturl?action=admin;area=portalconfig" timeout="5000" parsebbc="true">redirect.txt</redirect>
 	</install>
 	<uninstall for="2.0 - 2.99.99">
 		<readme type="inline">This will uninstall SimplePortal 2.4 for SMF.</readme>
@@ -33,25 +33,31 @@
 		<remove-file name="$boarddir/PortalStandalone.php" />
 		<remove-file name="$sourcedir/PortalArticles.php" />
 		<remove-file name="$sourcedir/PortalBlocks.php" />
+		<remove-file name="$sourcedir/PortalCategories.php" />
 		<remove-file name="$sourcedir/PortalMain.php" />
 		<remove-file name="$sourcedir/PortalPages.php" />
 		<remove-file name="$sourcedir/PortalShoutbox.php" />
 		<remove-file name="$sourcedir/PortalAdminArticles.php" />
 		<remove-file name="$sourcedir/PortalAdminBlocks.php" />
+		<remove-file name="$sourcedir/PortalAdminCategories.php" />
 		<remove-file name="$sourcedir/PortalAdminMain.php" />
 		<remove-file name="$sourcedir/PortalAdminPages.php" />
+		<remove-file name="$sourcedir/PortalAdminProfiles.php" />
 		<remove-file name="$sourcedir/PortalAdminShoutbox.php" />
 		<remove-file name="$sourcedir/Subs-Portal.php" />
-		<remove-file name="$sourcedir/Subs-PortalIntegration.php" />
 		<remove-file name="$sourcedir/Subs-PortalAdmin.php" />
+		<remove-file name="$sourcedir/Subs-PortalIntegration.php" />
 		<remove-file name="$themedir/Portal.template.php" />
 		<remove-file name="$themedir/PortalArticles.template.php" />
+		<remove-file name="$themedir/PortalCategories.template.php" />
 		<remove-file name="$themedir/PortalPages.template.php" />
 		<remove-file name="$themedir/PortalShoutbox.template.php" />
 		<remove-file name="$themedir/PortalAdmin.template.php" />
 		<remove-file name="$themedir/PortalAdminArticles.template.php" />
 		<remove-file name="$themedir/PortalAdminBlocks.template.php" />
+		<remove-file name="$themedir/PortalAdminCategories.template.php" />
 		<remove-file name="$themedir/PortalAdminPages.template.php" />
+		<remove-file name="$themedir/PortalAdminProfiles.template.php" />
 		<remove-file name="$themedir/PortalAdminShoutbox.template.php" />
 		<remove-file name="$languagedir/SPortal.english.php" />
 		<remove-file name="$languagedir/SPortal.english-utf8.php" />
@@ -65,6 +71,7 @@
 		<remove-file name="$imagesdir/admin/blocks.png" />
 		<remove-file name="$imagesdir/admin/categories.png" />
 		<remove-file name="$imagesdir/admin/pages.png" />
+		<remove-file name="$imagesdir/admin/profiles.png" />
 		<remove-file name="$imagesdir/admin/shoutbox.png" />
 		<remove-file name="$themedir/css/portal.css" />
 		<remove-file name="$themedir/css/portal_rtl.css" />

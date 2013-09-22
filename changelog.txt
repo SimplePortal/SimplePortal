@@ -4,6 +4,8 @@ Changelog last updated July 27, 2013.
 
 SP 2.4
 ================================================================================
+ Added profiles area and permission profiles.
+ Some small clean-up and small fixes.
  Added article comments.
  Some fixes to installation scripts.
  Fixed some permission stuff including integration.

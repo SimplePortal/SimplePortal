@@ -306,27 +306,6 @@ function sportal_admin_page_edit()
 				fatal_lang_error('error_sp_php_' . $error, false);
 		}
 
-		$permission_set = 0;
-		$groups_allowed = $groups_denied = '';
-
-		if (!empty($_POST['permission_set']))
-			$permission_set = (int) $_POST['permission_set'];
-		elseif (!empty($_POST['membergroups']) && is_array($_POST['membergroups']))
-		{
-			$groups_allowed = $groups_denied = array();
-
-			foreach ($_POST['membergroups'] as $id => $value)
-			{
-				if ($value == 1)
-					$groups_allowed[] = (int) $id;
-				elseif ($value == -1)
-					$groups_denied[] = (int) $id;
-			}
-
-			$groups_allowed = implode(',', $groups_allowed);
-			$groups_denied = implode(',', $groups_denied);
-		}
-
 		if (!empty($_POST['blocks']) && is_array($_POST['blocks']))
 		{
 			foreach ($_POST['blocks'] as $id => $block)
@@ -340,9 +319,7 @@ function sportal_admin_page_edit()
 			'title' => 'string',
 			'body' => 'string',
 			'type' => 'string',
-			'permission_set' => 'int',
-			'groups_allowed' => 'string',
-			'groups_denied' => 'string',
+			'permissions' => 'int',
 			'style' => 'string',
 			'status' => 'int',
 		);
@@ -352,10 +329,8 @@ function sportal_admin_page_edit()
 			'namespace' => $smcFunc['htmlspecialchars']($_POST['namespace'], ENT_QUOTES),
 			'title' => $smcFunc['htmlspecialchars']($_POST['title'], ENT_QUOTES),
 			'body' => $smcFunc['htmlspecialchars']($_POST['content'], ENT_QUOTES),
-			'type' => $_POST['type'],
-			'permission_set' => $permission_set,
-			'groups_allowed' => $groups_allowed,
-			'groups_denied' => $groups_denied,
+			'type' => in_array($_POST['type'], array('bbc', 'html', 'php')) ? $_POST['type'] : 'bbc',
+			'permissions' => (int) $_POST['permissions'],
 			'style' => sportal_parse_style('implode'),
 			'status' => !empty($_POST['status']) ? 1 : 0,
 		);
@@ -489,31 +464,13 @@ function sportal_admin_page_edit()
 
 	if (!empty($_POST['preview']))
 	{
-		$permission_set = 0;
-		$groups_allowed = $groups_denied = array();
-
-		if (!empty($_POST['permission_set']))
-			$permission_set = (int) $_POST['permission_set'];
-		elseif (!empty($_POST['membergroups']) && is_array($_POST['membergroups']))
-		{
-			foreach ($_POST['membergroups'] as $id => $value)
-			{
-				if ($value == 1)
-					$groups_allowed[] = (int) $id;
-				elseif ($value == -1)
-					$groups_denied[] = (int) $id;
-			}
-		}
-
 		$context['SPortal']['page'] = array(
 			'id' => $_POST['page_id'],
 			'page_id' => $_POST['namespace'],
 			'title' => $smcFunc['htmlspecialchars']($_POST['title'], ENT_QUOTES),
 			'body' => $smcFunc['htmlspecialchars']($_POST['content'], ENT_QUOTES),
 			'type' => $_POST['type'],
-			'permission_set' => $permission_set,
-			'groups_allowed' => $groups_allowed,
-			'groups_denied' => $groups_denied,
+			'permissions' => $_POST['permissions'],
 			'style' => sportal_parse_style('implode'),
 			'status' => !empty($_POST['status']),
 		);
@@ -532,9 +489,7 @@ function sportal_admin_page_edit()
 			'title' => $txt['sp_pages_default_title'],
 			'body' => '',
 			'type' => 'bbc',
-			'permission_set' => 3,
-			'groups_allowed' => array(),
-			'groups_denied' => array(),
+			'permissions' => 3,
 			'style' => '',
 			'status' => 1,
 		);
@@ -567,8 +522,11 @@ function sportal_admin_page_edit()
 	if (isset($temp_editor))
 		$options['wysiwyg_default'] = $temp_editor;
 
-	$context['SPortal']['page']['groups'] = sp_load_membergroups();
+	$context['SPortal']['page']['permission_profiles'] = sportal_get_profiles(null, 1, 'name');
 	$context['SPortal']['page']['style'] = sportal_parse_style('explode', $context['SPortal']['page']['style'], !empty($context['SPortal']['preview']));
+
+	if (empty($context['SPortal']['page']['permission_profiles']))
+		fatal_lang_error('error_sp_no_permission_profiles', false);
 
 	$context['page_title'] = $context['SPortal']['is_new'] ? $txt['sp_admin_pages_add'] : $txt['sp_admin_pages_edit'];
 	$context['sub_template'] = 'pages_edit';

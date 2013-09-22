@@ -60,5 +60,3 @@ elseif (file_exists($standalone_file))
 
 if (SMF == 'SSI')
 	echo 'Settings changes were carried out successfully.';
-
-?>

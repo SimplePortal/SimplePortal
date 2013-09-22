@@ -32,5 +32,3 @@ sportal_init(true);
 sportal_main();
 
 obExit(true);
-
-?>

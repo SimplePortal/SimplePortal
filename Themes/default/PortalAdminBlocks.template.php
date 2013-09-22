@@ -135,51 +135,17 @@ function template_block_edit()
 							<input type="text" name="block_name" id="block_name" value="', $context['SPortal']['block']['label'], '" size="30" class="input_text" />
 						</dd>
 						<dt>
-							<a href="', $scripturl, '?action=helpadmin;help=sp_permissions" onclick="return reqWin(this.href);" class="help"><img src="', $settings['images_url'], '/helptopics.gif" alt="', $txt['help'], '" class="icon" /></a>
-							', $txt['sp_admin_blocks_col_permissions'], ':
+							<label for="block_permissions">', $txt['sp_admin_blocks_col_permissions'], ':</label>
 						</dt>
 						<dd>
-							<select name="permission_set" id="block_permission_set" onchange="sp_update_permissions();">';
+							<select name="permissions" id="block_permissions">';
 
-	$permission_sets = array(1 => 'guests', 2 => 'members', 3 => 'everyone', 0 => 'custom');
-	foreach ($permission_sets as $id => $label)
+	foreach ($context['SPortal']['block']['permission_profiles'] as $profile)
 		echo '
-								<option value="', $id, '"', $id == $context['SPortal']['block']['permission_set'] ? ' selected="selected"' : '', '>', $txt['sp_admin_blocks_permissions_set_' . $label], '</option>';
+								<option value="', $profile['id'], '"', $profile['id'] == $context['SPortal']['block']['permissions'] ? ' selected="selected"' : '', '>', $profile['label'], '</option>';
 
 	echo '
 							</select>
-						</dd>
-						<dt id="block_custom_permissions_label">
-							', $txt['sp_admin_blocks_col_custom_permissions'], ':
-						</dt>
-						<dd id="block_custom_permissions_input">
-							<table>
-								<tr>
-									<th>', $txt['sp_admin_blocks_custom_permissions_membergroup'], '</td>
-									<th title="', $txt['sp_admin_blocks_custom_permissions_allowed'], '">', $txt['sp_admin_blocks_custom_permissions_allowed_short'], '</th>
-									<th title="', $txt['sp_admin_blocks_custom_permissions_disallowed'], '">', $txt['sp_admin_blocks_custom_permissions_disallowed_short'], '</th>
-									<th title="', $txt['sp_admin_blocks_custom_permissions_denied'], '">', $txt['sp_admin_blocks_custom_permissions_denied_short'], '</th>
-								</tr>';
-
-	foreach ($context['SPortal']['block']['groups'] as $id => $label)
-	{
-		$current = 0;
-		if (in_array($id, $context['SPortal']['block']['groups_allowed']))
-			$current = 1;
-		elseif (in_array($id, $context['SPortal']['block']['groups_denied']))
-			$current = -1;
-
-		echo '
-								<tr>
-									<td>', $label, '</td>
-									<td><input type="radio" name="membergroups[', $id, ']" value="1"', $current == 1 ? ' checked="checked"' : '', ' class="input_radio"></td>
-									<td><input type="radio" name="membergroups[', $id, ']" value="0"', $current == 0 ? ' checked="checked"' : '', ' class="input_radio"></td>
-									<td><input type="radio" name="membergroups[', $id, ']" value="-1"', $current == -1 ? ' checked="checked"' : '', ' class="input_radio"></td>
-								</tr>';
-	}
-
-	echo '
-							</table>
 						</dd>';
 
 	foreach ($context['SPortal']['block']['options'] as $name => $type)
@@ -503,17 +469,7 @@ function template_block_edit()
 
 	echo '
 		</form>
-	</div>
-	<script language="JavaScript" type="text/javascript"><!-- // --><![CDATA[
-		sp_update_permissions();
-
-		function sp_update_permissions()
-		{
-			var new_state = document.getElementById("block_permission_set").value;
-			document.getElementById("block_custom_permissions_label").style.display = new_state != 0 ? "none" : "";
-			document.getElementById("block_custom_permissions_input").style.display = new_state != 0 ? "none" : "";
-		}
-	// ]]></script>';
+	</div>';
 }
 
 function template_block_select_type()

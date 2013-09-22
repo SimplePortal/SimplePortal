@@ -239,34 +239,11 @@ function sportal_admin_category_edit()
 		if (preg_replace('~[0-9]+~', '', $_POST['namespace']) === '')
 			fatal_lang_error('sp_error_category_namespace_numeric', false);
 
-		$permission_set = 0;
-		$groups_allowed = $groups_denied = '';
-
-		if (!empty($_POST['permission_set']))
-			$permission_set = (int) $_POST['permission_set'];
-		elseif (!empty($_POST['membergroups']) && is_array($_POST['membergroups']))
-		{
-			$groups_allowed = $groups_denied = array();
-
-			foreach ($_POST['membergroups'] as $id => $value)
-			{
-				if ($value == 1)
-					$groups_allowed[] = (int) $id;
-				elseif ($value == -1)
-					$groups_denied[] = (int) $id;
-			}
-
-			$groups_allowed = implode(',', $groups_allowed);
-			$groups_denied = implode(',', $groups_denied);
-		}
-
 		$fields = array(
 			'namespace' => 'string',
 			'name' => 'string',
 			'description' => 'string',
-			'permission_set' => 'int',
-			'groups_allowed' => 'string',
-			'groups_denied' => 'string',
+			'permissions' => 'int',
 			'status' => 'int',
 		);
 
@@ -275,9 +252,7 @@ function sportal_admin_category_edit()
 			'namespace' => $smcFunc['htmlspecialchars']($_POST['namespace'], ENT_QUOTES),
 			'name' => $smcFunc['htmlspecialchars']($_POST['name'], ENT_QUOTES),
 			'description' => $smcFunc['htmlspecialchars']($_POST['description'], ENT_QUOTES),
-			'permission_set' => $permission_set,
-			'groups_allowed' => $groups_allowed,
-			'groups_denied' => $groups_denied,
+			'permissions' => (int) $_POST['permissions'],
 			'status' => !empty($_POST['status']) ? 1 : 0,
 		);
 
@@ -317,9 +292,7 @@ function sportal_admin_category_edit()
 			'category_id' => 'category' . mt_rand(1, 5000),
 			'name' => $txt['sp_categories_default_name'],
 			'description' => '',
-			'permission_set' => 3,
-			'groups_allowed' => array(),
-			'groups_denied' => array(),
+			'permissions' => 3,
 			'status' => 1,
 		);
 	}
@@ -329,7 +302,10 @@ function sportal_admin_category_edit()
 		$context['category'] = sportal_get_categories($_REQUEST['category_id']);
 	}
 
-	$context['category']['groups'] = sp_load_membergroups();
+	$context['category']['permission_profiles'] = sportal_get_profiles(null, 1, 'name');
+
+	if (empty($context['category']['permission_profiles']))
+		fatal_lang_error('error_sp_no_permission_profiles', false);
 
 	$context['page_title'] = $context['is_new'] ? $txt['sp_admin_categories_add'] : $txt['sp_admin_categories_edit'];
 	$context['sub_template'] = 'categories_edit';

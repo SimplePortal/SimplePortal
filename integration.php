@@ -38,5 +38,3 @@ foreach ($hooks as $hook => $functions)
 
 if (SMF == 'SSI')
 	echo 'Integration changes were carried out successfully.';
-
-?>

@@ -179,5 +179,3 @@ $helptxt['sp_param_sp_blog_sort'] = 'Displays blogs randomly or by the latest bl
 $helptxt['sp_param_sp_html_content'] = 'Enter the custom HTML content in this box.';
 $helptxt['sp_param_sp_bbc_content'] = 'Enter the custom BBC content in this box.';
 $helptxt['sp_param_sp_php_content'] = 'Enter the custom PHP content in this box.';
-
-?>
