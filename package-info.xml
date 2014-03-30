@@ -41,7 +41,7 @@
 		<redirect url="$scripturl?action=manageportal" timeout="5000">redirect.txt</redirect>
 	</install>
 
-	<install for="2.0 - 2.99.99">
+	<install for="2.0 - 2.0.9">
 		<!-- Read me -->
 		<readme type="inline">This will install SimplePortal 2.3.5 for SMF 2.0.</readme>
 
@@ -129,7 +129,7 @@
 		<remove-file name="$themedir/portal.js" />
 	</uninstall>
 
-	<uninstall for="2.0 - 2.99.99">
+	<uninstall for="2.0 - 2.0.9">
 		<!-- Read me -->
 		<readme type="inline">This will uninstall SimplePortal 2.3.5 for SMF 2.0.</readme>
 
