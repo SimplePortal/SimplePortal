@@ -40,9 +40,6 @@ function sportal_init($standalone = false)
 			else
 				$settings['sp_images_url'] =  $settings['default_theme_url'] . '/images/sp';
 		}
-
-		$context['SPortal']['core_compat'] = $settings['name'] == 'Core Theme';
-		$context['SPortal']['on_portal'] = getShowInfo(0, 'portal', '');
 	}
 
 	if (WIRELESS || ($standalone && (isset($_REQUEST['wap']) || isset($_REQUEST['wap2']) || isset($_REQUEST['imode']))) || !empty($settings['disable_sp']) || empty($modSettings['sp_portal_mode']) || ((!empty($modSettings['sp_maintenance']) || !empty($maintenance)) && !allowedTo('admin_forum')) || isset($_GET['debug']) || (empty($modSettings['allow_guestAccess']) && $context['user']['is_guest']))
@@ -90,22 +87,19 @@ function sportal_init($standalone = false)
 				'name' => $context['forum_name'],
 			);
 
-		// If you want to remove Forum link when it is
-		// alone, take out the following two comment lines.
-		//if (empty($context['linktree'][1]))
-		//	$context['linktree'] = array();
-
 		if (!empty($context['linktree']) && $modSettings['sp_portal_mode'] == 1)
 			foreach ($context['linktree'] as $key => $tree)
 				if (strpos($tree['url'], '#c') !== false && strpos($tree['url'], 'action=forum#c') === false)
 					$context['linktree'][$key]['url'] = str_replace('#c', '?action=forum#c', $tree['url']);
 	}
 
-	$context['standalone'] = $standalone;
-
 	sportal_init_headers();
 	sportal_load_permissions();
 	sportal_load_blocks();
+
+	$context['standalone'] = $standalone;
+	$context['SPortal']['core_compat'] = $settings['name'] == 'Core Theme';
+	$context['SPortal']['on_portal'] = getShowInfo(0, 'portal', '');
 
 	if (!empty($context['template_layers']) && !in_array('portal', $context['template_layers']))
 		$context['template_layers'][] = 'portal';
@@ -119,16 +113,13 @@ function sportal_init_headers()
 	global $context, $settings, $modSettings;
 	static $initialized;
 
-	// If already loaded just return
 	if (!empty($initialized))
 		return;
-	// Load up some javascript!
+
 	$context['html_headers'] .= '
 	<script type="text/javascript" src="' . $settings['default_theme_url'] . '/scripts/portal.js?24"></script>
 	<script language="JavaScript" type="text/javascript"><!-- // --><![CDATA[
 		var sp_images_url = "' . $settings['sp_images_url'] . '";
-
-	// Used to collapse an individual block
 		function sp_collapseBlock(id)
 		{
 			mode = document.getElementById("sp_block_" + id).style.display == "" ? 0 : 1;';
@@ -148,8 +139,6 @@ function sportal_init_headers()
 	if (empty($modSettings['sp_disable_side_collapse']))
 	{
 		$context['html_headers'] .= '
-
-		// Used to collapse side (if enabled)
 		function sp_collapseSide(id)
 		{
 			var sp_sides = new Array();
@@ -158,7 +147,6 @@ function sportal_init_headers()
 			mode = document.getElementById(sp_sides[id]).style.display == "" ? 0 : 1;' . ($context['user']['is_guest'] ? '
 			document.cookie = sp_sides[id] + "=" + (mode ? 0 : 1);' : '
 			smf_setThemeOption(sp_sides[id], mode ? 0 : 1, null, "' . $context['session_id'] . '");') . '
-			// Update the side expand/collapse image
 			document.getElementById("sp_collapse_side" + id).src = sp_images_url + (mode ? "/collapse.png" : "/expand.png");
 			document.getElementById(sp_sides[id]).style.display = mode ? "" : "none";' . ($context['browser']['is_ie8'] ? '
 			document.getElementById("sp_center").style.width = "100%";' : '') . '
@@ -1466,7 +1454,6 @@ function sportal_get_shouts($shoutbox, $parameters)
 		$shouts = array();
 		while ($row = $smcFunc['db_fetch_assoc']($request))
 		{
-			// Disable the aeva mod for the shoutbox.
 			$context['aeva_disable'] = true;
 			$online_color = !empty($row['member_group_color']) ? $row['member_group_color'] : $row['post_group_color'];
 			$shouts[$row['id_shout']] = array(
