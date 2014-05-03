@@ -78,10 +78,24 @@ function template_view_category()
 		<div class="windowbg2">
 			<span class="topslice"><span></span></span>
 			<div class="sp_content_padding">
-				<h4>', $article['link'], '</h4>
-				<span>', sprintf($txt['sp_posted_in_on_by'], $article['category']['link'], $article['date'], $article['author']['link']), '</span>
+				<div class="sp_article_detail">';
+
+		if (!empty($article['author']['avatar']['image']))
+			echo $article['author']['avatar']['image'];
+
+		echo '
+					<span style="text-align: right; float: right;">
+						', sprintf($txt['sp_posted_in_on_by'], $article['category']['link'], $article['date'], $article['author']['link']), '
+						<br />
+						', sprintf($article['views'] == 1 ? $txt['sp_viewed_time'] : $txt['sp_viewed_times'], $article['views']) ,', ', sprintf($article['comments'] == 1 ? $txt['sp_commented_on_time'] : $txt['sp_commented_on_times'], $article['comments']), '
+					</span>
+					<h4>', $article['link'], '</h4>
+				</div>
+				<hr />
 				<p>', $article['preview'], '<a href="', $article['href'], '">...</a></p>
-				<span>', sprintf($article['views'] == 1 ? $txt['sp_viewed_time'] : $txt['sp_viewed_times'], $article['views']) ,', ', sprintf($article['comments'] == 1 ? $txt['sp_commented_on_time'] : $txt['sp_commented_on_times'], $article['comments']), '</span>
+				<div class="sp_article_extra">
+					<a href="', $article['href'], '">', $txt['sp_read_more'], '</a> | <a href="', $article['href'], '#sp_view_comments">', $txt['sp_write_comment'], '</a>
+				</div>
 			</div>
 			<span class="botslice"><span></span></span>
 		</div>';

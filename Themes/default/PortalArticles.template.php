@@ -38,10 +38,24 @@ function template_view_articles()
 		<div class="windowbg2">
 			<span class="topslice"><span></span></span>
 			<div class="sp_content_padding">
-				<h4>', $article['link'], '</h4>
-				<span>', sprintf($txt['sp_posted_in_on_by'], $article['category']['link'], $article['date'], $article['author']['link']), '</span>
+				<div class="sp_article_detail">';
+
+		if (!empty($article['author']['avatar']['image']))
+			echo $article['author']['avatar']['image'];
+
+		echo '
+					<span style="text-align: right; float: right;">
+						', sprintf($txt['sp_posted_in_on_by'], $article['category']['link'], $article['date'], $article['author']['link']), '
+						<br />
+						', sprintf($article['views'] == 1 ? $txt['sp_viewed_time'] : $txt['sp_viewed_times'], $article['views']) ,', ', sprintf($article['comments'] == 1 ? $txt['sp_commented_on_time'] : $txt['sp_commented_on_times'], $article['comments']), '
+					</span>
+					<h4>', $article['link'], '</h4>
+				</div>
+				<hr />
 				<p>', $article['preview'], '<a href="', $article['href'], '">...</a></p>
-				<span>', sprintf($article['views'] == 1 ? $txt['sp_viewed_time'] : $txt['sp_viewed_times'], $article['views']) ,', ', sprintf($article['comments'] == 1 ? $txt['sp_commented_on_time'] : $txt['sp_commented_on_times'], $article['comments']), '</span>
+				<div class="sp_article_extra">
+					<a href="', $article['href'], '">', $txt['sp_read_more'], '</a> | <a href="', $article['href'], '#sp_view_comments">', $txt['sp_write_comment'], '</a>
+				</div>
 			</div>
 			<span class="botslice"><span></span></span>
 		</div>';
@@ -55,7 +69,6 @@ function template_view_article()
 {
 	global $context, $txt;
 
-
 	echo '
 	<div id="sp_view_article">
 		<div class="cat_bar">
@@ -66,7 +79,28 @@ function template_view_article()
 		<div class="windowbg">
 			<span class="topslice"><span></span></span>
 			<div class="sp_content_padding">
-				<span>', sprintf($txt['sp_posted_in_on_by'], $context['article']['category']['link'], $context['article']['date'], $context['article']['author']['link']), '</span>
+				<div class="sp_article_detail">';
+
+		if (!empty($context['article']['author']['avatar']['image']))
+			echo $context['article']['author']['avatar']['image'];
+
+		echo '
+					<span>
+						', sprintf($txt['sp_posted_in_on_by'], $context['article']['category']['link'], $context['article']['date'], $context['article']['author']['link']);
+
+		if (!empty($context['article']['author']['avatar']['image']))
+			echo '
+						<br />';
+		else
+			echo '
+					</span>
+					<span class="sp_float_right">';
+
+		echo '
+						', sprintf($context['article']['views'] == 1 ? $txt['sp_viewed_time'] : $txt['sp_viewed_times'], $context['article']['views']) ,', ', sprintf($context['article']['comments'] == 1 ? $txt['sp_commented_on_time'] : $txt['sp_commented_on_times'], $context['article']['comments']), '
+					</span>
+				</div>
+				<hr />
 				<div>';
 
 	sportal_parse_content($context['article']['body'], $context['article']['type']);
@@ -105,19 +139,25 @@ function template_view_article()
 			<div id="comment', $comment['id'], '" class="windowbg">
 				<span class="topslice"><span></span></span>
 				<div class="sp_content_padding flow_auto">
-					<span>', sprintf($txt['sp_posted_on_by'], $comment['time'], $comment['author']['link']), '</span>
-					<div>
-						', $comment['body'], '
-					</div>';
+					<div class="sp_comment_detail">';
+
+			if (!empty($comment['author']['avatar']['image']))
+				echo $comment['author']['avatar']['image'];
 
 			if ($comment['can_moderate'])
 				echo '
-					<div class="sp_float_right">
-						<a href="', $context['article']['href'], ';modify=', $comment['id'], ';', $context['session_var'], '=', $context['session_id'], '">', sp_embed_image('modify'), '</a>
-						<a href="', $context['article']['href'], ';delete=', $comment['id'], ';', $context['session_var'], '=', $context['session_id'], '">', sp_embed_image('delete'), '</a>
-					</div>';
+						<div class="sp_float_right">
+							<a href="', $context['article']['href'], ';modify=', $comment['id'], ';', $context['session_var'], '=', $context['session_id'], '">', sp_embed_image('modify'), '</a>
+							<a href="', $context['article']['href'], ';delete=', $comment['id'], ';', $context['session_var'], '=', $context['session_id'], '">', sp_embed_image('delete'), '</a>
+						</div>';
 
 			echo '
+						<span>', sprintf($txt['sp_posted_on_by'], $comment['time'], $comment['author']['link']), '</span>
+					</div>
+					<hr />
+					<p>
+						', $comment['body'], '
+					</p>
 				</div>
 				<span class="botslice"><span></span></span>
 			</div>';

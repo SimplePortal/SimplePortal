@@ -227,6 +227,35 @@ td.sp_shop
 	margin-bottom: 0.5em;
 }
 
+.sp_article_detail h4
+{
+	line-height: 35px;
+	font-size: 1.3em;
+}
+.sp_article_detail .avatar
+{
+	max-height: 35px;
+	float: left;
+	margin-right: 0.5em;
+}
+.sp_article_detail, .sp_comment_detail
+{
+	overflow: auto;
+}
+.sp_article_extra
+{
+	text-align: right;
+}
+.sp_comment_detail .avatar
+{
+	max-height: 25px;
+	float: left;
+	margin-right: 0.5em;
+}
+.sp_comment_detail span
+{
+	line-height: 25px;
+}
 
 #sp_main
 {
@@ -365,7 +394,7 @@ li.shoutbox_warning
 {
 	margin-top: 0.5em;
 }
-#sp_view_categories h4, #sp_view_articles h4, #sp_view_category h4
+#sp_view_categories h4
 {
 	font-size: 1.1em;
 }
@@ -376,10 +405,6 @@ li.shoutbox_warning
 #sp_index span, #sp_view_categories span, #sp_view_articles span, #sp_view_category span, #sp_view_article span
 {
 	font-size: 0.9em;
-}
-#sp_view_article div.sp_content_padding div
-{
-	margin-top: 1em;
 }
 #sp_view_comments
 {

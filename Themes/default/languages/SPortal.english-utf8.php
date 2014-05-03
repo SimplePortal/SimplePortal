@@ -39,6 +39,8 @@ $txt['sp_commented_on_time'] = 'commented on %d time';
 $txt['sp_commented_on_times'] = 'commented on %d times';
 $txt['sp_posted_on_by'] = 'posted on %1$s by %2$s';
 $txt['sp_posted_in_on_by'] = 'posted in %1$s on %2$s by %3$s';
+$txt['sp_read_more'] = 'Read More';
+$txt['sp_write_comment'] = 'Write Comment';
 $txt['sp_function_unknown_label'] = 'Unknown Block Type';
 
 // Block specific strings
