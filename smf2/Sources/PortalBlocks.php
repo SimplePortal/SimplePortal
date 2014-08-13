@@ -724,11 +724,11 @@ function sp_topStatsMember($parameters, $id, $return_parameters = false)
 			'10' => array(
 				'name' => 'Advanced Reputation System Best',
 				'mod_id' => 1129,
-				'field' => '(mem.karmaGood - mem.karmaBad) AS karma, karmaGood, karmaBad',
+				'field' => '(mem.karma_good - mem.karma_bad) AS karma, karma_good, karma_bad',
 				'order' => 'karma',
-				'where' => 'mem.karmaGood > mem.karmaBad',
+				'where' => 'mem.karma_good > mem.karma_bad',
 				'output_function' => create_function('&$row', '
-						global $modSettings;
+						global $modSettings, $settings;
 						$descriptions = preg_split("/(\r)?\n/", $modSettings["karmaDescriptions"]);
 						$rep_bars = "";
 
@@ -738,7 +738,7 @@ function sp_topStatsMember($parameters, $id, $return_parameters = false)
 						$description = $descriptions[$bars - 1];
 
 						for($i = 0; $i < $bars; $i++)
-							$rep_bars .= \'<img src=\"\' . $settings["images_url"] . "/karmaGood_" . ($i < ($modSettings["karmaSuperBar"] - 1) ? "basic" : "super") . \'.gif" title="\' . $row["realName"] . " " . $description . \'" alt="\' . $row["realName"] . " " . $description . \'" />\';
+							$rep_bars .= \'<img src="\' . $settings["images_url"] . "/karma_good_" . ($i < ($modSettings["karmaSuperBar"] - 1) ? "basic" : "super") . \'.gif" title="\' . $row["real_name"] . " " . $description . \'" alt="\' . $row["real_name"] . " " . $description . \'" />\';
 
 						$row += array(
 							"reputation_bars" => $rep_bars,
@@ -746,17 +746,17 @@ function sp_topStatsMember($parameters, $id, $return_parameters = false)
 						);
 				'),
 				'output_text' => (!empty($txt['karma_power']) ? $txt['karma_power'] : '') . ': %amount%<br />%reputation_bars%',
-				'enabled' => !empty($modSettings['karma_enabled']) && file_exists($settings['images_url'] . '/karmaBad_basic.gif'),
+				'enabled' => file_exists($settings['default_theme_dir'] . '/Karma.template.php'),
 				'error_msg' => $txt['sp_reputation_no_exist'],
 			),
 			'11' => array(
 				'name' => 'Advanced Reputation System Worst',
 				'mod_id' => 1129,
-				'field' => '(karmaBad - karmaGood) AS karma, karmaGood, karmaBad',
+				'field' => '(karma_bad - karma_good) AS karma, karma_good, karma_bad',
 				'order' => 'karma',
-				'where' => 'mem.karmaBad > mem.karmaGood',
+				'where' => 'mem.karma_bad > mem.karma_good',
 				'output_function' => create_function('&$row', '
-						global $modSettings;
+						global $modSettings, $settings;
 						$rep_bars = "";
 
 						$points = $row["karma"];
@@ -765,7 +765,7 @@ function sp_topStatsMember($parameters, $id, $return_parameters = false)
 						$description = $descriptions[$bars - 1];
 
 						for($i = 0; $i < $bars; $i++)
-							$rep_bars .= \'<img src=\"\' . $settings["images_url"] . "/karmaGood_" . ($i < ($modSettings["karmaSuperBar"] - 1) ? "basic" : "super") . \'.gif" title="\' . $row["realName"] . " " . $modSettings["karmaNegativeDescription"] . \'" alt="\' . $row["realName"] . " " . $modSettings["karmaNegativeDescription"] . \'" />\';
+							$rep_bars .= \'<img src="\' . $settings[\'images_url\'] . "/karma_good_" . ($i < ($modSettings["karmaSuperBar"] - 1) ? "basic" : "super") . \'.gif" title="\' . $row["real_name"] . " " . $modSettings["karmaNegativeDescription"] . \'" alt="\' . $row["real_name"] . " " . $modSettings["karmaNegativeDescription"] . \'" />\';
 
 						$row += array(
 							"reputation_bars" => $rep_bars,
@@ -773,7 +773,7 @@ function sp_topStatsMember($parameters, $id, $return_parameters = false)
 						);
 				'),
 				'output_text' => (!empty($txt['karma_power']) ? $txt['karma_power'] : '') . ': %amount%<br />%reputation_bars%',
-				'enabled' => !empty($modSettings['karma_enabled']) && file_exists($settings['images_url'] . '/karmaBad_basic.gif'),
+				'enabled' => file_exists($settings['default_theme_dir'] . '/Karma.template.php'),
 				'error_msg' => $txt['sp_reputation_no_exist'],
 			),
 			'sa_shop_money' => array(
@@ -782,7 +782,7 @@ function sp_topStatsMember($parameters, $id, $return_parameters = false)
 				'field' => 'mem.cash, mem.purchHis, mem.tradeHis',
 				'order' => 'mem.cash',
 				'output_text' => (!empty($modSettings['shopprefix']) ? $modSettings['shopprefix'] : '') . '%cash%' . (!empty($modSettings['shopsurfix']) ? $modSettings['shopsurfix'] : ''),
-				'enabled' => file_exists($sourcedir . 'shop2/Shop.php'),
+				'enabled' => file_exists($sourcedir . '/shop2/Shop.php'),
 				'error_msg' => $txt['sp_sashop_no_exist'],
 			),
 			'sa_shop_trades' => array(
@@ -791,7 +791,7 @@ function sp_topStatsMember($parameters, $id, $return_parameters = false)
 				'field' => 'mem.cash, mem.purchHis, mem.tradeHis',
 				'order' => 'mem.tradeHis',
 				'output_text' => '%tradeHis%',
-				'enabled' => file_exists($sourcedir . 'shop2/Shop.php') && !empty($modSettings['shop_Enable_Stats']),
+				'enabled' => file_exists($sourcedir . '/shop2/Shop.php') && !empty($modSettings['shop_Enable_Stats']),
 				'error_msg' => $txt['sp_sashop_no_exist'],
 			),
 			'sa_shop_purchase' => array(
@@ -800,7 +800,7 @@ function sp_topStatsMember($parameters, $id, $return_parameters = false)
 				'field' => 'mem.cash, mem.purchHis, mem.tradeHis',
 				'order' => 'mem.purchHis',
 				'output_text' => '%purchHis%',
-				'enabled' => file_exists($sourcedir . 'shop2/Shop.php') && !empty($modSettings['shop_Enable_Stats']),
+				'enabled' => file_exists($sourcedir . '/shop2/Shop.php') && !empty($modSettings['shop_Enable_Stats']),
 				'error_msg' => $txt['sp_sashop_no_exist'],
 			),
 			'casino' => array(
@@ -809,7 +809,7 @@ function sp_topStatsMember($parameters, $id, $return_parameters = false)
 				'field' => 'mem.cash',
 				'order' => 'mem.cash',
 				'output_text' => '%cash%',
-				'enabled' => file_exists($sourcedir . 'casino/Casino.php'),
+				'enabled' => file_exists($sourcedir . '/casino/Casino.php'),
 				'error_msg' => $txt['sp_sashop_no_exist'],
 			),
 		);
@@ -870,7 +870,7 @@ function sp_topStatsMember($parameters, $id, $return_parameters = false)
 	if (!empty($last_active_limit))
 	{
 		$timeLimit = time() - $last_active_limit;
-		$where[] = "lastLogin > $timeLimit";
+		$where[] = "last_login > $timeLimit";
 	}
 	if (!empty($current_system['where']))
 		$where[] = $current_system['where'];
