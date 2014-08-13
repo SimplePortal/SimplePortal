@@ -1324,7 +1324,7 @@ function sp_boardNews($parameters, $id, $return_parameters = false)
 		$limit = count($posts);
 		$start = !empty($_REQUEST['news' . $id]) ? (int) $_REQUEST['news' . $id] : 0;
 
-		$clean_url = preg_replace('~news' . $id . '=\d+;?~', '', $_SERVER['REQUEST_URL']);
+		$clean_url = str_replace('%', '%%', preg_replace('~news' . $id . '=[^;]+;?~', '', $_SERVER['REQUEST_URL']));
 		$current_url = $clean_url . (strpos($clean_url, '?') !== false ? (in_array(substr($clean_url, -1), array(';', '?')) ? '' : ';') : '?');
 
 		$page_index = constructPageIndex($current_url . 'news' . $id . '=%1$d', $start, $limit, $per_page, true);

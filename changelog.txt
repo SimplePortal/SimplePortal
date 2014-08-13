@@ -1,6 +1,10 @@
 Changes go downward, versions go upward. Please scroll to the bottom for a legend.
 Changelog started August 1, 2008.
-Changelog last updated November 5, 2010.
+Changelog last updated August 13, 2014.
+
+SP 2.3.6
+================================================================================
+ ! Request URL cleaner for pagination failed in certain cases.
 
 SP 2.3.5
 ================================================================================
