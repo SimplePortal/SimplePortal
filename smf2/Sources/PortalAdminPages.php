@@ -288,6 +288,9 @@ function sportal_admin_page_edit()
 		if (preg_replace('~[0-9]+~', '', $_POST['namespace']) === '')
 			fatal_lang_error('sp_error_page_namespace_numeric', false);
 
+		if ($_POST['type'] == 'php' && !allowedTo('admin_forum'))
+			fatal_lang_error('cannot_admin_forum', false);
+
 		if ($_POST['type'] == 'php' && !empty($_POST['content']) && empty($modSettings['sp_disable_php_validation']))
 		{
 			$error = sp_validate_php($_POST['content']);
