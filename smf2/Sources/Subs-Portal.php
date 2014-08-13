@@ -446,7 +446,7 @@ function getShowInfo($block_id = null, $display = null, $custom = null)
 	$board = !empty($context['current_board']) ? 'b' . $context['current_board'] : '';
 	$topic = !empty($context['current_topic']) ? 't' . $context['current_topic'] : '';
 	$page = !empty($page_info['id']) ? 'p' . $page_info['id'] : '';
-	$portal = (empty($action) && empty($sub_action) && empty($board) && empty($topic) && SMF != 'SSI' && $modSettings['sp_portal_mode'] == 1) || !empty($context['standalone']) ? true : false;
+	$portal = (empty($action) && empty($sub_action) && empty($board) && empty($topic) && SMF != 'SSI' && $modSettings['sp_portal_mode'] == 1) || $action == 'portal' || !empty($context['standalone']) ? true : false;
 
 	// Will hopefully get larger in the future.
 	$portal_actions = array(
@@ -458,6 +458,7 @@ function getShowInfo($block_id = null, $display = null, $custom = null)
 		'www' => true,
 		'variant' => true,
 		'language' => true,
+		'action' => array('portal'),
 	);
 
 	// Set some action exceptions.
