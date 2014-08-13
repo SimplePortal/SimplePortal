@@ -23,6 +23,7 @@ SP 2.4
 
 SP 2.3.6
 ================================================================================
+ ! Duplicate language string index caused a capitalization mistake.
  ! Portal action was not considered a portal page.
  ! Request URL cleaner for pagination failed in certain cases.
 
