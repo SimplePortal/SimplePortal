@@ -1966,7 +1966,7 @@ function sp_rssFeed($parameters, $id, $return_parameters = false)
 	$strip_preserve = !empty($parameters['strip_preserve']) ? $parameters['strip_preserve'] : 'br';
 	$strip_preserve = preg_match_all('~[A-Za-z0-9]+~', $strip_preserve, $match) ? $match[0] : array();
 	$count = !empty($parameters['count']) ? (int) $parameters['count'] : 5;
-	$limit = !empty($parameters['limit']) ? (int) $parameters['limit'] : 150;
+	$limit = !empty($parameters['limit']) ? (int) $parameters['limit'] : 0;
 
 	if (empty($feed))
 	{
