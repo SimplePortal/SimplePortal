@@ -310,6 +310,8 @@ function sp_whosOnline($parameters, $id, $return_parameters = false)
 
 	$online_today = !empty($parameters['online_today']);
 
+	loadLanguage('index', '', false, true);
+
 	$stats = ssi_whosOnline('array');
 
 	echo '
