@@ -4,6 +4,7 @@ Changelog last updated August 13, 2014.
 
 SP 2.3.6
 ================================================================================
+ ! Force admin restriction on PHP pages.
  ! Allow for RSS feed content without cutoff.
  ! Updated the outdated Top Member Stats.
  ! Duplicate language string index caused a capitalization mistake.
