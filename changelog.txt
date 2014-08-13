@@ -4,6 +4,7 @@ Changelog last updated August 13, 2014.
 
 SP 2.3.6
 ================================================================================
+ ! Portal action was not considered a portal page.
  ! Request URL cleaner for pagination failed in certain cases.
 
 SP 2.3.5
