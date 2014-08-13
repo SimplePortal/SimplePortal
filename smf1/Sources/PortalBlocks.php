@@ -850,7 +850,7 @@ function sp_topStatsMember($parameters, $id, $return_parameters = false)
 				'field' => 'mem.money',
 				'order' => 'mem.money',
 				'output_text' => (!empty($modSettings['shopCurrencyPreffix']) ? $modSettings['shopCurrencyPrefix'] : '') . '%money% ' . (!empty($modSettings['shopCurrencySuffix']) ? $modSettings['shopCurrencySuffix'] : ''),
-				'enabled' => file_exists($sourcedir . 'shop/Shop.php'),
+				'enabled' => file_exists($sourcedir . '/shop/Shop.php'),
 				'error_msg' => $txt['sp_shop_no_exist'],
 			),
 		);
