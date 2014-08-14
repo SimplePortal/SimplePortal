@@ -92,6 +92,45 @@
 		</operation>
 	</file>
 
+	<file name="$sourcedir/ManagePermissions.php">
+		<operation>
+			<search position="replace"><![CDATA[			'pm_read' => array(false, 'pm', 'use_pm_system'),]]></search>
+			<add><![CDATA[			'pm_read' => array(false, 'pm', 'use_pm_system'),
+			'sp_admin' => array(false, 'sp', 'sp'),
+			'sp_manage_settings' => array(false, 'sp', 'sp'),
+			'sp_manage_blocks' => array(false, 'sp', 'sp'),
+			'sp_manage_articles' => array(false, 'sp', 'sp'),
+			'sp_manage_pages' => array(false, 'sp', 'sp'),
+			'sp_manage_shoutbox' => array(false, 'sp', 'sp'),
+			'sp_add_article' => array(false, 'sp', 'sp'),
+			'sp_auto_article_approval' => array(false, 'sp', 'sp'),
+			'sp_remove_article' => array(false, 'sp', 'sp'),]]></add>
+		</operation>
+		<operation>
+			<search position="replace"><![CDATA[				'pm',]]></search>
+			<add><![CDATA[				'pm',
+				'sp',]]></add>
+		</operation>
+		<operation>
+			<search position="replace"><![CDATA[				'use_pm_system',]]></search>
+			<add><![CDATA[				'use_pm_system',
+				'sp',]]></add>
+		</operation>
+		<operation>
+			<search position="replace"><![CDATA[		'profile_identity',]]></search>
+			<add><![CDATA[		'profile_identity',
+		'sp_admin',
+		'sp_manage_settings',
+		'sp_manage_blocks',
+		'sp_manage_articles',
+		'sp_manage_pages',
+		'sp_manage_shoutbox',
+		'sp_add_article',
+		'sp_auto_article_approval',
+		'sp_remove_article',]]></add>
+		</operation>
+	</file>
+
 	<file name="$sourcedir/ManageServer.php">
 		<operation>
 			<search position="replace"><![CDATA[	loadLanguage('Help');]]></search>

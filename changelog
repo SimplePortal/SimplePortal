@@ -23,6 +23,7 @@ SP 2.4
 
 SP 2.3.6
 ================================================================================
+ ! Guests shouldn't be able to have any portal specific permissions.
  ! Updated the outdated Gallery block.
  ! Standalone portal activity wasn't being logged.
  ! Package installation instructions failed in certain setups.
