@@ -438,7 +438,7 @@ sportal_init();]]></add>
 		<operation>
 			<search position="replace"><![CDATA[		$current_action = 'search';]]></search>
 			<add><![CDATA[		$current_action = 'search';
-	if (empty($context['disable_sp']) && (isset($_GET['board']) || isset($_GET['topic']) || in_array($context['current_action'], array('unread', 'unreadreplies', 'recent', 'stats', 'who'))) && in_array($modSettings['sp_portal_mode'], array(1, 3)))
+	if (empty($context['disable_sp']) && (isset($_GET['board']) || isset($_GET['topic']) || in_array($context['current_action'], array('unread', 'unreadreplies', 'collapse', 'recent', 'stats', 'who'))) && in_array($modSettings['sp_portal_mode'], array(1, 3)))
 		$current_action = 'forum';]]></add>
 		</operation>
 		<operation>
