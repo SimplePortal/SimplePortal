@@ -25,6 +25,23 @@
 
 		// Action and board are both empty... BoardIndex!]]></add>
 		</operation>
+		<operation>
+			<search position="replace"><![CDATA[		'findmember' => array('Subs-Auth.php', 'JSMembers'),]]></search>
+			<add><![CDATA[		'findmember' => array('Subs-Auth.php', 'JSMembers'),
+		'forum' => array('BoardIndex.php', 'BoardIndex'),
+		'portal' => array('PortalMain.php', 'sportal_main'),]]></add>
+		</operation>
+		<operation>
+			<search position="replace"><![CDATA[if (empty($_REQUEST['action']) || ]]></search>
+			<add><![CDATA[if (empty($_REQUEST['action']) || !($_REQUEST['action'] == 'portal' && isset($_GET['xml'])) && ]]></add>
+		</operation>
+		<operation>
+			<search position="replace"><![CDATA[	// Get the function and file to include - if it's not there, do the board index.]]></search>
+			<add><![CDATA[	if (!empty($context['disable_sp']))
+		unset($actionArray['portal'], $actionArray['forum']);
+
+	// Get the function and file to include - if it's not there, do the board index.]]></add>
+		</operation>
 	</file>
 
 	<file name="$sourcedir/BoardIndex.php">
