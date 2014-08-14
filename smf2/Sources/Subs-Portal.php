@@ -182,6 +182,8 @@ function sportal_init($standalone = false)
 				if (strpos($tree['url'], '#c') !== false && strpos($tree['url'], 'action=forum#c') === false)
 					$context['linktree'][$key]['url'] = str_replace('#c', '?action=forum#c', $tree['url']);
 	}
+	else
+		$_GET['action'] = 'portal';
 
 	$context['standalone'] = $standalone;
 
