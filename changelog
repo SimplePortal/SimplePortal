@@ -23,6 +23,7 @@ SP 2.4
 
 SP 2.3.6
 ================================================================================
+ ! Redirection boards have redirects instead of topics and posts.
  ! Collapsing categories should highlight the forum button.
  ! Use the standard time format for future events.
  ! Guests shouldn't be able to have any portal specific permissions.

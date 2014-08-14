@@ -1046,7 +1046,7 @@ function sp_topBoards($parameters, $id, $return_parameters = false)
 	foreach ($boards as $board)
 		echo '
 									<li class="sp_list_top">', sp_embed_image('board'), ' ', $board['link'], '</li>
-									<li class="sp_list_indent', empty($board['is_last']) ? ' sp_list_bottom' : '', ' smalltext">', $txt['topics'], ': ', comma_format($board['num_topics']), ' | ', $txt['posts'], ': ', comma_format($board['num_posts']), '</li>';
+									<li class="sp_list_indent', empty($board['is_last']) ? ' sp_list_bottom' : '', ' smalltext">', (empty($board['num_topics']) && !empty($board['num_posts'])) ? $txt['redirects'] : ($txt['topics'] . ': ' . comma_format($board['num_topics']) . ' | ' . $txt['posts']), ': ', comma_format($board['num_posts']), '</li>';
 
 	echo '
 								</ul>';
