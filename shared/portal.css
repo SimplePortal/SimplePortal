@@ -204,9 +204,10 @@ td.sp_shop
 #sp_menu li ul
 {
 	position: absolute;
+	z-index: 100;
 	top: 0;
-	left: 75%;
-	width: 200px;
+	left: 45%;
+	width: 180px;
 	background: #FFFFFF;
 	border: 1px solid #AAA;
 }
