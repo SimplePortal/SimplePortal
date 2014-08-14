@@ -4,6 +4,7 @@ Changelog last updated August 13, 2014.
 
 SP 2.3.6
 ================================================================================
+ ! Styling improvements to vertical forum menu block.
  ! Redirection boards have redirects instead of topics and posts.
  ! Collapsing categories should highlight the forum button.
  ! Use the standard time format for future events.
