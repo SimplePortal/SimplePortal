@@ -155,7 +155,7 @@ function template_block($block)
 	}
 
 	echo '
-						<tr', (empty($block['force_view']) ? ' id="sp_block_' . $block['id'] . '"' : '') , $block['collapsed'] && empty($block['force_view']) ? ' style="display: none;"' : '', '>
+						<tr', (empty($block['force_view']) ? ' id="sp_block_' . $block['id'] . '"' : '') , $block['collapsed'] && empty($block['force_view']) && empty($block['style']['no_title']) ? ' style="display: none;"' : '', '>
 							<td class="sp_block_padding', empty($block['style']['body']['class']) ? '' : ' ' . $block['style']['body']['class'], '"', !empty($block['style']['body']['style']) ? ' style="' . $block['style']['body']['style'] . '"' : '', '>';
 
 	$block['type']($block['parameters'], $block['id']);

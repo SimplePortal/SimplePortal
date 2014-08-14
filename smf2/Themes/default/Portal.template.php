@@ -165,7 +165,7 @@ function template_block_core($block)
 	}
 
 	echo '
-						<tr', (empty($block['force_view']) ? ' id="sp_block_' . $block['id'] . '"' : '') , $block['collapsed'] && empty($block['force_view']) ? ' style="display: none;"' : '', '>
+						<tr', (empty($block['force_view']) ? ' id="sp_block_' . $block['id'] . '"' : '') , $block['collapsed'] && empty($block['force_view']) && empty($block['style']['no_title']) ? ' style="display: none;"' : '', '>
 							<td class="sp_block_padding', ($block['type'] == 'sp_menu') ? '' : ' sp_block', empty($block['style']['body']['class']) ? '' : ' ' . $block['style']['body']['class'], '"', !empty($block['style']['body']['style']) ? ' style="' . $block['style']['body']['style'] . '"' : '', '>';
 
 	$block['type']($block['parameters'], $block['id']);
@@ -199,7 +199,7 @@ function template_block_curve($block)
 	}
 
 	echo '
-	<div id="sp_block_' . $block['id'] . '" class="sp_block_section', isset($context['SPortal']['sides'][$block['column']]['last']) && $context['SPortal']['sides'][$block['column']]['last'] == $block['id'] && ($block['column'] != 2 || empty($modSettings['articleactive'])) ? '_last' : '', '" ', $block['collapsed'] && empty($block['force_view']) ? ' style="display: none;"' : '', '>';
+	<div id="sp_block_' . $block['id'] . '" class="sp_block_section', isset($context['SPortal']['sides'][$block['column']]['last']) && $context['SPortal']['sides'][$block['column']]['last'] == $block['id'] && ($block['column'] != 2 || empty($modSettings['articleactive'])) ? '_last' : '', '" ', $block['collapsed'] && empty($block['force_view']) && empty($block['style']['no_title']) ? ' style="display: none;"' : '', '>';
 
 	if (strpos($block['style']['body']['class'], 'roundframe') !== false)
 	{
