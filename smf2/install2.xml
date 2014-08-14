@@ -474,6 +474,8 @@ sportal_init();]]></add>
 		$txt['who_index'] = sprintf($txt['sp_who_index'], $scripturl);
 		$txt['whoall_forum'] = sprintf($txt['sp_who_forum'], $scripturl);
 	}
+	elseif ($modSettings['sp_portal_mode'] == 3)
+		$txt['whoall_portal'] = sprintf($txt['sp_who_index'], $scripturl);
 
 	// Actions that require a specific permission level.]]></add>
 		</operation>
