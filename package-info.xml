@@ -13,30 +13,54 @@
 		<readme type="inline">This will install SimplePortal 2.3.5 for SMF 1.1.</readme>
 
 		<!-- Modifications -->
-		<modification>install1-1.xml</modification>
+		<modification>smf1/install1-1.xml</modification>
 
 		<!-- Source files -->
-		<require-file name="PortalStandalone.php" destination="$boarddir" />
-		<require-dir name="smf1/Sources" destination="$boarddir" />
+		<require-file name="shared/PortalStandalone.php" destination="$boarddir" />
+		<require-file name="smf1/Sources/PortalArticles.php" destination="$sourcedir" />
+		<require-file name="smf1/Sources/PortalBlocks.php" destination="$sourcedir" />
+		<require-file name="smf1/Sources/PortalMain.php" destination="$sourcedir" />
+		<require-file name="smf1/Sources/PortalPages.php" destination="$sourcedir" />
+		<require-file name="smf1/Sources/PortalShoutbox.php" destination="$sourcedir" />
+		<require-file name="smf1/Sources/PortalAdminArticles.php" destination="$sourcedir" />
+		<require-file name="smf1/Sources/PortalAdminBlocks.php" destination="$sourcedir" />
+		<require-file name="smf1/Sources/PortalAdminMain.php" destination="$sourcedir" />
+		<require-file name="smf1/Sources/PortalAdminPages.php" destination="$sourcedir" />
+		<require-file name="smf1/Sources/PortalAdminShoutbox.php" destination="$sourcedir" />
+		<require-file name="smf1/Sources/Subs-Portal.php" destination="$sourcedir" />
+		<require-file name="smf1/Sources/Subs-PortalAdmin.php" destination="$sourcedir" />
 
 		<!-- Theme files -->
-		<require-dir name="smf1/Themes" destination="$boarddir" />
+		<require-file name="smf1/Themes/default/Portal.template.php" destination="$themedir" />
+		<require-file name="smf1/Themes/default/PortalArticles.template.php" destination="$themedir" />
+		<require-file name="smf1/Themes/default/PortalPages.template.php" destination="$themedir" />
+		<require-file name="smf1/Themes/default/PortalShoutbox.template.php" destination="$themedir" />
+		<require-file name="smf1/Themes/default/PortalAdmin.template.php" destination="$themedir" />
+		<require-file name="smf1/Themes/default/PortalAdminArticles.template.php" destination="$themedir" />
+		<require-file name="smf1/Themes/default/PortalAdminBlocks.template.php" destination="$themedir" />
+		<require-file name="smf1/Themes/default/PortalAdminPages.template.php" destination="$themedir" />
+		<require-file name="smf1/Themes/default/PortalAdminShoutbox.template.php" destination="$themedir" />
 
 		<!-- Language files -->
-		<require-dir name="languages" destination="$themedir" />
+		<require-file name="shared/languages/SPortal.english.php" destination="$languagedir" />
+		<require-file name="shared/languages/SPortal.english-utf8.php" destination="$languagedir" />
+		<require-file name="shared/languages/SPortalAdmin.english.php" destination="$languagedir" />
+		<require-file name="shared/languages/SPortalAdmin.english-utf8.php" destination="$languagedir" />
+		<require-file name="shared/languages/SPortalHelp.english.php" destination="$languagedir" />
+		<require-file name="shared/languages/SPortalHelp.english-utf8.php" destination="$languagedir" />
 
 		<!-- Image files -->
-		<require-dir name="sp" destination="$imagesdir" />
+		<require-dir name="shared/images/sp" destination="$imagesdir" />
 
 		<!-- CSS files -->
-		<require-file name="portal.css" destination="$themedir" />
-		<require-file name="portal_rtl.css" destination="$themedir" />
+		<require-file name="shared/portal.css" destination="$themedir" />
+		<require-file name="shared/portal_rtl.css" destination="$themedir" />
 
 		<!-- JavaScript files -->
-		<require-file name="portal.js" destination="$themedir" />
+		<require-file name="shared/portal.js" destination="$themedir" />
 
 		<!-- Install scripts -->
-		<code>install1-1.php</code>
+		<code>smf1/install1-1.php</code>
 
 		<redirect url="$scripturl?action=manageportal" timeout="5000">redirect.txt</redirect>
 	</install>
@@ -46,31 +70,55 @@
 		<readme type="inline">This will install SimplePortal 2.3.5 for SMF 2.0.</readme>
 
 		<!-- Modifications -->
-		<modification>install2.xml</modification>
+		<modification>smf2/install2.xml</modification>
 
 		<!-- Source files -->
-		<require-file name="PortalStandalone.php" destination="$boarddir" />
-		<require-dir name="smf2/Sources" destination="$boarddir" />
+		<require-file name="shared/PortalStandalone.php" destination="$boarddir" />
+		<require-file name="smf2/Sources/PortalArticles.php" destination="$sourcedir" />
+		<require-file name="smf2/Sources/PortalBlocks.php" destination="$sourcedir" />
+		<require-file name="smf2/Sources/PortalMain.php" destination="$sourcedir" />
+		<require-file name="smf2/Sources/PortalPages.php" destination="$sourcedir" />
+		<require-file name="smf2/Sources/PortalShoutbox.php" destination="$sourcedir" />
+		<require-file name="smf2/Sources/PortalAdminArticles.php" destination="$sourcedir" />
+		<require-file name="smf2/Sources/PortalAdminBlocks.php" destination="$sourcedir" />
+		<require-file name="smf2/Sources/PortalAdminMain.php" destination="$sourcedir" />
+		<require-file name="smf2/Sources/PortalAdminPages.php" destination="$sourcedir" />
+		<require-file name="smf2/Sources/PortalAdminShoutbox.php" destination="$sourcedir" />
+		<require-file name="smf2/Sources/Subs-Portal.php" destination="$sourcedir" />
+		<require-file name="smf2/Sources/Subs-PortalAdmin.php" destination="$sourcedir" />
 
 		<!-- Theme files -->
-		<require-dir name="smf2/Themes" destination="$boarddir" />
+		<require-file name="smf2/Themes/default/Portal.template.php" destination="$themedir" />
+		<require-file name="smf2/Themes/default/PortalArticles.template.php" destination="$themedir" />
+		<require-file name="smf2/Themes/default/PortalPages.template.php" destination="$themedir" />
+		<require-file name="smf2/Themes/default/PortalShoutbox.template.php" destination="$themedir" />
+		<require-file name="smf2/Themes/default/PortalAdmin.template.php" destination="$themedir" />
+		<require-file name="smf2/Themes/default/PortalAdminArticles.template.php" destination="$themedir" />
+		<require-file name="smf2/Themes/default/PortalAdminBlocks.template.php" destination="$themedir" />
+		<require-file name="smf2/Themes/default/PortalAdminPages.template.php" destination="$themedir" />
+		<require-file name="smf2/Themes/default/PortalAdminShoutbox.template.php" destination="$themedir" />
 
 		<!-- Language files -->
-		<require-dir name="languages" destination="$themedir" />
+		<require-file name="shared/languages/SPortal.english.php" destination="$languagedir" />
+		<require-file name="shared/languages/SPortal.english-utf8.php" destination="$languagedir" />
+		<require-file name="shared/languages/SPortalAdmin.english.php" destination="$languagedir" />
+		<require-file name="shared/languages/SPortalAdmin.english-utf8.php" destination="$languagedir" />
+		<require-file name="shared/languages/SPortalHelp.english.php" destination="$languagedir" />
+		<require-file name="shared/languages/SPortalHelp.english-utf8.php" destination="$languagedir" />
 
 		<!-- Image files -->
-		<require-dir name="sp" destination="$imagesdir" />
-		<require-dir name="admin" destination="$imagesdir" />
+		<require-dir name="shared/images/sp" destination="$imagesdir" />
+		<require-dir name="shared/images/admin" destination="$imagesdir" />
 
 		<!-- CSS files -->
-		<require-file name="portal.css" destination="$themedir/css" />
-		<require-file name="portal_rtl.css" destination="$themedir/css" />
+		<require-file name="shared/portal.css" destination="$themedir/css" />
+		<require-file name="shared/portal_rtl.css" destination="$themedir/css" />
 
 		<!-- JavaScript files -->
-		<require-file name="portal.js" destination="$themedir/scripts" />
+		<require-file name="shared/portal.js" destination="$themedir/scripts" />
 
 		<!-- Install scripts -->
-		<database>install2.php</database>
+		<database>smf2/install2.php</database>
 
 		<redirect url="$scripturl?action=admin;area=portalconfig" timeout="5000">redirect.txt</redirect>
 	</install>
@@ -82,7 +130,7 @@
 		<readme type="inline">This will uninstall SimplePortal 2.3.5 for SMF 1.1.</readme>
 
 		<!-- Modifications -->
-		<modification reverse="true">install1-1.xml</modification>
+		<modification reverse="true">smf1/install1-1.xml</modification>
 
 		<!-- Source files -->
 		<remove-file name="$boarddir/PortalStandalone.php" />
@@ -134,7 +182,7 @@
 		<readme type="inline">This will uninstall SimplePortal 2.3.5 for SMF 2.0.</readme>
 
 		<!-- Modifications -->
-		<modification reverse="true">install2.xml</modification>
+		<modification reverse="true">smf2/install2.xml</modification>
 
 		<!-- Source files -->
 		<remove-file name="$boarddir/PortalStandalone.php" />
