@@ -1823,14 +1823,11 @@ function sp_calendarInformation($parameters, $id, $return_parameters = false)
 				echo '
 									<li><strong>', $txt['sp_calendar_upcomingEvents'] ,'</strong></li>';
 
-			foreach($calendar_array['futureEvents'] as $startdate => $events)
+			foreach ($calendar_array['futureEvents'] as $startdate => $events)
 			{
-				list($year, $month, $day) = explode('-', $startdate);
-				$currentDay = $day . ' ' . $txt['months_short'][(int) $month];
-
-				foreach($events as $event)
+				foreach ($events as $event)
 					echo '
-									<li>', sp_embed_image('event'), ' ', $event['link'], ' - ', $currentDay, '</li>';
+									<li>', sp_embed_image('event'), ' ', $event['link'], ' - ', timeformat(strtotime($startdate), '%d %b'), '</li>';
 			}
 		}
 
