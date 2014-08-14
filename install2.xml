@@ -35,16 +35,8 @@ require_once($sourcedir . '/Subs-Portal.php');]]></add>
 		'portal' => array('PortalMain.php', 'sportal_main'),]]></add>
 		</operation>
 		<operation>
-			<search position="replace"><![CDATA[		// Track forum statistics and hits...?
-		if (!empty($modSettings['hitStats']))
-			trackStats(array('hits' => '+'));]]></search>
-			<add><![CDATA[		// Don't track stats of portal xml actions.
-		if (empty($_REQUEST['action']) || $_REQUEST['action'] != 'portal' || !isset($_GET['xml']))
-		{
-			// Track forum statistics and hits...?
-			if (!empty($modSettings['hitStats']))
-				trackStats(array('hits' => '+'));
-		}]]></add>
+			<search position="replace"><![CDATA[if (empty($_REQUEST['action']) || ]]></search>
+			<add><![CDATA[if (empty($_REQUEST['action']) || !($_REQUEST['action'] == 'portal' && isset($_GET['xml'])) && ]]></add>
 		</operation>
 		<operation>
 			<search position="replace"><![CDATA[	// Get the function and file to include - if it's not there, do the board index.]]></search>
