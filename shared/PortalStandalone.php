@@ -29,6 +29,11 @@ if (WIRELESS)
 	redirectexit();
 
 sportal_init(true);
+
+// We'll catch you...
+writeLog();
+
+// Get the page ready.
 sportal_main();
 
 obExit(true);

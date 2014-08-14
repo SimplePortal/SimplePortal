@@ -23,6 +23,8 @@ SP 2.4
 
 SP 2.3.6
 ================================================================================
+ ! Standalone portal activity wasn't being logged.
+ ! Package installation instructions failed in certain setups.
  ! Shoutbox actions shouldn't be tracked, at all.
  ! Make blocks always visible when they don't have titles.
  ! Force admin restriction on PHP pages.
