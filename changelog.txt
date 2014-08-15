@@ -4,6 +4,7 @@ Changelog last updated August 13, 2014.
 
 SP 2.3.6
 ================================================================================
+ ! Fixed several template markup errors.
  ! Allow board news blocks to be styled as well.
  ! Vertical alignment for collapse and add block icons.
  ! Blocks required an additional container for better spacing.
