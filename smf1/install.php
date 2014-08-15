@@ -1,6 +1,6 @@
 <?php
 /**********************************************************************************
-* install2.php                                                                    *
+* install.php                                                                     *
 ***********************************************************************************
 * SimplePortal                                                                    *
 * SMF Modification Project Founded by [SiNaN] (sinan@simplemachines.org)          *
@@ -31,36 +31,29 @@ if (file_exists(dirname(__FILE__) . '/SSI.php') && !defined('SMF'))
 elseif (!defined('SMF'))
 	die('<b>Error:</b> Cannot install - please verify you put this in the same place as SMF\'s index.php.');
 
-global $smcFunc, $db_prefix, $modSettings, $sourcedir, $boarddir, $settings, $db_package_log, $package_cache;
-
-// Make sure that we have the package database functions.
-if (!array_key_exists('db_add_column', $smcFunc))
-	db_extend('packages');
+global $db_prefix, $db_name, $modSettings, $sourcedir, $boarddir, $settings, $package_cache;
 
 // Load all tables.
 $tables = array(
 	'sp_articles' => array(
 		'columns' => array(
 			array(
-				'name' => 'id_article',
+				'name' => 'ID_ARTICLE',
 				'type' => 'int',
 				'size' => '10',
 				'auto' => true,
-				'deprecated_name' => 'ID_ARTICLE',
 			),
 			array(
-				'name' => 'id_category',
+				'name' => 'ID_CATEGORY',
 				'type' => 'int',
 				'size' => '10',
 				'default' => 0,
-				'deprecated_name' => 'ID_CATEGORY',
 			),
 			array(
-				'name' => 'id_message',
+				'name' => 'ID_MESSAGE',
 				'type' => 'int',
 				'size' => '10',
 				'default' => 0,
-				'deprecated_name' => 'ID_MESSAGE',
 			),
 			array(
 				'name' => 'approved',
@@ -72,18 +65,17 @@ $tables = array(
 		'indexes' => array(
 			array(
 				'type' => 'primary',
-				'columns' => array('id_article'),
+				'columns' => array('ID_ARTICLE'),
 			),
 		),
 	),
 	'sp_blocks' => array(
 		'columns' => array(
 			array(
-				'name' => 'id_block',
+				'name' => 'ID_BLOCK',
 				'type' => 'int',
 				'size' => '10',
 				'auto' => true,
-				'deprecated_name' => 'ID_BLOCK',
 			),
 			array(
 				'name' => 'label',
@@ -151,7 +143,7 @@ $tables = array(
 		'indexes' => array(
 			array(
 				'type' => 'primary',
-				'columns' => array('id_block'),
+				'columns' => array('ID_BLOCK'),
 			),
 			array(
 				'type' => 'index',
@@ -162,11 +154,10 @@ $tables = array(
 	'sp_categories' => array(
 		'columns' => array(
 			array(
-				'name' => 'id_category',
+				'name' => 'ID_CATEGORY',
 				'type' => 'int',
 				'size' => '10',
 				'auto' => true,
-				'deprecated_name' => 'ID_CATEGORY',
 			),
 			array(
 				'name' => 'name',
@@ -192,18 +183,17 @@ $tables = array(
 		'indexes' => array(
 			array(
 				'type' => 'primary',
-				'columns' => array('id_category'),
+				'columns' => array('ID_CATEGORY'),
 			),
 		),
 	),
 	'sp_functions' => array(
 		'columns' => array(
 			array(
-				'name' => 'id_function',
+				'name' => 'ID_FUNCTION',
 				'type' => 'tinyint',
 				'size' => '4',
 				'auto' => true,
-				'deprecated_name' => 'ID_FUNCTION',
 			),
 			array(
 				'name' => 'function_order',
@@ -219,18 +209,17 @@ $tables = array(
 		'indexes' => array(
 			array(
 				'type' => 'primary',
-				'columns' => array('id_function'),
+				'columns' => array('ID_FUNCTION'),
 			),
 		),
 	),
 	'sp_pages' => array(
 		'columns' => array(
 			array(
-				'name' => 'id_page',
+				'name' => 'ID_PAGE',
 				'type' => 'int',
 				'size' => 10,
 				'auto' => true,
-				'deprecated_name' => 'ID_PAGE',
 			),
 			array(
 				'name' => 'namespace',
@@ -293,11 +282,10 @@ $tables = array(
 	'sp_parameters' => array(
 		'columns' => array(
 			array(
-				'name' => 'id_block',
+				'name' => 'ID_BLOCK',
 				'type' => 'int',
 				'size' => '10',
 				'default' => 0,
-				'deprecated_name' => 'ID_BLOCK',
 			),
 			array(
 				'name' => 'variable',
@@ -313,22 +301,21 @@ $tables = array(
 		'indexes' => array(
 			array(
 				'type' => 'primary',
-				'columns' => array('id_block', 'variable')
+				'columns' => array('ID_BLOCK', 'variable'),
 			),
 			array(
 				'type' => 'key',
-				'columns' => array('variable')
+				'columns' => array('variable'),
 			),
 		),
 	),
 	'sp_shoutboxes' => array(
 		'columns' => array(
 			array(
-				'name' => 'id_shoutbox',
+				'name' => 'ID_SHOUTBOX',
 				'type' => 'int',
 				'size' => 10,
 				'auto' => true,
-				'deprecated_name' => 'ID_SHOUTBOX',
 			),
 			array(
 				'name' => 'name',
@@ -422,39 +409,35 @@ $tables = array(
 		'indexes' => array(
 			array(
 				'type' => 'primary',
-				'columns' => array('id_shoutbox'),
+				'columns' => array('ID_SHOUTBOX'),
 			),
 		),
 	),
 	'sp_shouts' => array(
 		'columns' => array(
 			array(
-				'name' => 'id_shout',
+				'name' => 'ID_SHOUT',
 				'type' => 'mediumint',
 				'size' => '8',
 				'auto' => true,
-				'deprecated_name' => 'ID_SHOUT',
 			),
 			array(
-				'name' => 'id_shoutbox',
+				'name' => 'ID_SHOUTBOX',
 				'type' => 'int',
 				'size' => 10,
 				'default' => 0,
-				'deprecated_name' => 'ID_SHOUTBOX',
 			),
 			array(
-				'name' => 'id_member',
+				'name' => 'ID_MEMBER',
 				'type' => 'mediumint',
 				'size' => '8',
 				'default' => 0,
-				'deprecated_name' => 'ID_MEMBER',
 			),
 			array(
-				'name' => 'member_name',
+				'name' => 'memberName',
 				'type' => 'varchar',
 				'size' => '80',
 				'default' => 0,
-				'deprecated_name' => 'memberName',
 			),
 			array(
 				'name' => 'log_time',
@@ -470,7 +453,7 @@ $tables = array(
 		'indexes' => array(
 			array(
 				'type' => 'primary',
-				'columns' => array('id_shout'),
+				'columns' => array('ID_SHOUT'),
 			),
 		),
 	),
@@ -494,9 +477,10 @@ $deprecated_fields = array(
 );
 
 // We always need a fresh functions table.
-$smcFunc['db_drop_table']('{db_prefix}sp_functions');
+db_query("
+	DROP TABLE IF EXISTS {$db_prefix}sp_functions", __FILE__, __LINE__);
 
-$current_tables = $smcFunc['db_list_tables'](false, '%sp%');
+$current_tables = sp_db_list_tables(false, '%sp%');
 $real_prefix = preg_match('~^(`?)(.+?)\\1\\.(.*?)$~', $db_prefix, $match) === 1 ? $match[3] : $db_prefix;
 $info = '<ul>';
 
@@ -510,16 +494,13 @@ foreach ($tables as $table => $data)
 		<ul>';
 
 		foreach ($data['columns'] as $column)
-		{
-			if (!isset($column['deprecated_name']) || !$smcFunc['db_change_column']('{db_prefix}' . $table, $column['deprecated_name'], $column))
-				$smcFunc['db_add_column']('{db_prefix}' . $table, $column);
-		}
+			sp_db_add_column($table, $column);
 
 		$info .= '
 			<li>Table columns updated.</li>';
 
 		foreach ($data['indexes'] as $index)
-			$smcFunc['db_add_index']('{db_prefix}' . $table, $index, array(), 'ignore');
+			sp_db_add_index($table, $index);
 
 		$info .= '
 			<li>Table indexes updated.</li>
@@ -528,19 +509,18 @@ foreach ($tables as $table => $data)
 	}
 	else
 	{
-		$smcFunc['db_create_table']('{db_prefix}' . $table, $data['columns'], $data['indexes'], array(), 'ignore');
+		sp_db_create_table($table, $data['columns'], $data['indexes'], array());
 
 		$info .= '<li>"' . $table . '" table created.</li>';
 	}
 }
 
-// Insert current functions.
-$smcFunc['db_insert']('ignore',
-	'{db_prefix}sp_functions',
+sp_db_insert(
+	'sp_functions',
 	array(
-		'id_function' => 'int',
-		'function_order' => 'int',
-		'name' => 'string',
+		'ID_FUNCTION',
+		'function_order',
+		'name',
 	),
 	array(
 		array(1, 1, 'sp_userInfo'),
@@ -569,32 +549,27 @@ $smcFunc['db_insert']('ignore',
 		array(32, 24, 'sp_arcade'),
 		array(33, 25, 'sp_shop'),
 		array(30, 26, 'sp_blog'),
-		array(10, 27, 'sp_menu'),
 		array(19, 98, 'sp_bbc'),
 		array(17, 99, 'sp_html'),
 		array(18, 100, 'sp_php'),
-	),
-	array('id_function')
+	)
 );
 
 $info .= '
 	<li>"sp_functions" table data inserted.</li>';
 
-$result = $smcFunc['db_query']('','
-	SELECT id_block
-	FROM {db_prefix}sp_blocks
-	LIMIT 1',
-	array(
-	)
-);
-list ($has_block) = $smcFunc['db_fetch_row']($result);
-$smcFunc['db_free_result']($result);
+$request = db_query("
+	SELECT ID_BLOCK
+	FROM {$db_prefix}sp_blocks
+	LIMIT 1", __FILE__, __LINE__);
+list ($has_block) = mysql_fetch_row($request);
+mysql_free_result($request);
 
 if (empty($has_block))
 {
 	foreach ($deprecated_fields as $table => $fields)
 		foreach ($fields as $field)
-			$smcFunc['db_remove_column']('{db_prefix}' . $table, $field);
+			sp_db_remove_column($table, $field);
 
 	$welcome_text = '<h2 style="text-align: center;">Welcome to SimplePortal!</h2>
 <p>SimplePortal is one of several portal mods for Simple Machines Forum (SMF). Although always developing, SimplePortal is produced with the user in mind first. User feedback is the number one method of growth for SimplePortal, and our users are always finding ways for SimplePortal to grow. SimplePortal stays competative with other portal software by adding numerous user-requested features such as articles, block types and the ability to completely customize the portal page.</p>
@@ -755,35 +730,30 @@ SimplePortal offers high quality professional support with its own well known su
 		),
 	);
 
-	$smcFunc['db_insert']('ignore',
-		'{db_prefix}sp_blocks',
+	sp_db_insert(
+		'sp_blocks',
 		array(
-			'label' => 'text',
-			'type' => 'text',
-			'col' => 'int',
-			'row' => 'int',
-			'permission_set' => 'int',
-			'display' => 'text',
-			'display_custom' => 'text',
-			'style' => 'text',
+			'label',
+			'type',
+			'col',
+			'row',
+			'permission_set',
+			'display',
+			'display_custom',
+			'style',
 		),
-		$default_blocks,
-		array('id_block')
+		$default_blocks
 	);
 
-	$request = $smcFunc['db_query']('', '
-		SELECT MIN(id_block) AS id, type
-		FROM {db_prefix}sp_blocks
-		WHERE type IN ({array_string:types})
+	$request = db_query("
+		SELECT MIN(ID_BLOCK) AS id, type
+		FROM {$db_prefix}sp_blocks
+		WHERE type IN ('sp_html', 'sp_boardNews', 'sp_calendar', 'sp_recent')
 		GROUP BY type
-		LIMIT 4',
-		array(
-			'types' => array('sp_html', 'sp_boardNews', 'sp_calendar', 'sp_recent'),
-		)
-	);
-	while ($row = $smcFunc['db_fetch_assoc']($request))
+		LIMIT 4",__FILE__, __LINE__);
+	while ($row = mysql_fetch_assoc($request))
 		$block_ids[$row['type']] = $row['id'];
-	$smcFunc['db_free_result']($request);
+	mysql_free_result($request);
 
 	$default_parameters = array(
 		array(
@@ -817,6 +787,11 @@ SimplePortal offers high quality professional support with its own well known su
 			'value' => 1,
 		),
 		array(
+			'id_block' => $block_ids['sp_calendar'],
+			'variable' => 'holidays',
+			'value' => 1,
+		),
+		array(
 			'id_block' => $block_ids['sp_recent'],
 			'variable' => 'type',
 			'value' => 1,
@@ -828,15 +803,15 @@ SimplePortal offers high quality professional support with its own well known su
 		),
 	);
 
-	$smcFunc['db_insert']('replace',
-		'{db_prefix}sp_parameters',
+	sp_db_insert(
+		'sp_parameters',
 		array(
-			'id_block' => 'int',
-			'variable' => 'text',
-			'value' => 'text',
+			'ID_BLOCK',
+			'variable',
+			'value',
 		),
 		$default_parameters,
-		array()
+		true
 	);
 
 	$info .= '
@@ -847,21 +822,20 @@ else
 	$permission_updates = array('blocks' => 'block', 'pages' => 'page', 'shoutboxes' => 'shoutbox');
 	foreach ($permission_updates as $table => $field)
 	{
-		$columns = $smcFunc['db_list_columns']('{db_prefix}' . 'sp_' . $table, false);
-		if (in_array('permission_type', $columns))
+		$columns = sp_db_list_columns('sp_' . $table, false);
+		if (in_array('allowed_groups', $columns))
 		{
-			$request = $smcFunc['db_query']('', '
-				SELECT id_{raw:field}, permission_type, allowed_groups
-				FROM {db_prefix}sp_{raw:table}',
-				array(
-					'field' => $field,
-					'table' => $table,
-				)
-			);
+			$request = db_query("
+				SELECT id_{$field}," . (in_array('permission_type', $columns) ? " permission_type," : "") . " allowed_groups
+				FROM {$db_prefix}sp_{$table}",__FILE__, __LINE__);
 			$permissions = array();
-			while ($row = $smcFunc['db_fetch_assoc']($request))
+			while ($row = mysql_fetch_assoc($request))
+			{
+				if (!isset($row['permission_type']))
+					$row['permission_type'] = 2;
 				$permissions[] = $row;
-			$smcFunc['db_free_result']($request);
+			}
+			mysql_free_result($request);
 
 			$modified = array();
 			foreach ($permissions as $item)
@@ -888,84 +862,65 @@ else
 
 			foreach ($modified as $item)
 			{
-				$smcFunc['db_query']('', '
-					UPDATE {db_prefix}sp_{raw:table}
+				$request = db_query("
+					UPDATE {$db_prefix}sp_{$table}
 					SET
-						permission_set = {string:permission_set},
-						groups_allowed = {string:groups_allowed},
-						groups_denied = {string:groups_denied}
-					WHERE id_{raw:field} = {int:id}',
-					array_merge($item, array(
-						'table' => $table,
-						'field' => $field,
-					))
-				);
+						permission_set = $item[permission_set],
+						groups_allowed = '$item[groups_allowed]',
+						groups_denied = '$item[groups_denied]'
+					WHERE id_{$field} = $item[id]",__FILE__, __LINE__);
 			}
 		}
 	}
 
 	if (empty($modSettings['sp_version']) || $modSettings['sp_version'] < '2.3.6')
 	{
-		$smcFunc['db_query']('', '
-			UPDATE {db_prefix}sp_blocks
-			SET style = {string:blank}
-			WHERE type = {string:type}',
-			array(
-				'blank' => '',
-				'type' => 'sp_boardNews',
-			)
-		);
+		db_query("
+			UPDATE {$db_prefix}sp_blocks
+			SET style = ''
+			WHERE type = 'sp_boardNews'", __FILE__, __LINE__);
 	}
 
 	if (empty($modSettings['sp_version']) || $modSettings['sp_version'] < '2.3')
 	{
-		$request = $smcFunc['db_query']('', '
-			SELECT id_block, type
-			FROM {db_prefix}sp_blocks
-			WHERE type IN ({array_string:types})',
-			array(
-				'types' => array('sp_recentTopics', 'sp_recentPosts'),
-			)
-		);
+		$request = db_query("
+			SELECT ID_BLOCK, type
+			FROM {$db_prefix}sp_blocks
+			WHERE type IN ('sp_recentTopics', 'sp_recentPosts')",__FILE__, __LINE__);
 		$replace_blocks = array();
 		$add_parameters = array();
-		while ($row = $smcFunc['db_fetch_assoc']($request))
+		while ($row = mysql_fetch_assoc($request))
 		{
-			$replace_blocks[] = $row['id_block'];
+			$replace_blocks[] = $row['ID_BLOCK'];
 			$add_parameters[] = array(
-				'id_block' => $row['id_block'],
+				'id_block' => $row['ID_BLOCK'],
 				'variable' => 'display',
 				'value' => 1,
 			);
 			$add_parameters[] = array(
-				'id_block' => $row['id_block'],
+				'id_block' => $row['ID_BLOCK'],
 				'variable' => 'type',
 				'value' => $row['type'] == 'sp_recentPosts' ? 0 : 1,
 			);
 		}
-		$smcFunc['db_free_result']($request);
+		mysql_free_result($request);
 
 		if (!empty($replace_blocks) && !empty($add_parameters))
 		{
-			$smcFunc['db_query']('', '
-				UPDATE {db_prefix}sp_blocks
-				SET type = {string:new_type}
-				WHERE id_block IN ({array_int:block_ids})',
-				array(
-					'new_type' => 'sp_recent',
-					'block_ids' => $replace_blocks,
-				)
-			);
+			db_query("
+				UPDATE {$db_prefix}sp_blocks
+				SET type = 'sp_recent'
+				WHERE ID_BLOCK IN (" . implode(', ', $replace_blocks) . ")", __FILE__, __LINE__);
 
-			$smcFunc['db_insert']('replace',
-				'{db_prefix}sp_parameters',
+			sp_db_insert(
+				'sp_parameters',
 				array(
-					'id_block' => 'int',
-					'variable' => 'text',
-					'value' => 'text',
+					'ID_BLOCK',
+					'variable',
+					'value',
 				),
 				$add_parameters,
-				array()
+				true
 			);
 		}
 	}
@@ -978,39 +933,42 @@ else
 				'new' => 'sp_gallery'
 			),
 			array(
+				'old' => 'sp_smfArcade',
+				'new' => 'sp_arcade'
+			),
+			array(
+				'old' => 'sp_smfShop',
+				'new' => 'sp_shop'
+			),
+			array(
 				'old' => 'sp_mgallery',
 				'new' => 'sp_gallery'
 			),
 		);
 
 		foreach ($block_updates as $type)
-			$smcFunc['db_query']('', '
-				UPDATE {db_prefix}sp_blocks
-				SET type = {string:new}
-				WHERE type = {string:old}',
-				$type
-			);
+			db_query("
+				UPDATE {$db_prefix}sp_blocks
+				SET type = '$type[new]'
+				WHERE type = '$type[old]'", __FILE__, __LINE__);
 
-		$current_columns = $smcFunc['db_list_columns']('{db_prefix}' . 'sp_blocks', false);
+		$current_columns = sp_db_list_columns('sp_blocks', false);
 		if (in_array('content', $current_columns))
 		{
 			require_once($sourcedir . '/PortalBlocks.php');
 			$old_parameters = array();
 
-			$request = $smcFunc['db_query']('', '
-				SELECT id_block, type, content, parameters
-				FROM {db_prefix}sp_blocks',
-				array(
-				)
-			);
-			while ($row = $smcFunc['db_fetch_assoc']($request))
+			$request = db_query("
+				SELECT ID_BLOCK, type, content, parameters
+				FROM {$db_prefix}sp_blocks",__FILE__, __LINE__);
+			while ($row = mysql_fetch_assoc($request))
 			{
 				if (in_array($row['type'], array('sp_bbc', 'sp_html', 'sp_php')))
 				{
 					$old_parameters[] = array(
-						'id_block' => $row['id_block'],
+						'id_block' => $row['ID_BLOCK'],
 						'variable' => 'content',
-						'value' => $row['content'],
+						'value' => addslashes($row['content']),
 					);
 				}
 				elseif (function_exists($row['type']))
@@ -1031,7 +989,7 @@ else
 							continue;
 
 						$old_parameters[] = array(
-							'id_block' => $row['id_block'],
+							'id_block' => $row['ID_BLOCK'],
 							'variable' => $variable,
 							'value' => $old,
 						);
@@ -1040,19 +998,19 @@ else
 				else
 					continue;
 			}
-			$smcFunc['db_free_result']($request);
+			mysql_free_result($request);
 
 			if (!empty($old_parameters))
 			{
-				$smcFunc['db_insert']('replace',
-					'{db_prefix}sp_parameters',
+				sp_db_insert(
+					'sp_parameters',
 					array(
-						'id_block' => 'int',
-						'variable' => 'text',
-						'value' => 'text',
+						'ID_BLOCK',
+						'variable',
+						'value',
 					),
 					$old_parameters,
-					array()
+					true
 				);
 			}
 		}
@@ -1060,7 +1018,7 @@ else
 
 	foreach ($deprecated_fields as $table => $fields)
 		foreach ($fields as $field)
-			$smcFunc['db_remove_column']('{db_prefix}' . $table, $field);
+			sp_db_remove_column($table, $field);
 
 	$info .= '
 	<li>Block types and parameters updated.</li>';
@@ -1081,7 +1039,7 @@ $defaults = array(
 
 $updates = array(
 	'sp_version' => '2.3.5',
-	'sp_smf_version' => '2',
+	'sp_smf_version' => '1',
 );
 
 foreach ($defaults as $index => $value)
@@ -1089,11 +1047,6 @@ foreach ($defaults as $index => $value)
 		$updates[$index] = $value;
 
 updateSettings($updates);
-
-// Take control of the $db_package_log array(), Mahahahaha!!!
-$db_package_log = array();
-foreach ($tables as $table_name => $null)
-	$db_package_log[] = array('remove_table', $db_prefix . $table_name);
 
 $info .= '
 	<li>Default settings inserted.</li>';
@@ -1122,7 +1075,7 @@ if (SMF == 'SSI')
 <head>
 	<meta http-equiv="Content-Type" content="text/html; charset=', $context['character_set'], '" />
 	<title>SimplePortal &bull; Database Tool</title>
-	<link rel="stylesheet" type="text/css" href="', $settings['theme_url'], '/css/index.css?235" />
+	<link rel="stylesheet" type="text/css" href="', $settings['theme_url'], '/style.css?235" />
 	<meta name="robots" content="noindex" />
 	<style type="text/css">
 		body, html
@@ -1133,7 +1086,7 @@ if (SMF == 'SSI')
 		}
 		body
 		{
-			font-size: 12px;
+			font-size: 14px;
 			text-align: center;
 		}
 		ul
@@ -1183,13 +1136,380 @@ if (SMF == 'SSI')
 <body>
 <div id="distance"></div>
 <div id="page" class="windowbg2">
-	<h1 class="catbg">SimplePortal &bull; Database Tool</h1>
+	<div class="catbg">SimplePortal &bull; Database Tool</div>
 	<p id="info" class="windowbg">This tool will prepare your database to work with SimplePortal. It will also fix database issues related to SimplePortal, if there are any.</p>
 	', $info, '
 	<p id="copy">SimplePortal &copy; 2008-2012</p>
 </div>
 </body>
 </html>';
+}
+
+function sp_db_create_table($table_name, $columns, $indexes = array(), $no_prefix = true)
+{
+	global $db_prefix, $db_character_set;
+
+	$real_prefix = preg_match('~^(`?)(.+?)\\1\\.(.*?)$~', $db_prefix, $match) === 1 ? $match[3] : $db_prefix;
+
+	$complete_table_name = !$no_prefix ? $db_prefix . $table_name : $table_name;
+	$full_table_name = !$no_prefix ? $real_prefix . $table_name : $table_name;
+
+	$tables = sp_db_list_tables();
+	if (in_array($full_table_name, $tables))
+		return true;
+
+	$table_query = 'CREATE TABLE ' . $complete_table_name . "\n" .'(';
+	foreach ($columns as $column)
+	{
+		if (!empty($column['auto']))
+			$default = 'auto_increment';
+		elseif (isset($column['default']) && $column['default'] !== null)
+			$default = 'default \'' . $column['default'] . '\'';
+		else
+			$default = '';
+
+		$column['size'] = isset($column['size']) && is_numeric($column['size']) ? $column['size'] : null;
+		list ($type, $size) = array($column['type'], $column['size']);
+		if ($size !== null)
+			$type = $type . '(' . $size . ')';
+
+		$table_query .= "\n\t`" .$column['name'] . '` ' . $type . ' ' . (!empty($column['null']) ? '' : 'NOT NULL') . ' ' . $default . ',';
+	}
+
+	foreach ($indexes as $index)
+	{
+		$columns = implode(',', $index['columns']);
+
+		if (isset($index['type']) && $index['type'] == 'primary')
+			$table_query .= "\n\t" . 'PRIMARY KEY (' . implode(',', $index['columns']) . '),';
+		else
+		{
+			if (empty($index['name']))
+				$index['name'] = implode('_', $index['columns']);
+			$table_query .= "\n\t" . (isset($index['type']) && $index['type'] == 'unique' ? 'UNIQUE' : 'KEY') . ' ' . $index['name'] . ' (' . $columns . '),';
+		}
+	}
+
+	if (substr($table_query, -1) == ',')
+		$table_query = substr($table_query, 0, -1);
+
+	$table_query .= ') ENGINE=MyISAM';
+	if (!empty($db_character_set) && $db_character_set == 'utf8')
+		$table_query .= ' DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci';
+
+	db_query($table_query, __FILE__, __LINE__);
+}
+
+function sp_db_add_column($table_name, $column_info, $no_prefix = true)
+{
+	global $txt, $db_prefix;
+
+	if ($no_prefix)
+		$table_name = $db_prefix . $table_name;
+
+	$columns = sp_db_list_columns($table_name, false, false);
+	foreach ($columns as $column)
+		if ($column == $column_info['name'])
+				return sp_db_change_column($table_name, $column_info['name'], $column_info, false);
+
+	$column_info['size'] = isset($column_info['size']) && is_numeric($column_info['size']) ? $column_info['size'] : null;
+	list ($type, $size) = array($column_info['type'], $column_info['size']);
+	if ($size !== null)
+		$type = $type . '(' . $size . ')';
+
+	$query = '
+		ALTER TABLE ' . $table_name . '
+		ADD ' . $column_info['name'] . ' ' . $type . ' ' . (empty($column_info['null']) ? 'NOT NULL' : '') . ' ' .
+			(!isset($column_info['default']) ? '' : 'default \'' . $column_info['default'] . '\'') . ' ' .
+			(empty($column_info['auto']) ? '' : 'auto_increment') . ' ';
+	db_query($query, __FILE__, __LINE__);
+
+	return true;
+}
+
+function sp_db_change_column($table_name, $old_column, $column_info, $no_prefix = true)
+{
+	global $db_prefix;
+
+	if ($no_prefix)
+		$table_name = $db_prefix . $table_name;
+
+	$columns = sp_db_list_columns($table_name, true, false);
+	$old_info = null;
+	foreach ($columns as $column)
+		if ($column['name'] == $old_column)
+			$old_info = $column;
+
+	if ($old_info == null)
+		return false;
+
+	if (!isset($column_info['name']))
+		$column_info['name'] = $old_column;
+	if (!isset($column_info['default']))
+		$column_info['default'] = $old_info['default'];
+	if (!isset($column_info['null']))
+		$column_info['null'] = $old_info['null'];
+	if (!isset($column_info['auto']))
+		$column_info['auto'] = $old_info['auto'];
+	if (!isset($column_info['type']))
+		$column_info['type'] = $old_info['type'];
+	if (!isset($column_info['size']) || !is_numeric($column_info['size']))
+		$column_info['size'] = $old_info['size'];
+
+	list ($type, $size) = array($column_info['type'], $column_info['size']);
+	if ($size !== null)
+		$type = $type . '(' . $size . ')';
+
+	$query = '
+		ALTER TABLE ' . $table_name . '
+		CHANGE COLUMN ' . $old_column . ' ' . $column_info['name'] . ' ' . $type . ' ' . (empty($column_info['null']) ? 'NOT NULL' : '') . ' ' .
+			(!isset($column_info['default']) || $column_info['default'] === '' ? '' : 'default \'' . $column_info['default'] . '\'') . ' ' .
+			(empty($column_info['auto']) ? '' : 'auto_increment') . ' ';
+	db_query($query, __FILE__, __LINE__);
+
+	return true;
+}
+
+function sp_db_add_index($table_name, $index_info, $no_prefix = true)
+{
+	global $db_prefix;
+
+	if ($no_prefix)
+		$table_name = $db_prefix . $table_name;
+
+	if (empty($index_info['columns']))
+		return false;
+	$columns = implode(',', $index_info['columns']);
+
+	if (empty($index_info['name']))
+	{
+		if ($index_info['type'] == 'primary')
+			$index_info['name'] = 'PRIMARY';
+		else
+			$index_info['name'] = implode('_', $index_info['columns']);
+	}
+	else
+		$index_info['name'] = $index_info['name'];
+
+	$indexes = sp_db_list_indexes($table_name, true, false);
+	foreach ($indexes as $index)
+		if ($index['name'] == $index_info['name'] || ($index['is_primary'] && isset($index_info['type']) && $index_info['type'] == 'primary'))
+			return false;
+
+	if (!empty($index_info['type']) && $index_info['type'] == 'primary')
+	{
+		$query = '
+			ALTER TABLE ' . $table_name . '
+			ADD PRIMARY KEY (' . $columns . ')';
+	}
+	else
+	{
+		$query = '
+			ALTER TABLE ' . $table_name . '
+			ADD ' . (isset($index_info['type']) && $index_info['type'] == 'unique' ? 'UNIQUE' : 'INDEX') . ' ' . $index_info['name'] . ' (' . $columns . ')';
+	}
+	db_query($query, __FILE__, __LINE__);
+
+	return true;
+}
+
+function sp_db_remove_column($table_name, $column_name, $no_prefix = true)
+{
+	global $db_prefix;
+
+	if ($no_prefix)
+		$table_name = $db_prefix . $table_name;
+	$columns = sp_db_list_columns($table_name, true, false);
+
+	foreach ($columns as $column)
+		if ($column['name'] == $column_name)
+		{
+			$query = '
+				ALTER TABLE ' . $table_name . '
+				DROP COLUMN ' . $column_name;
+			db_query($query, __FILE__, __LINE__);
+
+			return true;
+		}
+
+	return false;
+}
+
+function sp_db_remove_index($table_name, $index_name, $no_prefix = true)
+{
+	global $db_prefix;
+
+	if ($no_prefix)
+		$table_name = $db_prefix . $table_name;
+	$indexes = sp_db_list_indexes($table_name, true, false);
+
+	foreach ($indexes as $index)
+	{
+		if (strtolower($index['type']) == 'primary' && $index_name == 'primary')
+		{
+			$query = '
+				ALTER TABLE ' . $table_name . '
+				DROP PRIMARY KEY';
+			db_query($query, __FILE__, __LINE__);
+
+
+			return true;
+		}
+		if ($index['name'] == $index_name)
+		{
+			$query = '
+				ALTER TABLE ' . $table_name . '
+				DROP INDEX ' . $index_name;
+			db_query($query, __FILE__, __LINE__);
+
+			return true;
+		}
+	}
+
+	return false;
+}
+
+function sp_db_list_tables($db = false, $filter = false)
+{
+	global $db_name;
+
+	$db = $db == false ? $db_name : $db;
+	$db = trim($db);
+	$db = $db{0} == '`' ? strtr($db, array('`' => '')) : $db;
+	$filter = $filter == false ? '' : ' LIKE \'' . $filter . '\'';
+
+	$request = db_query("
+		SHOW TABLES
+		FROM `{$db_name}`
+		{$filter}", __FILE__, __LINE__);
+	$tables = array();
+	while ($row = mysql_fetch_assoc($request))
+		$tables[] = reset($row);
+	mysql_free_result($request);
+
+	return $tables;
+}
+
+function sp_db_list_columns($table_name, $detail = false, $no_prefix = true)
+{
+	global $db_prefix;
+
+	if ($no_prefix)
+		$table_name = $db_prefix . $table_name;
+	$table_name = substr($table_name, 0, 1) == '`' ? $table_name : '`' . $table_name . '`';
+
+	$request = db_query("
+		SHOW FIELDS
+		FROM {$table_name}", __FILE__, __LINE__);
+	$columns = array();
+	while ($row = mysql_fetch_assoc($request))
+	{
+		if (!$detail)
+		{
+			$columns[] = $row['Field'];
+		}
+		else
+		{
+			$auto = strpos($row['Extra'], 'auto_increment') !== false ? true : false;
+
+			if (preg_match('~(.+?)\s*\((\d+)\)~i', $row['Type'], $matches) === 1)
+			{
+				$type = $matches[1];
+				$size = $matches[2];
+			}
+			else
+			{
+				$type = $row['Type'];
+				$size = null;
+			}
+
+			$columns[$row['Field']] = array(
+				'name' => $row['Field'],
+				'null' => $row['Null'] != 'YES' ? false : true,
+				'default' => isset($row['Default']) ? $row['Default'] : null,
+				'type' => $type,
+				'size' => $size,
+				'auto' => $auto,
+			);
+		}
+	}
+	mysql_free_result($request);
+
+	return $columns;
+}
+
+function sp_db_list_indexes($table_name, $detail = false, $no_prefix = true)
+{
+	global $db_prefix;
+
+	if ($no_prefix)
+		$table_name = $db_prefix . $table_name;
+	$table_name = substr($table_name, 0, 1) == '`' ? $table_name : '`' . $table_name . '`';
+
+	$request = db_query("
+		SHOW KEYS
+		FROM {$table_name}", __FILE__, __LINE__);
+	$indexes = array();
+	while ($row = mysql_fetch_assoc($request))
+	{
+		if (!$detail)
+			$indexes[] = $row['Key_name'];
+		else
+		{
+			if ($row['Key_name'] == 'PRIMARY')
+				$type = 'primary';
+			elseif (empty($row['Non_unique']))
+				$type = 'unique';
+			elseif (isset($row['Index_type']) && $row['Index_type'] == 'FULLTEXT')
+				$type = 'fulltext';
+			else
+				$type = 'index';
+
+			if (empty($indexes[$row['Key_name']]))
+			{
+				$indexes[$row['Key_name']] = array(
+					'name' => $row['Key_name'],
+					'type' => $type,
+					'columns' => array(),
+					'is_primary' => $type == 'primary',
+				);
+			}
+
+			if (!empty($row['Sub_part']))
+				$indexes[$row['Key_name']]['columns'][] = $row['Column_name'] . '(' . $row['Sub_part'] . ')';
+			else
+				$indexes[$row['Key_name']]['columns'][] = $row['Column_name'];
+		}
+	}
+	mysql_free_result($request);
+
+	return $indexes;
+}
+
+function sp_db_insert($table_name, $fields, $values, $replace = false)
+{
+	global $db_prefix;
+
+	$query = "
+		" . ($replace ? "REPLACE" : "INSERT") . " INTO {$db_prefix}{$table_name}
+			(" . implode(', ', $fields) . ")
+		VALUES ";
+
+	foreach ($values as $value)
+	{
+		$query .= "(";
+
+		$row = array();
+		foreach ($value as $field)
+			$row[] = "'" . $field . "'";
+
+		$query .= implode(', ', $row) . "),";
+	}
+
+	if (substr($query, -1) == ',')
+		$query = substr($query, 0, -1);
+
+	db_query($query, __FILE__, __LINE__);
 }
 
 ?>
