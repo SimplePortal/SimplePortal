@@ -904,6 +904,19 @@ else
 		}
 	}
 
+	if (empty($modSettings['sp_version']) || $modSettings['sp_version'] < '2.3.6')
+	{
+		$smcFunc['db_query']('', '
+			UPDATE {db_prefix}sp_blocks
+			SET style = {string:blank}
+			WHERE type = {string:type}',
+			array(
+				'blank' => '',
+				'type' => 'sp_boardNews',
+			)
+		);
+	}
+
 	if (empty($modSettings['sp_version']) || $modSettings['sp_version'] < '2.3')
 	{
 		$request = $smcFunc['db_query']('', '

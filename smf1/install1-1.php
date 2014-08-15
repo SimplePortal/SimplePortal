@@ -873,6 +873,14 @@ else
 		}
 	}
 
+	if (empty($modSettings['sp_version']) || $modSettings['sp_version'] < '2.3.6')
+	{
+		db_query("
+			UPDATE {$db_prefix}sp_blocks
+			SET style = ''
+			WHERE type = 'sp_boardNews'", __FILE__, __LINE__);
+	}
+
 	if (empty($modSettings['sp_version']) || $modSettings['sp_version'] < '2.3')
 	{
 		$request = db_query("

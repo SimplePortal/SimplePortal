@@ -525,9 +525,7 @@ function template_block_edit()
 		</table>';
 	}
 
-	if ($context['SPortal']['block']['type'] != 'sp_boardNews')
-	{
-		echo '
+	echo '
 		<br />
 		<table border="0" align="center" cellspacing="1" cellpadding="4" class="tborder" width="65%">
 			<tr class="catbg">
@@ -615,10 +613,7 @@ function template_block_edit()
 					<div style="text-align: center;"><input type="submit" name="add_block" value="', !$context['SPortal']['is_new'] ? $txt['sp-blocksEdit'] : $txt['sp-blocksAdd'], '" /></div>
 				</td>
 			</tr>
-		</table>';
-	}
-
-	echo '
+		</table>
 	</form>
 	<script language="JavaScript" type="text/javascript"><!-- // --><![CDATA[
 		sp_update_permissions();

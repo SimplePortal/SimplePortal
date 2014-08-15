@@ -1279,6 +1279,7 @@ function sp_boardNews($parameters, $id, $return_parameters = false)
 	$length = isset($parameters['length']) ? (int) $parameters['length'] : 250;
 	$avatars = !empty($parameters['avatar']);
 	$per_page = !empty($parameters['per_page']) ? (int) $parameters['per_page'] : 0;
+	$style = !empty($parameters['style']) ? $parameters['style'] : sportal_parse_style('explode', '', true);
 
 	$limit = max(0, $limit);
 	$start = max(0, $start);
@@ -1450,33 +1451,38 @@ function sp_boardNews($parameters, $id, $return_parameters = false)
 		foreach ($return as $news)
 		{
 			echo '
-					<div class="tborder sp_article_content">
-						<table class="sp_block">
-							<tr class="catbg">
-								<td class="sp_middle">', $news['icon'], '</td>
-								<td class="sp_middle sp_regular_padding sp_fullwidth"><a href="', $news['href'], '" >', $news['subject'], '</a></td>
-							</tr>
-							<tr class="windowbg">
-								<td class="sp_regular_padding" colspan="2">';
+					<div class="sp_article_content">
+						<div class="', !empty($style['no_body']) ? '' : ' tborder', '">
+							<table class="sp_block">';
+
+			if (empty($style['no_title']))
+			{
+				echo '
+								<tr>
+									<td class="sp_middle ', $style['title']['class'], '"', !empty($style['title']['style']) ? ' style="' . $style['title']['style'] . '"' : '', '>', $news['icon'], '</td>
+									<td class="sp_middle sp_regular_padding sp_fullwidth ', $style['title']['class'], '"', !empty($style['title']['style']) ? ' style="' . $style['title']['style'] . '"' : '', '><a href="', $news['href'], '">', $news['subject'], '</a></td>
+								</tr>';
+			}
+
+			echo '
+								<tr>
+									<td class="sp_block_padding', empty($style['body']['class']) ? '' : ' ' . $style['body']['class'], '"', !empty($style['body']['style']) ? ' style="' . $style['body']['style'] . '"' : '', ' colspan="2">';
 
 			if ($avatars && $news['avatar']['name'] !== null && !empty($news['avatar']['href']))
 				echo '
-									<a href="', $scripturl, '?action=profile;u=', $news['poster']['id'], '"><img src="', $news['avatar']['href'], '" alt="', $news['poster']['name'], '" width="30" style="float: right;" /></a>
-									<div class="middletext">', $news['time'], ' ', $txt['by'], ' ', $news['poster']['link'], '<br />', $txt['sp-articlesViews'], ': ', $news['views'], ' | ', $txt['sp-articlesComments'], ': ', $news['replies'], '</div>';
+										<a href="', $scripturl, '?action=profile;u=', $news['poster']['id'], '"><img src="', $news['avatar']['href'], '" alt="', $news['poster']['name'], '" width="30" style="float: right;" /></a>
+										<div class="middletext">', $news['time'], ' ', $txt['by'], ' ', $news['poster']['link'], '<br />', $txt['sp-articlesViews'], ': ', $news['views'], ' | ', $txt['sp-articlesComments'], ': ', $news['replies'], '</div>';
 			else
 				echo '
-									<div class="middletext">', $news['time'], ' ', $txt['by'], ' ', $news['poster']['link'], ' | ', $txt['sp-articlesViews'], ': ', $news['views'], ' | ', $txt['sp-articlesComments'], ': ', $news['replies'], '</div>';
+										<div class="middletext">', $news['time'], ' ', $txt['by'], ' ', $news['poster']['link'], ' | ', $txt['sp-articlesViews'], ': ', $news['views'], ' | ', $txt['sp-articlesComments'], ': ', $news['replies'], '</div>';
 
 			echo '
-									<div class="post"><hr />', $news['body'], '<br /><br /></div>
-								</td>
-							</tr>
-							<tr>
-								<td class="windowbg2" colspan="2">
-									<div class="sp_right sp_regular_padding">', $news['link'], ' ',  $news['new_comment'], '</div>
-								</td>
-							</tr>
-						</table>
+										<div class="post"><hr />', $news['body'], '<br /><br /></div>
+										<div class="sp_right ">', $news['link'], ' ',  $news['new_comment'], '</div>
+									</td>
+								</tr>
+							</table>
+						</div>
 					</div>';
 		}
 	}
@@ -1485,30 +1491,67 @@ function sp_boardNews($parameters, $id, $return_parameters = false)
 		foreach ($return as $news)
 		{
 			echo '
-					<div class="cat_bar">
-						<h3 class="catbg">
-							<span class="sp_float_left sp_article_icon">', $news['icon'], '</span><a href="', $news['href'], '" >', $news['subject'], '</a>
-						</h3>
-					</div>
-					<div class="windowbg sp_article_content">
-						<span class="topslice"><span></span></span>
-						<div class="sp_content_padding">';
+					<div class="sp_article_content">';
+
+			if (empty($style['no_title']))
+			{
+				echo '
+						<div class="', in_array($style['title']['class'], array('titlebg', 'titlebg2')) ? 'title_bar' : 'cat_bar', '"', !empty($style['title']['style']) ? ' style="' . $style['title']['style'] . '"' : '', '>
+							<h3 class="', $style['title']['class'], '">
+								<span class="sp_float_left sp_article_icon">', $news['icon'], '</span><a href="', $news['href'], '" >', $news['subject'], '</a>
+							</h3>
+						</div>';
+			}
+
+			if (strpos($style['body']['class'], 'roundframe') !== false)
+			{
+				echo '
+						<span class="upperframe"><span></span></span>';
+			}
+
+			echo '
+						<div', empty($style['body']['class']) ? '' : ' class="' . $style['body']['class'] . '"', '>';
+
+			if (empty($style['no_body']))
+			{
+				echo '
+							<span class="topslice"><span></span></span>';
+			}
+
+			echo '
+							<div class="sp_content_padding"', !empty($style['body']['style']) ? ' style="' . $style['body']['style'] . '"' : '', '>';
 
 			if ($avatars && $news['avatar']['name'] !== null && !empty($news['avatar']['href']))
 				echo '
-							<a href="', $scripturl, '?action=profile;u=', $news['poster']['id'], '"><img src="', $news['avatar']['href'], '" alt="', $news['poster']['name'], '" width="30" class="sp_float_right" /></a>
-							<div class="middletext">', $news['time'], ' ', $txt['by'], ' ', $news['poster']['link'], '<br />', $txt['sp-articlesViews'], ': ', $news['views'], ' | ', $txt['sp-articlesComments'], ': ', $news['replies'], '</div>';
+								<a href="', $scripturl, '?action=profile;u=', $news['poster']['id'], '"><img src="', $news['avatar']['href'], '" alt="', $news['poster']['name'], '" width="30" class="sp_float_right" /></a>
+								<div class="middletext">', $news['time'], ' ', $txt['by'], ' ', $news['poster']['link'], '<br />', $txt['sp-articlesViews'], ': ', $news['views'], ' | ', $txt['sp-articlesComments'], ': ', $news['replies'], '</div>';
 			else
 				echo '
-							<div class="middletext">', $news['time'], ' ', $txt['by'], ' ', $news['poster']['link'], ' | ', $txt['sp-articlesViews'], ': ', $news['views'], ' | ', $txt['sp-articlesComments'], ': ', $news['replies'], '</div>';
+								<div class="middletext">', $news['time'], ' ', $txt['by'], ' ', $news['poster']['link'], ' | ', $txt['sp-articlesViews'], ': ', $news['views'], ' | ', $txt['sp-articlesComments'], ': ', $news['replies'], '</div>';
 
 			echo '
-							<div class="post"><hr />', $news['body'], '</div>
-							<div class="sp_right">', $news['link'], ' ',  $news['new_comment'], '</div>
-						</div>
-						<span class="botslice"><span></span></span>
+								<div class="post"><hr />', $news['body'], '</div>
+								<div class="sp_right">', $news['link'], ' ',  $news['new_comment'], '</div>
+							</div>';
+
+			if (empty($style['no_body']))
+			{
+				echo '
+							<span class="botslice"><span></span></span>';
+			}
+
+			echo '
+						</div>';
+
+			if (strpos($style['body']['class'], 'roundframe') !== false)
+			{
+				echo '
+						<span class="lowerframe"><span></span></span>';
+			}
+
+			echo '
 					</div>';
-		}	
+		}
 	}
 
 	if (!empty($per_page))
