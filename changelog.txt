@@ -4,6 +4,7 @@ Changelog last updated August 13, 2014.
 
 SP 2.3.6
 ================================================================================
+ ! Blocks required an additional container for better spacing.
  ! Styling improvements to vertical forum menu block.
  ! Redirection boards have redirects instead of topics and posts.
  ! Collapsing categories should highlight the forum button.
