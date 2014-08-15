@@ -161,7 +161,7 @@ function template_block($block)
 		echo '
 			<div class="sp_block_section', isset($context['SPortal']['sides'][$block['column']]['last']) && $context['SPortal']['sides'][$block['column']]['last'] == $block['id'] && ($block['column'] != 2 || empty($modSettings['articleactive'])) ? '_last' : '', '">';
 
-		$block['type']($block['parameters'], $block['id']);
+		$block['type'](array_merge($block['parameters'], array('style' => $block['style'])), $block['id']);
 
 		echo '
 			</div>';
@@ -250,7 +250,7 @@ function template_block_curve($block)
 	}
 
 	echo '
-			<div', empty($block['style']['body']['class']) ? '' : ' class="' . $block['style']['body']['class'] . '"', '>'; 
+			<div', empty($block['style']['body']['class']) ? '' : ' class="' . $block['style']['body']['class'] . '"', '>';
 
 	if (empty($block['style']['no_body']))
 	{

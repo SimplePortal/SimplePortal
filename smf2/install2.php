@@ -288,6 +288,234 @@ if (empty($has_block))
 	);
 }
 
+			$modified = array();
+			foreach ($permissions as $item)
+			{
+				$set = $allowed = $denied = '';
+
+				if ($item['permission_type'] == 2)
+					$set = '3';
+				elseif ($item['allowed_groups'] == '-1')
+					$set = '1';
+				else
+				{
+					$set = '0';
+					$allowed = $item['allowed_groups'];
+				}
+
+				$modified[] = array(
+					'id' => $item['id_' . $field],
+					'permission_set' => $set,
+					'groups_allowed' => $allowed,
+					'groups_denied' => $denied,
+				);
+			}
+
+			foreach ($modified as $item)
+			{
+				$smcFunc['db_query']('', '
+					UPDATE {db_prefix}sp_{raw:table}
+					SET
+						permission_set = {string:permission_set},
+						groups_allowed = {string:groups_allowed},
+						groups_denied = {string:groups_denied}
+					WHERE id_{raw:field} = {int:id}',
+					array_merge($item, array(
+						'table' => $table,
+						'field' => $field,
+					))
+				);
+			}
+		}
+	}
+
+	if (empty($modSettings['sp_version']) || $modSettings['sp_version'] < '2.3.6')
+	{
+		$smcFunc['db_query']('', '
+			UPDATE {db_prefix}sp_blocks
+			SET style = {string:blank}
+			WHERE type = {string:type}',
+			array(
+				'blank' => '',
+				'type' => 'sp_boardNews',
+			)
+		);
+	}
+
+	if (empty($modSettings['sp_version']) || $modSettings['sp_version'] < '2.3')
+	{
+		$request = $smcFunc['db_query']('', '
+			SELECT id_block, type
+			FROM {db_prefix}sp_blocks
+			WHERE type IN ({array_string:types})',
+			array(
+				'types' => array('sp_recentTopics', 'sp_recentPosts'),
+			)
+		);
+		$replace_blocks = array();
+		$add_parameters = array();
+		while ($row = $smcFunc['db_fetch_assoc']($request))
+		{
+			$replace_blocks[] = $row['id_block'];
+			$add_parameters[] = array(
+				'id_block' => $row['id_block'],
+				'variable' => 'display',
+				'value' => 1,
+			);
+			$add_parameters[] = array(
+				'id_block' => $row['id_block'],
+				'variable' => 'type',
+				'value' => $row['type'] == 'sp_recentPosts' ? 0 : 1,
+			);
+		}
+		$smcFunc['db_free_result']($request);
+
+		if (!empty($replace_blocks) && !empty($add_parameters))
+		{
+			$smcFunc['db_query']('', '
+				UPDATE {db_prefix}sp_blocks
+				SET type = {string:new_type}
+				WHERE id_block IN ({array_int:block_ids})',
+				array(
+					'new_type' => 'sp_recent',
+					'block_ids' => $replace_blocks,
+				)
+			);
+
+			$smcFunc['db_insert']('replace',
+				'{db_prefix}sp_parameters',
+				array(
+					'id_block' => 'int',
+					'variable' => 'text',
+					'value' => 'text',
+				),
+				$add_parameters,
+				array()
+			);
+		}
+	}
+
+	if (empty($modSettings['sp_version']) || $modSettings['sp_version'] < '2.2')
+	{
+		$block_updates = array(
+			array(
+				'old' => 'sp_smfGallery',
+				'new' => 'sp_gallery'
+			),
+			array(
+				'old' => 'sp_mgallery',
+				'new' => 'sp_gallery'
+			),
+		);
+
+		foreach ($block_updates as $type)
+			$smcFunc['db_query']('', '
+				UPDATE {db_prefix}sp_blocks
+				SET type = {string:new}
+				WHERE type = {string:old}',
+				$type
+			);
+
+		$current_columns = $smcFunc['db_list_columns']('{db_prefix}' . 'sp_blocks', false);
+		if (in_array('content', $current_columns))
+		{
+			require_once($sourcedir . '/PortalBlocks.php');
+			$old_parameters = array();
+
+			$request = $smcFunc['db_query']('', '
+				SELECT id_block, type, content, parameters
+				FROM {db_prefix}sp_blocks',
+				array(
+				)
+			);
+			while ($row = $smcFunc['db_fetch_assoc']($request))
+			{
+				if (in_array($row['type'], array('sp_bbc', 'sp_html', 'sp_php')))
+				{
+					$old_parameters[] = array(
+						'id_block' => $row['id_block'],
+						'variable' => 'content',
+						'value' => $row['content'],
+					);
+				}
+				elseif (function_exists($row['type']))
+				{
+					$type_parameters = $row['type'](array(), 0, true);
+
+					if (empty($row['parameters']) || empty($type_parameters))
+						continue;
+
+					$row['parameters'] = explode(',', $row['parameters']);
+
+					foreach ($type_parameters as $variable => $value)
+					{
+						$old = current($row['parameters']);
+						next($row['parameters']);
+
+						if (empty($old))
+							continue;
+
+						$old_parameters[] = array(
+							'id_block' => $row['id_block'],
+							'variable' => $variable,
+							'value' => $old,
+						);
+					}
+				}
+				else
+					continue;
+			}
+			$smcFunc['db_free_result']($request);
+
+			if (!empty($old_parameters))
+			{
+				$smcFunc['db_insert']('replace',
+					'{db_prefix}sp_parameters',
+					array(
+						'id_block' => 'int',
+						'variable' => 'text',
+						'value' => 'text',
+					),
+					$old_parameters,
+					array()
+				);
+			}
+		}
+	}
+
+	foreach ($deprecated_fields as $table => $fields)
+		foreach ($fields as $field)
+			$smcFunc['db_remove_column']('{db_prefix}' . $table, $field);
+
+	$info .= '
+	<li>Block types and parameters updated.</li>';
+}
+
+// Let's setup some standard settings.
+$defaults = array(
+	'sp_portal_mode' => 1,
+	'sp_disableForumRedirect' => 1,
+	'showleft' => 1,
+	'showright' => 1,
+	'leftwidth' => 200,
+	'rightwidth' => 200,
+	'sp_enableIntegration' => 1,
+	'sp_adminIntegrationHide' => 1,
+	'sp_resize_images' => 1,
+);
+
+$updates = array(
+	'sp_version' => '2.3.5',
+	'sp_smf_version' => '2',
+);
+
+foreach ($defaults as $index => $value)
+	if (!isset($modSettings[$index]))
+		$updates[$index] = $value;
+
+updateSettings($updates);
+
+// Take control of the $db_package_log array(), Mahahahaha!!!
 $db_package_log = array();
 foreach ($tables as $table_name => $null)
 	$db_package_log[] = array('remove_table', $db_prefix . $table_name);
