@@ -1321,6 +1321,7 @@ function sp_boardNews($parameters, $id, $return_parameters = false)
 	$length = isset($parameters['length']) ? (int) $parameters['length'] : 250;
 	$avatars = !empty($parameters['avatar']);
 	$per_page = !empty($parameters['per_page']) ? (int) $parameters['per_page'] : 0;
+	$style = !empty($parameters['style']) ? $parameters['style'] : sportal_parse_style('explode', '', true);
 
 	$limit = max(0, $limit);
 	$start = max(0, $start);
@@ -1475,14 +1476,22 @@ function sp_boardNews($parameters, $id, $return_parameters = false)
 	foreach ($return as $news)
 	{
 		echo '
-				<div class="tborder sp_article_content">
-					<table class="sp_block">
-						<tr class="catbg">
-							<td class="sp_middle">', $news['icon'], '</td>
-							<td class="sp_middle sp_regular_padding sp_fullwidth"><a href="', $news['href'], '" >', $news['subject'], '</a></td>
-						</tr>
-						<tr class="windowbg">
-							<td class="sp_regular_padding" colspan="2">';
+				<div class="sp_article_content">
+					<div class="sp_block_container', !empty($style['no_body']) ? '' : ' tborder', '">
+						<table class="sp_block">';
+
+		if (empty($style['no_title']))
+		{
+			echo '
+							<tr>
+								<td class="sp_middle ', $style['title']['class'], '"', !empty($style['title']['style']) ? ' style="' . $style['title']['style'] . '"' : '', '>', $news['icon'], '</td>
+								<td class="sp_middle sp_regular_padding sp_fullwidth ', $style['title']['class'], '"', !empty($style['title']['style']) ? ' style="' . $style['title']['style'] . '"' : '', '><a href="', $news['href'], '" >', $news['subject'], '</a></td>
+							</tr>';
+		}
+
+		echo '
+							<tr>
+								<td class="sp_block_padding', empty($style['body']['class']) ? '' : ' ' . $style['body']['class'], '"', !empty($style['body']['style']) ? ' style="' . $style['body']['style'] . '"' : '', ' colspan="2">';
 
 		if ($avatars && $news['avatar']['name'] !== null && !empty($news['avatar']['href']))
 			echo '
@@ -1494,15 +1503,12 @@ function sp_boardNews($parameters, $id, $return_parameters = false)
 
 		echo '
 									<div class="post"><hr />', $news['body'], '<br /><br /></div>
-								</td>
-							</tr>
-							<tr>
-								<td class="windowbg2" colspan="2">
 									<div class="sp_right sp_regular_padding">', $news['link'], ' ',  $news['new_comment'], '</div>
 								</td>
 							</tr>
 						</table>
-					</div>';
+					</div>
+				</div>';
 	}
 
 	if (!empty($per_page))
