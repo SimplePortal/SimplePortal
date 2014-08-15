@@ -275,6 +275,10 @@ td.sp_block_padding
 {
 	padding-bottom: 0.7em;
 }
+.sp_block_section h3 a.sp_float_right, .sp_block_section_last h3 a.sp_float_right
+{
+	padding-top: 0.5em;
+}
 body
 {
 	min-width: 750px;
@@ -416,7 +420,7 @@ li.shoutbox_warning
 	padding: 0.5em 0;
 }
 
-#sp_manage_blocks h3.titlebg a.sp_float_right
+#sp_manage_blocks h3 a.sp_float_right
 {
 	padding-top: 0.5em;
 }

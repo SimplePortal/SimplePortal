@@ -23,6 +23,7 @@ SP 2.4
 
 SP 2.3.6
 ================================================================================
+ ! Vertical alignment for collapse and add block icons.
  ! Blocks required an additional container for better spacing.
  ! Styling improvements to vertical forum menu block.
  ! Redirection boards have redirects instead of topics and posts.
