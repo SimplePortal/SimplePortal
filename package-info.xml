@@ -13,7 +13,7 @@
 		<readme type="inline">This will install SimplePortal 2.3.5 for SMF 1.1.</readme>
 
 		<!-- Modifications -->
-		<modification>smf1/install1-1.xml</modification>
+		<modification>smf1/install.xml</modification>
 
 		<!-- Source files -->
 		<require-file name="shared/PortalStandalone.php" destination="$boarddir" />
@@ -60,7 +60,7 @@
 		<require-file name="shared/portal.js" destination="$themedir" />
 
 		<!-- Install scripts -->
-		<code>smf1/install1-1.php</code>
+		<code>smf1/install.php</code>
 
 		<redirect url="$scripturl?action=manageportal" timeout="5000">redirect.txt</redirect>
 	</install>
@@ -70,7 +70,7 @@
 		<readme type="inline">This will install SimplePortal 2.3.5 for SMF 2.0.</readme>
 
 		<!-- Modifications -->
-		<modification>smf2/install2.xml</modification>
+		<modification>smf2/install.xml</modification>
 
 		<!-- Source files -->
 		<require-file name="shared/PortalStandalone.php" destination="$boarddir" />
@@ -118,7 +118,7 @@
 		<require-file name="shared/portal.js" destination="$themedir/scripts" />
 
 		<!-- Install scripts -->
-		<database>smf2/install2.php</database>
+		<database>smf2/install.php</database>
 
 		<redirect url="$scripturl?action=admin;area=portalconfig" timeout="5000">redirect.txt</redirect>
 	</install>
@@ -130,7 +130,7 @@
 		<readme type="inline">This will uninstall SimplePortal 2.3.5 for SMF 1.1.</readme>
 
 		<!-- Modifications -->
-		<modification reverse="true">smf1/install1-1.xml</modification>
+		<modification reverse="true">smf1/install.xml</modification>
 
 		<!-- Source files -->
 		<remove-file name="$boarddir/PortalStandalone.php" />
@@ -182,7 +182,7 @@
 		<readme type="inline">This will uninstall SimplePortal 2.3.5 for SMF 2.0.</readme>
 
 		<!-- Modifications -->
-		<modification reverse="true">smf2/install2.xml</modification>
+		<modification reverse="true">smf2/install.xml</modification>
 
 		<!-- Source files -->
 		<remove-file name="$boarddir/PortalStandalone.php" />
