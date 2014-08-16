@@ -195,6 +195,7 @@ function template_shoutbox_embed($shoutbox)
 			if (window.XMLHttpRequest)
 			{
 				sp_refresh_shout(', $shoutbox['id'], ', last_refresh_', $shoutbox['id'], ');
+				last_refresh_', $shoutbox['id'], ' += ', $shoutbox['refresh'], ';
 			}
 			else
 				clearInterval(interval_id_', $shoutbox['id'], ');

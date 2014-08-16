@@ -23,6 +23,7 @@ SP 2.4
 
 SP 2.3.6
 ================================================================================
+ ! Shoutbox failed to function in certain cases.
  ! Updated the outdated support for Users Online Today mod.
  ! Some actions were missing session checks.
  ! Page data query was run excessively for no reason.
