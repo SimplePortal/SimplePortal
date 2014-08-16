@@ -582,6 +582,8 @@ function sportal_admin_block_edit()
 
 	if (!empty($_POST['add_block']))
 	{
+		checkSession();
+
 		if ($_POST['block_type'] == 'sp_php' && !allowedTo('admin_forum'))
 			fatal_lang_error('cannot_admin_forum', false);
 

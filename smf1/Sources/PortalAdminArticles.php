@@ -126,7 +126,6 @@ function sportal_admin_article_list()
 	// You clicked to the remove button? Naughty boy. :P
 	if (!empty($_POST['removeArticles']) && !empty($_POST['remove']) && is_array($_POST['remove']))
 	{
-
 		// But can you?
 		checkSession();
 
@@ -467,6 +466,9 @@ function sportal_admin_article_edit()
 		$context['sub_template'] = 'article_edit';
 	}
 	else {
+
+		// Verify the session.
+		checkSession();
 
 		// A small array.
 		$articleInfo = array(
