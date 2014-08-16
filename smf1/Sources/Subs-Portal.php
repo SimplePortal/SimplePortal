@@ -249,7 +249,7 @@ function sportal_init($standalone = false)
 // Deals with the initialization of SimplePortal headers.
 function sportal_init_headers()
 {
-	global $context, $settings, $modSettings;
+	global $context, $scripturl, $settings, $modSettings;
 	static $initialized;
 
 	if (!empty($initialized))
@@ -258,12 +258,21 @@ function sportal_init_headers()
 	$context['browser']['is_ie8'] = strpos($_SERVER['HTTP_USER_AGENT'], 'MSIE 8') !== false && !$context['browser']['is_opera'] && !$context['browser']['is_gecko'] && !$context['browser']['is_web_tv'];
 	$context['browser']['is_ie'] = $context['browser']['is_ie'] || $context['browser']['is_ie8'];
 
+	$safe_scripturl = $scripturl;
+	$current_request = empty($_SERVER['HTTP_HOST']) ? $_SERVER['SERVER_NAME'] : $_SERVER['HTTP_HOST'];
+
+	if (strpos($scripturl, 'www.') !== false && strpos($current_request, 'www.') === false)
+		$safe_scripturl = str_replace('://www.', '://', $scripturl);
+	elseif (strpos($scripturl, 'www.') === false && strpos($current_request, 'www.') !== false)
+		$safe_scripturl = str_replace('://', '://www.', $scripturl);
+
 	$context['html_headers'] .= '
 	<script type="text/javascript" src="' . $settings['default_theme_url'] . '/portal.js?235"></script>';
 
 	$context['html_headers'] .= '
 	<script language="JavaScript" type="text/javascript"><!-- // --><![CDATA[
 		var sp_images_url = "' . $settings['sp_images_url'] . '";
+		var sp_script_url = "' . $safe_scripturl . '";
 		function sp_collapseBlock(id)
 		{
 			mode = document.getElementById("sp_block_" + id).style.display == "" ? 0 : 1;' . ($context['user']['is_guest'] ? '
