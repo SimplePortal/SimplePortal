@@ -1307,7 +1307,7 @@ function sportal_get_pages($page_id = null, $active = false, $allowed = false, $
 	elseif (!empty($page_id))
 	{
 		$query[] = 'namespace = {string:namespace}';
-		$parameters['namespace'] = $page_id;
+		$parameters['namespace'] = $smcFunc['htmlspecialchars']((string) $page_id, ENT_QUOTES);
 	}
 	if (!empty($active))
 	{
