@@ -484,6 +484,9 @@ function sportal_admin_article_edit()
 	}
 	else
 	{
+		// Verify the session.
+		checkSession();
+
 		// A small array.
 		$articleInfo = array(
 			'category' => $_POST['category'],

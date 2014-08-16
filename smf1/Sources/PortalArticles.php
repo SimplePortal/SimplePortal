@@ -238,6 +238,8 @@ function sportal_add_article()
 
 	if (!empty($_POST['add_article']))
 	{
+		checkSession();
+
 		$article_options = array(
 			'ID_CATEGORY' => !empty($_POST['category']) ? (int) $_POST['category'] : 0,
 			'ID_MESSAGE' => !empty($_POST['message']) ? (int) $_POST['message'] : 0,
