@@ -1089,56 +1089,66 @@ function sportal_parse_style($action, $setting = '', $process = false)
 function sportal_get_pages($page_id = null, $active = false, $allowed = false)
 {
 	global $smcFunc;
+	static $cache;
 
-	$query = array();
-	$parameters = array();
+	$cache_name = implode(':', array($page_id, $active, $allowed));
 
-	if (!empty($page_id) && is_numeric($page_id))
+	if (isset($cache[$cache_name]))
+		$return = $cache[$cache_name];
+	else
 	{
-		$query[] = 'id_page = {int:page_id}';
-		$parameters['page_id'] = (int) $page_id;
-	}
-	elseif (!empty($page_id))
-	{
-		$query[] = 'namespace = {string:namespace}';
-		$parameters['namespace'] = $smcFunc['htmlspecialchars']((string) $page_id, ENT_QUOTES);
-	}
-	if (!empty($active))
-	{
-		$query[] = 'status = {int:status}';
-		$parameters['status'] = 1;
-	}
+		$query = array();
+		$parameters = array();
 
-	$request = $smcFunc['db_query']('','
-		SELECT
-			id_page, namespace, title, body, type, permission_set,
-			groups_allowed, groups_denied, views, style, status
-		FROM {db_prefix}sp_pages' . (!empty($query) ? '
-		WHERE ' . implode(' AND ', $query) : '') . '
-		ORDER BY title',
-		$parameters
-	);
-	$return = array();
-	while ($row = $smcFunc['db_fetch_assoc']($request))
-	{
-		if (!empty($allowed) && !sp_allowed_to('page', $row['id_page'], $row['permission_set'], $row['groups_allowed'], $row['groups_denied']))
-			continue;
+		if (!empty($page_id) && is_numeric($page_id))
+		{
+			$query[] = 'id_page = {int:page_id}';
+			$parameters['page_id'] = (int) $page_id;
+		}
+		elseif (!empty($page_id))
+		{
+			$query[] = 'namespace = {string:namespace}';
+			$parameters['namespace'] = $smcFunc['htmlspecialchars']((string) $page_id, ENT_QUOTES);
+		}
+		if (!empty($active))
+		{
+			$query[] = 'status = {int:status}';
+			$parameters['status'] = 1;
+		}
 
-		$return[$row['id_page']] = array(
-			'id' => $row['id_page'],
-			'page_id' => $row['namespace'],
-			'title' => $row['title'],
-			'body' => $row['body'],
-			'type' => $row['type'],
-			'permission_set' => $row['permission_set'],
-			'groups_allowed' => $row['groups_allowed'] !== '' ? explode(',', $row['groups_allowed']) : array(), 
-			'groups_denied' => $row['groups_denied'] !== '' ? explode(',', $row['groups_denied']) : array(), 
-			'views' => $row['views'],
-			'style' => $row['style'],
-			'status' => $row['status'],
+		$request = $smcFunc['db_query']('','
+			SELECT
+				id_page, namespace, title, body, type, permission_set,
+				groups_allowed, groups_denied, views, style, status
+			FROM {db_prefix}sp_pages' . (!empty($query) ? '
+			WHERE ' . implode(' AND ', $query) : '') . '
+			ORDER BY title',
+			$parameters
 		);
+		$return = array();
+		while ($row = $smcFunc['db_fetch_assoc']($request))
+		{
+			if (!empty($allowed) && !sp_allowed_to('page', $row['id_page'], $row['permission_set'], $row['groups_allowed'], $row['groups_denied']))
+				continue;
+
+			$return[$row['id_page']] = array(
+				'id' => $row['id_page'],
+				'page_id' => $row['namespace'],
+				'title' => $row['title'],
+				'body' => $row['body'],
+				'type' => $row['type'],
+				'permission_set' => $row['permission_set'],
+				'groups_allowed' => $row['groups_allowed'] !== '' ? explode(',', $row['groups_allowed']) : array(), 
+				'groups_denied' => $row['groups_denied'] !== '' ? explode(',', $row['groups_denied']) : array(), 
+				'views' => $row['views'],
+				'style' => $row['style'],
+				'status' => $row['status'],
+			);
+		}
+		$smcFunc['db_free_result']($request);
+
+		$cache[$cache_name] = $return;
 	}
-	$smcFunc['db_free_result']($request);
 
 	return !empty($page_id) ? current($return) : $return;
 }
