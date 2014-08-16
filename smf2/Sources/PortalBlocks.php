@@ -350,9 +350,9 @@ function sp_whosOnline($parameters, $id, $return_parameters = false)
 								<div class="sp_fullwidth sp_center">', $txt['error_sp_no_online'], '</div>';
 	}
 
-	if ($online_today && file_exists($sourcedir . '/Subs-MembersOnlineToday.php'))
+	if ($online_today && file_exists($sourcedir . '/Subs-UsersOnlineToday.php'))
 	{
-		require_once($sourcedir . '/Subs-MembersOnlineToday.php');
+		require_once($sourcedir . '/Subs-UsersOnlineToday.php');
 
 		$membersOnlineTodayOptions = array(
 			'sort' => 'login_time',
@@ -361,7 +361,7 @@ function sp_whosOnline($parameters, $id, $return_parameters = false)
 			'canview' => 'registered',
 		);
 
-		$stats += getMembersOnlineTodayStats($membersOnlineTodayOptions);
+		$stats += getUsersOnlineTodayStats($membersOnlineTodayOptions);
 
 		if (empty($stats['num_users_online_today']))
 			return;
