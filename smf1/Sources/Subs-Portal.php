@@ -984,14 +984,14 @@ function sportal_parse_style($action, $setting = '', $process = false)
 
 function sportal_get_pages($page_id = null, $active = false, $allowed = false)
 {
-	global $db_prefix;
+	global $db_prefix, $func;
 
 	$query = array();
 
 	if (!empty($page_id) && is_numeric($page_id))
 		$query[] = "id_page = " . ((int) $page_id);
 	elseif (!empty($page_id))
-		$query[] = "namespace = '$page_id'";
+		$query[] = "namespace = '" . $func['htmlspecialchars']((string) $page_id, ENT_QUOTES) . "'";
 
 	if (!empty($active))
 		$query[] = "status = 1";

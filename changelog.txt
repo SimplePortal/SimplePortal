@@ -4,6 +4,7 @@ Changelog last updated August 13, 2014.
 
 SP 2.3.6
 ================================================================================
+ ! Make sure page request handler can handle unusual cases.
  ! Fixed several template markup errors.
  ! Allow board news blocks to be styled as well.
  ! Vertical alignment for collapse and add block icons.
