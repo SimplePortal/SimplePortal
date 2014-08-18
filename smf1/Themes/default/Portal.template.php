@@ -1,5 +1,5 @@
 <?php
-// Version: 2.3.5; Portal
+// Version: 2.3.6; Portal
 
 function template_portal_above()
 {

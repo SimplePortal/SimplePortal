@@ -5,9 +5,9 @@
 * SimplePortal                                                                    *
 * SMF Modification Project Founded by [SiNaN] (sinan@simplemachines.org)          *
 * =============================================================================== *
-* Software Version:           SimplePortal 2.3.5                                  *
+* Software Version:           SimplePortal 2.3.6                                  *
 * Software by:                SimplePortal Team (http://www.simpleportal.net)     *
-* Copyright 2008-2009 by:     SimplePortal Team (http://www.simpleportal.net)     *
+* Copyright 2008-2014 by:     SimplePortal Team (http://www.simpleportal.net)     *
 * Support, News, Updates at:  http://www.simpleportal.net                         *
 ***********************************************************************************
 * This program is free software; you may redistribute it and/or modify it under   *
@@ -1038,7 +1038,7 @@ $defaults = array(
 );
 
 $updates = array(
-	'sp_version' => '2.3.5',
+	'sp_version' => '2.3.6',
 	'sp_smf_version' => '1',
 );
 
@@ -1075,7 +1075,7 @@ if (SMF == 'SSI')
 <head>
 	<meta http-equiv="Content-Type" content="text/html; charset=', $context['character_set'], '" />
 	<title>SimplePortal &bull; Database Tool</title>
-	<link rel="stylesheet" type="text/css" href="', $settings['theme_url'], '/style.css?235" />
+	<link rel="stylesheet" type="text/css" href="', $settings['theme_url'], '/style.css?236" />
 	<meta name="robots" content="noindex" />
 	<style type="text/css">
 		body, html
@@ -1139,7 +1139,7 @@ if (SMF == 'SSI')
 	<div class="catbg">SimplePortal &bull; Database Tool</div>
 	<p id="info" class="windowbg">This tool will prepare your database to work with SimplePortal. It will also fix database issues related to SimplePortal, if there are any.</p>
 	', $info, '
-	<p id="copy">SimplePortal &copy; 2008-2012</p>
+	<p id="copy">SimplePortal &copy; 2008-2014</p>
 </div>
 </body>
 </html>';
