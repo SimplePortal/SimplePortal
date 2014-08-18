@@ -5,9 +5,9 @@
 * SimplePortal                                                                    *
 * SMF Modification Project Founded by [SiNaN] (sinan@simplemachines.org)          *
 * =============================================================================== *
-* Software Version:           SimplePortal 2.3.5                                  *
+* Software Version:           SimplePortal 2.3.6                                  *
 * Software by:                SimplePortal Team (http://www.simpleportal.net)     *
-* Copyright 2008-2009 by:     SimplePortal Team (http://www.simpleportal.net)     *
+* Copyright 2008-2014 by:     SimplePortal Team (http://www.simpleportal.net)     *
 * Support, News, Updates at:  http://www.simpleportal.net                         *
 ***********************************************************************************
 * This program is free software; you may redistribute it and/or modify it under   *

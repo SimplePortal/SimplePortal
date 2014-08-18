@@ -1,5 +1,5 @@
 <?php
-// Version: 2.3.5; PortalAdminArticles
+// Version: 2.3.6; PortalAdminArticles
 
 function template_article_list()
 {

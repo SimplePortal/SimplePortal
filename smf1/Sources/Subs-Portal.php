@@ -5,9 +5,9 @@
 * SimplePortal                                                                    *
 * SMF Modification Project Founded by [SiNaN] (sinan@simplemachines.org)          *
 * =============================================================================== *
-* Software Version:           SimplePortal 2.3.5                                  *
+* Software Version:           SimplePortal 2.3.6                                  *
 * Software by:                SimplePortal Team (http://www.simpleportal.net)     *
-* Copyright 2008-2009 by:     SimplePortal Team (http://www.simpleportal.net)     *
+* Copyright 2008-2014 by:     SimplePortal Team (http://www.simpleportal.net)     *
 * Support, News, Updates at:  http://www.simpleportal.net                         *
 ***********************************************************************************
 * This program is free software; you may redistribute it and/or modify it under   *
@@ -96,11 +96,11 @@ function sportal_init($standalone = false)
 	if (!$standalone)
 	{
 		$context['html_headers'] .= '
-		<link rel="stylesheet" type="text/css" href="' . $settings['default_theme_url'] . '/portal.css?235" />';
+		<link rel="stylesheet" type="text/css" href="' . $settings['default_theme_url'] . '/portal.css?236" />';
 
 		if ($context['right_to_left'])
 			$context['html_headers'] .= '
-		<link rel="stylesheet" type="text/css" href="' . $settings['default_theme_url'] . '/portal_rtl.css?235" />';
+		<link rel="stylesheet" type="text/css" href="' . $settings['default_theme_url'] . '/portal_rtl.css?236" />';
 
 		if (!empty($_REQUEST['action']) && in_array($_REQUEST['action'], array('manageportal', 'permissions', 'helpadmin')))
 			if (loadLanguage('SPortalAdmin', '', false) === false)
@@ -267,7 +267,7 @@ function sportal_init_headers()
 		$safe_scripturl = str_replace('://', '://www.', $scripturl);
 
 	$context['html_headers'] .= '
-	<script type="text/javascript" src="' . $settings['default_theme_url'] . '/portal.js?235"></script>';
+	<script type="text/javascript" src="' . $settings['default_theme_url'] . '/portal.js?236"></script>';
 
 	$context['html_headers'] .= '
 	<script language="JavaScript" type="text/javascript"><!-- // --><![CDATA[
@@ -717,7 +717,7 @@ function sp_query_string($tourniquet)
 {
 	global $sportal_version, $context, $modSettings;
 
-	$fix = str_replace('{version}', $sportal_version, '<a href="http://www.simpleportal.net/" target="_blank">SimplePortal {version} &copy; 2008-2012, SimplePortal</a>');
+	$fix = str_replace('{version}', $sportal_version, '<a href="http://www.simpleportal.net/" target="_blank">SimplePortal {version} &copy; 2008-2014, SimplePortal</a>');
 
 	if ((SMF == 'SSI' && empty($context['standalone'])) || empty($context['template_layers']) || WIRELESS || empty($modSettings['sp_portal_mode']) || strpos($tourniquet, $fix) !== false)
 		return $tourniquet;

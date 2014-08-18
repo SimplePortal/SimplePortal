@@ -214,7 +214,7 @@ function template_shoutbox_embed($shoutbox)
 					<html>
 						<head>
 							<title>' . $txt['more_smileys_title'] . '</title>
-							<link rel="stylesheet" type="text/css" href="' . $settings['theme_url'] . '/css/index' . $context['theme_variant'] . '.css?rc2" />
+							<link rel="stylesheet" type="text/css" href="' . $settings['theme_url'] . '/css/index' . $context['theme_variant'] . '.css?fin20" />
 						</head>
 						<body id="help_popup">
 							<div class="padding windowbg">

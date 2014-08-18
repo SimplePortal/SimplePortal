@@ -1,5 +1,5 @@
 <?php
-// Version: 2.3.5; PortalAdmin
+// Version: 2.3.6; PortalAdmin
 
 function template_general_settings()
 {

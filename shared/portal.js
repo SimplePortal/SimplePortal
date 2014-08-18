@@ -1,4 +1,4 @@
-// Version 2.3.5; portal.js
+// Version 2.3.6; portal.js
 
 // Define the version of SMF that we are using.
 if (typeof(smf_editorArray) == "undefined")
