@@ -253,21 +253,25 @@ function sportal_information($in_admin = true)
 					'title' => $txt['sp-info_groups_support'],
 					'members' => array(
 						'<span onclick="if (getInnerHTML(this).indexOf(\'Queen\') == -1) setInnerHTML(this, \'Angelina &quot;Queen of Support&quot; Belle\'); return false;">AngelinaBelle</span>',
+						'Underdog',
+						'phantomm',
+						'andy',
 					),
 				),
 				array(
 					'title' => $txt['sp-info_groups_customize'],
 					'members' => array(
-						'Robbo',
-						'Berat &quot;grafitus&quot; Do&#287;an',
 						'Blue',
+						'Berat &quot;grafitus&quot; Do&#287;an',
+						'Robbo',
 					),
 				),
 				array(
 					'title' => $txt['sp-info_groups_language'],
 					'members' => array(
-						'Jade &quot;Alundra&quot; Elizabeth',
+						'Doctor Deejay',
 						'<span onclick="if (getInnerHTML(this).indexOf(\'King\') == -1) setInnerHTML(this, \'130 &quot;King of Pirates&quot; 860\'); return false;">130860</span>',
+						'Jade &quot;Alundra&quot; Elizabeth',
 					),
 				),
 				array(
@@ -279,13 +283,14 @@ function sportal_information($in_admin = true)
 				array(
 					'title' => $txt['sp-info_groups_beta'],
 					'members' => array(
-						'&#214;zg&#252;r',
-						'Willerby',
+						'BurkeKnight',
+						'ARG',
+						'Old Fossil',
 						'David',
-						'Dr. Deejay',
-						'Brack1',
+						'sharks',
+						'Willerby',
+						'&#214;zg&#252;r',
 						'c23_Mike',
-						'Underdog',
 					),
 				),
 			),
