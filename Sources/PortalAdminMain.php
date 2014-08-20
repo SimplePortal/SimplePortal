@@ -185,10 +185,12 @@ function sportal_admin_article_settings($return_config = '')
 	global $context, $scripturl, $txt;
 
 	$config_vars = array(
-			array('check', 'articleactive'),
-			array('int', 'articleperpage'),
-			array('int', 'articlelength'),
-			array('check', 'articleavatar'),
+			array('check', 'sp_articles_index'),
+			array('int', 'sp_articles_index_per_page'),
+			array('int', 'sp_articles_index_total'),
+			'',
+			array('int', 'sp_articles_per_page'),
+			array('int', 'sp_articles_comments_per_page'),
 	);
 
 	if ($return_config)

@@ -12,7 +12,7 @@
 
 function template_view_articles()
 {
-	global $context, $txt;
+	global $context, $scripturl, $txt;
 
 	echo '
 	<div id="sp_view_articles">
@@ -58,6 +58,28 @@ function template_view_articles()
 				</div>
 			</div>
 			<span class="botslice"><span></span></span>
+		</div>';
+	}
+
+	if (!empty($context['page_index']))
+	{
+		echo '
+		<div class="sp_page_index">';
+
+		if (isset($context['previous_start']))
+		{
+			echo '
+			<a class="sp_previous_start" href="', $scripturl . '?action=portal;sa=articles;start=', $context['previous_start'], '">', $txt['previous_next_back'], '</a>';
+		}
+
+		if (isset($context['next_start']))
+		{
+			echo '
+			<a class="sp_next_start" href="', $scripturl . '?action=portal;sa=articles;start=', $context['next_start'], '">', $txt['previous_next_forward'], '</a>';
+		}
+
+		echo '
+			', $txt['pages'], ': ', $context['page_index'], '
 		</div>';
 	}
 
@@ -160,6 +182,28 @@ function template_view_article()
 					</p>
 				</div>
 				<span class="botslice"><span></span></span>
+			</div>';
+		}
+
+		if (!empty($context['page_index']))
+		{
+			echo '
+			<div class="sp_page_index">';
+
+			if (isset($context['previous_start']))
+			{
+				echo '
+				<a class="sp_previous_start" href="', $context['article']['href'], ';comments=', $context['previous_start'], '">', $txt['previous_next_back'], '</a>';
+			}
+
+			if (isset($context['next_start']))
+			{
+				echo '
+				<a class="sp_next_start" href="', $context['article']['href'], ';comments=', $context['next_start'], '">', $txt['previous_next_forward'], '</a>';
+			}
+
+			echo '
+				', $txt['pages'], ': ', $context['page_index'], '
 			</div>';
 		}
 

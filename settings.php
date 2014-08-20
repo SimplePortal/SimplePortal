@@ -30,6 +30,10 @@ $defaults = array(
 	'sp_enableIntegration' => 1,
 	'sp_adminIntegrationHide' => 1,
 	'sp_resize_images' => 1,
+	'sp_articles_index_per_page' => 5,
+	'sp_articles_index_total' => 20,
+	'sp_articles_per_page' => 10,
+	'sp_articles_comments_per_page' => 20,
 );
 
 $updates = array(

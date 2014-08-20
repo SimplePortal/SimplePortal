@@ -101,6 +101,28 @@ function template_view_category()
 		</div>';
 	}
 
+	if (!empty($context['page_index']))
+	{
+		echo '
+		<div class="sp_page_index">';
+
+		if (isset($context['previous_start']))
+		{
+			echo '
+			<a class="sp_previous_start" href="', $context['category']['href'], ';start=', $context['previous_start'], '">', $txt['previous_next_back'], '</a>';
+		}
+
+		if (isset($context['next_start']))
+		{
+			echo '
+			<a class="sp_next_start" href="', $context['category']['href'], ';start=', $context['next_start'], '">', $txt['previous_next_forward'], '</a>';
+		}
+
+		echo '
+			', $txt['pages'], ': ', $context['page_index'], '
+		</div>';
+	}
+
 	echo '
 	</div>';
 }

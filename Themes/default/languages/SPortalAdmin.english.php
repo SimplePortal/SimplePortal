@@ -41,10 +41,11 @@ $txt['sp_enableIntegration'] = 'Display Blocks in Forum';
 $txt['sp_IntegrationHide'] = 'Hide Blocks in Forum Areas<br /><span class="smalltext">The <em>Display blocks in Forum</em> setting<br />must be enabled for this to work</span>';
 
 // Article settings
-$txt['articleactive'] = 'Enable Articles';
-$txt['articleperpage'] = 'Maximum Articles Per Page';
-$txt['articlelength'] = 'Maximum Characters Before Article Cut-off';
-$txt['articleavatar'] = 'Display Authors Avatar';
+$txt['sp_articles_index'] = 'Display Articles on Portal Page';
+$txt['sp_articles_index_total'] = 'Total Articles on Portal Page';
+$txt['sp_articles_index_per_page'] = 'Articles Per Page on Portal Page';
+$txt['sp_articles_per_page'] = 'Articles Per Page on Article List';
+$txt['sp_articles_comments_per_page'] = 'Articles Comments Per Page';
 
 // Blocks area
 $txt['sp-adminBlockListName'] = 'Block List';
@@ -219,7 +220,7 @@ $txt['sp_param_sp_staff_lmod'] = 'Disable Local Moderators';
 $txt['sp_param_sp_articles_category'] = 'Category';
 $txt['sp_param_sp_articles_limit'] = 'Articles to Display';
 $txt['sp_param_sp_articles_type'] = 'Display Type';
-$txt['sp_param_sp_articles_image'] = 'Image';
+$txt['sp_param_sp_articles_avatar'] = 'Author Avatar';
 $txt['sp_param_sp_shoutbox_shoutbox'] = 'Shoutbox to Display';
 $txt['sp_param_sp_gallery_limit'] = 'Items to Display';
 $txt['sp_param_sp_gallery_type'] = 'Display';
@@ -246,7 +247,6 @@ $txt['sp_param_sp_topTopics_type_options'] = 'Replies|Views';
 $txt['sp_param_sp_showPoll_type_options'] = 'Normal|Recent|Random';
 $txt['sp_param_sp_attachmentImage_direction_options'] = 'Vertical|Horizontal';
 $txt['sp_param_sp_articles_type_options'] = 'Latest|Random';
-$txt['sp_param_sp_articles_image_options'] = 'None|Poster Avatar|Category Image';
 $txt['sp_param_sp_gallery_type_options'] = 'Latest|Random';
 $txt['sp_param_sp_gallery_direction_options'] = 'Vertical|Horizontal';
 $txt['sp_param_sp_arcade_type_options'] = 'Most Played|Best Players|Longest Champ';

@@ -18,11 +18,46 @@ if (!defined('SMF'))
  */
 function sportal_articles()
 {
-	global $smcFunc, $context, $scripturl, $txt;
+	global $smcFunc, $context, $scripturl, $modSettings, $txt;
 
 	loadTemplate('PortalArticles');
 
-	$context['articles'] = sportal_get_articles(0, true, true, 'spa.id_article DESC');
+	$request = $smcFunc['db_query']('','
+		SELECT COUNT(*)
+		FROM {db_prefix}sp_articles AS spa
+			INNER JOIN {db_prefix}sp_categories AS spc ON (spc.id_category = spa.id_category)
+		WHERE spa.status = {int:article_status}
+			AND spc.status = {int:category_status}
+			AND {raw:article_permissions}
+			AND {raw:category_permissions}
+		LIMIT {int:limit}',
+		array(
+			'article_status' => 1,
+			'category_status' => 1,
+			'article_permissions' => sprintf($context['SPortal']['permissions']['query'], 'spa.permissions'),
+			'category_permissions' => sprintf($context['SPortal']['permissions']['query'], 'spc.permissions'),
+			'limit' => 1,
+		)
+	);
+	list ($total_articles) = $smcFunc['db_fetch_row']($request);
+	$smcFunc['db_free_result']($request);
+
+	$per_page = min($total_articles, !empty($modSettings['sp_articles_per_page']) ? $modSettings['sp_articles_per_page'] : 10);
+	$start = !empty($_REQUEST['start']) ? (int) $_REQUEST['start'] : 0;
+	$total_pages = $per_page > 0 ? ceil($total_articles / $per_page) : 0;
+	$current_page = $per_page > 0 ? ceil($start / $per_page) : 0;
+
+	if ($total_articles > $per_page)
+	{
+		$context['page_index'] = constructPageIndex($scripturl . '?action=portal;sa=articles;start=%1$d', $start, $total_articles, $per_page, true);
+
+		if ($current_page > 0)
+			$context['previous_start'] = ($current_page - 1) * $per_page;
+		if ($current_page < $total_pages - 1)
+			$context['next_start'] = ($current_page + 1) * $per_page;
+	}
+
+	$context['articles'] = sportal_get_articles(0, true, true, 'spa.id_article DESC', 0, $per_page, $start);
 
 	foreach ($context['articles'] as $article)
 	{
@@ -48,7 +83,7 @@ function sportal_articles()
  */
 function sportal_article()
 {
-	global $smcFunc, $context, $sourcedir, $scripturl, $user_info, $txt;
+	global $smcFunc, $context, $sourcedir, $scripturl, $modSettings, $user_info, $txt;
 
 	loadTemplate('PortalArticles');
 
@@ -64,8 +99,36 @@ function sportal_article()
 	if (empty($context['article']['id']))
 		fatal_lang_error('error_sp_article_not_found', false);
 
+	$request = $smcFunc['db_query']('','
+		SELECT COUNT(*)
+		FROM {db_prefix}sp_comments
+		WHERE id_article = {int:current_article}
+		LIMIT {int:limit}',
+		array(
+			'current_article' => $context['article']['id'],
+			'limit' => 1,
+		)
+	);
+	list ($total_comments) = $smcFunc['db_fetch_row']($request);
+	$smcFunc['db_free_result']($request);
+
+	$per_page = min($total_comments, !empty($modSettings['sp_articles_comments_per_page']) ? $modSettings['sp_articles_comments_per_page'] : 20);
+	$start = !empty($_REQUEST['comments']) ? (int) $_REQUEST['comments'] : 0;
+	$total_pages = $per_page > 0 ? ceil($total_comments / $per_page) : 0;
+	$current_page = $per_page > 0 ? ceil($start / $per_page) : 0;
+
+	if ($total_comments > $per_page)
+	{
+		$context['page_index'] = constructPageIndex($scripturl . '?article=' . $context['article']['article_id'] . ';comments=%1$d', $start, $total_comments, $per_page, true);
+
+		if ($current_page > 0)
+			$context['previous_start'] = ($current_page - 1) * $per_page;
+		if ($current_page < $total_pages - 1)
+			$context['next_start'] = ($current_page + 1) * $per_page;
+	}
+
 	$context['article']['date'] = timeformat($context['article']['date']);
-	$context['article']['comments'] = sportal_get_comments($context['article']['id']);
+	$context['article']['comments'] = sportal_get_comments($context['article']['id'], $per_page, $start);
 	$context['article']['can_comment'] = $context['user']['is_logged'];
 	$context['article']['can_moderate'] = allowedTo('sp_admin') || allowedTo('sp_manage_articles');
 
