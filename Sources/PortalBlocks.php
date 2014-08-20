@@ -2430,7 +2430,7 @@ function sp_staff($parameters, $id, $return_parameters = false)
  *		'category' => list of categories to choose article from
  *		'limit' => number of articles to show
  *		'type' => 0 latest 1 random
- *		'image' => type of image to show with the post, poster avatar or cat image
+ *		'avatar' => whether to show the author avatar or not
  * @param int $id - not used in this block
  * @param boolean $return_parameters if true returns the configuration options for the block
  */
@@ -2442,14 +2442,14 @@ function sp_articles($parameters, $id, $return_parameters = false)
 		'category' => array(0 => $txt['sp_all']),
 		'limit' => 'int',
 		'type' => 'select',
-		'image' => 'select',
+		'avatar' => 'check',
 	);
 
 	if ($return_parameters)
 	{
 		require_once($sourcedir . '/Subs-PortalAdmin.php');
 
-		$categories = getCategoryInfo();
+		$categories = sportal_get_categories();
 		foreach ($categories as $category)
 			$block_parameters['category'][$category['id']] = $category['name'];
 
@@ -2459,73 +2459,9 @@ function sp_articles($parameters, $id, $return_parameters = false)
 	$category = empty($parameters['category']) ? 0 : (int) $parameters['category'];
 	$limit = empty($parameters['limit']) ? 5 : (int) $parameters['limit'];
 	$type = empty($parameters['type']) ? 0 : 1;
-	$image = empty($parameters['image']) ? 0 : (int) $parameters['image'];
+	$avatar = empty($parameters['avatar']) ? 0 : (int) $parameters['avatar'];
 
-	$request = $smcFunc['db_query']('','
-		SELECT
-			m.id_topic, m.subject, m.poster_name, c.picture, c.name,
-			mem.id_member, mem.real_name, mem.avatar,
-			at.id_attach, at.attachment_type, at.filename
-		FROM {db_prefix}sp_articles AS a
-			INNER JOIN {db_prefix}sp_categories AS c ON (c.id_category = a.id_category)
-			INNER JOIN {db_prefix}messages AS m ON (m.id_msg = a.id_message)
-			INNER JOIN {db_prefix}boards AS b ON (b.id_board = m.id_board)
-			LEFT JOIN {db_prefix}members AS mem ON (mem.id_member = m.id_member)
-			LEFT JOIN {db_prefix}attachments AS at ON (at.id_member = mem.id_member)
-		WHERE {query_see_board}
-			AND a.approved = {int:approved}' . (!empty($category) ? '
-			AND a.id_category = {int:category}' : '') . '
-		ORDER BY {raw:type}
-		LIMIT {int:limit}',
-		array(
-			'approved' => 1,
-			'category' => $category,
-			'type' => $type ? 'RAND()' : 'm.poster_time DESC',
-			'limit' => $limit,
-		)
-	);
-	$articles = array();
-	$colorids = array();
-	while ($row = $smcFunc['db_fetch_assoc']($request))
-	{
-		if (!empty($row['id_member']))
-			$colorids[$row['id_member']] = $row['id_member'];
-
-		if ($modSettings['avatar_action_too_large'] == 'option_html_resize' || $modSettings['avatar_action_too_large'] == 'option_js_resize')
-		{
-			$avatar_width = !empty($modSettings['avatar_max_width_external']) ? ' width="' . $modSettings['avatar_max_width_external'] . '"' : '';
-			$avatar_height = !empty($modSettings['avatar_max_height_external']) ? ' height="' . $modSettings['avatar_max_height_external'] . '"' : '';
-		}
-		else
-		{
-			$avatar_width = '';
-			$avatar_height = '';
-		}
-
-		$articles[] = array(
-			'id' => $row['id_topic'],
-			'name' => $row['subject'],
-			'href' => $scripturl . '?topic=' . $row['id_topic'] . '.0',
-			'link' => '<a href="' . $scripturl . '?topic=' . $row['id_topic'] . '.0">' . $row['subject'] . '</a>',
-			'poster' => array(
-				'id' => $row['id_member'],
-				'name' => $row['real_name'],
-				'href' => $scripturl . '?action=profile;u=' . $row['id_member'],
-				'link' => empty($row['id_member']) ? $row['poster_name'] : '<a href="' . $scripturl . '?action=profile;u=' . $row['id_member'] . '">' . $row['real_name'] . '</a>',
-			),
-			'image' => array(
-				'href' => $row['picture'],
-				'image' => '<img src="' . $row['picture'] . '" alt="' . $row['name'] . '" />',
-			),
-			'avatar' => array(
-				'name' => $row['avatar'],
-				'image' => $row['avatar'] == '' ? ($row['id_attach'] > 0 ? '<img src="' . (empty($row['attachment_type']) ? $scripturl . '?action=dlattach;attach=' . $row['id_attach'] . ';type=avatar' : $modSettings['custom_avatar_url'] . '/' . $row['filename']) . '" alt="" class="avatar" border="0" />' : '') : (stristr($row['avatar'], 'http://') ? '<img src="' . $row['avatar'] . '"' . $avatar_width . $avatar_height . ' alt="" class="avatar" border="0" />' : '<img src="' . $modSettings['avatar_url'] . '/' . htmlspecialchars($row['avatar']) . '" alt="" class="avatar" border="0" />'),
-				'href' => $row['avatar'] == '' ? ($row['id_attach'] > 0 ? (empty($row['attachment_type']) ? $scripturl . '?action=dlattach;attach=' . $row['id_attach'] . ';type=avatar' : $modSettings['custom_avatar_url'] . '/' . $row['filename']) : '') : (stristr($row['avatar'], 'http://') ? $row['avatar'] : $modSettings['avatar_url'] . '/' . $row['avatar']),
-				'url' => $row['avatar'] == '' ? '' : (stristr($row['avatar'], 'http://') ? $row['avatar'] : $modSettings['avatar_url'] . '/' . $row['avatar'])
-			),
-		);
-	}
-	$smcFunc['db_free_result']($request);
+	$articles = sportal_get_articles(null, true, true, $type ? 'RAND()' : 'spa.date DESC', $category, $limit);
 
 	if (empty($articles))
 	{
@@ -2534,16 +2470,7 @@ function sp_articles($parameters, $id, $return_parameters = false)
 		return;
 	}
 
-	if (!empty($colorids) && sp_loadColors($colorids) !== false)
-	{
-		foreach ($articles as $k => $p)
-		{
-			if (!empty($color_profile[$p['poster']['id']]['link']))
-				$articles[$k]['poster']['link'] = $color_profile[$p['poster']['id']]['link'];
-		}
-	}
-
-	if (empty($image))
+	if (empty($avatar))
 	{
 		echo '
 								<ul class="sp_list">';
@@ -2566,14 +2493,12 @@ function sp_articles($parameters, $id, $return_parameters = false)
 									<tr>
 										<td class="sp_articles sp_center">';
 
-			if (!empty($article['avatar']['href']) && $image == 1)
-				echo '<a href="', $scripturl, '?action=profile;u=', $article['poster']['id'], '"><img src="', $article['avatar']['href'], '" alt="', $article['poster']['name'], '" width="40" /></a>';
-			elseif (!empty($article['image']['href']) && $image == 2)
-				echo '<img src="', $article['image']['href'], '" alt="', $article['name'], '" width="40" />';
+			if ($avatar && !empty($article['author']['avatar']['href']))
+				echo '<a href="', $article['author']['href'], '"><img src="', $article['author']['avatar']['href'], '" alt="', $article['author']['name'], '" width="40" /></a>';
 
 			echo '</td>
 										<td>
-											<span class="sp_articles_title">', $article['poster']['link'], '</span><br />
+											<span class="sp_articles_title">', $article['author']['link'], '</span><br />
 											', $article['link'], '
 										</td>
 									</tr>';
