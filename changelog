@@ -23,6 +23,7 @@ SP 2.4
 
 SP 2.3.6
 ================================================================================
+ ! Board news with a board filter did not respect permissions.
  ! Shoutbox failed to function in certain cases.
  ! Updated the outdated support for Users Online Today mod.
  ! Some actions were missing session checks.
