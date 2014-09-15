@@ -1336,8 +1336,8 @@ function sp_boardNews($parameters, $id, $return_parameters = false)
 		FROM {$db_prefix}topics AS t
 			INNER JOIN {$db_prefix}boards AS b ON (b.ID_BOARD = t.ID_BOARD)
 			INNER JOIN {$db_prefix}messages AS m ON (m.ID_MSG = t.ID_FIRST_MSG)
-		WHERE " . (empty($board) ? $user_info['query_see_board'] . "
-			AND t.ID_FIRST_MSG >= " . ($modSettings['maxMsgID'] - 45 * min($limit, 5)) : "b.ID_BOARD IN (" . implode(', ', $board) . ")") . "
+		WHERE $user_info[query_see_board]
+			AND " . (empty($board) ? "t.ID_FIRST_MSG >= " . ($modSettings['maxMsgID'] - 45 * min($limit, 5)) : "b.ID_BOARD IN (" . implode(', ', $board) . ")") . "
 			AND (t.locked != 1 OR m.icon != 'moved')
 		ORDER BY t.ID_FIRST_MSG DESC
 		LIMIT $limit", __FILE__, __LINE__);
