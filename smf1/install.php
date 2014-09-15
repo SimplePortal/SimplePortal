@@ -231,7 +231,7 @@ $tables = array(
 			),
 			array(
 				'name' => 'body',
-				'type' => 'text',
+				'type' => 'mediumtext',
 			),
 			array(
 				'name' => 'type',
@@ -875,6 +875,8 @@ else
 
 	if (empty($modSettings['sp_version']) || $modSettings['sp_version'] < '2.3.6')
 	{
+		sp_db_change_column("sp_pages", 'body', array('type' => 'mediumtext'));
+
 		db_query("
 			UPDATE {$db_prefix}sp_blocks
 			SET style = ''
