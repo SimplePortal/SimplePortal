@@ -242,7 +242,7 @@ $tables = array(
 			),
 			array(
 				'name' => 'body',
-				'type' => 'text',
+				'type' => 'mediumtext',
 			),
 			array(
 				'name' => 'type',
@@ -906,6 +906,8 @@ else
 
 	if (empty($modSettings['sp_version']) || $modSettings['sp_version'] < '2.3.6')
 	{
+		$smcFunc['db_change_column']('{db_prefix}sp_pages', 'body', array('type' => 'mediumtext'));
+
 		$smcFunc['db_query']('', '
 			UPDATE {db_prefix}sp_blocks
 			SET style = {string:blank}
