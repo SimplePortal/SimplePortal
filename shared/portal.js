@@ -1,4 +1,12 @@
-// Version 2.3.6; portal.js
+/**
+ * @package SimplePortal
+ *
+ * @author SimplePortal Team
+ * @copyright 2014 SimplePortal Team
+ * @license BSD 3-clause
+ *
+ * @version 2.3.6
+ */
 
 // Define the version of SMF that we are using.
 if (typeof(smf_editorArray) == "undefined")
