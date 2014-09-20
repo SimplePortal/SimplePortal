@@ -1,14 +1,5 @@
 <?php
-
-/**
- * @package SimplePortal
- *
- * @author SimplePortal Team
- * @copyright 2014 SimplePortal Team
- * @license BSD 3-clause
- *
- * @version 2.3.6
- */
+// Version: 2.3.6; PortalAdmin
 
 function template_general_settings()
 {

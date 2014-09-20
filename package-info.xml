@@ -1,16 +1,5 @@
 <?xml version="1.0"?>
 <!DOCTYPE package-info SYSTEM "http://www.simplemachines.org/xml/package-info">
-<!--
-/**
- * @package SimplePortal
- *
- * @author SimplePortal Team
- * @copyright 2014 SimplePortal Team
- * @license BSD 3-clause
- *
- * @version 2.3.6
- */
--->
 <package-info xmlns="http://www.simplemachines.org/xml/package-info" xmlns:smf="http://www.simplemachines.org/">
 	<id>[SiNaN]:SimplePortal</id>
 	<name>SimplePortal</name>
