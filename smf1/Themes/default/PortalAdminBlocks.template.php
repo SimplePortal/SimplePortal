@@ -1,5 +1,14 @@
 <?php
-// Version: 2.3.6; PortalAdminBlocks
+
+/**
+ * @package SimplePortal
+ *
+ * @author SimplePortal Team
+ * @copyright 2014 SimplePortal Team
+ * @license BSD 3-clause
+ *
+ * @version 2.3.6
+ */
 
 function template_block_list()
 {

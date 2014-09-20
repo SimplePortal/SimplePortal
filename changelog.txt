@@ -4,6 +4,7 @@ Changelog last updated August 16, 2014.
 
 SP 2.3.6
 ================================================================================
+ ! Changed the license.
  ! Changed the page body column to mediumtext to allow longer content.
  ! Board news with a board filter did not respect permissions.
  ! Shoutbox failed to function in certain cases.
