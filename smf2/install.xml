@@ -377,7 +377,7 @@ sportal_init();]]></add>
 						unset($bbc_codes[$key_bbc][$key_code]);
 					}
 
-			$parse_tag_cache = array($tags_cache_id => array($bbc_codes, $disabled));
+			$parse_tag_cache[$tags_cache_id] = array($bbc_codes, $disabled);
 		}
 	}
 	elseif (isset($default_disabled))
