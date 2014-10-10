@@ -1304,11 +1304,19 @@ function sportal_recount_comments($article_id)
 function sportal_get_pages($page_id = null, $active = false, $allowed = false, $sort = 'title')
 {
 	global $smcFunc, $scripturl;
+	static $cache;
 
-	$query = array();
-	$parameters = array('sort' => $sort);
+	$cache_name = implode(':', array($page_id, $active, $allowed));
 
-	if (!empty($page_id) && is_int($page_id))
+	if (isset($cache[$cache_name]))
+		$return = $cache[$cache_name];
+	else
+	{
+		$query = array();
+		$parameters = array('sort' => $sort);
+	}
+
+	if (!empty($page_id) && is_numeric($page_id))
 	{
 		$query[] = 'id_page = {int:page_id}';
 		$parameters['page_id'] = (int) $page_id;
