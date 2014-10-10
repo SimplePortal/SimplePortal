@@ -4,8 +4,8 @@
  * @package SimplePortal
  *
  * @author SimplePortal Team
- * @copyright 2013 SimplePortal Team
- * @license BSD 3-clause 
+ * @copyright 2014 SimplePortal Team
+ * @license BSD 3-clause
  *
  * @version 2.4
  */
@@ -326,8 +326,8 @@ function getBlockInfo($column_id = null, $block_id = null, $state = null, $show 
 				'column' => $row['col'],
 				'row' => $row['row'],
 				'permission_set' => $row['permission_set'],
-				'groups_allowed' => $row['groups_allowed'] !== '' ? explode(',', $row['groups_allowed']) : array(), 
-				'groups_denied' => $row['groups_denied'] !== '' ? explode(',', $row['groups_denied']) : array(), 
+				'groups_allowed' => $row['groups_allowed'] !== '' ? explode(',', $row['groups_allowed']) : array(),
+				'groups_denied' => $row['groups_denied'] !== '' ? explode(',', $row['groups_denied']) : array(),
 				'state' => empty($row['state']) ? 0 : 1,
 				'force_view' => $row['force_view'],
 				'display' => $row['display'],
@@ -535,7 +535,7 @@ function getShowInfo($block_id = null, $display = null, $custom = null)
 	elseif (!empty($page) && (in_array('allpages', $display) || in_array($page, $display)))
 		return true;
 	elseif (empty($action) && empty($board) && empty($_GET['page']) && !$portal && ($modSettings['sp_portal_mode'] == 2 || $modSettings['sp_portal_mode'] == 3) && in_array('forum', $display))
-		return true; 
+		return true;
 
 	// For mods using weird urls...
 	foreach ($special as $key => $value)
@@ -682,7 +682,7 @@ function sp_query_string($tourniquet)
 {
 	global $sportal_version, $context, $modSettings;
 
-	$fix = str_replace('{version}', $sportal_version, '<a href="http://www.simpleportal.net/" target="_blank" class="new_win">SimplePortal {version} &copy; 2008-2012, SimplePortal</a>');
+	$fix = str_replace('{version}', $sportal_version, '<a href="http://www.simpleportal.net/" target="_blank" class="new_win">SimplePortal {version} &copy; 2008-2014, SimplePortal</a>');
 
 	if ((SMF == 'SSI' && empty($context['standalone'])) || empty($context['template_layers']) || WIRELESS || empty($modSettings['sp_portal_mode']) || strpos($tourniquet, $fix) !== false)
 		return $tourniquet;
@@ -818,11 +818,11 @@ function sp_loadColors($users = array())
 	if (!empty($modSettings['MemberColorLinkInstalled']))
 	{
 		$colorData = load_onlineColors($users);
-		
+
 		// This happen only on not existing Members... but given ids...
 		if(empty($colorData))
 			return false;
- 
+
 		$loaded_ids = array_keys($colorData);
 
 		foreach($loaded_ids as $id)
@@ -1110,8 +1110,8 @@ function sportal_get_articles($article_id = null, $active = false, $allowed = fa
 			'type' => $row['type'],
 			'date' => $row['date'],
 			'permission_set' => $row['article_permission_set'],
-			'groups_allowed' => $row['article_groups_allowed'] !== '' ? explode(',', $row['article_groups_allowed']) : array(), 
-			'groups_denied' => $row['article_groups_denied'] !== '' ? explode(',', $row['article_groups_denied']) : array(), 
+			'groups_allowed' => $row['article_groups_allowed'] !== '' ? explode(',', $row['article_groups_allowed']) : array(),
+			'groups_denied' => $row['article_groups_denied'] !== '' ? explode(',', $row['article_groups_denied']) : array(),
 			'views' => $row['views'],
 			'comments' => $row['comments'],
 			'status' => $row['status'],
@@ -1168,8 +1168,8 @@ function sportal_get_categories($category_id = null, $active = false, $allowed =
 			'link' => '<a href="' . $scripturl . '?category=' . $row['namespace'] . '">' . $row['name'] . '</a>',
 			'description' => $row['description'],
 			'permission_set' => $row['permission_set'],
-			'groups_allowed' => $row['groups_allowed'] !== '' ? explode(',', $row['groups_allowed']) : array(), 
-			'groups_denied' => $row['groups_denied'] !== '' ? explode(',', $row['groups_denied']) : array(), 
+			'groups_allowed' => $row['groups_allowed'] !== '' ? explode(',', $row['groups_allowed']) : array(),
+			'groups_denied' => $row['groups_denied'] !== '' ? explode(',', $row['groups_denied']) : array(),
 			'articles' => $row['articles'],
 			'status' => $row['status'],
 		);
@@ -1356,8 +1356,8 @@ function sportal_get_pages($page_id = null, $active = false, $allowed = false, $
 			'body' => $row['body'],
 			'type' => $row['type'],
 			'permission_set' => $row['permission_set'],
-			'groups_allowed' => $row['groups_allowed'] !== '' ? explode(',', $row['groups_allowed']) : array(), 
-			'groups_denied' => $row['groups_denied'] !== '' ? explode(',', $row['groups_denied']) : array(), 
+			'groups_allowed' => $row['groups_allowed'] !== '' ? explode(',', $row['groups_allowed']) : array(),
+			'groups_denied' => $row['groups_denied'] !== '' ? explode(',', $row['groups_denied']) : array(),
 			'views' => $row['views'],
 			'style' => $row['style'],
 			'status' => $row['status'],
@@ -1423,8 +1423,8 @@ function sportal_get_shoutbox($shoutbox_id = null, $active = false, $allowed = f
 			'id' => $row['id_shoutbox'],
 			'name' => $row['name'],
 			'permission_set' => $row['permission_set'],
-			'groups_allowed' => $row['groups_allowed'] !== '' ? explode(',', $row['groups_allowed']) : array(), 
-			'groups_denied' => $row['groups_denied'] !== '' ? explode(',', $row['groups_denied']) : array(), 
+			'groups_allowed' => $row['groups_allowed'] !== '' ? explode(',', $row['groups_allowed']) : array(),
+			'groups_denied' => $row['groups_denied'] !== '' ? explode(',', $row['groups_denied']) : array(),
 			'moderator_groups' => $row['moderator_groups'] !== '' ? explode(',', $row['moderator_groups']) : array(),
 			'warning' => $row['warning'],
 			'allowed_bbc' => explode(',', $row['allowed_bbc']),
