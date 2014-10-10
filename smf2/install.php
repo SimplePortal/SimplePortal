@@ -111,7 +111,7 @@ $tables = array(
 			array('name' => 'id_page', 'type' => 'int', 'size' => 10, 'auto' => true),
 			array('name' => 'namespace', 'type' => 'tinytext'),
 			array('name' => 'title', 'type' => 'tinytext'),
-			array('name' => 'body', 'type' => 'text'),
+			array('name' => 'body', 'type' => 'mediumtext'),
 			array('name' => 'type', 'type' => 'tinytext'),
 			array('name' => 'permission_set', 'type' => 'tinyint', 'size' => 4, 'default' => 0),
 			array('name' => 'groups_allowed', 'type' => 'varchar', 'size' => 255, 'default' => ''),
