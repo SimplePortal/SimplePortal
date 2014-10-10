@@ -1,4 +1,9 @@
-<h3>Installation Complete</h3>
-<p>SimplePortal installation is successfully completed. Thank you for installing SimplePortal.</p>
-<p>You can visit <a href="http://www.simpleportal.net">www.simpleportal.net</a> for support and general feedback.</p>
-<p>We hope you enjoy using SimplePortal!</p>
+[b]Installation Complete[/b]
+
+SimplePortal installation is successfully completed. Thank you for installing SimplePortal.
+
+You can visit [url=http://www.simpleportal.net]www.simpleportal.net[/url] for support and general feedback.
+
+We hope you enjoy using SimplePortal!
+
+-SimplePortal Team

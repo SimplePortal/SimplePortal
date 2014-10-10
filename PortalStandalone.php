@@ -29,6 +29,7 @@ if (WIRELESS)
 	redirectexit();
 
 sportal_init(true);
+writeLog();
 sportal_main();
 
 obExit(true);

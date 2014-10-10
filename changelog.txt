@@ -22,6 +22,34 @@ SP 2.4
  More of the clean-up.
  Some clean-up and renaming.
 
+SP 2.3.6
+================================================================================
+ ! Changed the page body column to mediumtext to allow longer content.
+ ! Board news with a board filter did not respect permissions.
+ ! Shoutbox failed to function in certain cases.
+ ! Updated the outdated support for Users Online Today mod.
+ ! Some actions were missing session checks.
+ ! Make sure page request handler can handle unusual cases.
+ ! Fixed several template markup errors.
+ ! Allow board news blocks to be styled as well.
+ ! Vertical alignment for collapse and add block icons.
+ ! Blocks required an additional container for better spacing.
+ ! Styling improvements to vertical forum menu block.
+ ! Redirection boards have redirects instead of topics and posts.
+ ! Collapsing categories should highlight the forum button.
+ ! Use the standard time format for future events.
+ ! Guests shouldn't be able to have any portal specific permissions.
+ ! Updated the outdated Gallery block.
+ ! Standalone portal activity wasn't being logged.
+ ! Shoutbox actions shouldn't be tracked, at all.
+ ! Make blocks always visible when they don't have titles.
+ ! Force admin restriction on PHP pages.
+ ! Allow for RSS feed content without cutoff.
+ ! Updated the outdated Top Member Stats.
+ ! Duplicate language string index caused a capitalization mistake.
+ ! Portal action was not considered a portal page.
+ ! Request URL cleaner for pagination failed in certain cases.
+
 SP 2.3.5
 ================================================================================
  ! Line break for side clear was inserted unnecessarily.

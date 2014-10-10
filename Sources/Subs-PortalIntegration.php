@@ -134,6 +134,8 @@ function sp_integrate_admin_areas(&$admin_areas)
 
 function sp_integrate_load_permissions(&$permission_groups, &$permission_list, &$left_permission_groups, &$hidden_permissions, &$relabel_permissions)
 {
+	global $context;
+
 	$permission_groups['membergroup']['simple'][] = 'sp';
 	$permission_groups['membergroup']['classic'][] = 'sp';
 
@@ -148,4 +150,16 @@ function sp_integrate_load_permissions(&$permission_groups, &$permission_list, &
 	));
 
 	$left_permission_groups[] = 'sp';
+
+	$context['non_guest_permissions'] = array_merge($context['non_guest_permissions'], array(
+		'sp_admin',
+		'sp_manage_settings',
+		'sp_manage_blocks',
+		'sp_manage_articles',
+		'sp_manage_pages',
+		'sp_manage_shoutbox',
+		'sp_add_article',
+		'sp_auto_article_approval',
+		'sp_remove_article',
+	));
 }

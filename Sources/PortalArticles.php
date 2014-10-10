@@ -89,11 +89,6 @@ function sportal_article()
 
 	$article_id = !empty($_REQUEST['article']) ? $_REQUEST['article'] : 0;
 
-	if (is_int($article_id))
-		$article_id = (int) $article_id;
-	else
-		$article_id = $smcFunc['htmlspecialchars']($article_id, ENT_QUOTES);
-
 	$context['article'] = sportal_get_articles($article_id, true, true);
 
 	if (empty($context['article']['id']))

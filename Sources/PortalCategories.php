@@ -44,11 +44,6 @@ function sportal_category()
 
 	$category_id = !empty($_REQUEST['category']) ? $_REQUEST['category'] : 0;
 
-	if (is_int($category_id))
-		$category_id = (int) $category_id;
-	else
-		$category_id = $smcFunc['htmlspecialchars']($category_id, ENT_QUOTES);
-
 	$context['category'] = sportal_get_categories($category_id, true, true);
 
 	if (empty($context['category']['id']))

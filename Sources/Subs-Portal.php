@@ -92,6 +92,8 @@ function sportal_init($standalone = false)
 				if (strpos($tree['url'], '#c') !== false && strpos($tree['url'], 'action=forum#c') === false)
 					$context['linktree'][$key]['url'] = str_replace('#c', '?action=forum#c', $tree['url']);
 	}
+	else
+		$_GET['action'] = 'portal';
 
 	sportal_init_headers();
 	sportal_load_permissions();
@@ -110,16 +112,25 @@ function sportal_init($standalone = false)
  */
 function sportal_init_headers()
 {
-	global $context, $settings, $modSettings;
+	global $context, $scripturl, $settings, $modSettings;
 	static $initialized;
 
 	if (!empty($initialized))
 		return;
 
+	$safe_scripturl = $scripturl;
+	$current_request = empty($_SERVER['HTTP_HOST']) ? $_SERVER['SERVER_NAME'] : $_SERVER['HTTP_HOST'];
+
+	if (strpos($scripturl, 'www.') !== false && strpos($current_request, 'www.') === false)
+		$safe_scripturl = str_replace('://www.', '://', $scripturl);
+	elseif (strpos($scripturl, 'www.') === false && strpos($current_request, 'www.') !== false)
+		$safe_scripturl = str_replace('://', '://www.', $scripturl);
+
 	$context['html_headers'] .= '
 	<script type="text/javascript" src="' . $settings['default_theme_url'] . '/scripts/portal.js?24"></script>
 	<script language="JavaScript" type="text/javascript"><!-- // --><![CDATA[
 		var sp_images_url = "' . $settings['sp_images_url'] . '";
+		var sp_script_url = "' . $safe_scripturl . '";
 		function sp_collapseBlock(id)
 		{
 			mode = document.getElementById("sp_block_" + id).style.display == "" ? 0 : 1;';
@@ -411,7 +422,7 @@ function getShowInfo($block_id = null, $display = null, $custom = null)
 	$board = !empty($context['current_board']) ? 'b' . $context['current_board'] : '';
 	$topic = !empty($context['current_topic']) ? 't' . $context['current_topic'] : '';
 	$page = !empty($page_info['id']) ? 'p' . $page_info['id'] : '';
-	$portal = (empty($action) && empty($sub_action) && empty($board) && empty($topic) && SMF != 'SSI' && $modSettings['sp_portal_mode'] == 1) || !empty($context['standalone']) ? true : false;
+	$portal = (empty($action) && empty($sub_action) && empty($board) && empty($topic) && SMF != 'SSI' && $modSettings['sp_portal_mode'] == 1) || $action == 'portal' || !empty($context['standalone']) ? true : false;
 
 	// Will hopefully get larger in the future.
 	$portal_actions = array(
@@ -423,6 +434,7 @@ function getShowInfo($block_id = null, $display = null, $custom = null)
 		'www' => true,
 		'variant' => true,
 		'language' => true,
+		'action' => array('portal'),
 	);
 
 	// Set some action exceptions.
@@ -621,7 +633,7 @@ function sp_query_string($tourniquet)
 {
 	global $sportal_version, $context, $modSettings;
 
-	$fix = str_replace('{version}', $sportal_version, '<a href="http://www.simpleportal.net/" target="_blank" class="new_win">SimplePortal {version} &copy; 2008-2012, SimplePortal</a>');
+	$fix = str_replace('{version}', $sportal_version, '<a href="http://www.simpleportal.net/" target="_blank" class="new_win">SimplePortal {version} &copy; 2008-2014, SimplePortal</a>');
 
 	if ((SMF == 'SSI' && empty($context['standalone'])) || empty($context['template_layers']) || WIRELESS || empty($modSettings['sp_portal_mode']) || strpos($tourniquet, $fix) !== false)
 		return $tourniquet;
@@ -992,7 +1004,7 @@ function sportal_get_articles($article_id = null, $active = false, $allowed = fa
 	elseif (!empty($article_id))
 	{
 		$query[] = 'spa.namespace = {string:namespace}';
-		$parameters['namespace'] = $article_id;
+		$parameters['namespace'] = $smcFunc['htmlspecialchars']((string) $article_id, ENT_QUOTES);
 	}
 	if (!empty($category_id))
 	{
@@ -1109,7 +1121,7 @@ function sportal_get_categories($category_id = null, $active = false, $allowed =
 	elseif (!empty($category_id))
 	{
 		$query[] = 'namespace = {string:namespace}';
-		$parameters['namespace'] = $category_id;
+		$parameters['namespace'] = $smcFunc['htmlspecialchars']((string) $category_id, ENT_QUOTES);
 	}
 	if (!empty($allowed))
 		$query[] = sprintf($context['SPortal']['permissions']['query'], 'permissions');
@@ -1317,7 +1329,7 @@ function sportal_get_pages($page_id = null, $active = false, $allowed = false, $
 	elseif (!empty($page_id))
 	{
 		$query[] = 'namespace = {string:namespace}';
-		$parameters['namespace'] = $page_id;
+		$parameters['namespace'] = $smcFunc['htmlspecialchars']((string) $page_id, ENT_QUOTES);
 	}
 	if (!empty($allowed))
 		$query[] = sprintf($context['SPortal']['permissions']['query'], 'permissions');

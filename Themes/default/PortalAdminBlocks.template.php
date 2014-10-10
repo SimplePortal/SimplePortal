@@ -395,9 +395,7 @@ function template_block_edit()
 		'body' => array('windowbg',  'windowbg2', 'windowbg3', 'information', 'roundframe'),
 	);
 
-	if ($context['SPortal']['block']['type'] != 'sp_boardNews')
-	{
-		echo '
+	echo '
 			<br />
 			<div class="cat_bar">
 				<h3 class="catbg">
@@ -409,40 +407,40 @@ function template_block_edit()
 				<span class="topslice"><span></span></span>
 				<div class="sp_content_padding">';
 
-		foreach ($style_sections as $section => $float)
-		{
-			echo '
+	foreach ($style_sections as $section => $float)
+	{
+		echo '
 					<dl id="sp_edit_style_', $section, '" class="sp_form sp_float_', $float, '">';
 
-			foreach ($style_types as $type => $label)
-			{
-				echo '
+		foreach ($style_types as $type => $label)
+		{
+			echo '
 						<dt>
 							', $txt['sp-blocks' . ucfirst($section) . $label], ':
 						</dt>
 						<dd>';
 
-				if ($type == 'default')
-				{
-					echo '
+			if ($type == 'default')
+			{
+				echo '
 							<select name="', $section, '_default_class" id="', $section, '_default_class">';
 
-					foreach ($style_parameters[$section] as $class)
-						echo '
+				foreach ($style_parameters[$section] as $class)
+					echo '
 								<option value="', $class, '"', $context['SPortal']['block']['style'][$section . '_default_class'] == $class ? ' selected="selected"' : '', '>', $class, '</option>';
 
-					echo '
+				echo '
 							</select>';
-				}
-				else
-					echo '
+			}
+			else
+				echo '
 							<input type="text" name="', $section, '_custom_', $type, '" id="', $section, '_custom_', $type, '" value="', $context['SPortal']['block']['style'][$section . '_custom_' . $type], '" class="input_text" />';
 
-				echo '
-						</dd>';
-			}
-
 			echo '
+						</dd>';
+		}
+
+		echo '
 						<dt>
 							', $txt['sp-blocksNo' . ucfirst($section)], ':
 						</dt>
@@ -450,9 +448,9 @@ function template_block_edit()
 							<input type="checkbox" name="no_', $section, '" id="no_', $section, '" value="1"', !empty($context['SPortal']['block']['style']['no_' . $section]) ? ' checked="checked"' : '', ' onclick="document.getElementById(\'', $section, '_default_class\').disabled', $section == 'title' ? ' = document.getElementById(\'title_custom_class\').disabled = document.getElementById(\'title_custom_style\').disabled' : '', ' = this.checked;" class="input_check" />
 						</dd>
 					</dl>';
-		}
+	}
 
-		echo '
+	echo '
 					<script language="JavaScript" type="text/javascript"><!-- // --><![CDATA[
 						document.getElementById("title_default_class").disabled = document.getElementById("no_title").checked;
 						document.getElementById("title_custom_class").disabled = document.getElementById("no_title").checked;
@@ -464,10 +462,7 @@ function template_block_edit()
 					</div>
 				</div>
 				<span class="botslice"><span></span></span>
-			</div>';
-	}
-
-	echo '
+			</div>
 		</form>
 	</div>';
 }
