@@ -1,25 +1,14 @@
 <?php
-/**********************************************************************************
-* install2.php                                                                    *
-***********************************************************************************
-* SimplePortal                                                                    *
-* SMF Modification Project Founded by [SiNaN] (sinan@simplemachines.org)          *
-* =============================================================================== *
-* Software Version:           SimplePortal 2.3.5                                  *
-* Software by:                SimplePortal Team (http://www.simpleportal.net)     *
-* Copyright 2008-2009 by:     SimplePortal Team (http://www.simpleportal.net)     *
-* Support, News, Updates at:  http://www.simpleportal.net                         *
-***********************************************************************************
-* This program is free software; you may redistribute it and/or modify it under   *
-* the terms of the provided license as published by Simple Machines LLC.          *
-*                                                                                 *
-* This program is distributed in the hope that it is and will be useful, but      *
-* WITHOUT ANY WARRANTIES; without even any implied warranty of MERCHANTABILITY    *
-* or FITNESS FOR A PARTICULAR PURPOSE.                                            *
-*                                                                                 *
-* See the "license.txt" file for details of the Simple Machines license.          *
-* The latest version can always be found at http://www.simplemachines.org.        *
-**********************************************************************************/
+
+/**
+ * @package SimplePortal
+ *
+ * @author SimplePortal Team
+ * @copyright 2014 SimplePortal Team
+ * @license BSD 3-clause
+ *
+ * @version 2.3.6
+ */
 
 // Handle running this file by using SSI.php
 if (file_exists(dirname(__FILE__) . '/SSI.php') && !defined('SMF'))
@@ -242,7 +231,7 @@ $tables = array(
 			),
 			array(
 				'name' => 'body',
-				'type' => 'text',
+				'type' => 'mediumtext',
 			),
 			array(
 				'name' => 'type',
@@ -904,6 +893,21 @@ else
 		}
 	}
 
+	if (empty($modSettings['sp_version']) || $modSettings['sp_version'] < '2.3.6')
+	{
+		$smcFunc['db_change_column']('{db_prefix}sp_pages', 'body', array('type' => 'mediumtext'));
+
+		$smcFunc['db_query']('', '
+			UPDATE {db_prefix}sp_blocks
+			SET style = {string:blank}
+			WHERE type = {string:type}',
+			array(
+				'blank' => '',
+				'type' => 'sp_boardNews',
+			)
+		);
+	}
+
 	if (empty($modSettings['sp_version']) || $modSettings['sp_version'] < '2.3')
 	{
 		$request = $smcFunc['db_query']('', '
@@ -1067,7 +1071,7 @@ $defaults = array(
 );
 
 $updates = array(
-	'sp_version' => '2.3.5',
+	'sp_version' => '2.3.6',
 	'sp_smf_version' => '2',
 );
 
@@ -1109,7 +1113,7 @@ if (SMF == 'SSI')
 <head>
 	<meta http-equiv="Content-Type" content="text/html; charset=', $context['character_set'], '" />
 	<title>SimplePortal &bull; Database Tool</title>
-	<link rel="stylesheet" type="text/css" href="', $settings['theme_url'], '/css/index.css?235" />
+	<link rel="stylesheet" type="text/css" href="', $settings['theme_url'], '/css/index.css?236" />
 	<meta name="robots" content="noindex" />
 	<style type="text/css">
 		body, html
@@ -1173,7 +1177,7 @@ if (SMF == 'SSI')
 	<h1 class="catbg">SimplePortal &bull; Database Tool</h1>
 	<p id="info" class="windowbg">This tool will prepare your database to work with SimplePortal. It will also fix database issues related to SimplePortal, if there are any.</p>
 	', $info, '
-	<p id="copy">SimplePortal &copy; 2008-2012</p>
+	<p id="copy">SimplePortal &copy; 2008-2014</p>
 </div>
 </body>
 </html>';

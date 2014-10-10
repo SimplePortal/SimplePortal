@@ -1,25 +1,14 @@
 <?php
-/**********************************************************************************
-* PortalAdminMain.php                                                             *
-***********************************************************************************
-* SimplePortal                                                                    *
-* SMF Modification Project Founded by [SiNaN] (sinan@simplemachines.org)          *
-* =============================================================================== *
-* Software Version:           SimplePortal 2.3.5                                  *
-* Software by:                SimplePortal Team (http://www.simpleportal.net)     *
-* Copyright 2008-2009 by:     SimplePortal Team (http://www.simpleportal.net)     *
-* Support, News, Updates at:  http://www.simpleportal.net                         *
-***********************************************************************************
-* This program is free software; you may redistribute it and/or modify it under   *
-* the terms of the provided license as published by Simple Machines LLC.          *
-*                                                                                 *
-* This program is distributed in the hope that it is and will be useful, but      *
-* WITHOUT ANY WARRANTIES; without even any implied warranty of MERCHANTABILITY    *
-* or FITNESS FOR A PARTICULAR PURPOSE.                                            *
-*                                                                                 *
-* See the "license.txt" file for details of the Simple Machines license.          *
-* The latest version can always be found at http://www.simplemachines.org.        *
-**********************************************************************************/
+
+/**
+ * @package SimplePortal
+ *
+ * @author SimplePortal Team
+ * @copyright 2014 SimplePortal Team
+ * @license BSD 3-clause
+ *
+ * @version 2.3.6
+ */
 
 if (!defined('SMF'))
 	die('Hacking attempt...');
@@ -253,21 +242,25 @@ function sportal_information($in_admin = true)
 					'title' => $txt['sp-info_groups_support'],
 					'members' => array(
 						'<span onclick="if (getInnerHTML(this).indexOf(\'Queen\') == -1) setInnerHTML(this, \'Angelina &quot;Queen of Support&quot; Belle\'); return false;">AngelinaBelle</span>',
+						'Underdog',
+						'phantomm',
+						'andy',
 					),
 				),
 				array(
 					'title' => $txt['sp-info_groups_customize'],
 					'members' => array(
-						'Robbo',
-						'Berat &quot;grafitus&quot; Do&#287;an',
 						'Blue',
+						'Berat &quot;grafitus&quot; Do&#287;an',
+						'Robbo',
 					),
 				),
 				array(
 					'title' => $txt['sp-info_groups_language'],
 					'members' => array(
-						'Jade &quot;Alundra&quot; Elizabeth',
+						'Doctor Deejay',
 						'<span onclick="if (getInnerHTML(this).indexOf(\'King\') == -1) setInnerHTML(this, \'130 &quot;King of Pirates&quot; 860\'); return false;">130860</span>',
+						'Jade &quot;Alundra&quot; Elizabeth',
 					),
 				),
 				array(
@@ -279,13 +272,14 @@ function sportal_information($in_admin = true)
 				array(
 					'title' => $txt['sp-info_groups_beta'],
 					'members' => array(
-						'&#214;zg&#252;r',
-						'Willerby',
+						'BurkeKnight',
+						'ARG',
+						'Old Fossil',
 						'David',
-						'Dr. Deejay',
-						'Brack1',
+						'sharks',
+						'Willerby',
+						'&#214;zg&#252;r',
 						'c23_Mike',
-						'Underdog',
 					),
 				),
 			),

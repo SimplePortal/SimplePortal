@@ -1,25 +1,14 @@
 <?php
-/**********************************************************************************
-* Subs-Portal.php                                                                 *
-***********************************************************************************
-* SimplePortal                                                                    *
-* SMF Modification Project Founded by [SiNaN] (sinan@simplemachines.org)          *
-* =============================================================================== *
-* Software Version:           SimplePortal 2.3.5                                  *
-* Software by:                SimplePortal Team (http://www.simpleportal.net)     *
-* Copyright 2008-2009 by:     SimplePortal Team (http://www.simpleportal.net)     *
-* Support, News, Updates at:  http://www.simpleportal.net                         *
-***********************************************************************************
-* This program is free software; you may redistribute it and/or modify it under   *
-* the terms of the provided license as published by Simple Machines LLC.          *
-*                                                                                 *
-* This program is distributed in the hope that it is and will be useful, but      *
-* WITHOUT ANY WARRANTIES; without even any implied warranty of MERCHANTABILITY    *
-* or FITNESS FOR A PARTICULAR PURPOSE.                                            *
-*                                                                                 *
-* See the "license.txt" file for details of the Simple Machines license.          *
-* The latest version can always be found at http://www.simplemachines.org.        *
-**********************************************************************************/
+
+/**
+ * @package SimplePortal
+ *
+ * @author SimplePortal Team
+ * @copyright 2014 SimplePortal Team
+ * @license BSD 3-clause
+ *
+ * @version 2.3.6
+ */
 
 if (!defined('SMF'))
 	die('Hacking attempt...');
@@ -91,16 +80,16 @@ function sportal_init($standalone = false)
 	global $context, $sourcedir, $scripturl, $modSettings, $txt;
 	global $settings, $options, $boarddir, $maintenance, $sportal_version;
 
-	$sportal_version = '2.3.5';
+	$sportal_version = '2.3.6';
 
 	if (!$standalone)
 	{
 		$context['html_headers'] .= '
-		<link rel="stylesheet" type="text/css" href="' . $settings['default_theme_url'] . '/portal.css?235" />';
+		<link rel="stylesheet" type="text/css" href="' . $settings['default_theme_url'] . '/portal.css?236" />';
 
 		if ($context['right_to_left'])
 			$context['html_headers'] .= '
-		<link rel="stylesheet" type="text/css" href="' . $settings['default_theme_url'] . '/portal_rtl.css?235" />';
+		<link rel="stylesheet" type="text/css" href="' . $settings['default_theme_url'] . '/portal_rtl.css?236" />';
 
 		if (!empty($_REQUEST['action']) && in_array($_REQUEST['action'], array('manageportal', 'permissions', 'helpadmin')))
 			if (loadLanguage('SPortalAdmin', '', false) === false)
@@ -180,6 +169,8 @@ function sportal_init($standalone = false)
 				if (strpos($tree['url'], '#') !== false && strpos($tree['url'], 'action=forum#') === false)
 					$context['linktree'][$key]['url'] = str_replace('#', '?action=forum#', $tree['url']);
 	}
+	else
+		$_GET['action'] = 'portal';
 
 	$context['standalone'] = $standalone;
 
@@ -247,7 +238,7 @@ function sportal_init($standalone = false)
 // Deals with the initialization of SimplePortal headers.
 function sportal_init_headers()
 {
-	global $context, $settings, $modSettings;
+	global $context, $scripturl, $settings, $modSettings;
 	static $initialized;
 
 	if (!empty($initialized))
@@ -256,12 +247,21 @@ function sportal_init_headers()
 	$context['browser']['is_ie8'] = strpos($_SERVER['HTTP_USER_AGENT'], 'MSIE 8') !== false && !$context['browser']['is_opera'] && !$context['browser']['is_gecko'] && !$context['browser']['is_web_tv'];
 	$context['browser']['is_ie'] = $context['browser']['is_ie'] || $context['browser']['is_ie8'];
 
+	$safe_scripturl = $scripturl;
+	$current_request = empty($_SERVER['HTTP_HOST']) ? $_SERVER['SERVER_NAME'] : $_SERVER['HTTP_HOST'];
+
+	if (strpos($scripturl, 'www.') !== false && strpos($current_request, 'www.') === false)
+		$safe_scripturl = str_replace('://www.', '://', $scripturl);
+	elseif (strpos($scripturl, 'www.') === false && strpos($current_request, 'www.') !== false)
+		$safe_scripturl = str_replace('://', '://www.', $scripturl);
+
 	$context['html_headers'] .= '
-	<script type="text/javascript" src="' . $settings['default_theme_url'] . '/portal.js?235"></script>';
+	<script type="text/javascript" src="' . $settings['default_theme_url'] . '/portal.js?236"></script>';
 
 	$context['html_headers'] .= '
 	<script language="JavaScript" type="text/javascript"><!-- // --><![CDATA[
 		var sp_images_url = "' . $settings['sp_images_url'] . '";
+		var sp_script_url = "' . $safe_scripturl . '";
 		function sp_collapseBlock(id)
 		{
 			mode = document.getElementById("sp_block_" + id).style.display == "" ? 0 : 1;' . ($context['user']['is_guest'] ? '
@@ -425,7 +425,7 @@ function getShowInfo($block_id = null, $display = null, $custom = null)
 	$board = !empty($context['current_board']) ? 'b' . $context['current_board'] : '';
 	$topic = !empty($context['current_topic']) ? 't' . $context['current_topic'] : '';
 	$page = !empty($page_info['id']) ? 'p' . $page_info['id'] : '';
-	$portal = (empty($action) && empty($sub_action) && empty($board) && empty($topic) && SMF != 'SSI' && $modSettings['sp_portal_mode'] == 1) || !empty($context['standalone']) ? true : false;
+	$portal = (empty($action) && empty($sub_action) && empty($board) && empty($topic) && SMF != 'SSI' && $modSettings['sp_portal_mode'] == 1) || $action == 'portal' || !empty($context['standalone']) ? true : false;
 
 	// Will hopefully get larger in the future.
 	$portal_actions = array(
@@ -437,6 +437,7 @@ function getShowInfo($block_id = null, $display = null, $custom = null)
 		'www' => true,
 		'variant' => true,
 		'language' => true,
+		'action' => array('portal'),
 	);
 
 	// Set some action exceptions.
@@ -705,7 +706,7 @@ function sp_query_string($tourniquet)
 {
 	global $sportal_version, $context, $modSettings;
 
-	$fix = str_replace('{version}', $sportal_version, '<a href="http://www.simpleportal.net/" target="_blank">SimplePortal {version} &copy; 2008-2012, SimplePortal</a>');
+	$fix = str_replace('{version}', $sportal_version, '<a href="http://www.simpleportal.net/" target="_blank">SimplePortal {version} &copy; 2008-2014, SimplePortal</a>');
 
 	if ((SMF == 'SSI' && empty($context['standalone'])) || empty($context['template_layers']) || WIRELESS || empty($modSettings['sp_portal_mode']) || strpos($tourniquet, $fix) !== false)
 		return $tourniquet;
@@ -981,46 +982,56 @@ function sportal_parse_style($action, $setting = '', $process = false)
 
 function sportal_get_pages($page_id = null, $active = false, $allowed = false)
 {
-	global $db_prefix;
+	global $db_prefix, $func;
+	static $cache;
 
-	$query = array();
+	$cache_name = implode(':', array($page_id, $active, $allowed));
 
-	if (!empty($page_id) && is_numeric($page_id))
-		$query[] = "id_page = " . ((int) $page_id);
-	elseif (!empty($page_id))
-		$query[] = "namespace = '$page_id'";
-
-	if (!empty($active))
-		$query[] = "status = 1";
-
-	$request = db_query("
-		SELECT
-			ID_PAGE, namespace, title, body, type, permission_set,
-			groups_allowed, groups_denied, views, style, status
-		FROM {$db_prefix}sp_pages" . (!empty($query) ? "
-		WHERE " . implode(' AND ', $query) : "") . "
-		ORDER BY title", __FILE__, __LINE__);
-	$return = array();
-	while ($row = mysql_fetch_assoc($request))
+	if (isset($cache[$cache_name]))
+		$return = $cache[$cache_name];
+	else
 	{
-		if (!empty($allowed) && !sp_allowed_to('page', $row['ID_PAGE'], $row['permission_set'], $row['groups_allowed'], $row['groups_denied']))
-			continue;
+		$query = array();
 
-		$return[$row['ID_PAGE']] = array(
-			'id' => $row['ID_PAGE'],
-			'page_id' => $row['namespace'],
-			'title' => $row['title'],
-			'body' => $row['body'],
-			'type' => $row['type'],
-			'permission_set' => $row['permission_set'],
-			'groups_allowed' => $row['groups_allowed'] !== '' ? explode(',', $row['groups_allowed']) : array(), 
-			'groups_denied' => $row['groups_denied'] !== '' ? explode(',', $row['groups_denied']) : array(), 
-			'views' => $row['views'],
-			'style' => $row['style'],
-			'status' => $row['status'],
-		);
+		if (!empty($page_id) && is_numeric($page_id))
+			$query[] = "id_page = " . ((int) $page_id);
+		elseif (!empty($page_id))
+			$query[] = "namespace = '" . $func['htmlspecialchars']((string) $page_id, ENT_QUOTES) . "'";
+
+		if (!empty($active))
+			$query[] = "status = 1";
+
+		$request = db_query("
+			SELECT
+				ID_PAGE, namespace, title, body, type, permission_set,
+				groups_allowed, groups_denied, views, style, status
+			FROM {$db_prefix}sp_pages" . (!empty($query) ? "
+			WHERE " . implode(' AND ', $query) : "") . "
+			ORDER BY title", __FILE__, __LINE__);
+		$return = array();
+		while ($row = mysql_fetch_assoc($request))
+		{
+			if (!empty($allowed) && !sp_allowed_to('page', $row['ID_PAGE'], $row['permission_set'], $row['groups_allowed'], $row['groups_denied']))
+				continue;
+
+			$return[$row['ID_PAGE']] = array(
+				'id' => $row['ID_PAGE'],
+				'page_id' => $row['namespace'],
+				'title' => $row['title'],
+				'body' => $row['body'],
+				'type' => $row['type'],
+				'permission_set' => $row['permission_set'],
+				'groups_allowed' => $row['groups_allowed'] !== '' ? explode(',', $row['groups_allowed']) : array(), 
+				'groups_denied' => $row['groups_denied'] !== '' ? explode(',', $row['groups_denied']) : array(), 
+				'views' => $row['views'],
+				'style' => $row['style'],
+				'status' => $row['status'],
+			);
+		}
+		mysql_free_result($request);
+
+		$cache[$cache_name] = $return;
 	}
-	mysql_free_result($request);
 
 	return !empty($page_id) ? current($return) : $return;
 }

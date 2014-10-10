@@ -1,5 +1,14 @@
 <?php
-// Version: 2.3.5; PortalAdminBlocks
+
+/**
+ * @package SimplePortal
+ *
+ * @author SimplePortal Team
+ * @copyright 2014 SimplePortal Team
+ * @license BSD 3-clause
+ *
+ * @version 2.3.6
+ */
 
 function template_block_list()
 {
@@ -164,7 +173,7 @@ function template_block_edit()
 							<td class="windowbg2" id="block_custom_permissions_input">
 								<table>
 									<tr>
-										<th>', $txt['sp_admin_blocks_custom_permissions_membergroup'], '</td>
+										<th>', $txt['sp_admin_blocks_custom_permissions_membergroup'], '</th>
 										<th title="', $txt['sp_admin_blocks_custom_permissions_allowed'], '">', $txt['sp_admin_blocks_custom_permissions_allowed_short'], '</th>
 										<th title="', $txt['sp_admin_blocks_custom_permissions_disallowed'], '">', $txt['sp_admin_blocks_custom_permissions_disallowed_short'], '</th>
 										<th title="', $txt['sp_admin_blocks_custom_permissions_denied'], '">', $txt['sp_admin_blocks_custom_permissions_denied_short'], '</th>
@@ -181,9 +190,9 @@ function template_block_edit()
 		echo '
 									<tr>
 										<td>', $label, '</td>
-										<td><input type="radio" name="membergroups[', $id, ']" value="1"', $current == 1 ? ' checked="checked"' : '', ' class="input_radio"></td>
-										<td><input type="radio" name="membergroups[', $id, ']" value="0"', $current == 0 ? ' checked="checked"' : '', ' class="input_radio"></td>
-										<td><input type="radio" name="membergroups[', $id, ']" value="-1"', $current == -1 ? ' checked="checked"' : '', ' class="input_radio"></td>
+										<td><input type="radio" name="membergroups[', $id, ']" value="1"', $current == 1 ? ' checked="checked"' : '', ' class="input_radio" /></td>
+										<td><input type="radio" name="membergroups[', $id, ']" value="0"', $current == 0 ? ' checked="checked"' : '', ' class="input_radio" /></td>
+										<td><input type="radio" name="membergroups[', $id, ']" value="-1"', $current == -1 ? ' checked="checked"' : '', ' class="input_radio" /></td>
 									</tr>';
 	}
 
@@ -525,9 +534,7 @@ function template_block_edit()
 		</table>';
 	}
 
-	if ($context['SPortal']['block']['type'] != 'sp_boardNews')
-	{
-		echo '
+	echo '
 		<br />
 		<table border="0" align="center" cellspacing="1" cellpadding="4" class="tborder" width="65%">
 			<tr class="catbg">
@@ -615,10 +622,7 @@ function template_block_edit()
 					<div style="text-align: center;"><input type="submit" name="add_block" value="', !$context['SPortal']['is_new'] ? $txt['sp-blocksEdit'] : $txt['sp-blocksAdd'], '" /></div>
 				</td>
 			</tr>
-		</table>';
-	}
-
-	echo '
+		</table>
 	</form>
 	<script language="JavaScript" type="text/javascript"><!-- // --><![CDATA[
 		sp_update_permissions();

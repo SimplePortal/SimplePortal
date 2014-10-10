@@ -1,5 +1,14 @@
 <?php
-// Version: 2.3.5; PortalShoutbox
+
+/**
+ * @package SimplePortal
+ *
+ * @author SimplePortal Team
+ * @copyright 2014 SimplePortal Team
+ * @license BSD 3-clause
+ *
+ * @version 2.3.6
+ */
 
 function template_shoutbox_all()
 {
@@ -186,6 +195,7 @@ function template_shoutbox_embed($shoutbox)
 			if (window.XMLHttpRequest)
 			{
 				sp_refresh_shout(', $shoutbox['id'], ', last_refresh_', $shoutbox['id'], ');
+				last_refresh_', $shoutbox['id'], ' += ', $shoutbox['refresh'], ';
 			}
 			else
 				clearInterval(interval_id_', $shoutbox['id'], ');
@@ -213,7 +223,7 @@ function template_shoutbox_embed($shoutbox)
 					<html>
 						<head>
 							<title>' . $txt['more_smileys_title'] . '</title>
-							<link rel="stylesheet" type="text/css" href="' . $settings['theme_url'] . '/css/index' . $context['theme_variant'] . '.css?rc2" />
+							<link rel="stylesheet" type="text/css" href="' . $settings['theme_url'] . '/css/index' . $context['theme_variant'] . '.css?fin20" />
 						</head>
 						<body id="help_popup">
 							<div class="padding windowbg">

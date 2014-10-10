@@ -1,25 +1,14 @@
 <?php
-/**********************************************************************************
-* PortalBlocks.php                                                                *
-***********************************************************************************
-* SimplePortal                                                                    *
-* SMF Modification Project Founded by [SiNaN] (sinan@simplemachines.org)          *
-* =============================================================================== *
-* Software Version:           SimplePortal 2.3.5                                  *
-* Software by:                SimplePortal Team (http://www.simpleportal.net)     *
-* Copyright 2008-2009 by:     SimplePortal Team (http://www.simpleportal.net)     *
-* Support, News, Updates at:  http://www.simpleportal.net                         *
-***********************************************************************************
-* This program is free software; you may redistribute it and/or modify it under   *
-* the terms of the provided license as published by Simple Machines LLC.          *
-*                                                                                 *
-* This program is distributed in the hope that it is and will be useful, but      *
-* WITHOUT ANY WARRANTIES; without even any implied warranty of MERCHANTABILITY    *
-* or FITNESS FOR A PARTICULAR PURPOSE.                                            *
-*                                                                                 *
-* See the "license.txt" file for details of the Simple Machines license.          *
-* The latest version can always be found at http://www.simplemachines.org.        *
-**********************************************************************************/
+
+/**
+ * @package SimplePortal
+ *
+ * @author SimplePortal Team
+ * @copyright 2014 SimplePortal Team
+ * @license BSD 3-clause
+ *
+ * @version 2.3.6
+ */
 
 if (!defined('SMF'))
 	die('Hacking attempt...');
@@ -310,6 +299,8 @@ function sp_whosOnline($parameters, $id, $return_parameters = false)
 
 	$online_today = !empty($parameters['online_today']);
 
+	loadLanguage('index', '', false, true);
+
 	$stats = ssi_whosOnline('array');
 
 	echo '
@@ -348,9 +339,9 @@ function sp_whosOnline($parameters, $id, $return_parameters = false)
 								<div class="sp_fullwidth sp_center">', $txt['error_sp_no_online'], '</div>';
 	}
 
-	if ($online_today && file_exists($sourcedir . '/Subs-MembersOnlineToday.php'))
+	if ($online_today && file_exists($sourcedir . '/Subs-UsersOnlineToday.php'))
 	{
-		require_once($sourcedir . '/Subs-MembersOnlineToday.php');
+		require_once($sourcedir . '/Subs-UsersOnlineToday.php');
 
 		$membersOnlineTodayOptions = array(
 			'sort' => 'login_time',
@@ -359,7 +350,7 @@ function sp_whosOnline($parameters, $id, $return_parameters = false)
 			'canview' => 'registered',
 		);
 
-		$stats += getMembersOnlineTodayStats($membersOnlineTodayOptions);
+		$stats += getUsersOnlineTodayStats($membersOnlineTodayOptions);
 
 		if (empty($stats['num_users_online_today']))
 			return;
@@ -722,11 +713,11 @@ function sp_topStatsMember($parameters, $id, $return_parameters = false)
 			'10' => array(
 				'name' => 'Advanced Reputation System Best',
 				'mod_id' => 1129,
-				'field' => '(mem.karmaGood - mem.karmaBad) AS karma, karmaGood, karmaBad',
+				'field' => '(mem.karma_good - mem.karma_bad) AS karma, karma_good, karma_bad',
 				'order' => 'karma',
-				'where' => 'mem.karmaGood > mem.karmaBad',
+				'where' => 'mem.karma_good > mem.karma_bad',
 				'output_function' => create_function('&$row', '
-						global $modSettings;
+						global $modSettings, $settings;
 						$descriptions = preg_split("/(\r)?\n/", $modSettings["karmaDescriptions"]);
 						$rep_bars = "";
 
@@ -736,7 +727,7 @@ function sp_topStatsMember($parameters, $id, $return_parameters = false)
 						$description = $descriptions[$bars - 1];
 
 						for($i = 0; $i < $bars; $i++)
-							$rep_bars .= \'<img src=\"\' . $settings["images_url"] . "/karmaGood_" . ($i < ($modSettings["karmaSuperBar"] - 1) ? "basic" : "super") . \'.gif" title="\' . $row["realName"] . " " . $description . \'" alt="\' . $row["realName"] . " " . $description . \'" />\';
+							$rep_bars .= \'<img src="\' . $settings["images_url"] . "/karma_good_" . ($i < ($modSettings["karmaSuperBar"] - 1) ? "basic" : "super") . \'.gif" title="\' . $row["real_name"] . " " . $description . \'" alt="\' . $row["real_name"] . " " . $description . \'" />\';
 
 						$row += array(
 							"reputation_bars" => $rep_bars,
@@ -744,17 +735,17 @@ function sp_topStatsMember($parameters, $id, $return_parameters = false)
 						);
 				'),
 				'output_text' => (!empty($txt['karma_power']) ? $txt['karma_power'] : '') . ': %amount%<br />%reputation_bars%',
-				'enabled' => !empty($modSettings['karma_enabled']) && file_exists($settings['images_url'] . '/karmaBad_basic.gif'),
+				'enabled' => file_exists($settings['default_theme_dir'] . '/Karma.template.php'),
 				'error_msg' => $txt['sp_reputation_no_exist'],
 			),
 			'11' => array(
 				'name' => 'Advanced Reputation System Worst',
 				'mod_id' => 1129,
-				'field' => '(karmaBad - karmaGood) AS karma, karmaGood, karmaBad',
+				'field' => '(karma_bad - karma_good) AS karma, karma_good, karma_bad',
 				'order' => 'karma',
-				'where' => 'mem.karmaBad > mem.karmaGood',
+				'where' => 'mem.karma_bad > mem.karma_good',
 				'output_function' => create_function('&$row', '
-						global $modSettings;
+						global $modSettings, $settings;
 						$rep_bars = "";
 
 						$points = $row["karma"];
@@ -763,7 +754,7 @@ function sp_topStatsMember($parameters, $id, $return_parameters = false)
 						$description = $descriptions[$bars - 1];
 
 						for($i = 0; $i < $bars; $i++)
-							$rep_bars .= \'<img src=\"\' . $settings["images_url"] . "/karmaGood_" . ($i < ($modSettings["karmaSuperBar"] - 1) ? "basic" : "super") . \'.gif" title="\' . $row["realName"] . " " . $modSettings["karmaNegativeDescription"] . \'" alt="\' . $row["realName"] . " " . $modSettings["karmaNegativeDescription"] . \'" />\';
+							$rep_bars .= \'<img src="\' . $settings[\'images_url\'] . "/karma_good_" . ($i < ($modSettings["karmaSuperBar"] - 1) ? "basic" : "super") . \'.gif" title="\' . $row["real_name"] . " " . $modSettings["karmaNegativeDescription"] . \'" alt="\' . $row["real_name"] . " " . $modSettings["karmaNegativeDescription"] . \'" />\';
 
 						$row += array(
 							"reputation_bars" => $rep_bars,
@@ -771,7 +762,7 @@ function sp_topStatsMember($parameters, $id, $return_parameters = false)
 						);
 				'),
 				'output_text' => (!empty($txt['karma_power']) ? $txt['karma_power'] : '') . ': %amount%<br />%reputation_bars%',
-				'enabled' => !empty($modSettings['karma_enabled']) && file_exists($settings['images_url'] . '/karmaBad_basic.gif'),
+				'enabled' => file_exists($settings['default_theme_dir'] . '/Karma.template.php'),
 				'error_msg' => $txt['sp_reputation_no_exist'],
 			),
 			'sa_shop_money' => array(
@@ -780,7 +771,7 @@ function sp_topStatsMember($parameters, $id, $return_parameters = false)
 				'field' => 'mem.cash, mem.purchHis, mem.tradeHis',
 				'order' => 'mem.cash',
 				'output_text' => (!empty($modSettings['shopprefix']) ? $modSettings['shopprefix'] : '') . '%cash%' . (!empty($modSettings['shopsurfix']) ? $modSettings['shopsurfix'] : ''),
-				'enabled' => file_exists($sourcedir . 'shop2/Shop.php'),
+				'enabled' => file_exists($sourcedir . '/shop2/Shop.php'),
 				'error_msg' => $txt['sp_sashop_no_exist'],
 			),
 			'sa_shop_trades' => array(
@@ -789,7 +780,7 @@ function sp_topStatsMember($parameters, $id, $return_parameters = false)
 				'field' => 'mem.cash, mem.purchHis, mem.tradeHis',
 				'order' => 'mem.tradeHis',
 				'output_text' => '%tradeHis%',
-				'enabled' => file_exists($sourcedir . 'shop2/Shop.php') && !empty($modSettings['shop_Enable_Stats']),
+				'enabled' => file_exists($sourcedir . '/shop2/Shop.php') && !empty($modSettings['shop_Enable_Stats']),
 				'error_msg' => $txt['sp_sashop_no_exist'],
 			),
 			'sa_shop_purchase' => array(
@@ -798,7 +789,7 @@ function sp_topStatsMember($parameters, $id, $return_parameters = false)
 				'field' => 'mem.cash, mem.purchHis, mem.tradeHis',
 				'order' => 'mem.purchHis',
 				'output_text' => '%purchHis%',
-				'enabled' => file_exists($sourcedir . 'shop2/Shop.php') && !empty($modSettings['shop_Enable_Stats']),
+				'enabled' => file_exists($sourcedir . '/shop2/Shop.php') && !empty($modSettings['shop_Enable_Stats']),
 				'error_msg' => $txt['sp_sashop_no_exist'],
 			),
 			'casino' => array(
@@ -807,7 +798,7 @@ function sp_topStatsMember($parameters, $id, $return_parameters = false)
 				'field' => 'mem.cash',
 				'order' => 'mem.cash',
 				'output_text' => '%cash%',
-				'enabled' => file_exists($sourcedir . 'casino/Casino.php'),
+				'enabled' => file_exists($sourcedir . '/casino/Casino.php'),
 				'error_msg' => $txt['sp_sashop_no_exist'],
 			),
 		);
@@ -868,7 +859,7 @@ function sp_topStatsMember($parameters, $id, $return_parameters = false)
 	if (!empty($last_active_limit))
 	{
 		$timeLimit = time() - $last_active_limit;
-		$where[] = "lastLogin > $timeLimit";
+		$where[] = "last_login > $timeLimit";
 	}
 	if (!empty($current_system['where']))
 		$where[] = $current_system['where'];
@@ -1147,7 +1138,7 @@ function sp_topBoards($parameters, $id, $return_parameters = false)
 	foreach ($boards as $board)
 		echo '
 									<li class="sp_list_top">', sp_embed_image('board'), ' ', $board['link'], '</li>
-									<li class="sp_list_indent', empty($board['is_last']) ? ' sp_list_bottom' : '', ' smalltext">', $txt['topics'], ': ', comma_format($board['num_topics']), ' | ', $txt['posts'], ': ', comma_format($board['num_posts']), '</li>';
+									<li class="sp_list_indent', empty($board['is_last']) ? ' sp_list_bottom' : '', ' smalltext">', (empty($board['num_topics']) && !empty($board['num_posts'])) ? $txt['redirects'] : ($txt['topics'] . ': ' . comma_format($board['num_topics']) . ' | ' . $txt['posts']), ': ', comma_format($board['num_posts']), '</li>';
 
 	echo '
 								</ul>';
@@ -1277,6 +1268,7 @@ function sp_boardNews($parameters, $id, $return_parameters = false)
 	$length = isset($parameters['length']) ? (int) $parameters['length'] : 250;
 	$avatars = !empty($parameters['avatar']);
 	$per_page = !empty($parameters['per_page']) ? (int) $parameters['per_page'] : 0;
+	$style = !empty($parameters['style']) ? $parameters['style'] : sportal_parse_style('explode', '', true);
 
 	$limit = max(0, $limit);
 	$start = max(0, $start);
@@ -1293,8 +1285,8 @@ function sp_boardNews($parameters, $id, $return_parameters = false)
 		FROM {db_prefix}topics AS t
 			INNER JOIN {db_prefix}boards AS b ON (b.id_board = t.id_board)
 			INNER JOIN {db_prefix}messages AS m ON (m.id_msg = t.id_first_msg)
-		WHERE ' . (empty($board) ? '{query_see_board}
-			AND t.id_first_msg >= {int:min_msg_id}' : 't.id_board IN ({array_int:current_board})') . ($modSettings['postmod_active'] ? '
+		WHERE {query_see_board}
+			AND ' . (empty($board) ? 't.id_first_msg >= {int:min_msg_id}' : 't.id_board IN ({array_int:current_board})') . ($modSettings['postmod_active'] ? '
 			AND t.approved = {int:is_approved}' : '') . '
 			AND (t.locked != {int:locked} OR m.icon != {string:icon})
 		ORDER BY t.id_first_msg DESC
@@ -1324,7 +1316,7 @@ function sp_boardNews($parameters, $id, $return_parameters = false)
 		$limit = count($posts);
 		$start = !empty($_REQUEST['news' . $id]) ? (int) $_REQUEST['news' . $id] : 0;
 
-		$clean_url = preg_replace('~news' . $id . '=\d+;?~', '', $_SERVER['REQUEST_URL']);
+		$clean_url = str_replace('%', '%%', preg_replace('~news' . $id . '=[^;]+;?~', '', $_SERVER['REQUEST_URL']));
 		$current_url = $clean_url . (strpos($clean_url, '?') !== false ? (in_array(substr($clean_url, -1), array(';', '?')) ? '' : ';') : '?');
 
 		$page_index = constructPageIndex($current_url . 'news' . $id . '=%1$d', $start, $limit, $per_page, true);
@@ -1448,33 +1440,38 @@ function sp_boardNews($parameters, $id, $return_parameters = false)
 		foreach ($return as $news)
 		{
 			echo '
-					<div class="tborder sp_article_content">
-						<table class="sp_block">
-							<tr class="catbg">
-								<td class="sp_middle">', $news['icon'], '</td>
-								<td class="sp_middle sp_regular_padding sp_fullwidth"><a href="', $news['href'], '" >', $news['subject'], '</a></td>
-							</tr>
-							<tr class="windowbg">
-								<td class="sp_regular_padding" colspan="2">';
+					<div class="sp_article_content">
+						<div class="', !empty($style['no_body']) ? '' : ' tborder', '">
+							<table class="sp_block">';
+
+			if (empty($style['no_title']))
+			{
+				echo '
+								<tr>
+									<td class="sp_middle ', $style['title']['class'], '"', !empty($style['title']['style']) ? ' style="' . $style['title']['style'] . '"' : '', '>', $news['icon'], '</td>
+									<td class="sp_middle sp_regular_padding sp_fullwidth ', $style['title']['class'], '"', !empty($style['title']['style']) ? ' style="' . $style['title']['style'] . '"' : '', '><a href="', $news['href'], '">', $news['subject'], '</a></td>
+								</tr>';
+			}
+
+			echo '
+								<tr>
+									<td class="sp_block_padding', empty($style['body']['class']) ? '' : ' ' . $style['body']['class'], '"', !empty($style['body']['style']) ? ' style="' . $style['body']['style'] . '"' : '', ' colspan="2">';
 
 			if ($avatars && $news['avatar']['name'] !== null && !empty($news['avatar']['href']))
 				echo '
-									<a href="', $scripturl, '?action=profile;u=', $news['poster']['id'], '"><img src="', $news['avatar']['href'], '" alt="', $news['poster']['name'], '" width="30" style="float: right;" /></a>
-									<div class="middletext">', $news['time'], ' ', $txt['by'], ' ', $news['poster']['link'], '<br />', $txt['sp-articlesViews'], ': ', $news['views'], ' | ', $txt['sp-articlesComments'], ': ', $news['replies'], '</div>';
+										<a href="', $scripturl, '?action=profile;u=', $news['poster']['id'], '"><img src="', $news['avatar']['href'], '" alt="', $news['poster']['name'], '" width="30" style="float: right;" /></a>
+										<div class="middletext">', $news['time'], ' ', $txt['by'], ' ', $news['poster']['link'], '<br />', $txt['sp-articlesViews'], ': ', $news['views'], ' | ', $txt['sp-articlesComments'], ': ', $news['replies'], '</div>';
 			else
 				echo '
-									<div class="middletext">', $news['time'], ' ', $txt['by'], ' ', $news['poster']['link'], ' | ', $txt['sp-articlesViews'], ': ', $news['views'], ' | ', $txt['sp-articlesComments'], ': ', $news['replies'], '</div>';
+										<div class="middletext">', $news['time'], ' ', $txt['by'], ' ', $news['poster']['link'], ' | ', $txt['sp-articlesViews'], ': ', $news['views'], ' | ', $txt['sp-articlesComments'], ': ', $news['replies'], '</div>';
 
 			echo '
-									<div class="post"><hr />', $news['body'], '<br /><br /></div>
-								</td>
-							</tr>
-							<tr>
-								<td class="windowbg2" colspan="2">
-									<div class="sp_right sp_regular_padding">', $news['link'], ' ',  $news['new_comment'], '</div>
-								</td>
-							</tr>
-						</table>
+										<div class="post"><hr />', $news['body'], '<br /><br /></div>
+										<div class="sp_right ">', $news['link'], ' ',  $news['new_comment'], '</div>
+									</td>
+								</tr>
+							</table>
+						</div>
 					</div>';
 		}
 	}
@@ -1483,30 +1480,67 @@ function sp_boardNews($parameters, $id, $return_parameters = false)
 		foreach ($return as $news)
 		{
 			echo '
-					<div class="cat_bar">
-						<h3 class="catbg">
-							<span class="sp_float_left sp_article_icon">', $news['icon'], '</span><a href="', $news['href'], '" >', $news['subject'], '</a>
-						</h3>
-					</div>
-					<div class="windowbg sp_article_content">
-						<span class="topslice"><span></span></span>
-						<div class="sp_content_padding">';
+					<div class="sp_article_content">';
+
+			if (empty($style['no_title']))
+			{
+				echo '
+						<div class="', in_array($style['title']['class'], array('titlebg', 'titlebg2')) ? 'title_bar' : 'cat_bar', '"', !empty($style['title']['style']) ? ' style="' . $style['title']['style'] . '"' : '', '>
+							<h3 class="', $style['title']['class'], '">
+								<span class="sp_float_left sp_article_icon">', $news['icon'], '</span><a href="', $news['href'], '" >', $news['subject'], '</a>
+							</h3>
+						</div>';
+			}
+
+			if (strpos($style['body']['class'], 'roundframe') !== false)
+			{
+				echo '
+						<span class="upperframe"><span></span></span>';
+			}
+
+			echo '
+						<div', empty($style['body']['class']) ? '' : ' class="' . $style['body']['class'] . '"', '>';
+
+			if (empty($style['no_body']))
+			{
+				echo '
+							<span class="topslice"><span></span></span>';
+			}
+
+			echo '
+							<div class="sp_content_padding"', !empty($style['body']['style']) ? ' style="' . $style['body']['style'] . '"' : '', '>';
 
 			if ($avatars && $news['avatar']['name'] !== null && !empty($news['avatar']['href']))
 				echo '
-							<a href="', $scripturl, '?action=profile;u=', $news['poster']['id'], '"><img src="', $news['avatar']['href'], '" alt="', $news['poster']['name'], '" width="30" class="sp_float_right" /></a>
-							<div class="middletext">', $news['time'], ' ', $txt['by'], ' ', $news['poster']['link'], '<br />', $txt['sp-articlesViews'], ': ', $news['views'], ' | ', $txt['sp-articlesComments'], ': ', $news['replies'], '</div>';
+								<a href="', $scripturl, '?action=profile;u=', $news['poster']['id'], '"><img src="', $news['avatar']['href'], '" alt="', $news['poster']['name'], '" width="30" class="sp_float_right" /></a>
+								<div class="middletext">', $news['time'], ' ', $txt['by'], ' ', $news['poster']['link'], '<br />', $txt['sp-articlesViews'], ': ', $news['views'], ' | ', $txt['sp-articlesComments'], ': ', $news['replies'], '</div>';
 			else
 				echo '
-							<div class="middletext">', $news['time'], ' ', $txt['by'], ' ', $news['poster']['link'], ' | ', $txt['sp-articlesViews'], ': ', $news['views'], ' | ', $txt['sp-articlesComments'], ': ', $news['replies'], '</div>';
+								<div class="middletext">', $news['time'], ' ', $txt['by'], ' ', $news['poster']['link'], ' | ', $txt['sp-articlesViews'], ': ', $news['views'], ' | ', $txt['sp-articlesComments'], ': ', $news['replies'], '</div>';
 
 			echo '
-							<div class="post"><hr />', $news['body'], '</div>
-							<div class="sp_right">', $news['link'], ' ',  $news['new_comment'], '</div>
-						</div>
-						<span class="botslice"><span></span></span>
+								<div class="post"><hr />', $news['body'], '</div>
+								<div class="sp_right">', $news['link'], ' ',  $news['new_comment'], '</div>
+							</div>';
+
+			if (empty($style['no_body']))
+			{
+				echo '
+							<span class="botslice"><span></span></span>';
+			}
+
+			echo '
+						</div>';
+
+			if (strpos($style['body']['class'], 'roundframe') !== false)
+			{
+				echo '
+						<span class="lowerframe"><span></span></span>';
+			}
+
+			echo '
 					</div>';
-		}	
+		}
 	}
 
 	if (!empty($per_page))
@@ -1924,14 +1958,11 @@ function sp_calendarInformation($parameters, $id, $return_parameters = false)
 				echo '
 									<li><strong>', $txt['sp_calendar_upcomingEvents'] ,'</strong></li>';
 
-			foreach($calendar_array['futureEvents'] as $startdate => $events)
+			foreach ($calendar_array['futureEvents'] as $startdate => $events)
 			{
-				list($year, $month, $day) = explode('-', $startdate);
-				$currentDay = $day . ' ' . $txt['months_short'][(int) $month];
-
-				foreach($events as $event)
+				foreach ($events as $event)
 					echo '
-									<li>', sp_embed_image('event'), ' ', $event['link'], ' - ', $currentDay, '</li>';
+									<li>', sp_embed_image('event'), ' ', $event['link'], ' - ', timeformat(strtotime($startdate), '%d %b'), '</li>';
 			}
 		}
 
@@ -1964,7 +1995,7 @@ function sp_rssFeed($parameters, $id, $return_parameters = false)
 	$strip_preserve = !empty($parameters['strip_preserve']) ? $parameters['strip_preserve'] : 'br';
 	$strip_preserve = preg_match_all('~[A-Za-z0-9]+~', $strip_preserve, $match) ? $match[0] : array();
 	$count = !empty($parameters['count']) ? (int) $parameters['count'] : 5;
-	$limit = !empty($parameters['limit']) ? (int) $parameters['limit'] : 150;
+	$limit = !empty($parameters['limit']) ? (int) $parameters['limit'] : 0;
 
 	if (empty($feed))
 	{
@@ -2783,11 +2814,11 @@ function sp_gallery($parameters, $id, $return_parameters = false)
 		if ($mod == 'aeva_media')
 		{
 			echo '
-												<a href="', $galurl, 'sa=item;id=', $item['id'], '">', $item['title'], '</a><br />
-												<a href="', $galurl, 'sa=item;id=', $item['id'], '"><img src="', $galurl, 'sa=media;id=', $item['id'], ';thumb" alt="" /></a><br />
+												<a href="', $galurl, 'sa=item;in=', $item['id'], '">', $item['title'], '</a><br />
+												<a href="', $galurl, 'sa=item;in=', $item['id'], '"><img src="', $galurl, 'sa=media;in=', $item['id'], ';thumb" alt="" /></a><br />
 												', $txt['aeva_views'], ': ', $item['views'], '<br />
 												', $txt['aeva_posted_by'], ': <a href="', $scripturl, '?action=profile;u=', $item['poster_id'], '">', $item['poster_name'], '</a><br />
-												', $txt['aeva_in_album'], ': <a href="', $galurl, 'sa=album;id=', $item['id_album'], '">', $item['album_name'], '</a>', $item['is_new'] ?
+												', $txt['aeva_in_album'], ': <a href="', $galurl, 'sa=album;in=', $item['id_album'], '">', $item['album_name'], '</a>', $item['is_new'] ?
 												'<br /><img alt="" src="' . $settings['images_url'] . '/' . $context['user']['language'] . '/new.gif" border="0" />' : '';
 		}
 		elseif ($mod == 'smf_media_gallery')

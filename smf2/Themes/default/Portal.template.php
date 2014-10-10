@@ -1,5 +1,14 @@
 <?php
-// Version: 2.3.5; Portal
+
+/**
+ * @package SimplePortal
+ *
+ * @author SimplePortal Team
+ * @copyright 2014 SimplePortal Team
+ * @license BSD 3-clause
+ *
+ * @version 2.3.6
+ */
 
 function template_portal_above()
 {
@@ -122,7 +131,7 @@ function template_block($block)
 		echo '
 			<div class="sp_block_section', isset($context['SPortal']['sides'][$block['column']]['last']) && $context['SPortal']['sides'][$block['column']]['last'] == $block['id'] && ($block['column'] != 2 || empty($modSettings['articleactive'])) ? '_last' : '', '">';
 
-		$block['type']($block['parameters'], $block['id']);
+		$block['type'](array_merge($block['parameters'], array('style' => $block['style'])), $block['id']);
 
 		echo '
 			</div>';
@@ -165,7 +174,7 @@ function template_block_core($block)
 	}
 
 	echo '
-						<tr', (empty($block['force_view']) ? ' id="sp_block_' . $block['id'] . '"' : '') , $block['collapsed'] && empty($block['force_view']) ? ' style="display: none;"' : '', '>
+						<tr', (empty($block['force_view']) ? ' id="sp_block_' . $block['id'] . '"' : '') , $block['collapsed'] && empty($block['force_view']) && empty($block['style']['no_title']) ? ' style="display: none;"' : '', '>
 							<td class="sp_block_padding', ($block['type'] == 'sp_menu') ? '' : ' sp_block', empty($block['style']['body']['class']) ? '' : ' ' . $block['style']['body']['class'], '"', !empty($block['style']['body']['style']) ? ' style="' . $block['style']['body']['style'] . '"' : '', '>';
 
 	$block['type']($block['parameters'], $block['id']);
@@ -182,64 +191,68 @@ function template_block_curve($block)
 {
 	global $context, $modSettings, $settings;
 
+	echo '
+	<div class="sp_block_section', isset($context['SPortal']['sides'][$block['column']]['last']) && $context['SPortal']['sides'][$block['column']]['last'] == $block['id'] && ($block['column'] != 2 || empty($modSettings['articleactive'])) ? '_last' : '', '">';
+
 	if (empty($block['style']['no_title']))
 	{
 		echo '
-	<div class="', in_array($block['style']['title']['class'], array('titlebg', 'titlebg2')) ? 'title_bar' : 'cat_bar', '"', !empty($block['style']['title']['style']) ? ' style="' . $block['style']['title']['style'] . '"' : '', '>
-		<h3 class="', $block['style']['title']['class'], '">';
+		<div class="', in_array($block['style']['title']['class'], array('titlebg', 'titlebg2')) ? 'title_bar' : 'cat_bar', '"', !empty($block['style']['title']['style']) ? ' style="' . $block['style']['title']['style'] . '"' : '', '>
+			<h3 class="', $block['style']['title']['class'], '">';
 
 		if (empty($block['force_view']))
 			echo '
-			<a class="sp_float_right" style="padding-top: 7px;" href="javascript:void(0);" onclick="sp_collapseBlock(\'', $block['id'], '\')"><img id="sp_collapse_', $block['id'], '" src="', $settings['images_url'], $block['collapsed'] ? '/expand.gif' : '/collapse.gif', '" alt="*" /></a>';
+				<a class="sp_float_right" href="javascript:void(0);" onclick="sp_collapseBlock(\'', $block['id'], '\')"><img id="sp_collapse_', $block['id'], '" src="', $settings['images_url'], $block['collapsed'] ? '/expand.gif' : '/collapse.gif', '" alt="*" /></a>';
 
 		echo '
-			', parse_bbc($block['label']), '
-		</h3>
-	</div>';
+				', parse_bbc($block['label']), '
+			</h3>
+		</div>';
 	}
 
 	echo '
-	<div id="sp_block_' . $block['id'] . '" class="sp_block_section', isset($context['SPortal']['sides'][$block['column']]['last']) && $context['SPortal']['sides'][$block['column']]['last'] == $block['id'] && ($block['column'] != 2 || empty($modSettings['articleactive'])) ? '_last' : '', '" ', $block['collapsed'] && empty($block['force_view']) ? ' style="display: none;"' : '', '>';
+		<div id="sp_block_' . $block['id'] . '"', $block['collapsed'] && empty($block['force_view']) && empty($block['style']['no_title']) ? ' style="display: none;"' : '', '>';
 
 	if (strpos($block['style']['body']['class'], 'roundframe') !== false)
 	{
 		echo '
-		<span class="upperframe"><span></span></span>';
+			<span class="upperframe"><span></span></span>';
 	}
 
 	echo '
-		<div', empty($block['style']['body']['class']) ? '' : ' class="' . $block['style']['body']['class'] . '"', '>'; 
+			<div', empty($block['style']['body']['class']) ? '' : ' class="' . $block['style']['body']['class'] . '"', '>';
 
 	if (empty($block['style']['no_body']))
 	{
 		echo '
-			<span class="topslice"><span></span></span>';
+				<span class="topslice"><span></span></span>';
 	}
 
 	echo '
-			<div class="', $block['type'] != 'sp_menu' ? 'sp_block' : 'sp_content_padding', '"', !empty($block['style']['body']['style']) ? ' style="' . $block['style']['body']['style'] . '"' : '', '>';
+				<div class="', $block['type'] != 'sp_menu' ? 'sp_block' : 'sp_content_padding', '"', !empty($block['style']['body']['style']) ? ' style="' . $block['style']['body']['style'] . '"' : '', '>';
 
 	$block['type']($block['parameters'], $block['id']);
 
 	echo '
-			</div>';
+				</div>';
 
 	if (empty($block['style']['no_body']))
 	{
 		echo '
-			<span class="botslice"><span></span></span>';
+				<span class="botslice"><span></span></span>';
 	}
 
 	echo '
-		</div>';
+			</div>';
 
 	if (strpos($block['style']['body']['class'], 'roundframe') !== false)
 	{
 		echo '
-		<span class="lowerframe"><span></span></span>';
+			<span class="lowerframe"><span></span></span>';
 	}
 
 	echo '
+		</div>
 	</div>';
 }
 

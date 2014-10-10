@@ -1,25 +1,14 @@
 <?php
-/**********************************************************************************
-* PortalBlocks.php                                                                *
-***********************************************************************************
-* SimplePortal                                                                    *
-* SMF Modification Project Founded by [SiNaN] (sinan@simplemachines.org)          *
-* =============================================================================== *
-* Software Version:           SimplePortal 2.3.5                                  *
-* Software by:                SimplePortal Team (http://www.simpleportal.net)     *
-* Copyright 2008-2009 by:     SimplePortal Team (http://www.simpleportal.net)     *
-* Support, News, Updates at:  http://www.simpleportal.net                         *
-***********************************************************************************
-* This program is free software; you may redistribute it and/or modify it under   *
-* the terms of the provided license as published by Simple Machines LLC.          *
-*                                                                                 *
-* This program is distributed in the hope that it is and will be useful, but      *
-* WITHOUT ANY WARRANTIES; without even any implied warranty of MERCHANTABILITY    *
-* or FITNESS FOR A PARTICULAR PURPOSE.                                            *
-*                                                                                 *
-* See the "license.txt" file for details of the Simple Machines license.          *
-* The latest version can always be found at http://www.simplemachines.org.        *
-**********************************************************************************/
+
+/**
+ * @package SimplePortal
+ *
+ * @author SimplePortal Team
+ * @copyright 2014 SimplePortal Team
+ * @license BSD 3-clause
+ *
+ * @version 2.3.6
+ */
 
 if (!defined('SMF'))
 	die('Hacking attempt...');
@@ -850,7 +839,7 @@ function sp_topStatsMember($parameters, $id, $return_parameters = false)
 				'field' => 'mem.money',
 				'order' => 'mem.money',
 				'output_text' => (!empty($modSettings['shopCurrencyPreffix']) ? $modSettings['shopCurrencyPrefix'] : '') . '%money% ' . (!empty($modSettings['shopCurrencySuffix']) ? $modSettings['shopCurrencySuffix'] : ''),
-				'enabled' => file_exists($sourcedir . 'shop/Shop.php'),
+				'enabled' => file_exists($sourcedir . '/shop/Shop.php'),
 				'error_msg' => $txt['sp_shop_no_exist'],
 			),
 		);
@@ -1321,6 +1310,7 @@ function sp_boardNews($parameters, $id, $return_parameters = false)
 	$length = isset($parameters['length']) ? (int) $parameters['length'] : 250;
 	$avatars = !empty($parameters['avatar']);
 	$per_page = !empty($parameters['per_page']) ? (int) $parameters['per_page'] : 0;
+	$style = !empty($parameters['style']) ? $parameters['style'] : sportal_parse_style('explode', '', true);
 
 	$limit = max(0, $limit);
 	$start = max(0, $start);
@@ -1335,8 +1325,8 @@ function sp_boardNews($parameters, $id, $return_parameters = false)
 		FROM {$db_prefix}topics AS t
 			INNER JOIN {$db_prefix}boards AS b ON (b.ID_BOARD = t.ID_BOARD)
 			INNER JOIN {$db_prefix}messages AS m ON (m.ID_MSG = t.ID_FIRST_MSG)
-		WHERE " . (empty($board) ? $user_info['query_see_board'] . "
-			AND t.ID_FIRST_MSG >= " . ($modSettings['maxMsgID'] - 45 * min($limit, 5)) : "b.ID_BOARD IN (" . implode(', ', $board) . ")") . "
+		WHERE $user_info[query_see_board]
+			AND " . (empty($board) ? "t.ID_FIRST_MSG >= " . ($modSettings['maxMsgID'] - 45 * min($limit, 5)) : "b.ID_BOARD IN (" . implode(', ', $board) . ")") . "
 			AND (t.locked != 1 OR m.icon != 'moved')
 		ORDER BY t.ID_FIRST_MSG DESC
 		LIMIT $limit", __FILE__, __LINE__);
@@ -1356,7 +1346,7 @@ function sp_boardNews($parameters, $id, $return_parameters = false)
 		$limit = count($posts);
 		$start = !empty($_REQUEST['news' . $id]) ? (int) $_REQUEST['news' . $id] : 0;
 
-		$clean_url = preg_replace('~news' . $id . '=\d+;?~', '', $_SERVER['REQUEST_URL']);
+		$clean_url = str_replace('%', '%%', preg_replace('~news' . $id . '=[^;]+;?~', '', $_SERVER['REQUEST_URL']));
 		$current_url = $clean_url . (strpos($clean_url, '?') !== false ? (in_array(substr($clean_url, -1), array(';', '?')) ? '' : ';') : '?');
 
 		$page_index = constructPageIndex($current_url . 'news' . $id . '=%1$d', $start, $limit, $per_page, true);
@@ -1475,14 +1465,22 @@ function sp_boardNews($parameters, $id, $return_parameters = false)
 	foreach ($return as $news)
 	{
 		echo '
-				<div class="tborder sp_article_content">
-					<table class="sp_block">
-						<tr class="catbg">
-							<td class="sp_middle">', $news['icon'], '</td>
-							<td class="sp_middle sp_regular_padding sp_fullwidth"><a href="', $news['href'], '" >', $news['subject'], '</a></td>
-						</tr>
-						<tr class="windowbg">
-							<td class="sp_regular_padding" colspan="2">';
+				<div class="sp_article_content">
+					<div class="sp_block_container', !empty($style['no_body']) ? '' : ' tborder', '">
+						<table class="sp_block">';
+
+		if (empty($style['no_title']))
+		{
+			echo '
+							<tr>
+								<td class="sp_middle ', $style['title']['class'], '"', !empty($style['title']['style']) ? ' style="' . $style['title']['style'] . '"' : '', '>', $news['icon'], '</td>
+								<td class="sp_middle sp_regular_padding sp_fullwidth ', $style['title']['class'], '"', !empty($style['title']['style']) ? ' style="' . $style['title']['style'] . '"' : '', '><a href="', $news['href'], '" >', $news['subject'], '</a></td>
+							</tr>';
+		}
+
+		echo '
+							<tr>
+								<td class="sp_block_padding', empty($style['body']['class']) ? '' : ' ' . $style['body']['class'], '"', !empty($style['body']['style']) ? ' style="' . $style['body']['style'] . '"' : '', ' colspan="2">';
 
 		if ($avatars && $news['avatar']['name'] !== null && !empty($news['avatar']['href']))
 			echo '
@@ -1494,15 +1492,12 @@ function sp_boardNews($parameters, $id, $return_parameters = false)
 
 		echo '
 									<div class="post"><hr />', $news['body'], '<br /><br /></div>
-								</td>
-							</tr>
-							<tr>
-								<td class="windowbg2" colspan="2">
 									<div class="sp_right sp_regular_padding">', $news['link'], ' ',  $news['new_comment'], '</div>
 								</td>
 							</tr>
 						</table>
-					</div>';
+					</div>
+				</div>';
 	}
 
 	if (!empty($per_page))
@@ -2138,14 +2133,11 @@ function sp_calendarInformation($parameters, $id, $return_parameters = false)
 				echo '
 									<li><strong>', $txt['sp_calendar_upcomingEvents'] ,'</strong></li>';
 
-			foreach($calendar_array['futureEvents'] as $startdate => $events)
+			foreach ($calendar_array['futureEvents'] as $startdate => $events)
 			{
-				list($year, $month, $day) = explode('-', $startdate);
-				$currentDay = $day . ' ' . $txt['months_short'][(int) $month];
-
-				foreach($events as $event)
+				foreach ($events as $event)
 					echo '
-									<li>', sp_embed_image('event'), ' ', $event['link'], ' - ', $currentDay, '</li>';
+									<li>', sp_embed_image('event'), ' ', $event['link'], ' - ', timeformat(strtotime($startdate), '%d %b'), '</li>';
 			}
 		}
 
@@ -2178,7 +2170,7 @@ function sp_rssFeed($parameters, $id, $return_parameters = false)
 	$strip_preserve = !empty($parameters['strip_preserve']) ? $parameters['strip_preserve'] : 'br';
 	$strip_preserve = preg_match_all('~[A-Za-z0-9]+~', $strip_preserve, $match) ? $match[0] : array();
 	$count = !empty($parameters['count']) ? (int) $parameters['count'] : 5;
-	$limit = !empty($parameters['limit']) ? (int) $parameters['limit'] : 150;
+	$limit = !empty($parameters['limit']) ? (int) $parameters['limit'] : 0;
 
 	if (empty($feed))
 	{
@@ -2958,11 +2950,11 @@ function sp_gallery($parameters, $id, $return_parameters = false)
 		if ($mod == 'aeva_media')
 		{
 			echo '
-												<a href="', $galurl, 'sa=item;id=', $item['id'], '">', $item['title'], '</a><br />
-												<a href="', $galurl, 'sa=item;id=', $item['id'], '"><img src="', $galurl, 'sa=media;id=', $item['id'], ';thumb" alt="" /></a><br />
+												<a href="', $galurl, 'sa=item;in=', $item['id'], '">', $item['title'], '</a><br />
+												<a href="', $galurl, 'sa=item;in=', $item['id'], '"><img src="', $galurl, 'sa=media;in=', $item['id'], ';thumb" alt="" /></a><br />
 												', $txt['aeva_views'], ': ', $item['views'], '<br />
 												', $txt['aeva_posted_by'], ': <a href="', $scripturl, '?action=profile;u=', $item['poster_id'], '">', $item['poster_name'], '</a><br />
-												', $txt['aeva_in_album'], ': <a href="', $galurl, 'sa=album;id=', $item['id_album'], '">', $item['album_name'], '</a>', $item['is_new'] ?
+												', $txt['aeva_in_album'], ': <a href="', $galurl, 'sa=album;in=', $item['id_album'], '">', $item['album_name'], '</a>', $item['is_new'] ?
 												'<br /><img alt="" src="' . $settings['images_url'] . '/' . $context['user']['language'] . '/new.gif" border="0" />' : '';
 		}
 		elseif ($mod == 'smf_media_gallery')
