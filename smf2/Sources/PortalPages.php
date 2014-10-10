@@ -38,11 +38,6 @@ function sportal_page()
 
 	$page_id = !empty($_REQUEST['page']) ? $_REQUEST['page'] : 0;
 
-	if (is_int($page_id))
-		$page_id = (int) $page_id;
-	else
-		$page_id = $smcFunc['htmlspecialchars']($page_id, ENT_QUOTES);
-
 	$context['SPortal']['page'] = sportal_get_pages($page_id, true, true);
 
 	if (empty($context['SPortal']['page']['id']))
