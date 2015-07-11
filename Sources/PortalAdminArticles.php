@@ -309,6 +309,7 @@ function sportal_admin_article_edit()
 			'body' => 'string',
 			'type' => 'string',
 			'permissions' => 'int',
+			'styles' => 'int',
 			'status' => 'int',
 		);
 
@@ -320,6 +321,7 @@ function sportal_admin_article_edit()
 			'body' => $smcFunc['htmlspecialchars']($_POST['content'], ENT_QUOTES),
 			'type' => in_array($_POST['type'], array('bbc', 'html', 'php')) ? $_POST['type'] : 'bbc',
 			'permissions' => (int) $_POST['permissions'],
+			'styles' => (int) $_POST['styles'],
 			'status' => !empty($_POST['status']) ? 1 : 0,
 		);
 
@@ -400,11 +402,14 @@ function sportal_admin_article_edit()
 			$current = sportal_get_articles($_REQUEST['article_id']);
 			$author = $current['author'];
 			$date = timeformat($current['date']);
+			$comments = $current['comments'];
+			$views = $current['views'];
 		}
 		else
 		{
 			$author = array('link' => '<a href="' . $scripturl .'?action=profile;u=' . $user_info['id'] . '">' . $user_info['name'] . '</a>');
 			$date = timeformat(time());
+			$comments = $views = 0;
 		}
 
 		$context['article'] = array(
@@ -416,8 +421,11 @@ function sportal_admin_article_edit()
 			'body' => $smcFunc['htmlspecialchars']($_POST['content'], ENT_QUOTES),
 			'type' => $_POST['type'],
 			'permissions' => $_POST['permissions'],
+			'styles' => $_POST['styles'],
 			'date' => $date,
 			'status' => !empty($_POST['status']),
+			'comments' => $comments,
+			'views' => $views,
 		);
 
 		if ($context['article']['type'] == 'bbc')
@@ -436,6 +444,7 @@ function sportal_admin_article_edit()
 			'body' => '',
 			'type' => 'bbc',
 			'permissions' => 3,
+			'styles' => 4,
 			'status' => 1,
 		);
 	}
@@ -468,10 +477,15 @@ function sportal_admin_article_edit()
 		$options['wysiwyg_default'] = $temp_editor;
 
 	$context['article']['permission_profiles'] = sportal_get_profiles(null, 1, 'name');
+	$context['article']['style_profiles'] = sportal_get_profiles(null, 2, 'name');
+	$context['article']['style'] = sportal_select_style($context['article']['styles']);
 	$context['article']['categories'] = sportal_get_categories();
 
 	if (empty($context['article']['permission_profiles']))
 		fatal_lang_error('error_sp_no_permission_profiles', false);
+
+	if (empty($context['article']['style_profiles']))
+		fatal_lang_error('error_sp_no_style_profiles', false);
 
 	if (empty($context['article']['categories']))
 		fatal_lang_error('error_sp_no_category', false);

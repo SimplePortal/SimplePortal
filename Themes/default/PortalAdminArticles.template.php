@@ -169,6 +169,19 @@ function template_articles_edit()
 							</select>
 						</dd>
 						<dt>
+							<label for="article_styles">', $txt['sp_admin_articles_col_styles'], ':</label>
+						</dt>
+						<dd>
+							<select name="styles" id="article_styles">';
+
+	foreach ($context['article']['style_profiles'] as $profile)
+		echo '
+								<option value="', $profile['id'], '"', $profile['id'] == $context['article']['styles'] ? ' selected="selected"' : '', '>', $profile['label'], '</option>';
+
+	echo '
+							</select>
+						</dd>
+						<dt>
 							<label for="article_status">', $txt['sp_admin_articles_col_status'], ':</label>
 						</dt>
 						<dd>

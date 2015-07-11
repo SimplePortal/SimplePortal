@@ -254,11 +254,11 @@ function sportal_admin_block_edit()
 			'column' => !empty($_POST['block_column']) ? $_POST['block_column'] : 0,
 			'row' => 0,
 			'permissions' => 3,
+			'styles' => 4,
 			'state' => 1,
 			'force_view' => 0,
 			'display' => '',
 			'display_custom' => '',
-			'style' => '',
 			'parameters' => !empty($start_parameters) ? $start_parameters : array(),
 			'options'=> $_POST['selected_type'][0](array(), false, true),
 			'list_blocks' => !empty($_POST['block_column']) ? getBlockInfo($_POST['block_column']) : array(),
@@ -359,11 +359,11 @@ function sportal_admin_block_edit()
 			'column' => $_POST['block_column'],
 			'row' => !empty($_POST['block_row']) ? $_POST['block_row'] : 0,
 			'permissions' => $_POST['permissions'],
+			'styles' => $_POST['styles'],
 			'state' => !empty($_POST['block_active']),
 			'force_view' => !empty($_POST['block_force']),
 			'display' => $display,
 			'display_custom' => $custom,
-			'style' => sportal_parse_style('implode'),
 			'parameters' => !empty($_POST['parameters']) ? $_POST['parameters'] : array(),
 			'options'=> $_POST['block_type'](array(), false, true),
 			'list_blocks' => getBlockInfo($_POST['block_column']),
@@ -417,9 +417,13 @@ function sportal_admin_block_edit()
 		loadLanguage('SPortalHelp', sp_languageSelect('SPortalHelp'));
 
 		$context['SPortal']['block']['permission_profiles'] = sportal_get_profiles(null, 1, 'name');
+		$context['SPortal']['block']['style_profiles'] = sportal_get_profiles(null, 2, 'name');
 
 		if (empty($context['SPortal']['block']['permission_profiles']))
 			fatal_lang_error('error_sp_no_permission_profiles', false);
+
+		if (empty($context['SPortal']['block']['style_profiles']))
+			fatal_lang_error('error_sp_no_style_profiles', false);
 
 		$context['simple_actions'] = array(
 			'sportal' => $txt['sp-portal'],
@@ -481,7 +485,7 @@ function sportal_admin_block_edit()
 		else
 			$context['SPortal']['block']['display_type'] = 1;
 
-		$context['SPortal']['block']['style'] = sportal_parse_style('explode', $context['SPortal']['block']['style'], !empty($context['SPortal']['preview']));
+		$context['SPortal']['block']['style'] = sportal_select_style($context['SPortal']['block']['styles']);
 
 		// Prepare the Textcontent for BBC, only the first bbc will be correct detected! (SMF Support only 1 per page with the standard function)
 		$firstBBCFound = false;
@@ -754,11 +758,11 @@ function sportal_admin_block_edit()
 			'col' => $_POST['block_column'],
 			'row' => $row,
 			'permissions' => (int) $_POST['permissions'],
+			'styles' => (int) $_POST['styles'],
 			'state' => !empty($_POST['block_active']) ? 1 : 0,
 			'force_view' => !empty($_POST['block_force']) ? 1 : 0,
 			'display' => $display,
 			'display_custom' => $custom,
-			'style' => sportal_parse_style('implode'),
 		);
 
 		if ($context['SPortal']['is_new'])
@@ -773,11 +777,11 @@ function sportal_admin_block_edit()
 					'col' => 'int',
 					'row' => 'int',
 					'permissions' => 'int',
+					'styles' => 'int',
 					'state' => 'int',
 					'force_view' => 'int',
 					'display' => 'string',
 					'display_custom' => 'string',
-					'style' => 'string',
 				),
 				$blockInfo,
 				array('id_block')
@@ -790,11 +794,11 @@ function sportal_admin_block_edit()
 			$block_fields = array(
 				"label = {string:label}",
 				"permissions = {int:permissions}",
+				"styles = {int:styles}",
 				"state = {int:state}",
 				"force_view = {int:force_view}",
 				"display = {string:display}",
 				"display_custom = {string:display_custom}",
-				"style = {string:style}",
 			);
 
 			if (!empty($blockInfo['row']))

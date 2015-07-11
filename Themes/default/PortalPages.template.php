@@ -92,7 +92,7 @@ function template_view_page_curve()
 	if (empty($context['SPortal']['page']['style']['no_title']))
 	{
 		echo '
-			<div class="', in_array($context['SPortal']['page']['style']['title']['class'], array('titlebg', 'titlebg2')) ? 'title_bar' : 'cat_bar', '"', !empty($context['SPortal']['page']['style']['title']['style']) ? ' style="' . $context['SPortal']['page']['style']['title']['style'] . '"' : '', '>
+			<div', strpos($context['SPortal']['page']['style']['title']['class'], 'custom') === false ? ' class="' . (strpos($context['SPortal']['page']['style']['title']['class'], 'titlebg') !== false ? 'title_bar' : 'cat_bar') . '"' : '', !empty($context['SPortal']['page']['style']['title']['style']) ? ' style="' . $context['SPortal']['page']['style']['title']['style'] . '"' : '', '>
 				<h3 class="', $context['SPortal']['page']['style']['title']['class'], '">
 					', $context['SPortal']['page']['title'], '
 				</h3>

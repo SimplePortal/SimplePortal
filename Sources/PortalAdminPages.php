@@ -323,7 +323,7 @@ function sportal_admin_page_edit()
 			'body' => 'string',
 			'type' => 'string',
 			'permissions' => 'int',
-			'style' => 'string',
+			'styles' => 'int',
 			'status' => 'int',
 		);
 
@@ -334,7 +334,7 @@ function sportal_admin_page_edit()
 			'body' => $smcFunc['htmlspecialchars']($_POST['content'], ENT_QUOTES),
 			'type' => in_array($_POST['type'], array('bbc', 'html', 'php')) ? $_POST['type'] : 'bbc',
 			'permissions' => (int) $_POST['permissions'],
-			'style' => sportal_parse_style('implode'),
+			'styles' => (int) $_POST['styles'],
 			'status' => !empty($_POST['status']) ? 1 : 0,
 		);
 
@@ -474,7 +474,7 @@ function sportal_admin_page_edit()
 			'body' => $smcFunc['htmlspecialchars']($_POST['content'], ENT_QUOTES),
 			'type' => $_POST['type'],
 			'permissions' => $_POST['permissions'],
-			'style' => sportal_parse_style('implode'),
+			'styles' => $_POST['styles'],
 			'status' => !empty($_POST['status']),
 		);
 
@@ -493,7 +493,7 @@ function sportal_admin_page_edit()
 			'body' => '',
 			'type' => 'bbc',
 			'permissions' => 3,
-			'style' => '',
+			'styles' => 4,
 			'status' => 1,
 		);
 	}
@@ -526,10 +526,14 @@ function sportal_admin_page_edit()
 		$options['wysiwyg_default'] = $temp_editor;
 
 	$context['SPortal']['page']['permission_profiles'] = sportal_get_profiles(null, 1, 'name');
-	$context['SPortal']['page']['style'] = sportal_parse_style('explode', $context['SPortal']['page']['style'], !empty($context['SPortal']['preview']));
+	$context['SPortal']['page']['style_profiles'] = sportal_get_profiles(null, 2, 'name');
+	$context['SPortal']['page']['style'] = sportal_select_style($context['SPortal']['page']['styles']);
 
 	if (empty($context['SPortal']['page']['permission_profiles']))
 		fatal_lang_error('error_sp_no_permission_profiles', false);
+
+	if (empty($context['SPortal']['page']['style_profiles']))
+		fatal_lang_error('error_sp_no_style_profiles', false);
 
 	$context['page_title'] = $context['SPortal']['is_new'] ? $txt['sp_admin_pages_add'] : $txt['sp_admin_pages_edit'];
 	$context['sub_template'] = 'pages_edit';

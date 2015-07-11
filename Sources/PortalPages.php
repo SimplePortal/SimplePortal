@@ -49,7 +49,7 @@ function sportal_page()
 	if (empty($context['SPortal']['page']['id']))
 		fatal_lang_error('error_sp_page_not_found', false);
 
-	$context['SPortal']['page']['style'] = sportal_parse_style('explode', $context['SPortal']['page']['style'], true);
+	$context['SPortal']['page']['style'] = sportal_select_style($context['SPortal']['page']['styles']);
 
 	if (empty($_SESSION['last_viewed_page']) || $_SESSION['last_viewed_page'] != $context['SPortal']['page']['id'])
 	{

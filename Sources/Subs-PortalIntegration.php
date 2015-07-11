@@ -124,6 +124,8 @@ function sp_integrate_admin_areas(&$admin_areas)
 						'subsections' => array(
 							'listpermission' => array($txt['sp_admin_permission_profiles_list']),
 							'addpermission' => array($txt['sp_admin_permission_profiles_add']),
+							'liststyle' => array($txt['sp_admin_style_profiles_list']),
+							'addstyle' => array($txt['sp_admin_style_profiles_add']),
 						),
 					),
 				),

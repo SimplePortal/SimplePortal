@@ -118,7 +118,7 @@ function template_pages_edit()
 							<label for="page_title">', $txt['sp_admin_pages_col_title'], ':</label>
 						</dt>
 						<dd>
-						<input type="text" name="title" id="page_title" value="', $context['SPortal']['page']['title'], '" class="input_text" />
+							<input type="text" name="title" id="page_title" value="', $context['SPortal']['page']['title'], '" class="input_text" />
 						</dd>
 						<dt>
 							<label for="page_namespace">', $txt['sp_admin_pages_col_namespace'], ':</label>
@@ -149,6 +149,19 @@ function template_pages_edit()
 	foreach ($context['SPortal']['page']['permission_profiles'] as $profile)
 		echo '
 								<option value="', $profile['id'], '"', $profile['id'] == $context['SPortal']['page']['permissions'] ? ' selected="selected"' : '', '>', $profile['label'], '</option>';
+
+	echo '
+							</select>
+						</dd>
+						<dt>
+							<label for="page_styles">', $txt['sp_admin_pages_col_styles'], ':</label>
+						</dt>
+						<dd>
+							<select name="styles" id="page_styles">';
+
+	foreach ($context['SPortal']['page']['style_profiles'] as $profile)
+		echo '
+								<option value="', $profile['id'], '"', $profile['id'] == $context['SPortal']['page']['styles'] ? ' selected="selected"' : '', '>', $profile['label'], '</option>';
 
 	echo '
 							</select>
@@ -202,86 +215,12 @@ function template_pages_edit()
 					</div>
 				</div>
 				<span class="botslice"><span></span></span>
-			</div>';
-
-	$style_sections = array('title' => 'left', 'body' => 'right');
-	$style_types = array('default' => 'DefaultClass', 'class' => 'CustomClass', 'style' => 'CustomStyle');
-	$style_parameters = array(
-		'title' => array('catbg', 'catbg2', 'catbg3', 'titlebg', 'titlebg2'),
-		'body' => array('windowbg',  'windowbg2', 'windowbg3', 'information', 'roundframe'),
-	);
-
-	echo '
-			<br />
-			<div class="cat_bar">
-				<h3 class="catbg">
-					', $txt['sp_admin_pages_style'], '
-				</h3>
-			</div>
-			<div class="windowbg2">
-				<span class="topslice"><span></span></span>
-				<div class="sp_content_padding">';
-
-	foreach ($style_sections as $section => $float)
-	{
-		echo '
-					<dl id="sp_edit_style_', $section, '" class="sp_form sp_float_', $float, '">';
-
-		foreach ($style_types as $type => $label)
-		{
-			echo '
-						<dt>
-							', $txt['sp-blocks' . ucfirst($section) . $label], ':
-						</dt>
-						<dd>';
-
-			if ($type == 'default')
-			{
-				echo '
-							<select name="', $section, '_default_class" id="', $section, '_default_class">';
-
-				foreach ($style_parameters[$section] as $class)
-					echo '
-								<option value="', $class, '"', $context['SPortal']['page']['style'][$section . '_default_class'] == $class ? ' selected="selected"' : '', '>', $class, '</option>';
-
-				echo '
-							</select>';
-			}
-			else
-				echo '
-							<input type="text" name="', $section, '_custom_', $type, '" id="', $section, '_custom_', $type, '" value="', $context['SPortal']['page']['style'][$section . '_custom_' . $type], '" class="input_text" />';
-
-			echo '
-						</dd>';
-		}
-
-		echo '
-						<dt>
-							', $txt['sp-blocksNo' . ucfirst($section)], ':
-						</dt>
-						<dd>
-							<input type="checkbox" name="no_', $section, '" id="no_', $section, '" value="1"', !empty($context['SPortal']['page']['style']['no_' . $section]) ? ' checked="checked"' : '', ' onclick="document.getElementById(\'', $section, '_default_class\').disabled', $section == 'title' ? ' = document.getElementById(\'title_custom_class\').disabled = document.getElementById(\'title_custom_style\').disabled' : '', ' = this.checked;" class="input_check" />
-						</dd>
-					</dl>';
-	}
-
-	echo '
-					<div class="sp_button_container">
-						<input type="submit" name="preview" value="', $txt['sp_admin_pages_preview'], '" class="button_submit" /> <input type="submit" name="submit" value="', $context['page_title'], '" class="button_submit" />
-					</div>
-				</div>
-				<span class="botslice"><span></span></span>
 			</div>
 			<input type="hidden" name="page_id" value="', $context['SPortal']['page']['id'], '" />
 			<input type="hidden" name="', $context['session_var'], '" value="', $context['session_id'], '" />
 		</form>
 	</div>
 	<script language="JavaScript" type="text/javascript"><!-- // --><![CDATA[
-		document.getElementById("title_default_class").disabled = document.getElementById("no_title").checked;
-		document.getElementById("title_custom_class").disabled = document.getElementById("no_title").checked;
-		document.getElementById("title_custom_style").disabled = document.getElementById("no_title").checked;
-		document.getElementById("body_default_class").disabled = document.getElementById("no_body").checked;
-
 		function sp_update_editor()
 		{
 			var new_state = document.getElementById("page_type").value;

@@ -275,7 +275,7 @@ function template_block_curve($block)
 	if (empty($block['style']['no_title']))
 	{
 		echo '
-		<div class="', in_array($block['style']['title']['class'], array('titlebg', 'titlebg2')) ? 'title_bar' : 'cat_bar', '"', !empty($block['style']['title']['style']) ? ' style="' . $block['style']['title']['style'] . '"' : '', '>
+		<div', strpos($block['style']['title']['class'], 'custom') === false ? ' class="' . (strpos($block['style']['title']['class'], 'titlebg') !== false ? 'title_bar' : 'cat_bar') . '"' : '', !empty($block['style']['title']['style']) ? ' style="' . $block['style']['title']['style'] . '"' : '', '>
 			<h3 class="', $block['style']['title']['class'], '">';
 
 		if (empty($block['force_view']))

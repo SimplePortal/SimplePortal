@@ -146,6 +146,19 @@ function template_block_edit()
 
 	echo '
 							</select>
+						</dd>
+						<dt>
+							<label for="block_styles">', $txt['sp_admin_blocks_col_styles'], ':</label>
+						</dt>
+						<dd>
+							<select name="styles" id="block_styles">';
+
+	foreach ($context['SPortal']['block']['style_profiles'] as $profile)
+		echo '
+								<option value="', $profile['id'], '"', $profile['id'] == $context['SPortal']['block']['styles'] ? ' selected="selected"' : '', '>', $profile['label'], '</option>';
+
+	echo '
+							</select>
 						</dd>';
 
 	foreach ($context['SPortal']['block']['options'] as $name => $type)
@@ -321,15 +334,6 @@ function template_block_edit()
 				<span class="botslice"><span></span></span>
 			</div>';
 
-	if (!empty($context['SPortal']['block']['column']))
-		echo '
-			<input type="hidden" name="block_column" value="', $context['SPortal']['block']['column'], '" />';
-
-	echo '
-			<input type="hidden" name="block_type" value="', $context['SPortal']['block']['type'], '" />
-			<input type="hidden" name="block_id" value="', $context['SPortal']['block']['id'], '" />
-			<input type="hidden" name="', $context['session_var'], '" value="', $context['session_id'], '" />';
-
 	if (!empty($modSettings['sp_enableIntegration']))
 	{
 		echo '
@@ -388,81 +392,14 @@ function template_block_edit()
 			</div>';
 	}
 
-	$style_sections = array('title' => 'left', 'body' => 'right');
-	$style_types = array('default' => 'DefaultClass', 'class' => 'CustomClass', 'style' => 'CustomStyle');
-	$style_parameters = array(
-		'title' => array('catbg', 'catbg2', 'catbg3', 'titlebg', 'titlebg2'),
-		'body' => array('windowbg',  'windowbg2', 'windowbg3', 'information', 'roundframe'),
-	);
+	if (!empty($context['SPortal']['block']['column']))
+		echo '
+			<input type="hidden" name="block_column" value="', $context['SPortal']['block']['column'], '" />';
 
 	echo '
-			<br />
-			<div class="cat_bar">
-				<h3 class="catbg">
-					<a href="', $scripturl, '?action=helpadmin;help=sp-blocksStyleOptions" onclick="return reqWin(this.href);" class="help"><img src="', $settings['images_url'], '/helptopics.gif" alt="', $txt['help'], '" class="icon" /></a>
-					', $txt['sp-blocksStyleOptions'], '
-				</h3>
-			</div>
-			<div class="windowbg2">
-				<span class="topslice"><span></span></span>
-				<div class="sp_content_padding">';
-
-	foreach ($style_sections as $section => $float)
-	{
-		echo '
-					<dl id="sp_edit_style_', $section, '" class="sp_form sp_float_', $float, '">';
-
-		foreach ($style_types as $type => $label)
-		{
-			echo '
-						<dt>
-							', $txt['sp-blocks' . ucfirst($section) . $label], ':
-						</dt>
-						<dd>';
-
-			if ($type == 'default')
-			{
-				echo '
-							<select name="', $section, '_default_class" id="', $section, '_default_class">';
-
-				foreach ($style_parameters[$section] as $class)
-					echo '
-								<option value="', $class, '"', $context['SPortal']['block']['style'][$section . '_default_class'] == $class ? ' selected="selected"' : '', '>', $class, '</option>';
-
-				echo '
-							</select>';
-			}
-			else
-				echo '
-							<input type="text" name="', $section, '_custom_', $type, '" id="', $section, '_custom_', $type, '" value="', $context['SPortal']['block']['style'][$section . '_custom_' . $type], '" class="input_text" />';
-
-			echo '
-						</dd>';
-		}
-
-		echo '
-						<dt>
-							', $txt['sp-blocksNo' . ucfirst($section)], ':
-						</dt>
-						<dd>
-							<input type="checkbox" name="no_', $section, '" id="no_', $section, '" value="1"', !empty($context['SPortal']['block']['style']['no_' . $section]) ? ' checked="checked"' : '', ' onclick="document.getElementById(\'', $section, '_default_class\').disabled', $section == 'title' ? ' = document.getElementById(\'title_custom_class\').disabled = document.getElementById(\'title_custom_style\').disabled' : '', ' = this.checked;" class="input_check" />
-						</dd>
-					</dl>';
-	}
-
-	echo '
-					<script language="JavaScript" type="text/javascript"><!-- // --><![CDATA[
-						document.getElementById("title_default_class").disabled = document.getElementById("no_title").checked;
-						document.getElementById("title_custom_class").disabled = document.getElementById("no_title").checked;
-						document.getElementById("title_custom_style").disabled = document.getElementById("no_title").checked;
-						document.getElementById("body_default_class").disabled = document.getElementById("no_body").checked;
-					// ]]></script>
-					<div class="sp_button_container">
-						<input type="submit" name="add_block" value="', !$context['SPortal']['is_new'] ? $txt['sp-blocksEdit'] : $txt['sp-blocksAdd'], '" class="button_submit" />
-					</div>
-				</div>
-				<span class="botslice"><span></span></span>
-			</div>
+			<input type="hidden" name="block_type" value="', $context['SPortal']['block']['type'], '" />
+			<input type="hidden" name="block_id" value="', $context['SPortal']['block']['id'], '" />
+			<input type="hidden" name="', $context['session_var'], '" value="', $context['session_id'], '" />
 		</form>
 	</div>';
 }

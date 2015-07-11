@@ -284,7 +284,7 @@ function sportal_load_blocks()
 		if (!$context['SPortal']['sides'][$block['column']]['active'])
 			continue;
 
-		$block['style'] = sportal_parse_style('explode', $block['style'], true);
+		$block['style'] = sportal_select_style($block['styles']);
 
 		$context['SPortal']['sides'][$block['column']]['last'] = $block['id'];
 		$context['SPortal']['blocks'][$block['column']][] = $block;
@@ -335,7 +335,7 @@ function getBlockInfo($column_id = null, $block_id = null, $state = null, $show 
 	$request = $smcFunc['db_query']('','
 		SELECT
 			spb.id_block, spb.label, spb.type, spb.col, spb.row, spb.permissions, spb.state,
-			spb.force_view, spb.display, spb.display_custom, spb.style, spp.variable, spp.value
+			spb.force_view, spb.display, spb.display_custom, spb.styles, spp.variable, spp.value
 		FROM {db_prefix}sp_blocks AS spb
 			LEFT JOIN {db_prefix}sp_parameters AS spp ON (spp.id_block = spb.id_block)' . (!empty($query) ? '
 		WHERE ' . implode(' AND ', $query) : '') . '
@@ -363,7 +363,7 @@ function getBlockInfo($column_id = null, $block_id = null, $state = null, $show 
 				'force_view' => $row['force_view'],
 				'display' => $row['display'],
 				'display_custom' => $row['display_custom'],
-				'style' => $row['style'],
+				'styles' => $row['styles'],
 				'collapsed' => $context['user']['is_guest'] ? !empty($_COOKIE['sp_block_' . $row['id_block']]) : !empty($options['sp_block_' . $row['id_block']]),
 				'parameters' => array(),
 			);
@@ -989,6 +989,25 @@ function sportal_parse_style($action, $setting = '', $process = false)
 	return $style;
 }
 
+function sportal_select_style($style_id)
+{
+	static $styles;
+
+	if (!isset($styles))
+	{
+		$styles = sportal_get_profiles(null, 2);
+	}
+
+	if (isset($styles[$style_id]))
+	{
+		return $styles[$style_id];
+	}
+	else
+	{
+		return sportal_parse_style('explode', null, true);
+	}
+}
+
 function sportal_get_articles($article_id = null, $active = false, $allowed = false, $sort = 'spa.title', $category_id = null)
 {
 	global $smcFunc, $context, $scripturl, $modSettings, $color_profile;
@@ -1030,7 +1049,7 @@ function sportal_get_articles($article_id = null, $active = false, $allowed = fa
 			IFNULL(m.id_member, 0) AS id_author, IFNULL(m.real_name, spa.member_name) AS author_name,
 			spa.namespace AS article_namespace, spa.title, spa.body, spa.type, spa.date, spa.status,
 			spa.permissions AS article_permissions, spc.permissions AS category_permissions,
-			spa.views, spa.comments, m.avatar, a.id_attach, a.attachment_type, a.filename
+			spa.styles, spa.views, spa.comments, m.avatar, a.id_attach, a.attachment_type, a.filename
 		FROM {db_prefix}sp_articles AS spa
 			INNER JOIN {db_prefix}sp_categories AS spc ON (spc.id_category = spa.id_category)
 			LEFT JOIN {db_prefix}members AS m ON (m.id_member = spa.id_member)
@@ -1087,6 +1106,7 @@ function sportal_get_articles($article_id = null, $active = false, $allowed = fa
 			'type' => $row['type'],
 			'date' => $row['date'],
 			'permissions' => $row['article_permissions'],
+			'styles' => $row['styles'],
 			'views' => $row['views'],
 			'comments' => $row['comments'],
 			'status' => $row['status'],
@@ -1342,7 +1362,7 @@ function sportal_get_pages($page_id = null, $active = false, $allowed = false, $
 	$request = $smcFunc['db_query']('','
 		SELECT
 			id_page, namespace, title, body, type,
-			permissions, views, style, status
+			permissions, views, styles, status
 		FROM {db_prefix}sp_pages' . (!empty($query) ? '
 		WHERE ' . implode(' AND ', $query) : '') . '
 		ORDER BY {raw:sort}',
@@ -1361,7 +1381,7 @@ function sportal_get_pages($page_id = null, $active = false, $allowed = false, $
 			'type' => $row['type'],
 			'permissions' => $row['permissions'],
 			'views' => $row['views'],
-			'style' => $row['style'],
+			'styles' => $row['styles'],
 			'status' => $row['status'],
 		);
 	}
@@ -1431,6 +1451,10 @@ function sportal_get_profiles($profile_id = null, $type = null, $sort = 'id_prof
 				'groups_allowed' => $groups_allowed !== '' ? explode(',', $groups_allowed) : array(),
 				'groups_denied' => $groups_denied !== '' ? explode(',', $groups_denied) : array(),
 			));
+		}
+		elseif ($row['type'] == 2)
+		{
+			$return[$row['id_profile']] = array_merge($return[$row['id_profile']], sportal_parse_style('explode', $row['value'], true));
 		}
 	}
 	$smcFunc['db_free_result']($request);

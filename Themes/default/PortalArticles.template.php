@@ -92,15 +92,35 @@ function template_view_article()
 	global $context, $txt;
 
 	echo '
-	<div id="sp_view_article">
-		<div class="cat_bar">
-			<h3 class="catbg">
+	<div id="sp_view_article">';
+
+	if (empty($context['article']['style']['no_title']))
+	{
+		echo '
+		<div', strpos($context['article']['style']['title']['class'], 'custom') === false ? ' class="' . (strpos($context['article']['style']['title']['class'], 'titlebg') !== false ? 'title_bar' : 'cat_bar') . '"' : '', !empty($context['article']['style']['title']['style']) ? ' style="' . $context['article']['style']['title']['style'] . '"' : '', '>
+			<h3 class="', $context['article']['style']['title']['class'], '">
 				', $context['article']['title'], '
 			</h3>
-		</div>
-		<div class="windowbg">
-			<span class="topslice"><span></span></span>
-			<div class="sp_content_padding">
+		</div>';
+	}
+
+	if (strpos($context['article']['style']['body']['class'], 'roundframe') !== false)
+	{
+		echo '
+		<span class="upperframe"><span></span></span>';
+	}
+
+	echo '
+		<div class="', $context['article']['style']['body']['class'], '">';
+
+	if (empty($context['article']['style']['no_body']))
+	{
+		echo '
+			<span class="topslice"><span></span></span>';
+	}
+
+	echo '
+			<div class="sp_content_padding"', !empty($context['article']['style']['body']['style']) ? ' style="' . $context['article']['style']['body']['style'] . '"' : '', '>
 				<div class="sp_article_detail">';
 
 		if (!empty($context['article']['author']['avatar']['image']))
@@ -129,9 +149,22 @@ function template_view_article()
 
 	echo '
 				</div>
-			</div>
-			<span class="botslice"><span></span></span>
+			</div>';
+
+	if (empty($context['article']['style']['no_body']))
+	{
+		echo '
+			<span class="botslice"><span></span></span>';
+	}
+
+	echo '
 		</div>';
+
+	if (strpos($context['article']['style']['body']['class'], 'roundframe') !== false)
+	{
+		echo '
+		<span class="lowerframe"><span></span></span>';
+	}
 
 	if (empty($context['preview']))
 	{

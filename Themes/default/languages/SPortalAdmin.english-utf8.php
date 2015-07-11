@@ -82,6 +82,7 @@ $txt['sp-blocksDisabledRight'] = 'Right side blocks are currently disabled';
 $txt['sp-blocksContent'] = 'Content';
 $txt['sp-blocksColumn'] = 'Column';
 $txt['sp_admin_blocks_col_permissions'] = 'Permissions';
+$txt['sp_admin_blocks_col_styles'] = 'Style';
 $txt['sp-blocksRow'] = 'Order';
 $txt['sp-blocksForce'] = 'Not Collapsible';
 $txt['sp-blocksDisplayOptions'] = 'Display Options';
@@ -95,15 +96,6 @@ $txt['sp-blocksSelectActions'] = 'Select Actions';
 $txt['sp-blocksSelectBoards'] = 'Select Boards';
 $txt['sp-blocksSelectPages'] = 'Select Pages';
 $txt['sp_display_custom'] = 'Custom Display Options';
-$txt['sp-blocksStyleOptions'] = 'Style Options';
-$txt['sp-blocksTitleDefaultClass'] = 'Default Title Class';
-$txt['sp-blocksTitleCustomClass'] = 'Custom Title Class';
-$txt['sp-blocksTitleCustomStyle'] = 'Custom Title Style';
-$txt['sp-blocksBodyDefaultClass'] = 'Default Body Class';
-$txt['sp-blocksBodyCustomClass'] = 'Custom Body Class';
-$txt['sp-blocksBodyCustomStyle'] = 'Custom Body Style';
-$txt['sp-blocksNoTitle'] = 'No Title';
-$txt['sp-blocksNoBody'] = 'No Body';
 
 // Block labels
 $txt['sp_function_sp_userInfo_label'] = 'Member Information';
@@ -284,6 +276,7 @@ $txt['sp_admin_articles_col_status'] = 'Active';
 $txt['sp_admin_articles_col_date'] = 'Date';
 $txt['sp_admin_articles_col_actions'] = 'Actions';
 $txt['sp_admin_articles_col_permissions'] = 'Permissions';
+$txt['sp_admin_articles_col_styles'] = 'Style';
 $txt['sp_admin_articles_activate'] = 'Activate';
 $txt['sp_admin_articles_deactivate'] = 'Deactivate';
 
@@ -348,6 +341,7 @@ $txt['sp_admin_pages_col_views'] = 'Views';
 $txt['sp_admin_pages_col_status'] = 'Active';
 $txt['sp_admin_pages_col_actions'] = 'Actions';
 $txt['sp_admin_pages_col_permissions'] = 'Permissions';
+$txt['sp_admin_pages_col_styles'] = 'Style';
 $txt['sp_admin_pages_col_blocks'] = 'Blocks';
 $txt['sp_admin_pages_activate'] = 'Activate';
 $txt['sp_admin_pages_deactivate'] = 'Deactivate';
@@ -409,6 +403,8 @@ $txt['sp_admin_profiles_remove'] = 'Remove Profiles';
 
 $txt['sp_admin_permission_profiles_list'] = 'Permission Profiles List';
 $txt['sp_admin_permission_profiles_add'] = 'Add Permission Profile';
+$txt['sp_admin_style_profiles_list'] = 'Style Profiles List';
+$txt['sp_admin_style_profiles_add'] = 'Add Style Profile';
 
 $txt['sp_admin_profiles_desc'] = 'You can create and manage SimplePortal profiles in this area.';
 $txt['sp_admin_profiles_delete_confirm'] = 'Are you sure you want to delete this profile?';
@@ -435,9 +431,29 @@ $txt['sp_admin_profiles_permissions_allowed'] = 'Allowed';
 $txt['sp_admin_profiles_permissions_disallowed'] = 'Disallowed';
 $txt['sp_admin_profiles_permissions_denied'] = 'Denied';
 
+$txt['sp_admin_profiles_styles_title_default_class'] = 'Default Title Class';
+$txt['sp_admin_profiles_styles_title_custom_class'] = 'Custom Title Class';
+$txt['sp_admin_profiles_styles_title_custom_style'] = 'Custom Title Style';
+$txt['sp_admin_profiles_styles_no_title'] = 'No Title';
+$txt['sp_admin_profiles_styles_body_default_class'] = 'Default Body Class';
+$txt['sp_admin_profiles_styles_body_custom_class'] = 'Custom Body Class';
+$txt['sp_admin_profiles_styles_body_custom_style'] = 'Custom Body Style';
+$txt['sp_admin_profiles_styles_no_body'] = 'No Body';
+
 $txt['sp_admin_profiles_guests'] = 'Guests';
 $txt['sp_admin_profiles_members'] = 'Members';
 $txt['sp_admin_profiles_everyone'] = 'Everyone';
+
+$txt['sp_admin_profiles_default_title_default_body'] = 'Default title and default body';
+$txt['sp_admin_profiles_default_title_alternate_body'] = 'Default title and alternate body';
+$txt['sp_admin_profiles_alternate_title_default_body'] = 'Alternate title and default body';
+$txt['sp_admin_profiles_alternate_title_alternate_body'] = 'Alternate title and alternate body';
+$txt['sp_admin_profiles_no_title_default_body'] = 'No title and default body';
+$txt['sp_admin_profiles_no_title_alternate_body'] = 'No title and alternate body';
+$txt['sp_admin_profiles_default_title_roundframe'] = 'Default title and roundframe';
+$txt['sp_admin_profiles_alternate_title_roundframe'] = 'Alternate title and roundframe';
+$txt['sp_admin_profiles_no_title_roundframe'] = 'No title and roundframe';
+$txt['sp_admin_profiles_no_title_information'] = 'No title and information';
 
 // General titles
 $txt['sp-adminColumnAction'] = 'Action';
