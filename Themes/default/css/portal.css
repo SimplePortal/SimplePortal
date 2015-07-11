@@ -493,21 +493,6 @@ li.shoutbox_warning
 	width: 70%;
 	margin: 0 auto;
 }
-#sp_edit_block #sp_display_advanced
-{
-	padding-top: 0.6em;
-	line-height: 2em;
-}
-#sp_edit_block ul.sp_display_list
-{
-	overflow: hidden;
-	margin: 0;
-}
-#sp_edit_block ul.sp_display_list li
-{
-	float: left;
-	width: 50%;
-}
 
 #sp_manage_articles table.table_grid
 {
@@ -575,6 +560,21 @@ li.shoutbox_warning
 {
 	width: 60%;
 	margin: 0 auto;
+}
+#sp_edit_profile #sp_select_visibility
+{
+	padding-top: 0.6em;
+	line-height: 2em;
+}
+#sp_edit_profile ul.sp_visibility_list
+{
+	overflow: hidden;
+	margin: 0;
+}
+#sp_edit_profile ul.sp_visibility_list li
+{
+	float: left;
+	width: 50%;
 }
 
 dl#sp_edit_style_title, dl#sp_edit_style_body

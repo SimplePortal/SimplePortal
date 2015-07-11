@@ -159,6 +159,19 @@ function template_block_edit()
 
 	echo '
 							</select>
+						</dd>
+						<dt>
+							<label for="block_visibility">', $txt['sp_admin_blocks_col_visibility'], ':</label>
+						</dt>
+						<dd>
+							<select name="visibility" id="block_visibility">';
+
+	foreach ($context['SPortal']['block']['visibility_profiles'] as $profile)
+		echo '
+								<option value="', $profile['id'], '"', $profile['id'] == $context['SPortal']['block']['visibility'] ? ' selected="selected"' : '', '>', $profile['label'], '</option>';
+
+	echo '
+							</select>
 						</dd>';
 
 	foreach ($context['SPortal']['block']['options'] as $name => $type)
@@ -333,64 +346,6 @@ function template_block_edit()
 				</div>
 				<span class="botslice"><span></span></span>
 			</div>';
-
-	if (!empty($modSettings['sp_enableIntegration']))
-	{
-		echo '
-			<br />
-			<div class="cat_bar">
-				<h3 class="catbg">
-					<a href="', $scripturl, '?action=helpadmin;help=sp-blocksDisplayOptions" onclick="return reqWin(this.href);" class="help"><img src="', $settings['images_url'], '/helptopics.gif" alt="', $txt['help'], '" class="icon" /></a>
-					', $txt['sp-blocksDisplayOptions'], '
-				</h3>
-			</div>
-			<div class="windowbg2">
-				<span class="topslice"><span></span></span>
-				<div class="sp_content_padding">
-					<span class="sp_float_right">', $txt['sp-blocksAdvancedOptions'], '<input type="checkbox" name="display_advanced" id="display_advanced" onclick="document.getElementById(\'sp_display_advanced\').style.display = this.checked ? \'block\' : \'none\'; document.getElementById(\'display_simple\').disabled = this.checked;" ', empty($context['SPortal']['block']['display_type']) ? '' : ' checked="checked"', ' class="input_check" /></span>
-					', $txt['sp-blocksShowBlock'], '
-					<select name="display_simple" id="display_simple"', empty($context['SPortal']['block']['display_type']) ? '' : ' disabled="disabled"', '>';
-
-		foreach ($context['simple_actions'] as $action => $label)
-			echo '
-						<option value="', $action, '"', in_array($action, $context['SPortal']['block']['display']) ? ' selected="selected"' : '', '>', $label, '</option>';
-
-		echo '
-					</select>
-					<div id="sp_display_advanced"', empty($context['SPortal']['block']['display_type']) ? ' style="display: none;"' : '', '>';
-
-		$display_types = array('actions', 'boards', 'pages');
-		foreach ($display_types as $type)
-		{
-			if (empty($context['display_' . $type]))
-				continue;
-
-			echo '
-						<a href="javascript:void(0);" onclick="sp_collapseObject(\'', $type, '\')"><img id="sp_collapse_', $type, '" src="', $settings['images_url'], '/expand.gif" alt="*" /></a> ', $txt['sp-blocksSelect' . ucfirst($type)], '
-						<ul id="sp_object_', $type, '" class="reset sp_display_list" style="display: none;">';
-
-			foreach ($context['display_' . $type] as $index => $action)
-			{
-				echo '
-							<li><input type="checkbox" name="display_', $type, '[]" id="', $type, $index, '" value="', $index, '"', in_array($index, $context['SPortal']['block']['display']) ? ' checked="checked"' : '', ' class="input_check" /> <label for="', $type, $index, '">', $action, '</label></li>';
-		}
-
-			echo '
-							<li><input type="checkbox" onclick="invertAll(this, this.form, \'display_', $type, '[]\');" class="input_check" /> <em>', $txt['check_all'], '</em></li>
-						</ul>
-						<br />';
-		}
-
-		echo '
-						<a href="', $scripturl, '?action=helpadmin;help=sp-blocksCustomDisplayOptions" onclick="return reqWin(this.href);" class="help"><img src="', $settings['images_url'], '/helptopics.gif" alt="', $txt['help'], '" class="icon" /></a> <label for="display_custom">', $txt['sp_display_custom'], ':</label> <input type="text" name="display_custom" id="display_custom" value="', $context['SPortal']['block']['display_custom'], '" class="input_text" />
-					</div>
-					<div class="sp_button_container">
-						<input type="submit" name="add_block" value="', !$context['SPortal']['is_new'] ? $txt['sp-blocksEdit'] : $txt['sp-blocksAdd'], '" class="button_submit" />
-					</div>
-				</div>
-				<span class="botslice"><span></span></span>
-			</div>';
-	}
 
 	if (!empty($context['SPortal']['block']['column']))
 		echo '

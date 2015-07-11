@@ -37,8 +37,7 @@ $helptxt['showleft'] = 'This will enable left side blocks on the portal and insi
 $helptxt['showright'] = 'This will enable right side blocks on the portal and inside the forum.';
 $helptxt['leftwidth'] = 'If left side blocks are enabled, their width can be specified here. The width can be specified in pixels (px) or in percentages (%).';
 $helptxt['rightwidth'] = 'If right side blocks are enabled, their width can be specified here. The width can be specified in pixels (px) or in percentages (%).';
-$helptxt['sp_enableIntegration'] = 'This setting enables blocks inside the forum. It allows the advanced <em>Display Options</em> for each block to be specified.';
-$helptxt['sp_IntegrationHide'] = 'Hide blocks in certain forum sections. The <em>Display blocks in Forum</em> setting must be enabled for this to work.';
+$helptxt['sp_IntegrationHide'] = 'Use thigs setting to hide blocks in certain forum sections.';
 
 // Article settings
 $helptxt['articleactive'] = 'This setting enables articles to be displayed on the portal.';
@@ -61,22 +60,20 @@ $helptxt['sp-blocksFooterList'] = 'These blocks are displayed on the bottom of t
 $helptxt['sp-blocksAdd'] = 'This area enables the selected block to be customised and configured.';
 $helptxt['sp-blocksSelectType'] = 'This area enables blocks to be created for the portal page. Pre-built blocks or custom content blocks can be created easily by selecting the appropriate options.';
 $helptxt['sp-blocksEdit'] = 'This area enables the selected block to be customised and configured.';
-$helptxt['sp-blocksDisplayOptions'] = 'This area allows you to select on which pages block will appear.';
-$helptxt['sp-blocksCustomDisplayOptions'] = 'Custom display options allows a more advanced control over where to display the block with its special syntax.<br /><br />
+$helptxt['sp-blocksCustomDisplayOptions'] = 'Custom queries allows a more advanced control over visibility options with its special syntax.<br /><br />
 <strong>Special actions include:</strong><br /><br />
-<strong>all:</strong> every page in forum.<br />
-<strong>portal:</strong> portal page and it\'s sub-actions.<br />
-<strong>forum:</strong> board index.<br />
-<strong>sforum:</strong> all actions and boards, except portal.<br />
-<strong>allaction:</strong> all actions.<br />
-<strong>allboard:</strong> all boards.<br /><br />
+<strong>all:</strong> everywhere<br />
+<strong>allaction:</strong> all actions<br />
+<strong>allboard:</strong> all boards<br />
+<strong>allpage:</strong> all pages<br />
+<strong>allcategory:</strong> all categories<br />
+<strong>allarticle:</strong> all articles<br /><br />
 <strong>Wavy (~)</strong><br />
 This symbol acts as a wildcard, allowing you to include dynamic actions like ../index.php?issue=* or ../index.php?game=*. Used as ~action<br /><br />
 <strong>Idkin (|)</strong><br />
 Another wildcard sybmol which allows you to specify an exact value for a dynamic action like ../index.php?issue=1.0 or ../index.php?game=xyz. Should be used with wavy and after the action like; ~action|value<br /><br />
 <strong>Negator (-)</strong><br />
 This symbol is to exclude regular and dynamic actions. Should be used before the action name for regular actions and before the wavy for dynamic actions. Used as -action and -~action';
-$helptxt['sp-blocksStyleOptions'] = 'These options allow you to specify CSS styling for each blocks.';
 
 // Articles area
 $helptxt['sp_ArticlesArea'] = 'Articles are topics (first post only) which are displayed on the portal. This section enables existing articles to be modified, and new ones to be created for the portal.';

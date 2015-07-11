@@ -33,6 +33,10 @@ function sportal_admin_profiles_main()
 		'addstyle' => 'sportal_admin_style_profiles_edit',
 		'editstyle' => 'sportal_admin_style_profiles_edit',
 		'deletestyle' => 'sportal_admin_style_profiles_delete',
+		'listvisibility' => 'sportal_admin_visibility_profiles_list',
+		'addvisibility' => 'sportal_admin_visibility_profiles_edit',
+		'editvisibility' => 'sportal_admin_visibility_profiles_edit',
+		'deletevisibility' => 'sportal_admin_visibility_profiles_delete',
 	);
 
 	$_REQUEST['sa'] = isset($_REQUEST['sa']) && isset($sub_actions[$_REQUEST['sa']]) ? $_REQUEST['sa'] : 'listpermission';
@@ -51,6 +55,10 @@ function sportal_admin_profiles_main()
 			'liststyle' => array(
 			),
 			'addstyle' => array(
+			),
+			'listvisibility' => array(
+			),
+			'addvisibility' => array(
 			),
 		),
 	);
@@ -557,4 +565,321 @@ function sportal_admin_style_profiles_delete()
 	);
 
 	redirectexit('action=admin;area=portalprofiles;sa=liststyle');
+}
+
+function sportal_admin_visibility_profiles_list()
+{
+	global $smcFunc, $context, $scripturl, $txt;
+
+	if (!empty($_POST['remove_profiles']) && !empty($_POST['remove']) && is_array($_POST['remove']))
+	{
+		checkSession();
+
+		foreach ($_POST['remove'] as $index => $profile_id)
+			$_POST['remove'][(int) $index] = (int) $profile_id;
+
+		$smcFunc['db_query']('','
+			DELETE FROM {db_prefix}sp_profiles
+			WHERE id_profile IN ({array_int:profiles})',
+			array(
+				'profiles' => $_POST['remove'],
+			)
+		);
+	}
+
+	$sort_methods = array(
+		'name' =>  array(
+			'down' => 'name ASC',
+			'up' => 'name DESC'
+		),
+	);
+
+	$context['columns'] = array(
+		'name' => array(
+			'width' => '75%',
+			'label' => $txt['sp_admin_profiles_col_name'],
+			'class' => 'first_th',
+			'sortable' => true
+		),
+		'blocks' => array(
+			'width' => '10%',
+			'label' => $txt['sp_admin_profiles_col_blocks'],
+			'sortable' => false
+		),
+		'actions' => array(
+			'width' => '15%',
+			'label' => $txt['sp_admin_profiles_col_actions'],
+			'sortable' => false
+		),
+	);
+
+	if (!isset($_REQUEST['sort']) || !isset($sort_methods[$_REQUEST['sort']]))
+		$_REQUEST['sort'] = 'name';
+
+	foreach ($context['columns'] as $col => $dummy)
+	{
+		$context['columns'][$col]['selected'] = $col == $_REQUEST['sort'];
+		$context['columns'][$col]['href'] = $scripturl . '?action=admin;area=portalprofiles;sa=listvisibility;sort=' . $col;
+
+		if (!isset($_REQUEST['desc']) && $col == $_REQUEST['sort'])
+			$context['columns'][$col]['href'] .= ';desc';
+
+		$context['columns'][$col]['link'] = '<a href="' . $context['columns'][$col]['href'] . '">' . $context['columns'][$col]['label'] . '</a>';
+	}
+
+	$context['sort_by'] = $_REQUEST['sort'];
+	$context['sort_direction'] = !isset($_REQUEST['desc']) ? 'down' : 'up';
+
+	$request = $smcFunc['db_query']('','
+		SELECT COUNT(*)
+		FROM {db_prefix}sp_profiles
+		WHERE type = {int:type}',
+		array(
+			'type' => 3,
+		)
+	);
+	list ($total_profiles) =  $smcFunc['db_fetch_row']($request);
+	$smcFunc['db_free_result']($request);
+
+	$context['page_index'] = constructPageIndex($scripturl . '?action=admin;area=portalprofiles;sa=listvisibility;sort=' . $_REQUEST['sort'] . (isset($_REQUEST['desc']) ? ';desc' : ''), $_REQUEST['start'], $total_profiles, 20);
+	$context['start'] = $_REQUEST['start'];
+
+	$request = $smcFunc['db_query']('','
+		SELECT id_profile, name
+		FROM {db_prefix}sp_profiles
+		WHERE type = {int:type}
+		ORDER BY {raw:sort}
+		LIMIT {int:start}, {int:limit}',
+		array(
+			'type' => 3,
+			'sort' => $sort_methods[$_REQUEST['sort']][$context['sort_direction']],
+			'start' => $context['start'],
+			'limit' => 20,
+		)
+	);
+	$context['profiles'] = array();
+	while ($row = $smcFunc['db_fetch_assoc']($request))
+	{
+		$context['profiles'][$row['id_profile']] = array(
+			'id' => $row['id_profile'],
+			'name' => $row['name'],
+			'label' => isset($txt['sp_admin_profiles' . substr($row['name'], 1)]) ? $txt['sp_admin_profiles' . substr($row['name'], 1)] : $row['name'],
+			'actions' => array(
+				'edit' => '<a href="' . $scripturl . '?action=admin;area=portalprofiles;sa=editvisibility;profile_id=' . $row['id_profile'] . ';' . $context['session_var'] . '=' . $context['session_id'] . '">' . sp_embed_image('modify') . '</a>',
+				'delete' => '<a href="' . $scripturl . '?action=admin;area=portalprofiles;sa=deletevisibility;profile_id=' . $row['id_profile'] . ';' . $context['session_var'] . '=' . $context['session_id'] . '" onclick="return confirm(\'', $txt['sp_admin_profiles_delete_confirm'], '\');">' . sp_embed_image('delete') . '</a>',
+			)
+		);
+	}
+	$smcFunc['db_free_result']($request);
+	
+	foreach (array('blocks') as $module)
+	{
+		$request = $smcFunc['db_query']('','
+			SELECT visibility, COUNT(*) AS used
+			FROM {db_prefix}sp_{raw:module}
+			GROUP BY visibility',
+			array(
+				'module' => $module,
+			)
+		);
+		while ($row = $smcFunc['db_fetch_assoc']($request))
+		{
+			if (isset($context['profiles'][$row['visibility']]))
+				$context['profiles'][$row['visibility']][$module] = $row['used'];
+		}
+		$smcFunc['db_free_result']($request);
+	}
+
+	$context['sub_template'] = 'visibility_profiles_list';
+	$context['page_title'] = $txt['sp_admin_visibility_profiles_list'];
+}
+
+function sportal_admin_visibility_profiles_edit()
+{
+	global $smcFunc, $context, $txt;
+
+	$context['is_new'] = empty($_REQUEST['profile_id']);
+
+	if (!empty($_POST['submit']))
+	{
+		checkSession();
+
+		if (!isset($_POST['name']) || $smcFunc['htmltrim']($smcFunc['htmlspecialchars']($_POST['name'], ENT_QUOTES)) === '')
+			fatal_lang_error('sp_error_profile_name_empty', false);
+
+		$types = array('actions', 'boards', 'pages', 'categories', 'articles');
+
+		$selections = array();
+
+		foreach ($types as $type)
+		{
+			if (!empty($_POST[$type]) && is_array($_POST[$type]))
+			{
+				foreach ($_POST[$type] as $item)
+				{
+					$selections[] = $smcFunc['htmlspecialchars']($item, ENT_QUOTES);
+				}
+			}
+		}
+
+		$query = array();
+
+		if (!empty($_POST['query']))
+		{
+			$items = explode(',', $_POST['query']);
+
+			foreach ($items as $item)
+			{
+				$item = $smcFunc['htmltrim']($smcFunc['htmlspecialchars']($item, ENT_QUOTES));
+
+				if ($item !== '')
+				{
+					$query[] = $item;
+				}
+			}
+		}
+
+		$fields = array(
+			'type' => 'int',
+			'name' => 'string',
+			'value' => 'string',
+		);
+
+		$profile_info = array(
+			'id' => (int) $_POST['profile_id'],
+			'type' => 3,
+			'name' => $smcFunc['htmlspecialchars']($_POST['name'], ENT_QUOTES),
+			'value' => implode('|', array(implode(',', $selections), implode(',', $query))),
+		);
+
+		if ($context['is_new'])
+		{
+			unset($profile_info['id']);
+
+			$smcFunc['db_insert']('',
+				'{db_prefix}sp_profiles',
+				$fields,
+				$profile_info,
+				array('id_profile')
+			);
+			$profile_info['id'] = $smcFunc['db_insert_id']('{db_prefix}sp_profiles', 'id_profile');
+		}
+		else
+		{
+			$update_fields = array();
+			foreach ($fields as $name => $type)
+				$update_fields[] = $name . ' = {' . $type . ':' . $name . '}';
+
+			$smcFunc['db_query']('','
+				UPDATE {db_prefix}sp_profiles
+				SET ' . implode(', ', $update_fields) . '
+				WHERE id_profile = {int:id}',
+				$profile_info
+			);
+		}
+
+		redirectexit('action=admin;area=portalprofiles;sa=listvisibility');
+	}
+
+	if ($context['is_new'])
+	{
+		$context['profile'] = array(
+			'id' => 0,
+			'name' => $txt['sp_profiles_default_name'],
+			'query' => '',
+			'selections' => array(),
+		);
+	}
+	else
+	{
+		$_REQUEST['profile_id'] = (int) $_REQUEST['profile_id'];
+		$context['profile'] = sportal_get_profiles($_REQUEST['profile_id']);
+	}
+
+	$context['profile']['actions'] = array(
+		'portal' => $txt['sp-portal'],
+		'forum' => $txt['sp-forum'],
+		'recent' => $txt['recent_posts'],
+		'unread' => $txt['unread_topics_visit'],
+		'unreadreplies' => $txt['unread_replies'],
+		'profile' => $txt['profile'],
+		'pm' => $txt['pm_short'],
+		'calendar' => $txt['calendar'],
+		'admin' =>  $txt['admin'],
+		'login' =>  $txt['login'],
+		'register' =>  $txt['register'],
+		'post' =>  $txt['post'],
+		'stats' =>  $txt['forum_stats'],
+		'search' =>  $txt['search'],
+		'mlist' =>  $txt['members_list'],
+		'moderate' =>  $txt['moderate'],
+		'help' =>  $txt['help'],
+		'who' =>  $txt['who_title'],
+	);
+
+	$request = $smcFunc['db_query']('','
+		SELECT id_board, name
+		FROM {db_prefix}boards
+		WHERE redirect = {string:empty}
+		ORDER BY name DESC',
+		array(
+			'empty' => '',
+		)
+	);
+	$context['profile']['boards'] = array();
+	while ($row = $smcFunc['db_fetch_assoc']($request))
+		$context['profile']['boards']['b' . $row['id_board']] = $row['name'];
+	$smcFunc['db_free_result']($request);
+
+	$request = $smcFunc['db_query']('','
+		SELECT id_page, title
+		FROM {db_prefix}sp_pages
+		ORDER BY title DESC'
+	);
+	$context['profile']['pages'] = array();
+	while ($row = $smcFunc['db_fetch_assoc']($request))
+		$context['profile']['pages']['p' . $row['id_page']] = $row['title'];
+	$smcFunc['db_free_result']($request);
+
+	$request = $smcFunc['db_query']('','
+		SELECT id_category, name
+		FROM {db_prefix}sp_categories
+		ORDER BY name DESC'
+	);
+	$context['profile']['categories'] = array();
+	while ($row = $smcFunc['db_fetch_assoc']($request))
+		$context['profile']['categories']['c' . $row['id_category']] = $row['name'];
+	$smcFunc['db_free_result']($request);
+
+	$request = $smcFunc['db_query']('','
+		SELECT id_article, title
+		FROM {db_prefix}sp_articles
+		ORDER BY title DESC'
+	);
+	$context['profile']['articles'] = array();
+	while ($row = $smcFunc['db_fetch_assoc']($request))
+		$context['profile']['articles']['a' . $row['id_article']] = $row['title'];
+	$smcFunc['db_free_result']($request);
+
+	$context['page_title'] = $context['is_new'] ? $txt['sp_admin_profiles_add'] : $txt['sp_admin_profiles_edit'];
+	$context['sub_template'] = 'visibility_profiles_edit';
+}
+
+function sportal_admin_visibility_profiles_delete()
+{
+	global $smcFunc;
+
+	checkSession('get');
+
+	$profile_id = !empty($_REQUEST['profile_id']) ? (int) $_REQUEST['profile_id'] : 0;
+
+	$smcFunc['db_query']('','
+		DELETE FROM {db_prefix}sp_profiles
+		WHERE id_profile = {int:id}',
+		array(
+			'id' => $profile_id,
+		)
+	);
+
+	redirectexit('action=admin;area=portalprofiles;sa=listvisibility');
 }

@@ -27,7 +27,6 @@ $defaults = array(
 	'showright' => 1,
 	'leftwidth' => 200,
 	'rightwidth' => 200,
-	'sp_enableIntegration' => 1,
 	'sp_adminIntegrationHide' => 1,
 	'sp_resize_images' => 1,
 	'sp_articles_index_per_page' => 5,

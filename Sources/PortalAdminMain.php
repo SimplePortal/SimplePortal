@@ -116,7 +116,6 @@ function sportal_admin_block_settings($return_config = '')
 			array('text', 'leftwidth'),
 			array('text', 'rightwidth'),
 		'',
-			array('check', 'sp_enableIntegration'),
 			array('multicheck', 'sp_IntegrationHide', 'subsettings' => array('sp_adminIntegrationHide' => $txt['admin'], 'sp_profileIntegrationHide' => $txt['profile'], 'sp_pmIntegrationHide' => $txt['personal_messages'], 'sp_mlistIntegrationHide' => $txt['members_title'], 'sp_searchIntegrationHide' => $txt['search'], 'sp_calendarIntegrationHide' => $txt['calendar'], 'sp_moderateIntegrationHide' => $txt['moderate'])),
 	);
 

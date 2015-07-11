@@ -218,52 +218,6 @@ function sportal_admin_page_edit()
 		$_POST['content'] = $_REQUEST['content'];
 	}
 
-	$context['sides'] = array(
-		5 => $txt['sp-positionHeader'],
-		1 => $txt['sp-positionLeft'],
-		2 => $txt['sp-positionTop'],
-		3 => $txt['sp-positionBottom'],
-		4 => $txt['sp-positionRight'],
-		6 => $txt['sp-positionFooter'],
-	);
-
-	$blocks = getBlockInfo();
-	$context['page_blocks'] = array();
-
-	foreach ($blocks as $block)
-	{
-		$shown = false;
-		$tests = array('all', 'allpages', 'sforum');
-		if (!$context['SPortal']['is_new'])
-			$tests[] = 'p' . ((int) $_REQUEST['page_id']);
-
-		foreach (array('display', 'display_custom') as $field)
-		{
-			if (substr($block[$field], 0, 4) === '$php')
-				continue 2;
-
-			$block[$field] = explode(',', $block[$field]);
-
-			if (!$context['SPortal']['is_new'] && in_array('-p' . ((int) $_REQUEST['page_id']), $block[$field]))
-				continue;
-
-			foreach ($tests as $test)
-			{
-				if (in_array($test, $block[$field]))
-				{
-					$shown = true;
-					break;
-				}
-			}
-		}
-
-		$context['page_blocks'][$block['column']][] = array(
-			'id' => $block['id'],
-			'label' => $block['label'],
-			'shown' => $shown,
-		);
-	}
-
 	if (!empty($_POST['submit']))
 	{
 		checkSession();
@@ -308,14 +262,6 @@ function sportal_admin_page_edit()
 			if ($error)
 				fatal_lang_error('error_sp_php_' . $error, false);
 		}
-
-		if (!empty($_POST['blocks']) && is_array($_POST['blocks']))
-		{
-			foreach ($_POST['blocks'] as $id => $block)
-				$_POST['blocks'][$id] = (int) $block;
-		}
-		else
-			$_POST['blocks'] = array();
 
 		$fields = array(
 			'namespace' => 'string',
@@ -364,101 +310,6 @@ function sportal_admin_page_edit()
 				SET ' . implode(', ', $update_fields) . '
 				WHERE id_page = {int:id}',
 				$page_info
-			);
-		}
-
-		$to_show = array();
-		$not_to_show = array();
-		$changes = array();
-
-		foreach ($context['page_blocks'] as $page_blocks)
-		{
-			foreach ($page_blocks as $block)
-			{
-				if ($block['shown'] && !in_array($block['id'], $_POST['blocks']))
-					$not_to_show[] = $block['id'];
-				elseif (!$block['shown'] && in_array($block['id'], $_POST['blocks']))
-					$to_show[] = $block['id'];
-			}
-		}
-
-		foreach ($to_show as $id)
-		{
-			if ((empty($blocks[$id]['display']) && empty($blocks[$id]['display_custom'])) || $blocks[$id]['display'] == 'sportal')
-			{
-				$changes[$id] = array(
-					'display' => 'portal,p' . $page_info['id'],
-					'display_custom' => '',
-				);
-			}
-			elseif (in_array($blocks[$id]['display'], array('allaction', 'allboard')))
-			{
-				$changes[$id] = array(
-					'display' => '',
-					'display_custom' => $blocks[$id]['display'] . ',p' . $page_info['id'],
-				);
-			}
-			elseif (in_array('-p' . $page_info['id'], explode(',', $blocks[$id]['display_custom'])))
-			{
-				$changes[$id] = array(
-					'display' => $blocks[$id]['display'],
-					'display_custom' => implode(',', array_diff(explode(',', $blocks[$id]['display_custom']), array('-p' . $page_info['id']))),
-				);
-			}
-			elseif (empty($blocks[$id]['display_custom']))
-			{
-				$changes[$id] = array(
-					'display' => implode(',', array_merge(explode(',', $blocks[$id]['display']), array('p' . $page_info['id']))),
-					'display_custom' => '',
-				);
-			}
-			else
-			{
-				$changes[$id] = array(
-					'display' => $blocks[$id]['display'],
-					'display_custom' => implode(',', array_merge(explode(',', $blocks[$id]['display_custom']), array('p' . $page_info['id']))),
-				);
-			}
-		}
-
-		foreach ($not_to_show as $id)
-		{
-			if (count(array_intersect(array($blocks[$id]['display'], $blocks[$id]['display_custom']), array('sforum', 'allpages', 'all'))) > 0)
-			{
-				$changes[$id] = array(
-					'display' => '',
-					'display_custom' => $blocks[$id]['display'] . $blocks[$id]['display_custom'] . ',-p' . $page_info['id'],
-				);
-			}
-			elseif (empty($blocks[$id]['display_custom']))
-			{
-				$changes[$id] = array(
-					'display' => implode(',', array_diff(explode(',', $blocks[$id]['display']), array('p' . $page_info['id']))),
-					'display_custom' => '',
-				);
-			}
-			else
-			{
-				$changes[$id] = array(
-					'display' => implode(',', array_diff(explode(',', $blocks[$id]['display']), array('p' . $page_info['id']))),
-					'display_custom' => implode(',', array_diff(explode(',', $blocks[$id]['display_custom']), array('p' . $page_info['id']))),
-				);
-			}
-		}
-
-		foreach ($changes as $id => $data)
-		{
-			$smcFunc['db_query']('','
-				UPDATE {db_prefix}sp_blocks
-				SET
-					display = {string:display},
-					display_custom = {string:display_custom}
-				WHERE id_block = {int:id}',
-				array(
-					'id' => $id,
-					'display' => $data['display'],
-					'display_custom' => $data['display_custom'],
-				)
 			);
 		}
 

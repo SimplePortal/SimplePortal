@@ -255,10 +255,9 @@ function sportal_admin_block_edit()
 			'row' => 0,
 			'permissions' => 3,
 			'styles' => 4,
+			'visibility' => 14,
 			'state' => 1,
 			'force_view' => 0,
-			'display' => '',
-			'display_custom' => '',
 			'parameters' => !empty($start_parameters) ? $start_parameters : array(),
 			'options'=> $_POST['selected_type'][0](array(), false, true),
 			'list_blocks' => !empty($_POST['block_column']) ? getBlockInfo($_POST['block_column']) : array(),
@@ -314,43 +313,6 @@ function sportal_admin_block_edit()
 		else
 			$_POST['parameters'] = array();
 
-		if (empty($_POST['display_advanced']))
-		{
-			if (!empty($_POST['display_simple']) && in_array($_POST['display_simple'], array('all', 'sportal', 'sforum', 'allaction', 'allboard', 'allpages')))
-				$display = $_POST['display_simple'];
-			else
-				$display = '';
-
-			$custom = '';
-		}
-		else
-		{
-			$display = array();
-			$custom = array();
-
-			if (!empty($_POST['display_actions']))
-				foreach ($_POST['display_actions'] as $action)
-					$display[] = $smcFunc['htmlspecialchars']($action, ENT_QUOTES);
-
-			if (!empty($_POST['display_boards']))
-				foreach ($_POST['display_boards'] as $board)
-					$display[] = 'b' . ((int) substr($board, 1));
-
-			if (!empty($_POST['display_pages']))
-				foreach ($_POST['display_pages'] as $page)
-					$display[] = 'p' . ((int) substr($page, 1));
-
-			if (!empty($_POST['display_custom']))
-			{
-				$temp = explode(',', $_POST['display_custom']);
-				foreach ($temp as $action)
-					$custom[] = $smcFunc['htmlspecialchars']($smcFunc['htmltrim']($action), ENT_QUOTES);
-			}
-
-			$display = empty($display) ? '' : implode(',', $display);
-			$custom = empty($custom) ? '' : implode(',', $custom);
-		}
-
 		$context['SPortal']['block'] = array(
 			'id' => $_POST['block_id'],
 			'label' => $smcFunc['htmlspecialchars']($_POST['block_name'], ENT_QUOTES),
@@ -360,10 +322,9 @@ function sportal_admin_block_edit()
 			'row' => !empty($_POST['block_row']) ? $_POST['block_row'] : 0,
 			'permissions' => $_POST['permissions'],
 			'styles' => $_POST['styles'],
+			'visibility' => $_POST['visibility'],
 			'state' => !empty($_POST['block_active']),
 			'force_view' => !empty($_POST['block_force']),
-			'display' => $display,
-			'display_custom' => $custom,
 			'parameters' => !empty($_POST['parameters']) ? $_POST['parameters'] : array(),
 			'options'=> $_POST['block_type'](array(), false, true),
 			'list_blocks' => getBlockInfo($_POST['block_column']),
@@ -418,6 +379,7 @@ function sportal_admin_block_edit()
 
 		$context['SPortal']['block']['permission_profiles'] = sportal_get_profiles(null, 1, 'name');
 		$context['SPortal']['block']['style_profiles'] = sportal_get_profiles(null, 2, 'name');
+		$context['SPortal']['block']['visibility_profiles'] = sportal_get_profiles(null, 3, 'name');
 
 		if (empty($context['SPortal']['block']['permission_profiles']))
 			fatal_lang_error('error_sp_no_permission_profiles', false);
@@ -425,65 +387,8 @@ function sportal_admin_block_edit()
 		if (empty($context['SPortal']['block']['style_profiles']))
 			fatal_lang_error('error_sp_no_style_profiles', false);
 
-		$context['simple_actions'] = array(
-			'sportal' => $txt['sp-portal'],
-			'sforum' => $txt['sp-forum'],
-			'allaction' => $txt['sp-blocksOptionAllActions'],
-			'allboard' => $txt['sp-blocksOptionAllBoards'],
-			'allpages' => $txt['sp-blocksOptionAllPages'],
-			'all' => $txt['sp-blocksOptionEverywhere'],
-		);
-
-		$context['display_actions'] = array(
-			'portal' => $txt['sp-portal'],
-			'forum' => $txt['sp-forum'],
-			'recent' => $txt['recent_posts'],
-			'unread' => $txt['unread_topics_visit'],
-			'unreadreplies' => $txt['unread_replies'],
-			'profile' => $txt['profile'],
-			'pm' => $txt['pm_short'],
-			'calendar' => $txt['calendar'],
-			'admin' =>  $txt['admin'],
-			'login' =>  $txt['login'],
-			'register' =>  $txt['register'],
-			'post' =>  $txt['post'],
-			'stats' =>  $txt['forum_stats'],
-			'search' =>  $txt['search'],
-			'mlist' =>  $txt['members_list'],
-			'moderate' =>  $txt['moderate'],
-			'help' =>  $txt['help'],
-			'who' =>  $txt['who_title'],
-		);
-
-		$request = $smcFunc['db_query']('','
-			SELECT id_board, name
-			FROM {db_prefix}boards
-			ORDER BY name DESC'
-		);
-		$context['display_boards'] = array();
-		while ($row = $smcFunc['db_fetch_assoc']($request))
-			$context['display_boards']['b' . $row['id_board']] = $row['name'];
-		$smcFunc['db_free_result']($request);
-
-		$request = $smcFunc['db_query']('','
-			SELECT id_page, title
-			FROM {db_prefix}sp_pages
-			ORDER BY title DESC'
-		);
-		$context['display_pages'] = array();
-		while ($row = $smcFunc['db_fetch_assoc']($request))
-			$context['display_pages']['p' . $row['id_page']] = $row['title'];
-		$smcFunc['db_free_result']($request);
-
-		if (empty($context['SPortal']['block']['display']))
-			$context['SPortal']['block']['display'] = array('0');
-		else
-			$context['SPortal']['block']['display'] = explode(',', $context['SPortal']['block']['display']);
-
-		if (in_array($context['SPortal']['block']['display'][0], array('all', 'sportal', 'sforum', 'allaction', 'allboard', 'allpages')) || $context['SPortal']['is_new'] || empty($context['SPortal']['block']['display'][0]) && empty($context['SPortal']['block']['display_custom']))
-			$context['SPortal']['block']['display_type'] = 0;
-		else
-			$context['SPortal']['block']['display_type'] = 1;
+		if (empty($context['SPortal']['block']['visibility_profiles']))
+			fatal_lang_error('error_sp_no_visibility_profiles', false);
 
 		$context['SPortal']['block']['style'] = sportal_select_style($context['SPortal']['block']['styles']);
 
@@ -696,61 +601,6 @@ function sportal_admin_block_edit()
 		else
 			$_POST['parameters'] = array();
 
-		if (empty($_POST['display_advanced']))
-		{
-			if (!empty($_POST['display_simple']) && in_array($_POST['display_simple'], array('all', 'sportal', 'sforum', 'allaction', 'allboard', 'allpages')))
-				$display = $_POST['display_simple'];
-			else
-				$display = '';
-
-			$custom = '';
-		}
-		else
-		{
-			$display = array();
-
-			if (!empty($_POST['display_actions']))
-				foreach ($_POST['display_actions'] as $action)
-					$display[] = $smcFunc['htmlspecialchars']($action, ENT_QUOTES);
-
-			if (!empty($_POST['display_boards']))
-				foreach ($_POST['display_boards'] as $board)
-					$display[] = 'b' . ((int) substr($board, 1));
-
-			if (!empty($_POST['display_pages']))
-				foreach ($_POST['display_pages'] as $page)
-					$display[] = 'p' . ((int) substr($page, 1));
-
-			if (!empty($_POST['display_custom']))
-			{
-				$temp = explode(',', $_POST['display_custom']);
-				foreach ($temp as $action)
-					$custom[] = $smcFunc['htmlspecialchars']($smcFunc['htmltrim']($action), ENT_QUOTES);
-			}
-
-			$display = empty($display) ? '' : implode(',', $display);
-
-			if (!allowedTo('admin_forum') && isset($current_data['display_custom']) && substr($current_data['display_custom'], 0, 4) === '$php')
-				$custom = $current_data['display_custom'];
-			elseif (!empty($_POST['display_custom']))
-			{
-				if (allowedTo('admin_forum') && substr($_POST['display_custom'], 0, 4) === '$php')
-					$custom = $smcFunc['htmlspecialchars']($_POST['display_custom'], ENT_QUOTES);
-				else
-				{
-					$custom = array();
-					$temp = explode(',', $_POST['display_custom']);
-
-					foreach ($temp as $action)
-						$custom[] = $smcFunc['htmlspecialchars']($action, ENT_QUOTES);
-
-					$custom = empty($custom) ? '' : implode(',', $custom);
-				}
-			}
-			else
-				$custom = '';
-		}
-
 		$blockInfo = array(
 			'id' => (int) $_POST['block_id'],
 			'label' => $smcFunc['htmlspecialchars']($_POST['block_name'], ENT_QUOTES),
@@ -759,10 +609,9 @@ function sportal_admin_block_edit()
 			'row' => $row,
 			'permissions' => (int) $_POST['permissions'],
 			'styles' => (int) $_POST['styles'],
+			'visibility' => (int) $_POST['visibility'],
 			'state' => !empty($_POST['block_active']) ? 1 : 0,
 			'force_view' => !empty($_POST['block_force']) ? 1 : 0,
-			'display' => $display,
-			'display_custom' => $custom,
 		);
 
 		if ($context['SPortal']['is_new'])
@@ -778,10 +627,9 @@ function sportal_admin_block_edit()
 					'row' => 'int',
 					'permissions' => 'int',
 					'styles' => 'int',
+					'visibility' => 'int',
 					'state' => 'int',
 					'force_view' => 'int',
-					'display' => 'string',
-					'display_custom' => 'string',
 				),
 				$blockInfo,
 				array('id_block')
@@ -795,10 +643,9 @@ function sportal_admin_block_edit()
 				"label = {string:label}",
 				"permissions = {int:permissions}",
 				"styles = {int:styles}",
+				"visibility = {int:visibility}",
 				"state = {int:state}",
 				"force_view = {int:force_view}",
-				"display = {string:display}",
-				"display_custom = {string:display_custom}",
 			);
 
 			if (!empty($blockInfo['row']))

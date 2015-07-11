@@ -167,33 +167,6 @@ function template_pages_edit()
 							</select>
 						</dd>
 						<dt>
-							<label for="page_blocks">', $txt['sp_admin_pages_col_blocks'], ':</label>
-						</dt>
-						<dd>
-							<select name="blocks[]" id="page_blocks" size="7" multiple="multiple">';
-
-	foreach ($context['sides'] as $side => $label)
-	{
-		if (empty($context['page_blocks'][$side]))
-			continue;
-
-		echo '
-								<optgroup label="', $label, '">';
-
-		foreach ($context['page_blocks'][$side] as $block)
-		{
-			echo '
-									<option value="', $block['id'], '"', $block['shown'] ? ' selected="selected"' : '', '>', $block['label'], '</option>';
-		}
-
-		echo '
-								</optgroup>';
-	}
-
-	echo '
-							</select>
-						</dd>
-						<dt>
 							<label for="page_status">', $txt['sp_admin_pages_col_status'], ':</label>
 						</dt>
 						<dd>

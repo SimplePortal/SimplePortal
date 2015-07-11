@@ -101,7 +101,7 @@ function sportal_init($standalone = false)
 
 	$context['standalone'] = $standalone;
 	$context['SPortal']['core_compat'] = $settings['name'] == 'Core Theme';
-	$context['SPortal']['on_portal'] = getShowInfo(0, 'portal', '');
+	$context['SPortal']['on_portal'] = sportal_process_visibility('portal');
 
 	if (!empty($context['template_layers']) && !in_array('portal', $context['template_layers']))
 		$context['template_layers'][] = 'portal';
@@ -334,8 +334,8 @@ function getBlockInfo($column_id = null, $block_id = null, $state = null, $show 
 
 	$request = $smcFunc['db_query']('','
 		SELECT
-			spb.id_block, spb.label, spb.type, spb.col, spb.row, spb.permissions, spb.state,
-			spb.force_view, spb.display, spb.display_custom, spb.styles, spp.variable, spp.value
+			spb.id_block, spb.label, spb.type, spb.col, spb.row, spb.permissions, spb.styles,
+			spb.visibility, spb.state, spb.force_view, spp.variable, spp.value
 		FROM {db_prefix}sp_blocks AS spb
 			LEFT JOIN {db_prefix}sp_parameters AS spp ON (spp.id_block = spb.id_block)' . (!empty($query) ? '
 		WHERE ' . implode(' AND ', $query) : '') . '
@@ -346,7 +346,7 @@ function getBlockInfo($column_id = null, $block_id = null, $state = null, $show 
 	$return = array();
 	while ($row = $smcFunc['db_fetch_assoc']($request))
 	{
-		if (!empty($show) && !getShowInfo($row['id_block'], $row['display'], $row['display_custom']))
+		if (!empty($show) && !sportal_check_visibility($row['visibility']))
 			continue;
 
 		if (!isset($return[$row['id_block']]))
@@ -359,11 +359,10 @@ function getBlockInfo($column_id = null, $block_id = null, $state = null, $show 
 				'column' => $row['col'],
 				'row' => $row['row'],
 				'permissions' => $row['permissions'],
+				'styles' => $row['styles'],
+				'visibility' => $row['visibility'],
 				'state' => empty($row['state']) ? 0 : 1,
 				'force_view' => $row['force_view'],
-				'display' => $row['display'],
-				'display_custom' => $row['display_custom'],
-				'styles' => $row['styles'],
 				'collapsed' => $context['user']['is_guest'] ? !empty($_COOKIE['sp_block_' . $row['id_block']]) : !empty($options['sp_block_' . $row['id_block']]),
 				'parameters' => array(),
 			);
@@ -377,54 +376,29 @@ function getBlockInfo($column_id = null, $block_id = null, $state = null, $show 
 	return $return;
 }
 
-/**
- * Function to get a block's display/show information.
- *
- * @param int $block_id
- * @param string $display
- * @param string $custom
- */
-function getShowInfo($block_id = null, $display = null, $custom = null)
+function sportal_process_visibility($query)
 {
-	global $smcFunc, $context, $modSettings;
-	static $variables;
-
-	// Do we have the display info?
-	if ($display === null || $custom === null)
-	{
-		// Make sure that its an integer.
-		$block_id = (int) $block_id;
-
-		// We need an ID.
-		if (empty($block_id))
-			return false;
-
-		// Get the info.
-		$result = $smcFunc['db_query']('','
-			SELECT display, display_custom
-			FROM {db_prefix}sp_blocks
-			WHERE id_block = {int:id_block}
-			LIMIT 1',
-			array(
-				'id_block' => $block_id,
-			)
-		);
-		list ($display, $custom) = $smcFunc['db_fetch_row']($result);
-		$smcFunc['db_free_result']($result);
-	}
+	global $context, $modSettings;
 
 	if (!empty($_GET['page']) && (empty($context['current_action']) || $context['current_action'] == 'portal'))
 		$page_info = sportal_get_pages($_GET['page'], true, true);
 
-	// Some variables for ease.
+	if (!empty($_GET['category']) && (empty($context['current_action']) || $context['current_action'] == 'portal'))
+		$category_info = sportal_get_categories($_GET['category'], true, true);
+
+	if (!empty($_GET['article']) && (empty($context['current_action']) || $context['current_action'] == 'portal'))
+		$article_info = sportal_get_articles($_GET['article'], true, true);
+
 	$action = !empty($context['current_action']) ? $context['current_action'] : '';
 	$sub_action = !empty($context['current_subaction']) ? $context['current_subaction'] : '';
 	$board = !empty($context['current_board']) ? 'b' . $context['current_board'] : '';
 	$topic = !empty($context['current_topic']) ? 't' . $context['current_topic'] : '';
 	$page = !empty($page_info['id']) ? 'p' . $page_info['id'] : '';
-	$portal = (empty($action) && empty($sub_action) && empty($board) && empty($topic) && SMF != 'SSI' && $modSettings['sp_portal_mode'] == 1) || $action == 'portal' || !empty($context['standalone']) ? true : false;
+	$category = !empty($category_info['id']) ? 'c' . $category_info['id'] : '';
+	$article = !empty($article_info['id']) ? 'a' . $article_info['id'] : '';
+	$portal = (empty($action) && empty($sub_action) && empty($board) && empty($topic) && empty($page) && empty($category) && empty($article) && SMF != 'SSI' && $modSettings['sp_portal_mode'] == 1) || $action == 'portal' || !empty($context['standalone']) ? true : false;
+	$forum = (empty($action) && empty($sub_action) && empty($board) && empty($topic) && empty($page) && empty($category) && empty($article) && SMF != 'SSI' && $modSettings['sp_portal_mode'] != 1) || $action == 'forum';
 
-	// Will hopefully get larger in the future.
 	$portal_actions = array(
 		'articles' => true,
 		'start' => true,
@@ -437,7 +411,6 @@ function getShowInfo($block_id = null, $display = null, $custom = null)
 		'action' => array('portal'),
 	);
 
-	// Set some action exceptions.
 	$exceptions = array(
 		'post' => array('announce', 'editpoll', 'emailuser', 'post2', 'sendtopic'),
 		'register' => array('activate', 'coppa'),
@@ -448,8 +421,8 @@ function getShowInfo($block_id = null, $display = null, $custom = null)
 		'profile' => array('trackip', 'viewprofile'),
 	);
 
-	// Still, we might not be in portal!
 	if (!empty($_GET) && empty($context['standalone']))
+	{
 		foreach ($_GET as $key => $value)
 		{
 			if (preg_match('~^news\d+$~', $key))
@@ -460,130 +433,145 @@ function getShowInfo($block_id = null, $display = null, $custom = null)
 			elseif (is_array($portal_actions[$key]) && !in_array($value, $portal_actions[$key]))
 				$portal = false;
 		}
-
-	// Set the action to more known one.
-	foreach ($exceptions as $key => $exception)
-		if (in_array($action, $exception))
-			$action = $key;
-
-	// Take care of custom actions.
-	$special = array();
-	$exclude = array();
-	if (!empty($custom))
-	{
-		// Complex display options first...
-		if (substr($custom, 0, 4) === '$php')
-		{
-			if (!isset($variables))
-			{
-				$variables = array(
-					'{$action}' => "'$action'",
-					'{$sa}' => "'$sub_action'",
-					'{$board}' => "'$board'",
-					'{$topic}' => "'$topic'",
-					'{$page}' => "'$page'",
-					'{$portal}' => $portal,
-				);
-			}
-
-			return @eval(str_replace(array_keys($variables), array_values($variables), un_htmlspecialchars(substr($custom, 4))) . ';');
-		}
-
-		$custom = explode(',', $custom);
-
-		// This is special...
-		foreach ($custom as $key => $value)
-		{
-			$name = '';
-			$item = '';
-
-			// Is this a weird action?
-			if ($value[0] == '~')
-			{
-				@list($name, $item) = explode('|', substr($value, 1));
-
-				if (empty($item))
-					$special[$name] = true;
-				else
-					$special[$name][] = $item;
-			}
-
-			// Might be excluding something!
-			elseif ($value[0] == '-')
-			{
-				// We still may have weird things...
-				if ($value[1] == '~')
-				{
-					@list($name, $item) = explode('|', substr($value, 2));
-
-					if (empty($item))
-						$exclude['special'][$name] = true;
-					else
-						$exclude['special'][$name][] = $item;
-				}
-				else
-					$exclude['regular'][] = substr($value, 1);
-			}
-		}
-
-		// Add what we have to main variable.
-		if (!empty($display))
-			$display = $display . ',' . implode(',', $custom);
-		else
-			$display = $custom;
 	}
 
-	// We don't want to show it on this action/page/board?
-	if (!empty($exclude['regular']) && count(array_intersect(array($action, $page, $board), $exclude['regular'])) > 0)
+	foreach ($exceptions as $key => $exception)
+	{
+		if (in_array($action, $exception))
+			$action = $key;
+	}
+
+	if (($boundary = strpos($query, '$php')) !== false)
+	{
+		$code = substr($query, $boundary + 4);
+
+		$variables = array(
+			'{$action}' => "'$action'",
+			'{$sa}' => "'$sub_action'",
+			'{$board}' => "'$board'",
+			'{$topic}' => "'$topic'",
+			'{$page}' => "'$page'",
+			'{$category}' => "'$category'",
+			'{$article}' => "'$article'",
+			'{$portal}' => $portal,
+			'{$forum}' => $forum,
+		);
+
+		return eval(str_replace(array_keys($variables), array_values($variables), un_htmlspecialchars($code)) . ';');
+	}
+
+	if (!empty($query))
+		$query = explode(',', $query);
+	else
 		return false;
 
-	// Maybe we don't want to show it in somewhere special.
+	$special = array();
+	$exclude = array();
+
+	foreach ($query as $value)
+	{
+		if (!isset($value[0]))
+			continue;
+
+		$name = '';
+		$item = '';
+
+		if ($value[0] == '~')
+		{
+			if (strpos($value, '|') !== false)
+				list ($name, $item) = explode('|', substr($value, 1));
+			else
+				$name = substr($value, 1);
+
+			if (empty($item))
+				$special[$name] = true;
+			else
+				$special[$name][] = $item;
+		}
+		elseif ($value[0] == '-')
+		{
+			if ($value[1] == '~')
+			{
+				if (strpos($value, '|') !== false)
+					list ($name, $item) = explode('|', substr($value, 2));
+				else
+					$name = substr($value, 2);
+
+				if (empty($item))
+					$exclude['special'][$name] = true;
+				else
+					$exclude['special'][$name][] = $item;
+			}
+			else
+				$exclude['regular'][] = substr($value, 1);
+		}
+	}
+
+	if (!empty($exclude['regular']) && count(array_intersect(array($action, $page, $board, $category, $article), $exclude['regular'])) > 0)
+		return false;
+
 	if (!empty($exclude['special']))
+	{
 		foreach ($exclude['special'] as $key => $value)
+		{
 			if (isset($_GET[$key]))
+			{
 				if (is_array($value) && !in_array($_GET[$key], $value))
 					continue;
 				else
 					return false;
+			}
+		}
+	}
 
-	// If no display info and/or integration disabled and we are on portal; show it!
-	if ((empty($display) || empty($modSettings['sp_enableIntegration'])) && $portal)
-		return true;
-	// No display info and/or integration disabled and no portal; no need...
-	elseif (empty($display) || empty($modSettings['sp_enableIntegration']))
-		return false;
-	// Get ready for real action if you haven't yet.
-	elseif (!is_array($display))
-		$display = explode(',', $display);
-
-	// Did we disable all blocks for this action?
 	if (!empty($modSettings['sp_' . $action . 'IntegrationHide']))
 		return false;
-	// If we will display show the block.
-	elseif (in_array('all', $display))
+	elseif (in_array('all', $query))
 		return true;
-	// If we are on portal, show portal blocks; if we are on forum, show forum blocks.
-	elseif (($portal && (in_array('portal', $display) || in_array('sportal', $display))) || (!$portal && in_array('sforum', $display)))
+	elseif (($portal && in_array('portal', $query)) || ($forum && in_array('forum', $query)))
 		return true;
-	elseif (!empty($board) && (in_array('allboard', $display) || in_array($board, $display)))
+	elseif (!empty($action) && $action != 'portal' && (in_array('allaction', $query) || in_array($action, $query)))
 		return true;
-	elseif (!empty($action) && $action != 'portal' && (in_array('allaction', $display) || in_array($action, $display)))
+	elseif (!empty($board) && (in_array('allboard', $query) || in_array($board, $query)))
 		return true;
-	elseif (!empty($page) && (in_array('allpages', $display) || in_array($page, $display)))
+	elseif (!empty($page) && (in_array('allpage', $query) || in_array($page, $query)))
 		return true;
-	elseif (empty($action) && empty($board) && empty($_GET['page']) && !$portal && ($modSettings['sp_portal_mode'] == 2 || $modSettings['sp_portal_mode'] == 3) && in_array('forum', $display))
+	elseif (!empty($category) && (in_array('allcategory', $query) || in_array($category, $query)))
+		return true;
+	elseif (!empty($article) && (in_array('allarticle', $query) || in_array($article, $query)))
 		return true;
 
-	// For mods using weird urls...
 	foreach ($special as $key => $value)
+	{
 		if (isset($_GET[$key]))
+		{
 			if (is_array($value) && !in_array($_GET[$key], $value))
 				continue;
 			else
 				return true;
+		}
+	}
 
-	// Ummm, no block!
 	return false;
+}
+
+function sportal_check_visibility($visibility_id)
+{
+	static $visibilities;
+
+	if (!isset($visibilities))
+	{
+		$visibilities = sportal_get_profiles(null, 3);
+	}
+
+	if (isset($visibilities[$visibility_id]))
+	{
+		return sportal_process_visibility($visibilities[$visibility_id]['final']);
+	}
+	else
+	{
+		return false;
+	}
 }
 
 function BookOfSinan()
@@ -1455,6 +1443,16 @@ function sportal_get_profiles($profile_id = null, $type = null, $sort = 'id_prof
 		elseif ($row['type'] == 2)
 		{
 			$return[$row['id_profile']] = array_merge($return[$row['id_profile']], sportal_parse_style('explode', $row['value'], true));
+		}
+		elseif ($row['type'] == 3)
+		{
+			list ($selections, $query) = explode('|',  $row['value']);
+
+			$return[$row['id_profile']] = array_merge($return[$row['id_profile']], array(
+				'selections' => explode(',', $selections),
+				'query' => $query,
+				'final' => implode(',', array($selections, $query)),
+			));
 		}
 	}
 	$smcFunc['db_free_result']($request);

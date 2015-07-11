@@ -148,6 +148,7 @@ $txt['error_sp_no_arcade_found'] = 'There are no arcade mods installed.';
 $txt['error_sp_no_stats_found'] = 'No statistics found.';
 $txt['error_sp_no_permission_profiles'] = 'There are no permission profiles available.';
 $txt['error_sp_no_style_profiles'] = 'There are no style profiles available.';
+$txt['error_sp_no_visibility_profiles'] = 'There are no visibility profiles available.';
 $txt['error_sp_no_pages'] = 'There are no pages available.';
 $txt['error_sp_no_categories'] = 'There are no categories available.';
 $txt['error_sp_no_articles'] = 'There are no articles available.';

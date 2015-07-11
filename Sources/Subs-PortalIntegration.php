@@ -126,6 +126,8 @@ function sp_integrate_admin_areas(&$admin_areas)
 							'addpermission' => array($txt['sp_admin_permission_profiles_add']),
 							'liststyle' => array($txt['sp_admin_style_profiles_list']),
 							'addstyle' => array($txt['sp_admin_style_profiles_add']),
+							'listvisibility' => array($txt['sp_admin_visibility_profiles_list']),
+							'addvisibility' => array($txt['sp_admin_visibility_profiles_add']),
 						),
 					),
 				),
@@ -160,8 +162,6 @@ function sp_integrate_load_permissions(&$permission_groups, &$permission_list, &
 		'sp_manage_articles',
 		'sp_manage_pages',
 		'sp_manage_shoutbox',
-		'sp_add_article',
-		'sp_auto_article_approval',
-		'sp_remove_article',
+		'sp_manage_profiles',
 	));
 }
