@@ -90,6 +90,15 @@ $tables = array(
 			array('type' => 'primary', 'columns' => array('id_comment')),
 		),
 	),
+	'sp_custom_menus' => array(
+		'columns' => array(
+			array('name' => 'id_menu', 'type' => 'mediumint', 'size' => 8, 'auto' => true),
+			array('name' => 'name', 'type' => 'tinytext'),
+		),
+		'indexes' => array(
+			array('type' => 'primary', 'columns' => array('id_menu')),
+		),
+	),
 	'sp_functions' => array(
 		'columns' => array(
 			array('name' => 'id_function', 'type' => 'tinyint', 'size' => 4, 'auto' => true),
@@ -98,6 +107,18 @@ $tables = array(
 		),
 		'indexes' => array(
 			array('type' => 'primary', 'columns' => array('id_function')),
+		),
+	),
+	'sp_menu_items' => array(
+		'columns' => array(
+			array('name' => 'id_item', 'type' => 'mediumint', 'size' => 8, 'auto' => true),
+			array('name' => 'id_menu', 'type' => 'mediumint', 'size' => 8, 'default' => 0),
+			array('name' => 'namespace', 'type' => 'tinytext'),
+			array('name' => 'title', 'type' => 'tinytext'),
+			array('name' => 'href', 'type' => 'tinytext'),
+		),
+		'indexes' => array(
+			array('type' => 'primary', 'columns' => array('id_item')),
 		),
 	),
 	'sp_pages' => array(

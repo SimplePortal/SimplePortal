@@ -382,6 +382,38 @@ $txt['sp_admin_shoutbox_block_redirect_message'] = '<p>Congratulations, you have
 <p>Click <a href="%s">here</a> to create a new shoutbox block for this shoutbox.</p>
 <p>Click <a href="%s">here</a> to continue to your list of shoutboxes.</p>';
 
+// Menus Area
+$txt['sp_admin_menus_title'] = 'Menus';
+$txt['sp_admin_menus_remove'] = 'Remove Menus';
+$txt['sp_admin_items_remove'] = 'Remove Items';
+
+$txt['sp_admin_menus_main_item_list'] = 'Main Menu Items List';
+$txt['sp_admin_menus_main_item_add'] = 'Add Main Menu Item';
+$txt['sp_admin_menus_main_item_edit'] = 'Edit Main Menu Item';
+$txt['sp_admin_menus_custom_menu_list'] = 'Custom Menus List';
+$txt['sp_admin_menus_custom_menu_add'] = 'Add Custom Menu';
+$txt['sp_admin_menus_custom_menu_edit'] = 'Edit Custom Menu';
+$txt['sp_admin_menus_custom_item_list'] = 'Custom Menu Items List';
+$txt['sp_admin_menus_custom_item_add'] = 'Add Custom Menu Item';
+$txt['sp_admin_menus_custom_item_edit'] = 'Edit Custom Menu Item';
+
+$txt['sp_admin_menus_desc'] = 'You can modify the main menu and manage custom menus in this area.';
+$txt['sp_admin_menus_menu_delete_confirm'] = 'Are you sure you want to delete this menu?';
+$txt['sp_admin_menus_item_delete_confirm'] = 'Are you sure you want to delete this item?';
+$txt['sp_menus_remove_confirm'] = 'Are you sure that you want to remove the selected menus?';
+$txt['sp_items_remove_confirm'] = 'Are you sure that you want to remove the selected items?';
+$txt['sp_error_menu_name_empty'] = 'Sorry, you left the menu name empty.';
+$txt['sp_error_item_title_empty'] = 'Sorry, you left the item title empty.';
+$txt['sp_error_no_custom_menus'] = 'There are no custom menus available.';
+$txt['sp_error_no_menu_items'] = 'There are no menu items available.';
+
+$txt['sp_admin_menus_col_name'] = 'Name';
+$txt['sp_admin_menus_col_title'] = 'Title';
+$txt['sp_admin_menus_col_actions'] = 'Actions';
+
+$txt['sp_menus_default_custom_menu_name'] = 'Unnamed Menu';
+$txt['sp_menus_default_menu_item_name'] = 'Untitled Item';
+
 // Profiles Area
 $txt['sp_admin_profiles_title'] = 'Profiles';
 $txt['sp_admin_profiles_add'] = 'Add Profile';
@@ -526,6 +558,8 @@ $txt['permissionname_sp_manage_pages'] = 'Manage portal pages';
 $txt['permissionhelp_sp_manage_pages'] = 'This permission allows users to manage SimplePortal pages.';
 $txt['permissionname_sp_manage_shoutbox'] = 'Manage portal shoutboxes';
 $txt['permissionhelp_sp_manage_shoutbox'] = 'This permission allows users to manage SimplePortal shoutboxes.';
+$txt['permissionname_sp_manage_menus'] = 'Manage main menu and custom menus';
+$txt['permissionhelp_sp_manage_menus'] = 'This permission allows users to manage the main menu and custom menus.';
 $txt['permissionname_sp_manage_profiles'] = 'Manage portal profiles';
 $txt['permissionhelp_sp_manage_profiles'] = 'This permission allows users to manage SimplePortal profiles.';
 

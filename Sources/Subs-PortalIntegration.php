@@ -115,6 +115,19 @@ function sp_integrate_admin_areas(&$admin_areas)
 							'add' => array($txt['sp_admin_shoutbox_add']),
 						),
 					),
+					'portalmenus' => array(
+						'label' => $txt['sp_admin_menus_title'],
+						'file' => 'PortalAdminMenus.php',
+						'function' => 'sportal_admin_menus_main',
+						'icon' => 'menus.png',
+						'permission' => array('sp_admin', 'sp_manage_menus'),
+						'subsections' => array(
+							'listmainitem' => array($txt['sp_admin_menus_main_item_list']),
+							'addmainitem' => array($txt['sp_admin_menus_main_item_add']),
+							'listcustommenu' => array($txt['sp_admin_menus_custom_menu_list']),
+							'addcustommenu' => array($txt['sp_admin_menus_custom_menu_add']),
+						),
+					),
 					'portalprofiles' => array(
 						'label' => $txt['sp_admin_profiles_title'],
 						'file' => 'PortalAdminProfiles.php',
@@ -150,6 +163,7 @@ function sp_integrate_load_permissions(&$permission_groups, &$permission_list, &
 		'sp_manage_articles' => array(false, 'sp', 'sp'),
 		'sp_manage_pages' => array(false, 'sp', 'sp'),
 		'sp_manage_shoutbox' => array(false, 'sp', 'sp'),
+		'sp_manage_menus' => array(false, 'sp', 'sp'),
 		'sp_manage_profiles' => array(false, 'sp', 'sp'),
 	));
 
@@ -162,6 +176,7 @@ function sp_integrate_load_permissions(&$permission_groups, &$permission_list, &
 		'sp_manage_articles',
 		'sp_manage_pages',
 		'sp_manage_shoutbox',
+		'sp_manage_menus',
 		'sp_manage_profiles',
 	));
 }

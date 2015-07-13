@@ -105,6 +105,12 @@ $helptxt['sp_ShoutboxArea'] = 'Shoutboxes need to be created in this section. Th
 $helptxt['sp-shoutboxesWarning'] = 'The warning message that you set here will be shown in the shoutbox, anyone using the shoutbox will see this message.';
 $helptxt['sp-shoutboxesBBC'] = 'This setting allows you to choose the BBC that can be used in this shoutbox.<br /><br />Hold down the CTRL key to select or deselect a particular BBC. <br /><br />If you want to select a series of consecutive BBC, then click on the first BBC that you want to select, hold down the SHIFT key, then click on the last BBC that you want to select.';
 
+// Menus area
+$helptxt['sp_MenusArea'] = 'The main menu of the forum can be modified in this area. Additional custom menus can also be created and modified here.';
+
+// Profiles area
+$helptxt['sp_ProfilesArea'] = 'Permission, style and visibility profiles can be managed in this area. The profiles are used for blocks, pages, categories, articles and shoutboxes.';
+
 $helptxt['sp_permissions'] = 'This option enables permissions to be used on blocks. The first three options are the simplest to use and understand.
 <ul>
 	<li><strong>Guests:</strong> Any user who is not registered or logged in <em>will</em> see this block. Logged-in users (including Administrators) <em>will not</em> see this block.</li>
