@@ -404,11 +404,17 @@ $txt['sp_menus_remove_confirm'] = 'Are you sure that you want to remove the sele
 $txt['sp_items_remove_confirm'] = 'Are you sure that you want to remove the selected items?';
 $txt['sp_error_menu_name_empty'] = 'Sorry, you left the menu name empty.';
 $txt['sp_error_item_title_empty'] = 'Sorry, you left the item title empty.';
+$txt['sp_error_item_namespace_empty'] = 'Sorry, you left the item ID empty.';
+$txt['sp_error_item_namespace_duplicate'] = 'Sorry, that item ID is already in use.';
+$txt['sp_error_item_namespace_invalid_chars'] = 'Sorry, there are invalid characters in the item ID. Items ID\'s can only contain lowercase letters, numbers and underscores.';
+$txt['sp_error_item_namespace_numeric'] = 'Sorry, item ID\'s cannot be only numbers. Item ID\'s need letters and or an underscore';
 $txt['sp_error_no_custom_menus'] = 'There are no custom menus available.';
 $txt['sp_error_no_menu_items'] = 'There are no menu items available.';
 
 $txt['sp_admin_menus_col_name'] = 'Name';
+$txt['sp_admin_menus_col_namespace'] = 'Namespace';
 $txt['sp_admin_menus_col_title'] = 'Title';
+$txt['sp_admin_menus_col_items'] = 'Items';
 $txt['sp_admin_menus_col_actions'] = 'Actions';
 
 $txt['sp_menus_default_custom_menu_name'] = 'Unnamed Menu';

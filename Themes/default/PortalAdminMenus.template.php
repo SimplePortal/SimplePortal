@@ -64,6 +64,7 @@ function template_menus_custom_menu_list()
 		echo '
 					<tr class="windowbg2">
 						<td class="sp_left">', $menu['name'], '</td>
+						<td class="sp_center">', $menu['items'], '</td>
 						<td class="sp_center">', implode('&nbsp;', $menu['actions']), '</td>
 						<td class="sp_center"><input type="checkbox" name="remove[]" value="', $menu['id'], '" class="input_check" /></td>
 					</tr>';
@@ -208,10 +209,16 @@ function template_menus_custom_item_edit()
 				<div class="sp_content_padding">
 					<dl class="sp_form">
 						<dt>
-							<label for="item_title">', $txt['sp_admin_menus_col_name'], ':</label>
+							<label for="item_title">', $txt['sp_admin_menus_col_title'], ':</label>
 						</dt>
 						<dd>
 							<input type="text" name="title" id="item_title" value="', $context['item']['title'], '" class="input_text" />
+						</dd>
+						<dt>
+							<label for="item_namespace">', $txt['sp_admin_menus_col_namespace'], ':</label>
+						</dt>
+						<dd>
+							<input type="text" name="namespace" id="item_namespace" value="', $context['item']['namespace'], '" class="input_text" />
 						</dd>
 					</dl>
 					<div class="sp_button_container">

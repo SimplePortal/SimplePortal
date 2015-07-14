@@ -867,6 +867,8 @@ function sp_embed_image($name, $alt = '', $width = null, $height = null, $title 
 			'style' => $txt['sp_shoutbox_style'],
 			'bin' => $txt['sp_shoutbox_prune'],
 			'move' => $txt['sp_move'],
+			'add' => $txt['sp_add'],
+			'items' => $txt['sp_items'],
 		);
 	}
 
@@ -1393,6 +1395,74 @@ function sportal_parse_content($body, $type)
 		$body = trim($body, '?>');
 		eval($body);
 	}
+}
+
+function sportal_get_custom_menus($menu_id = null, $sort = 'id_menu')
+{
+	global $smcFunc, $txt;
+
+	$query = array();
+	$parameters = array('sort' => $sort);
+
+	if (isset($menu_id))
+	{
+		$query[] = 'id_menu = {int:menu_id}';
+		$parameters['menu_id'] = (int) $menu_id;
+	}
+
+	$request = $smcFunc['db_query']('','
+		SELECT id_menu, name
+		FROM {db_prefix}sp_custom_menus' . (!empty($query) ? '
+		WHERE ' . implode(' AND ', $query) : '') . '
+		ORDER BY {raw:sort}',
+		$parameters
+	);
+	$return = array();
+	while ($row = $smcFunc['db_fetch_assoc']($request))
+	{
+		$return[$row['id_menu']] = array(
+			'id' => $row['id_menu'],
+			'name' => $row['name'],
+		);
+	}
+	$smcFunc['db_free_result']($request);
+
+	return !empty($menu_id) ? current($return) : $return;
+}
+
+function sportal_get_menu_items($item_id = null, $sort = 'id_item')
+{
+	global $smcFunc, $txt;
+
+	$query = array();
+	$parameters = array('sort' => $sort);
+
+	if (isset($item_id))
+	{
+		$query[] = 'id_item = {int:item_id}';
+		$parameters['item_id'] = (int) $item_id;
+	}
+
+	$request = $smcFunc['db_query']('','
+		SELECT id_item, id_menu, namespace, title
+		FROM {db_prefix}sp_menu_items' . (!empty($query) ? '
+		WHERE ' . implode(' AND ', $query) : '') . '
+		ORDER BY {raw:sort}',
+		$parameters
+	);
+	$return = array();
+	while ($row = $smcFunc['db_fetch_assoc']($request))
+	{
+		$return[$row['id_item']] = array(
+			'id' => $row['id_item'],
+			'id_menu' => $row['id_menu'],
+			'namespace' => $row['namespace'],
+			'title' => $row['title'],
+		);
+	}
+	$smcFunc['db_free_result']($request);
+
+	return !empty($item_id) ? current($return) : $return;
 }
 
 function sportal_get_profiles($profile_id = null, $type = null, $sort = 'id_profile')

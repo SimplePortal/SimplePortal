@@ -84,16 +84,21 @@ function sportal_admin_menus_custom_menu_list()
 
 	$sort_methods = array(
 		'name' =>  array(
-			'down' => 'name ASC',
-			'up' => 'name DESC'
+			'down' => 'cm.name ASC',
+			'up' => 'cm.name DESC'
 		),
 	);
 
 	$context['columns'] = array(
 		'name' => array(
-			'width' => '85%',
+			'width' => '75%',
 			'label' => $txt['sp_admin_menus_col_name'],
 			'class' => 'first_th',
+			'sortable' => true
+		),
+		'items' => array(
+			'width' => '10%',
+			'label' => $txt['sp_admin_menus_col_items'],
 			'sortable' => true
 		),
 		'actions' => array(
@@ -131,8 +136,10 @@ function sportal_admin_menus_custom_menu_list()
 	$context['start'] = $_REQUEST['start'];
 
 	$request = $smcFunc['db_query']('','
-		SELECT id_menu, name
-		FROM {db_prefix}sp_custom_menus
+		SELECT cm.id_menu, cm.name, COUNT(mi.id_item) AS items
+		FROM {db_prefix}sp_custom_menus AS cm
+			LEFT JOIN {db_prefix}sp_menu_items AS mi ON (mi.id_menu = cm.id_menu)
+		GROUP BY cm.id_menu
 		ORDER BY {raw:sort}
 		LIMIT {int:start}, {int:limit}',
 		array(
@@ -147,6 +154,7 @@ function sportal_admin_menus_custom_menu_list()
 		$context['menus'][$row['id_menu']] = array(
 			'id' => $row['id_menu'],
 			'name' => $row['name'],
+			'items' => $row['items'],
 			'actions' => array(
 				'add' => '<a href="' . $scripturl . '?action=admin;area=portalmenus;sa=addcustomitem;menu_id=' . $row['id_menu'] . ';' . $context['session_var'] . '=' . $context['session_id'] . '">' . sp_embed_image('add') . '</a>',
 				'items' => '<a href="' . $scripturl . '?action=admin;area=portalmenus;sa=listcustomitem;menu_id=' . $row['id_menu'] . ';' . $context['session_var'] . '=' . $context['session_id'] . '">' . sp_embed_image('items') . '</a>',
@@ -236,6 +244,14 @@ function sportal_admin_menus_custom_menu_delete()
 	checkSession('get');
 
 	$menu_id = !empty($_REQUEST['menu_id']) ? (int) $_REQUEST['menu_id'] : 0;
+
+	$smcFunc['db_query']('','
+		DELETE FROM {db_prefix}sp_menu_items
+		WHERE id_menu = {int:id}',
+		array(
+			'id' => $menu_id,
+		)
+	);
 
 	$smcFunc['db_query']('','
 		DELETE FROM {db_prefix}sp_custom_menus
@@ -380,14 +396,43 @@ function sportal_admin_menus_custom_item_edit()
 		if (!isset($_POST['title']) || $smcFunc['htmltrim']($smcFunc['htmlspecialchars']($_POST['title'], ENT_QUOTES)) === '')
 			fatal_lang_error('sp_error_item_title_empty', false);
 
+		if (!isset($_POST['namespace']) || $smcFunc['htmltrim']($smcFunc['htmlspecialchars']($_POST['namespace'], ENT_QUOTES)) === '')
+			fatal_lang_error('sp_error_item_namespace_empty', false);
+
+		$result = $smcFunc['db_query']('','
+			SELECT id_item
+			FROM {db_prefix}sp_menu_items
+			WHERE namespace = {string:namespace}
+				AND id_item != {int:current}
+			LIMIT {int:limit}',
+			array(
+				'namespace' => $smcFunc['htmlspecialchars']($_POST['namespace'], ENT_QUOTES),
+				'current' => (int) $_POST['item_id'],
+				'limit' => 1,
+			)
+		);
+		list ($has_duplicate) = $smcFunc['db_fetch_row']($result);
+		$smcFunc['db_free_result']($result);
+
+		if (!empty($has_duplicate))
+			fatal_lang_error('sp_error_item_namespace_duplicate', false);
+
+		if (preg_match('~[^a-z0-9_]+~', $_POST['namespace']) != 0)
+			fatal_lang_error('sp_error_item_namespace_invalid_chars', false);
+
+		if (preg_replace('~[0-9]+~', '', $_POST['namespace']) === '')
+			fatal_lang_error('sp_error_item_namespace_numeric', false);
+
 		$fields = array(
 			'id_menu' => 'int',
+			'namespace' => 'string',
 			'title' => 'string',
 		);
 
 		$item_info = array(
 			'id' => (int) $_POST['item_id'],
 			'id_menu' => $context['menu']['id'],
+			'namespace' => $smcFunc['htmlspecialchars']($_POST['namespace'], ENT_QUOTES),
 			'title' => $smcFunc['htmlspecialchars']($_POST['title'], ENT_QUOTES),
 		);
 
@@ -424,6 +469,7 @@ function sportal_admin_menus_custom_item_edit()
 	{
 		$context['item'] = array(
 			'id' => 0,
+			'namespace' => '',
 			'title' => $txt['sp_menus_default_menu_item_name'],
 		);
 	}
