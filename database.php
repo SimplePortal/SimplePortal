@@ -116,6 +116,7 @@ $tables = array(
 			array('name' => 'namespace', 'type' => 'tinytext'),
 			array('name' => 'title', 'type' => 'tinytext'),
 			array('name' => 'href', 'type' => 'tinytext'),
+			array('name' => 'target', 'type' => 'tinyint', 'size' => 4, 'default' => 0),
 		),
 		'indexes' => array(
 			array('type' => 'primary', 'columns' => array('id_item')),

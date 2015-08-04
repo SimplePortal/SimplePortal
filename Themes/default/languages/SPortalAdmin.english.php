@@ -407,15 +407,30 @@ $txt['sp_error_item_title_empty'] = 'Sorry, you left the item title empty.';
 $txt['sp_error_item_namespace_empty'] = 'Sorry, you left the item ID empty.';
 $txt['sp_error_item_namespace_duplicate'] = 'Sorry, that item ID is already in use.';
 $txt['sp_error_item_namespace_invalid_chars'] = 'Sorry, there are invalid characters in the item ID. Items ID\'s can only contain lowercase letters, numbers and underscores.';
-$txt['sp_error_item_namespace_numeric'] = 'Sorry, item ID\'s cannot be only numbers. Item ID\'s need letters and or an underscore';
+$txt['sp_error_item_namespace_numeric'] = 'Sorry, item ID\'s cannot be only numbers. Item ID\'s need letters and or an underscore.';
+$txt['sp_error_item_link_item_invalid'] = 'Sorry, you have not chosen a valid link item.';
 $txt['sp_error_no_custom_menus'] = 'There are no custom menus available.';
 $txt['sp_error_no_menu_items'] = 'There are no menu items available.';
 
 $txt['sp_admin_menus_col_name'] = 'Name';
-$txt['sp_admin_menus_col_namespace'] = 'Namespace';
+$txt['sp_admin_menus_col_namespace'] = 'Item ID';
 $txt['sp_admin_menus_col_title'] = 'Title';
 $txt['sp_admin_menus_col_items'] = 'Items';
+$txt['sp_admin_menus_col_link_type'] = 'Link Type';
+$txt['sp_admin_menus_col_link_item'] = 'Link Item';
+$txt['sp_admin_menus_col_url'] = 'URL';
+$txt['sp_admin_menus_col_target'] = 'Target';
 $txt['sp_admin_menus_col_actions'] = 'Actions';
+
+$txt['sp_admin_menus_link_type_custom'] = 'Custom';
+$txt['sp_admin_menus_link_type_action'] = 'Action';
+$txt['sp_admin_menus_link_type_board'] = 'Board';
+$txt['sp_admin_menus_link_type_page'] = 'Page';
+$txt['sp_admin_menus_link_type_category'] = 'Category';
+$txt['sp_admin_menus_link_type_article'] = 'Article';
+
+$txt['sp_admin_menus_link_target_0'] = 'Current window';
+$txt['sp_admin_menus_link_target_1'] = 'New window';
 
 $txt['sp_menus_default_custom_menu_name'] = 'Unnamed Menu';
 $txt['sp_menus_default_menu_item_name'] = 'Untitled Item';

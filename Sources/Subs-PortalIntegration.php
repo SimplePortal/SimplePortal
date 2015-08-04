@@ -126,6 +126,7 @@ function sp_integrate_admin_areas(&$admin_areas)
 							'addmainitem' => array($txt['sp_admin_menus_main_item_add']),
 							'listcustommenu' => array($txt['sp_admin_menus_custom_menu_list']),
 							'addcustommenu' => array($txt['sp_admin_menus_custom_menu_add']),
+							'addcustomitem' => array($txt['sp_admin_menus_custom_item_add'], 'enabled' => !empty($_REQUEST['sa']) && $_REQUEST['sa'] == 'listcustomitem'),
 						),
 					),
 					'portalprofiles' => array(

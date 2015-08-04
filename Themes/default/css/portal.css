@@ -552,6 +552,16 @@ li.shoutbox_warning
 	margin: 0 auto;
 }
 
+#sp_edit_custom_menu, #sp_edit_custom_item
+{
+	width: 60%;
+	margin: 0 auto;
+}
+#sp_edit_custom_item #item_link_dt, #sp_edit_custom_item #item_link_dd
+{
+	display: none;
+}
+
 #sp_manage_profiles table.table_grid
 {
 	margin: 0.4em 0;

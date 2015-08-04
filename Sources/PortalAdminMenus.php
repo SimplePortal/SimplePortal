@@ -59,6 +59,13 @@ function sportal_admin_menus_main()
 		),
 	);
 
+	if ($context['sub_action'] == 'listcustomitem' && !empty($_REQUEST['menu_id']))
+	{
+		$context[$context['admin_menu_name']]['tab_data']['tabs']['addcustomitem'] = array(
+			'add_params' => ';menu_id=' . $_REQUEST['menu_id'],
+		);
+	}
+
 	$sub_actions[$context['sub_action']]();
 }
 
@@ -292,69 +299,33 @@ function sportal_admin_menus_custom_item_list()
 		fatal_lang_error('error_sp_menu_not_found', false);
 	}
 
-	$sort_methods = array(
-		'title' =>  array(
-			'down' => 'title ASC',
-			'up' => 'title DESC'
-		),
-	);
-
 	$context['columns'] = array(
 		'title' => array(
-			'width' => '85%',
+			'width' => '45%',
 			'label' => $txt['sp_admin_menus_col_title'],
 			'class' => 'first_th',
-			'sortable' => true
+		),
+		'namespace' => array(
+			'width' => '25%',
+			'label' => $txt['sp_admin_menus_col_namespace'],
+		),
+		'target' => array(
+			'width' => '15%',
+			'label' => $txt['sp_admin_menus_col_target'],
 		),
 		'actions' => array(
 			'width' => '15%',
 			'label' => $txt['sp_admin_menus_col_actions'],
-			'sortable' => false
 		),
 	);
 
-	if (!isset($_REQUEST['sort']) || !isset($sort_methods[$_REQUEST['sort']]))
-		$_REQUEST['sort'] = 'title';
-
-	foreach ($context['columns'] as $col => $dummy)
-	{
-		$context['columns'][$col]['selected'] = $col == $_REQUEST['sort'];
-		$context['columns'][$col]['href'] = $scripturl . '?action=admin;area=portalmenus;sa=listcustomitem;menu_id=' . $menu_id . ';sort=' . $col;
-
-		if (!isset($_REQUEST['desc']) && $col == $_REQUEST['sort'])
-			$context['columns'][$col]['href'] .= ';desc';
-
-		$context['columns'][$col]['link'] = '<a href="' . $context['columns'][$col]['href'] . '">' . $context['columns'][$col]['label'] . '</a>';
-	}
-
-	$context['sort_by'] = $_REQUEST['sort'];
-	$context['sort_direction'] = !isset($_REQUEST['desc']) ? 'down' : 'up';
-
 	$request = $smcFunc['db_query']('','
-		SELECT COUNT(*)
-		FROM {db_prefix}sp_menu_items
-		WHERE id_menu = {int:menu}',
-		array(
-			'menu' => $menu_id,
-		)
-	);
-	list ($total_items) =  $smcFunc['db_fetch_row']($request);
-	$smcFunc['db_free_result']($request);
-
-	$context['page_index'] = constructPageIndex($scripturl . '?action=admin;area=portalmenus;sa=listcustomitem;menu_id=' . $menu_id . ';sort=' . $_REQUEST['sort'] . (isset($_REQUEST['desc']) ? ';desc' : ''), $_REQUEST['start'], $total_items, 20);
-	$context['start'] = $_REQUEST['start'];
-
-	$request = $smcFunc['db_query']('','
-		SELECT id_item, title
+		SELECT id_item, title, namespace, target
 		FROM {db_prefix}sp_menu_items
 		WHERE id_menu = {int:menu}
-		ORDER BY {raw:sort}
-		LIMIT {int:start}, {int:limit}',
+		ORDER BY title',
 		array(
 			'menu' => $menu_id,
-			'sort' => $sort_methods[$_REQUEST['sort']][$context['sort_direction']],
-			'start' => $context['start'],
-			'limit' => 20,
 		)
 	);
 	$context['items'] = array();
@@ -363,6 +334,8 @@ function sportal_admin_menus_custom_item_list()
 		$context['items'][$row['id_item']] = array(
 			'id' => $row['id_item'],
 			'title' => $row['title'],
+			'namespace' => $row['namespace'],
+			'target' => $txt['sp_admin_menus_link_target_' . $row['target']],
 			'actions' => array(
 				'edit' => '<a href="' . $scripturl . '?action=admin;area=portalmenus;sa=editcustomitem;menu_id=' . $context['menu']['id'] . ';item_id=' . $row['id_item'] . ';' . $context['session_var'] . '=' . $context['session_id'] . '">' . sp_embed_image('modify') . '</a>',
 				'delete' => '<a href="' . $scripturl . '?action=admin;area=portalmenus;sa=deletecustomitem;menu_id=' . $context['menu']['id'] . ';item_id=' . $row['id_item'] . ';' . $context['session_var'] . '=' . $context['session_id'] . '" onclick="return confirm(\'', $txt['sp_admin_menus_item_delete_confirm'], '\');">' . sp_embed_image('delete') . '</a>',
@@ -427,6 +400,8 @@ function sportal_admin_menus_custom_item_edit()
 			'id_menu' => 'int',
 			'namespace' => 'string',
 			'title' => 'string',
+			'url' => 'string',
+			'target' => 'int',
 		);
 
 		$item_info = array(
@@ -434,7 +409,35 @@ function sportal_admin_menus_custom_item_edit()
 			'id_menu' => $context['menu']['id'],
 			'namespace' => $smcFunc['htmlspecialchars']($_POST['namespace'], ENT_QUOTES),
 			'title' => $smcFunc['htmlspecialchars']($_POST['title'], ENT_QUOTES),
+			'url' => $smcFunc['htmlspecialchars']($_POST['url'], ENT_QUOTES),
+			'target' => (int) $_POST['target'],
 		);
+
+		$link_type = !empty($_POST['link_type']) ? $_POST['link_type'] : '';
+		$link_item = !empty($_POST['link_item']) ? $_POST['link_item'] : '';
+
+		if ($link_type != 'custom')
+		{
+			if (preg_match('~^\d+|[A-Za-z0-9_\-]+$~', $link_item, $match))
+			{
+				$link_item_id = $match[0];
+			}
+			else
+				fatal_lang_error('sp_error_item_link_item_invalid', false);
+
+			switch ($link_type)
+			{
+				case 'action':
+				case 'page':
+				case 'category':
+				case 'article':
+					$item_info['url'] = '$scripturl?' . $link_type . '=' . $link_item_id;
+					break;
+				case 'board':
+					$item_info['url'] = '$scripturl?' . $link_type . '=' . $link_item_id . '.0';
+					break;
+			}
+		}
 
 		if ($context['is_new'])
 		{
@@ -469,8 +472,10 @@ function sportal_admin_menus_custom_item_edit()
 	{
 		$context['item'] = array(
 			'id' => 0,
-			'namespace' => '',
+			'namespace' => 'item' . mt_rand(1, 5000),
 			'title' => $txt['sp_menus_default_menu_item_name'],
+			'url' => '',
+			'target' => 0,
 		);
 	}
 	else
@@ -478,6 +483,71 @@ function sportal_admin_menus_custom_item_edit()
 		$_REQUEST['item_id'] = (int) $_REQUEST['item_id'];
 		$context['item'] = sportal_get_menu_items($_REQUEST['item_id']);
 	}
+
+	$context['items']['action'] = array(
+		'portal' => $txt['sp-portal'],
+		'forum' => $txt['sp-forum'],
+		'recent' => $txt['recent_posts'],
+		'unread' => $txt['unread_topics_visit'],
+		'unreadreplies' => $txt['unread_replies'],
+		'profile' => $txt['profile'],
+		'pm' => $txt['pm_short'],
+		'calendar' => $txt['calendar'],
+		'admin' =>  $txt['admin'],
+		'login' =>  $txt['login'],
+		'register' =>  $txt['register'],
+		'post' =>  $txt['post'],
+		'stats' =>  $txt['forum_stats'],
+		'search' =>  $txt['search'],
+		'mlist' =>  $txt['members_list'],
+		'moderate' =>  $txt['moderate'],
+		'help' =>  $txt['help'],
+		'who' =>  $txt['who_title'],
+	);
+
+	$request = $smcFunc['db_query']('','
+		SELECT id_board, name
+		FROM {db_prefix}boards
+		WHERE redirect = {string:empty}
+		ORDER BY name DESC',
+		array(
+			'empty' => '',
+		)
+	);
+	$context['items']['board'] = array();
+	while ($row = $smcFunc['db_fetch_assoc']($request))
+		$context['items']['board'][$row['id_board']] = $row['name'];
+	$smcFunc['db_free_result']($request);
+
+	$request = $smcFunc['db_query']('','
+		SELECT id_page, title
+		FROM {db_prefix}sp_pages
+		ORDER BY title DESC'
+	);
+	$context['items']['page'] = array();
+	while ($row = $smcFunc['db_fetch_assoc']($request))
+		$context['items']['page'][$row['id_page']] = $row['title'];
+	$smcFunc['db_free_result']($request);
+
+	$request = $smcFunc['db_query']('','
+		SELECT id_category, name
+		FROM {db_prefix}sp_categories
+		ORDER BY name DESC'
+	);
+	$context['items']['category'] = array();
+	while ($row = $smcFunc['db_fetch_assoc']($request))
+		$context['items']['category'][$row['id_category']] = $row['name'];
+	$smcFunc['db_free_result']($request);
+
+	$request = $smcFunc['db_query']('','
+		SELECT id_article, title
+		FROM {db_prefix}sp_articles
+		ORDER BY title DESC'
+	);
+	$context['items']['article'] = array();
+	while ($row = $smcFunc['db_fetch_assoc']($request))
+		$context['items']['article'][$row['id_article']] = $row['title'];
+	$smcFunc['db_free_result']($request);
 
 	$context['page_title'] = $context['is_new'] ? $txt['sp_admin_menus_custom_item_add'] : $txt['sp_admin_menus_custom_item_edit'];
 	$context['sub_template'] = 'menus_custom_item_edit';
