@@ -246,6 +246,7 @@ td.sp_shop
 .sp_article_detail .avatar
 {
 	max-height: 35px;
+	width: auto !important;
 	float: left;
 	margin-right: 0.5em;
 }
@@ -260,6 +261,7 @@ td.sp_shop
 .sp_comment_detail .avatar
 {
 	max-height: 25px;
+	width: auto !important;
 	float: left;
 	margin-right: 0.5em;
 }

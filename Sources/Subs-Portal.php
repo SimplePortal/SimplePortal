@@ -893,6 +893,78 @@ function sp_embed_image($name, $alt = '', $width = null, $height = null, $title 
 	return $image;
 }
 
+function sp_prepare_avatar_array($avatar, $id_attach, $attach_type, $filename)
+{
+	global $scripturl, $modSettings;
+	static $style;
+
+	if (!isset($style))
+	{
+		$style = '';
+		$sizes = array();
+
+		if ($modSettings['avatar_action_too_large'] == 'option_html_resize' || $modSettings['avatar_action_too_large'] == 'option_js_resize')
+		{
+			foreach (array('width', 'height') as $aspect)
+			{
+				if (!empty($modSettings['avatar_max_' . $aspect . '_external']))
+					$sizes[] = $aspect . ': ' . $modSettings['avatar_max_' . $aspect . '_external'] . 'px;';
+			}
+	
+			if (!empty($sizes))
+				$style = ' style="' . implode(' ', $sizes) . '"';
+		}
+	}
+
+	if ($avatar != '')
+	{
+		if (preg_match('~^https?://~i', trim($avatar)))
+		{
+			$return = array(
+				'name' => $avatar,
+				'image' => '<img src="' . $avatar . '" alt="" class="avatar"' . $style . ' />',
+				'href' => $avatar,
+				'url' => $avatar,
+			);
+		}
+		else
+		{
+			$return = array(
+				'name' => $avatar,
+				'image' => '<img src="' . $modSettings['avatar_url'] . '/' . htmlspecialchars($avatar) . '" alt="" class="avatar" />',
+				'href' => $modSettings['avatar_url'] . '/' . $avatar,
+				'url' => $modSettings['avatar_url'] . '/' . $avatar,
+			);
+		}
+	}
+	else
+	{
+		if ($id_attach > 0)
+		{
+			if (empty($attach_type))
+				$href = $scripturl . '?action=dlattach;attach=' . $id_attach . ';type=avatar';
+			else
+				$href = $modSettings['custom_avatar_url'] . '/' . $filename;
+
+			$image = '<img src="' . $href . '" alt="" class="avatar" />';
+		}
+		else
+		{
+			$href = '';
+			$image = '';
+		}
+
+		$return = array(
+			'name' => '',
+			'image' => $image,
+			'href' => $href,
+			'url' => '',
+		);
+	}
+
+	return $return;
+}
+
 function sportal_parse_style($action, $setting = '', $process = false)
 {
 	global $smcFunc;
@@ -1000,7 +1072,7 @@ function sportal_select_style($style_id)
 
 function sportal_get_articles($article_id = null, $active = false, $allowed = false, $sort = 'spa.title', $category_id = null)
 {
-	global $smcFunc, $context, $scripturl, $modSettings, $color_profile;
+	global $smcFunc, $context, $scripturl, $color_profile;
 
 	$query = array();
 	$parameters = array('sort' => $sort);
@@ -1055,17 +1127,6 @@ function sportal_get_articles($article_id = null, $active = false, $allowed = fa
 		if (!empty($row['id_author']))
 			$member_ids[$row['id_author']] = $row['id_author'];
 
-		if ($modSettings['avatar_action_too_large'] == 'option_html_resize' || $modSettings['avatar_action_too_large'] == 'option_js_resize')
-		{
-			$avatar_width = !empty($modSettings['avatar_max_width_external']) ? ' width="' . $modSettings['avatar_max_width_external'] . '"' : '';
-			$avatar_height = !empty($modSettings['avatar_max_height_external']) ? ' height="' . $modSettings['avatar_max_height_external'] . '"' : '';
-		}
-		else
-		{
-			$avatar_width = '';
-			$avatar_height = '';
-		}
-
 		$return[$row['id_article']] = array(
 			'id' => $row['id_article'],
 			'category' => array(
@@ -1081,12 +1142,7 @@ function sportal_get_articles($article_id = null, $active = false, $allowed = fa
 				'name' => $row['author_name'],
 				'href' => $scripturl . '?action=profile;u=' . $row['id_author'],
 				'link' => $row['id_author'] ? ('<a href="' . $scripturl . '?action=profile;u=' . $row['id_author'] . '">' . $row['author_name'] . '</a>') : $row['author_name'],
-				'avatar' => array(
-					'name' => $row['avatar'],
-					'image' => $row['avatar'] == '' ? ($row['id_attach'] > 0 ? '<img src="' . (empty($row['attachment_type']) ? $scripturl . '?action=dlattach;attach=' . $row['id_attach'] . ';type=avatar' : $modSettings['custom_avatar_url'] . '/' . $row['filename']) . '" alt="" class="avatar" border="0" />' : '') : (stristr($row['avatar'], 'http://') ? '<img src="' . $row['avatar'] . '"' . $avatar_width . $avatar_height . ' alt="" class="avatar" border="0" />' : '<img src="' . $modSettings['avatar_url'] . '/' . htmlspecialchars($row['avatar']) . '" alt="" class="avatar" border="0" />'),
-					'href' => $row['avatar'] == '' ? ($row['id_attach'] > 0 ? (empty($row['attachment_type']) ? $scripturl . '?action=dlattach;attach=' . $row['id_attach'] . ';type=avatar' : $modSettings['custom_avatar_url'] . '/' . $row['filename']) : '') : (stristr($row['avatar'], 'http://') ? $row['avatar'] : $modSettings['avatar_url'] . '/' . $row['avatar']),
-					'url' => $row['avatar'] == '' ? '' : (stristr($row['avatar'], 'http://') ? $row['avatar'] : $modSettings['avatar_url'] . '/' . $row['avatar'])
-				),
+				'avatar' => sp_prepare_avatar_array($row['avatar'], $row['id_attach'], $row['attachment_type'], $row['filename']),
 			),
 			'article_id' => $row['article_namespace'],
 			'title' => $row['title'],
@@ -1172,7 +1228,7 @@ function sportal_get_categories($category_id = null, $active = false, $allowed =
 
 function sportal_get_comments($article_id = null)
 {
-	global $smcFunc, $scripturl, $user_info, $modSettings, $color_profile;
+	global $smcFunc, $scripturl, $user_info, $color_profile;
 
 	$request = $smcFunc['db_query']('', '
 		SELECT
@@ -1196,17 +1252,6 @@ function sportal_get_comments($article_id = null)
 		if (!empty($row['id_author']))
 			$member_ids[$row['id_author']] = $row['id_author'];
 
-		if ($modSettings['avatar_action_too_large'] == 'option_html_resize' || $modSettings['avatar_action_too_large'] == 'option_js_resize')
-		{
-			$avatar_width = !empty($modSettings['avatar_max_width_external']) ? ' width="' . $modSettings['avatar_max_width_external'] . '"' : '';
-			$avatar_height = !empty($modSettings['avatar_max_height_external']) ? ' height="' . $modSettings['avatar_max_height_external'] . '"' : '';
-		}
-		else
-		{
-			$avatar_width = '';
-			$avatar_height = '';
-		}
-
 		$return[$row['id_comment']] = array(
 			'id' => $row['id_comment'],
 			'body' => parse_bbc($row['body']),
@@ -1216,12 +1261,7 @@ function sportal_get_comments($article_id = null)
 				'name' => $row['author_name'],
 				'href' => $scripturl . '?action=profile;u=' . $row['id_author'],
 				'link' => $row['id_author'] ? ('<a href="' . $scripturl . '?action=profile;u=' . $row['id_author'] . '">' . $row['author_name'] . '</a>') : $row['author_name'],
-				'avatar' => array(
-					'name' => $row['avatar'],
-					'image' => $row['avatar'] == '' ? ($row['id_attach'] > 0 ? '<img src="' . (empty($row['attachment_type']) ? $scripturl . '?action=dlattach;attach=' . $row['id_attach'] . ';type=avatar' : $modSettings['custom_avatar_url'] . '/' . $row['filename']) . '" alt="" class="avatar" border="0" />' : '') : (stristr($row['avatar'], 'http://') ? '<img src="' . $row['avatar'] . '"' . $avatar_width . $avatar_height . ' alt="" class="avatar" border="0" />' : '<img src="' . $modSettings['avatar_url'] . '/' . htmlspecialchars($row['avatar']) . '" alt="" class="avatar" border="0" />'),
-					'href' => $row['avatar'] == '' ? ($row['id_attach'] > 0 ? (empty($row['attachment_type']) ? $scripturl . '?action=dlattach;attach=' . $row['id_attach'] . ';type=avatar' : $modSettings['custom_avatar_url'] . '/' . $row['filename']) : '') : (stristr($row['avatar'], 'http://') ? $row['avatar'] : $modSettings['avatar_url'] . '/' . $row['avatar']),
-					'url' => $row['avatar'] == '' ? '' : (stristr($row['avatar'], 'http://') ? $row['avatar'] : $modSettings['avatar_url'] . '/' . $row['avatar'])
-				),
+				'avatar' => sp_prepare_avatar_array($row['avatar'], $row['id_attach'], $row['attachment_type'], $row['filename']),
 			),
 			'can_moderate' => allowedTo('sp_admin') || allowedTo('sp_manage_articles') || (!$user_info['is_guest'] && $user_info['id'] == $row['id_author']),
 		);
