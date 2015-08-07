@@ -181,7 +181,7 @@ function sportal_admin_block_list()
 				$context['blocks'][$side['name']][$block_id]['move_insert'] = '<a href="' . $scripturl . '?action=admin;area=portalblocks;sa=move;block_id=' . $context['block_move'] . ';col=' . $block['column'] . ';row=' . $block['row'] . ';' . $context['session_var'] . '=' . $context['session_id'] . '">' . sp_embed_image('arrow', $txt['sp-blocks_move_here']) . '</a>';
 
 				if ($context['block_move'] == $block_id)
-					$context['move_title'] = sprintf($txt['sp-blocks_select_destination'], htmlspecialchars($block['label']));
+					$context['move_title'] = sprintf($txt['sp-blocks_select_destination'], $block['label']);
 			}
 		}
 	}
