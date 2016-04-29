@@ -354,6 +354,11 @@ table.shoutbox_container
 	border-bottom: 1px dashed #CCCCCC;
 	border-left: 3px solid #DADADA;
 }
+.shoutbox_list_compact li img
+{
+	max-height: 100px;
+	max-width: 100px;
+}
 .shoutbox_list_all
 {
 	margin: 0;
@@ -364,6 +369,11 @@ table.shoutbox_container
 {
 	padding: 4px 0 0 4px;
 	border-left: 3px solid #DADADA;
+}
+.shoutbox_list_all li img
+{
+	max-height: 100px;
+	max-width: 100px;
 }
 li.shoutbox_time
 {
