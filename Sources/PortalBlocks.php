@@ -58,6 +58,7 @@ function sp_userInfo($parameters, $id, $return_parameters = false)
 											</tr>
 										</table>
 										<input type="hidden" name="hash_passwrd" value="" />
+										<input type="hidden" name="', $context['session_var'], '" value="', $context['session_id'], '" />
 									</form>', sprintf($txt['welcome_guest'], $txt['guest_title']);
 	}
 	else
