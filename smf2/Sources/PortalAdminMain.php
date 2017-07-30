@@ -234,17 +234,20 @@ function sportal_information($in_admin = true)
 					'title' => $txt['sp-info_groups_dev'],
 					'members' => array(
 						'<span onclick="if (getInnerHTML(this).indexOf(\'Sinan\') == -1) setInnerHTML(this, \'Sinan &quot;[SiNaN]&quot; &Ccedil;evik\'); return false;">Selman &quot;[SiNaN]&quot; Eser</span>',
-						'&#12487;&#12451;&#12531;1031',
 						'Nathaniel Baxter',
+						'&#12487;&#12451;&#12531;1031',
+						'spuds',
+						'emanuele',
 					),
 				),
 				array(
 					'title' => $txt['sp-info_groups_support'],
 					'members' => array(
 						'<span onclick="if (getInnerHTML(this).indexOf(\'Queen\') == -1) setInnerHTML(this, \'Angelina &quot;Queen of Support&quot; Belle\'); return false;">AngelinaBelle</span>',
-						'Underdog',
-						'phantomm',
+						'Chen Zhen',
 						'andy',
+						'Ninja ZX-10RR',
+						'phantomm',
 					),
 				),
 				array(
@@ -258,15 +261,15 @@ function sportal_information($in_admin = true)
 				array(
 					'title' => $txt['sp-info_groups_language'],
 					'members' => array(
-						'Doctor Deejay',
-						'<span onclick="if (getInnerHTML(this).indexOf(\'King\') == -1) setInnerHTML(this, \'130 &quot;King of Pirates&quot; 860\'); return false;">130860</span>',
+						'Kryzen',
 						'Jade &quot;Alundra&quot; Elizabeth',
+						'<span onclick="if (getInnerHTML(this).indexOf(\'King\') == -1) setInnerHTML(this, \'130 &quot;King of Pirates&quot; 860\'); return false;">130860</span>',
 					),
 				),
 				array(
 					'title' => $txt['sp-info_groups_marketing'],
 					'members' => array(
-						'Runic',
+						'BryanD',
 					),
 				),
 				array(

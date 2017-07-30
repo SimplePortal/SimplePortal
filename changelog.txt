@@ -14,6 +14,7 @@ SP 2.3.7
  ! Updated the copyright line to include a dynamic copyright year.
  ! The default htmlspecialchars function broke the shoutbox on certain multilingual environments.
  ! Updated the redirect notice on a sucessful install to remove BBC tags and newlines.
+ ! Updated credits.
 
 SP 2.3.6
 ================================================================================
