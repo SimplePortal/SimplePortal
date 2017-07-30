@@ -416,18 +416,13 @@ function sportal_admin_block_edit()
 			$context['widths'][4] = $modSettings['rightwidth'] . 'px';
 
 		if (strpos($context['widths'][1], '%') !== false)
-			$context['widths'][2] = $context['widths'][3] = 100 - ($context['widths'][1] + $context['widths'][4]) . '%';
-		elseif (strpos($context['widths'][1], 'px') !== false)
-			$context['widths'][2] = $context['widths'][3] = 960 - ($context['widths'][1] + $context['widths'][4]) . 'px';
-
-		if (strpos($context['widths'][1], '%') !== false)
 		{
-			$context['widths'][2] = $context['widths'][3] = 100 - ($context['widths'][1] + $context['widths'][4]) . '%';
+			$context['widths'][2] = $context['widths'][3] = 100 - ((int) $context['widths'][1] + (int) $context['widths'][4]) . '%';
 			$context['widths'][5] = $context['widths'][6] = '100%';
 		}
 		elseif (strpos($context['widths'][1], 'px') !== false)
 		{
-			$context['widths'][2] = $context['widths'][3] = 960 - ($context['widths'][1] + $context['widths'][4]) . 'px';
+			$context['widths'][2] = $context['widths'][3] = 960 - ((int) $context['widths'][1] + (int) $context['widths'][4]) . 'px';
 			$context['widths'][5] = $context['widths'][6] = '960px';
 		}
 
