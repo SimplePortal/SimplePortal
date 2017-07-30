@@ -5,6 +5,7 @@ Changelog last updated July 30, 2017.
 SP 2.3.7
 ================================================================================
  ! Send the now required session ID information in user info block login form.
+ ! Updated the preg_replace calls using /e modifier to use callbacks instead.
 
 SP 2.3.6
 ================================================================================

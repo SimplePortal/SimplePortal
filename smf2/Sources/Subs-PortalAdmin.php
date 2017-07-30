@@ -46,6 +46,9 @@ if (!defined('SMF'))
 
 	void sp_loadMembergroups()
 		// !!!
+
+	string sp_strip_html_bbc__preg_callback()
+		// !!!
 */
 
 function sportal_admin_state_change()
@@ -532,6 +535,11 @@ function sp_load_membergroups()
 	$smcFunc['db_free_result']($request);
 
 	return $groups;
+}
+
+function sp_strip_html_bbc__preg_callback($matches)
+{
+	return '[html]' . preg_replace('~<br\s?/?' . '>~i', '&lt;br /&gt;<br />', $matches[1]) . '[/html]';
 }
 
 ?>
