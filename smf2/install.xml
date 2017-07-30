@@ -170,6 +170,16 @@ sportal_init();]]></add>
 
 	<file name="$sourcedir/BoardIndex.php">
 		<operation error="ignore">
+			<search position="replace"><![CDATA[	$context['canonical_url'] = $scripturl;]]></search>
+			<add><![CDATA[	if (!empty($modSettings['sp_portal_mode']) && $modSettings['sp_portal_mode'] == 1)
+		$context['canonical_url'] = $scripturl . '?action=forum';
+	else
+		$context['canonical_url'] = $scripturl;]]></add>
+		</operation>
+	</file>
+
+	<file name="$sourcedir/BoardIndex.php">
+		<operation error="ignore">
 			<search position="replace"><![CDATA[if (!empty($_GET))]]></search>
 			<add><![CDATA[if (!empty($_GET) && $_GET !== array('action' => 'forum'))]]></add>
 		</operation>
