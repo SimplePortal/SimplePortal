@@ -225,8 +225,8 @@ function template_information()
 			</div>
 		</div>
 	</div>
-	<script type="text/javascript" src="http://www.simpleportal.net/sp/current-version.js"></script>
-	<script type="text/javascript" src="http://www.simpleportal.net/sp/latest-news.js"></script>
+	<script type="text/javascript" src="https://simpleportal.net/sp/current-version.js"></script>
+	<script type="text/javascript" src="https://simpleportal.net/sp/latest-news.js"></script>
 	<script type="text/javascript"><!-- // --><![CDATA[
 		function spSetAnnouncements()
 		{
@@ -313,7 +313,7 @@ function template_information()
 
 	echo '
 				<hr />
-				<p>', sprintf($txt['sp-info_contribute'], 'http://www.simpleportal.net/index.php?page=contribute'), '</p>
+				<p>', sprintf($txt['sp-info_contribute'], 'https://simpleportal.net/index.php?page=contribute'), '</p>
 			</div>
 		<span class="botslice"><span></span></span>
 	</div>';

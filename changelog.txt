@@ -10,6 +10,7 @@ SP 2.3.7
  ! Set the board index canonical URL correctly when portal mode is set to front page.
  ! Properly redirect guests logging in from a custom page back to the page.
  ! Fixed a markup error on block edit page and removed the language attribute on script tags.
+ ! Updated the links pointing to the main SimplePortal website.
 
 SP 2.3.6
 ================================================================================

@@ -151,8 +151,8 @@ function template_information()
 				</td>
 			</tr>
 		</table>
-		<script language="JavaScript" type="text/javascript" src="http://www.simpleportal.net/sp/current-version.js"></script>
-		<script language="JavaScript" type="text/javascript" src="http://www.simpleportal.net/sp/latest-news.js"></script>
+		<script language="JavaScript" type="text/javascript" src="https://simpleportal.net/sp/current-version.js"></script>
+		<script language="JavaScript" type="text/javascript" src="https://simpleportal.net/sp/latest-news.js"></script>
 		<script language="JavaScript" type="text/javascript"><!-- // --><![CDATA[
 			function spSetAnnouncements()
 			{
@@ -239,7 +239,7 @@ function template_information()
 
 	echo '
 					<hr />
-					<p style="margin: 0; padding: 1ex 0 1ex 0;">', sprintf($txt['sp-info_contribute'], 'http://www.simpleportal.net/index.php?page=contribute'), '</p>
+					<p style="margin: 0; padding: 1ex 0 1ex 0;">', sprintf($txt['sp-info_contribute'], 'https://simpleportal.net/index.php?page=contribute'), '</p>
 				</div></td>
 			</tr>
 		</table>';
