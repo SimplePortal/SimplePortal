@@ -179,7 +179,7 @@ function template_shoutbox_embed($shoutbox)
 		<input type="hidden" name="shoutbox_id" value="', $shoutbox['id'], '" />
 		<input type="hidden" name="', $context['session_var'], '" value="', $context['session_id'], '" />
 	</form>
-	<script language="Javascript" type="text/javascript"><!-- // --><![CDATA[
+	<script type="text/javascript"><!-- // --><![CDATA[
 		var last_refresh_', $shoutbox['id'], ' = ', time(), ';';
 
 	if ($shoutbox['reverse'])

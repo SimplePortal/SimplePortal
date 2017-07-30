@@ -279,7 +279,7 @@ function template_block_edit()
 					<dl class="sp_form">';
 		}
 
-		if ($type != 'bbc')
+		if ($type != 'bbc' && $type != 'textarea')
 			echo '
 						</dd>';
 	}
@@ -485,7 +485,7 @@ function template_block_edit()
 	}
 
 	echo '
-					<script language="JavaScript" type="text/javascript"><!-- // --><![CDATA[
+					<script type="text/javascript"><!-- // --><![CDATA[
 						document.getElementById("title_default_class").disabled = document.getElementById("no_title").checked;
 						document.getElementById("title_custom_class").disabled = document.getElementById("no_title").checked;
 						document.getElementById("title_custom_style").disabled = document.getElementById("no_title").checked;
@@ -499,7 +499,7 @@ function template_block_edit()
 			</div>
 		</form>
 	</div>
-	<script language="JavaScript" type="text/javascript"><!-- // --><![CDATA[
+	<script type="text/javascript"><!-- // --><![CDATA[
 		sp_update_permissions();
 
 		function sp_update_permissions()

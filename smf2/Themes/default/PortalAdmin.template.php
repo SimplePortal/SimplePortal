@@ -225,9 +225,9 @@ function template_information()
 			</div>
 		</div>
 	</div>
-	<script language="JavaScript" type="text/javascript" src="http://www.simpleportal.net/sp/current-version.js"></script>
-	<script language="JavaScript" type="text/javascript" src="http://www.simpleportal.net/sp/latest-news.js"></script>
-	<script language="JavaScript" type="text/javascript"><!-- // --><![CDATA[
+	<script type="text/javascript" src="http://www.simpleportal.net/sp/current-version.js"></script>
+	<script type="text/javascript" src="http://www.simpleportal.net/sp/latest-news.js"></script>
+	<script type="text/javascript"><!-- // --><![CDATA[
 		function spSetAnnouncements()
 		{
 			if (typeof(window.spAnnouncements) == "undefined" || typeof(window.spAnnouncements.length) == "undefined")

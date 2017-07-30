@@ -309,7 +309,7 @@ function template_pages_edit()
 			<input type="hidden" name="', $context['session_var'], '" value="', $context['session_id'], '" />
 		</form>
 	</div>
-	<script language="JavaScript" type="text/javascript"><!-- // --><![CDATA[
+	<script type="text/javascript"><!-- // --><![CDATA[
 		document.getElementById("title_default_class").disabled = document.getElementById("no_title").checked;
 		document.getElementById("title_custom_class").disabled = document.getElementById("no_title").checked;
 		document.getElementById("title_custom_style").disabled = document.getElementById("no_title").checked;

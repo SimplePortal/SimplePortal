@@ -1814,7 +1814,7 @@ function sp_calendar($parameters, $id, $return_parameters = false)
 
 	echo '
 								<div class="sp_center smalltext" id="sp_calendar_0" style="display: none;">', $txt['error_sp_no_items_day'], '</div>
-								<script language="JavaScript" type="text/javascript"><!-- // --><![CDATA[
+								<script type="text/javascript"><!-- // --><![CDATA[
 									var current_day = "sp_calendar_', $curPage['day'], '";
 									function sp_collapseCalendar(id)
 									{
@@ -2236,7 +2236,7 @@ function sp_theme_select($parameters, $id, $return_parameters = false)
 										<input type="submit" name="sp_ts_submit" value="', $txt['sp-theme_change'], '" class="button_submit" />
 									</div>
 								</form>
-								<script language="JavaScript" type="text/javascript"><!-- // --><![CDATA[
+								<script type="text/javascript"><!-- // --><![CDATA[
 									var sp_ts_thumbs = new Array();';
 
 	foreach ($available_themes as $id => $theme_data)

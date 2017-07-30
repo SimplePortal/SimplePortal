@@ -435,7 +435,7 @@ function sportal_admin_block_edit()
 			fatal_lang_error('cannot_admin_forum', false);
 
 		$context['html_headers'] .= '
-	<script language="JavaScript" type="text/javascript"><!-- // --><![CDATA[
+	<script type="text/javascript"><!-- // --><![CDATA[
 		function sp_collapseObject(id)
 		{
 			mode = document.getElementById("sp_object_" + id).style.display == "" ? 0 : 1;
