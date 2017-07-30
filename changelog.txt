@@ -8,6 +8,7 @@ SP 2.3.7
  ! Updated the preg_replace calls using /e modifier to use callbacks instead.
  ! Make sure the block position size variables are of the correct type for calculations.
  ! Set the board index canonical URL correctly when portal mode is set to front page.
+ ! Properly redirect guests logging in from a custom page back to the page.
 
 SP 2.3.6
 ================================================================================

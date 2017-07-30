@@ -245,6 +245,17 @@ sportal_init();]]></add>
 		</operation>
 	</file>
 
+	<file name="$sourcedir/LogInOut.php">
+		<operation>
+			<search position="replace"><![CDATA[if (isset($_SESSION['old_url']) && strpos($_SESSION['old_url'], 'dlattach') === false && preg_match('~(board|topic]]></search>
+			<add><![CDATA[if (isset($_SESSION['old_url']) && strpos($_SESSION['old_url'], 'dlattach') === false && preg_match('~(board|topic|page]]></add>
+		</operation>
+		<operation>
+			<search position="replace"><![CDATA[if (empty($_SESSION['login_url']) && isset($_SESSION['old_url']) && strpos($_SESSION['old_url'], 'dlattach') === false && preg_match('~(board|topic]]></search>
+			<add><![CDATA[if (empty($_SESSION['login_url']) && isset($_SESSION['old_url']) && strpos($_SESSION['old_url'], 'dlattach') === false && preg_match('~(board|topic|page]]></add>
+		</operation>
+	</file>
+
 	<file name="$sourcedir/ManagePermissions.php">
 		<operation>
 			<search position="replace"><![CDATA[			'pm_read' => array(false, 'pm', 'use_pm_system'),]]></search>
