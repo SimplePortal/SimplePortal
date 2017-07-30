@@ -7,7 +7,7 @@
  * @copyright 2014 SimplePortal Team
  * @license BSD 3-clause
  *
- * @version 2.3.6
+ * @version 2.3.7
  */
 
 // Handle running this file by using SSI.php
@@ -1029,7 +1029,7 @@ $defaults = array(
 );
 
 $updates = array(
-	'sp_version' => '2.3.6',
+	'sp_version' => '2.3.7',
 	'sp_smf_version' => '1',
 );
 
@@ -1066,7 +1066,7 @@ if (SMF == 'SSI')
 <head>
 	<meta http-equiv="Content-Type" content="text/html; charset=', $context['character_set'], '" />
 	<title>SimplePortal &bull; Database Tool</title>
-	<link rel="stylesheet" type="text/css" href="', $settings['theme_url'], '/style.css?236" />
+	<link rel="stylesheet" type="text/css" href="', $settings['theme_url'], '/style.css?237" />
 	<meta name="robots" content="noindex" />
 	<style type="text/css">
 		body, html
@@ -1130,7 +1130,7 @@ if (SMF == 'SSI')
 	<div class="catbg">SimplePortal &bull; Database Tool</div>
 	<p id="info" class="windowbg">This tool will prepare your database to work with SimplePortal. It will also fix database issues related to SimplePortal, if there are any.</p>
 	', $info, '
-	<p id="copy">SimplePortal &copy; 2008-2014</p>
+	<p id="copy">SimplePortal &copy; 2008-', strftime('%Y'), '</p>
 </div>
 </body>
 </html>';

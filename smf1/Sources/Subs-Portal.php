@@ -7,7 +7,7 @@
  * @copyright 2014 SimplePortal Team
  * @license BSD 3-clause
  *
- * @version 2.3.6
+ * @version 2.3.7
  */
 
 if (!defined('SMF'))
@@ -80,16 +80,16 @@ function sportal_init($standalone = false)
 	global $context, $sourcedir, $scripturl, $modSettings, $txt;
 	global $settings, $options, $boarddir, $maintenance, $sportal_version;
 
-	$sportal_version = '2.3.6';
+	$sportal_version = '2.3.7';
 
 	if (!$standalone)
 	{
 		$context['html_headers'] .= '
-		<link rel="stylesheet" type="text/css" href="' . $settings['default_theme_url'] . '/portal.css?236" />';
+		<link rel="stylesheet" type="text/css" href="' . $settings['default_theme_url'] . '/portal.css?237" />';
 
 		if ($context['right_to_left'])
 			$context['html_headers'] .= '
-		<link rel="stylesheet" type="text/css" href="' . $settings['default_theme_url'] . '/portal_rtl.css?236" />';
+		<link rel="stylesheet" type="text/css" href="' . $settings['default_theme_url'] . '/portal_rtl.css?237" />';
 
 		if (!empty($_REQUEST['action']) && in_array($_REQUEST['action'], array('manageportal', 'permissions', 'helpadmin')))
 			if (loadLanguage('SPortalAdmin', '', false) === false)
@@ -256,7 +256,7 @@ function sportal_init_headers()
 		$safe_scripturl = str_replace('://', '://www.', $scripturl);
 
 	$context['html_headers'] .= '
-	<script type="text/javascript" src="' . $settings['default_theme_url'] . '/portal.js?236"></script>';
+	<script type="text/javascript" src="' . $settings['default_theme_url'] . '/portal.js?237"></script>';
 
 	$context['html_headers'] .= '
 	<script language="JavaScript" type="text/javascript"><!-- // --><![CDATA[

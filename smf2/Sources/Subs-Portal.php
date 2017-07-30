@@ -7,7 +7,7 @@
  * @copyright 2014 SimplePortal Team
  * @license BSD 3-clause
  *
- * @version 2.3.6
+ * @version 2.3.7
  */
 
 if (!defined('SMF'))
@@ -83,7 +83,7 @@ function sportal_init($standalone = false)
 	global $context, $sourcedir, $scripturl, $modSettings;
 	global $settings, $options, $boarddir, $maintenance, $sportal_version;
 
-	$sportal_version = '2.3.6';
+	$sportal_version = '2.3.7';
 
 	if (isset($_REQUEST['action']) && $_REQUEST['action'] == 'dlattach')
 		return;
@@ -255,7 +255,7 @@ function sportal_init_headers()
 		$safe_scripturl = str_replace('://', '://www.', $scripturl);
 
 	$context['html_headers'] .= '
-	<script type="text/javascript" src="' . $settings['default_theme_url'] . '/scripts/portal.js?236"></script>
+	<script type="text/javascript" src="' . $settings['default_theme_url'] . '/scripts/portal.js?237"></script>
 	<script type="text/javascript"><!-- // --><![CDATA[
 		var sp_images_url = "' . $settings['sp_images_url'] . '";
 		var sp_script_url = "' . $safe_scripturl . '";

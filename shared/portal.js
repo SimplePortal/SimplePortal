@@ -5,7 +5,7 @@
  * @copyright 2014 SimplePortal Team
  * @license BSD 3-clause
  *
- * @version 2.3.6
+ * @version 2.3.7
  */
 
 // Define the version of SMF that we are using.
