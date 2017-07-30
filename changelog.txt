@@ -12,6 +12,7 @@ SP 2.3.7
  ! Fixed a markup error on block edit page and removed the language attribute on script tags.
  ! Updated the links pointing to the main SimplePortal website.
  ! Updated the copyright line to include a dynamic copyright year.
+ ! The default htmlspecialchars function broke the shoutbox on certain multilingual environments.
 
 SP 2.3.6
 ================================================================================

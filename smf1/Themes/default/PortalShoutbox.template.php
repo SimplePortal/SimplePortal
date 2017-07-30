@@ -173,7 +173,7 @@ function template_shoutbox_embed($shoutbox)
 
 function template_shoutbox_xml()
 {
-	global $context, $txt;
+	global $context, $txt, $func;
 
 	echo '<', '?xml version="1.0" encoding="', $context['character_set'], '"?', '>
 <smf>
@@ -183,19 +183,19 @@ function template_shoutbox_xml()
 	{
 		echo '
 	<updated>1</updated>
-	<error>', empty($context['SPortal']['shouts']) ? $txt['sp_shoutbox_no_shout'] : 0, '</error>
-	<warning>', !empty($context['SPortal']['shoutbox']['warning']) ? htmlspecialchars($context['SPortal']['shoutbox']['warning']) : 0, '</warning>
+	<error>', empty($context['SPortal']['shouts']) ? $func['htmlspecialchars']($txt['sp_shoutbox_no_shout']) : 0, '</error>
+	<warning>', !empty($context['SPortal']['shoutbox']['warning']) ? $func['htmlspecialchars']($context['SPortal']['shoutbox']['warning']) : 0, '</warning>
 	<reverse>', !empty($context['SPortal']['shoutbox']['reverse']) ? 1 : 0, '</reverse>';
 
 	foreach ($context['SPortal']['shouts'] as $shout)
 		echo '
 	<shout>
 		<id>', $shout['id'], '</id>
-		<author>', htmlspecialchars($shout['author']['link']), '</author>
-		<time>', htmlspecialchars($shout['time']), '</time>
-		<timeclean>', htmlspecialchars(strip_tags($shout['time'])), '</timeclean>
-		<delete>', !empty($shout['delete_link_js']) ? htmlspecialchars($shout['delete_link_js']) : 0, '</delete>
-		<content>', htmlspecialchars($shout['text']), '</content>
+		<author>', $func['htmlspecialchars']($shout['author']['link']), '</author>
+		<time>', $func['htmlspecialchars']($shout['time']), '</time>
+		<timeclean>', $func['htmlspecialchars'](strip_tags($shout['time'])), '</timeclean>
+		<delete>', !empty($shout['delete_link_js']) ? $func['htmlspecialchars']($shout['delete_link_js']) : 0, '</delete>
+		<content>', $func['htmlspecialchars']($shout['text']), '</content>
 		<is_me>', $shout['is_me'] ? 1 : 0, '</is_me>
 	</shout>';
 	}
