@@ -57,8 +57,7 @@ function sportal_init($standalone = false)
 
 	if($modSettings['sp_mobile_disable'])
         {
-                $useragent=$_SERVER['HTTP_USER_AGENT'];
-                if(CheckIsMobile($useragent))
+                if(CheckIfMobile())
                 {
                         $settings['disable_sp'] = true;
                 }
