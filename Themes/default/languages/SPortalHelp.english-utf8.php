@@ -31,6 +31,7 @@ $helptxt['sp_disable_random_bullets'] = 'Disables random coloring for bullet ima
 $helptxt['sp_disable_php_validation'] = 'Disables validation of PHP block codes, which is to prevent syntax and database errors in code.';
 $helptxt['sp_disable_side_collapse'] = 'Disables ability to collapse the left and right sides of the portal.';
 $helptxt['sp_resize_images'] = 'Enables resizing images in articles and board news to 300x300px, to prevent possible overflows.';
+$helptxt['sp_mobile_disable'] = 'Disables SimplePortal when browser sends a known mobile client user agent string.';
 
 // Block settings
 $helptxt['showleft'] = 'This will enable left side blocks on the portal and inside the forum.';

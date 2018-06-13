@@ -55,6 +55,14 @@ function sportal_init($standalone = false)
 		return;
 	}
 
+	if($modSettings['sp_mobile_disable'])
+        {
+                if(CheckIfMobile())
+                {
+                        $settings['disable_sp'] = true;
+                }
+        }
+
 	if (!$standalone)
 	{
 		require_once($sourcedir . '/PortalBlocks.php');
