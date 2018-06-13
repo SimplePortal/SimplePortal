@@ -31,6 +31,7 @@ $txt['sp_disable_side_collapse'] = 'Disable Side Collapsing';
 $txt['portaltheme'] = 'Portal Theme';
 $txt['portalthemedefault'] = 'Forum Default';
 $txt['sp_resize_images'] = 'Resizes images on portal';
+$txt['sp_mobile_disable'] = 'Disable SimplePortal on mobile web agents';
 
 // Block settings
 $txt['showleft'] = 'Enable Left Side Blocks';
