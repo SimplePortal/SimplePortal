@@ -1113,7 +1113,7 @@ if (SMF == 'SSI')
 <head>
 	<meta http-equiv="Content-Type" content="text/html; charset=', $context['character_set'], '" />
 	<title>SimplePortal &bull; Database Tool</title>
-	<link rel="stylesheet" type="text/css" href="', $settings['theme_url'], '/css/index.css?237" />
+	<link rel="stylesheet" type="text/css" href="', $settings['theme_url'], '/css/index.css?238" />
 	<meta name="robots" content="noindex" />
 	<style type="text/css">
 		body, html

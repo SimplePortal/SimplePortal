@@ -85,11 +85,11 @@ function sportal_init($standalone = false)
 	if (!$standalone)
 	{
 		$context['html_headers'] .= '
-		<link rel="stylesheet" type="text/css" href="' . $settings['default_theme_url'] . '/portal.css?237" />';
+		<link rel="stylesheet" type="text/css" href="' . $settings['default_theme_url'] . '/portal.css?238" />';
 
 		if ($context['right_to_left'])
 			$context['html_headers'] .= '
-		<link rel="stylesheet" type="text/css" href="' . $settings['default_theme_url'] . '/portal_rtl.css?237" />';
+		<link rel="stylesheet" type="text/css" href="' . $settings['default_theme_url'] . '/portal_rtl.css?238" />';
 
 		if (!empty($_REQUEST['action']) && in_array($_REQUEST['action'], array('manageportal', 'permissions', 'helpadmin')))
 			if (loadLanguage('SPortalAdmin', '', false) === false)
@@ -256,7 +256,7 @@ function sportal_init_headers()
 		$safe_scripturl = str_replace('://', '://www.', $scripturl);
 
 	$context['html_headers'] .= '
-	<script type="text/javascript" src="' . $settings['default_theme_url'] . '/portal.js?237"></script>';
+	<script type="text/javascript" src="' . $settings['default_theme_url'] . '/portal.js?238"></script>';
 
 	$context['html_headers'] .= '
 	<script language="JavaScript" type="text/javascript"><!-- // --><![CDATA[

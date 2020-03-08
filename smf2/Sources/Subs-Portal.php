@@ -255,7 +255,7 @@ function sportal_init_headers()
 		$safe_scripturl = str_replace('://', '://www.', $scripturl);
 
 	$context['html_headers'] .= '
-	<script type="text/javascript" src="' . $settings['default_theme_url'] . '/scripts/portal.js?237"></script>
+	<script type="text/javascript" src="' . $settings['default_theme_url'] . '/scripts/portal.js?238"></script>
 	<script type="text/javascript"><!-- // --><![CDATA[
 		var sp_images_url = "' . $settings['sp_images_url'] . '";
 		var sp_script_url = "' . $safe_scripturl . '";
