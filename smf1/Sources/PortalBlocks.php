@@ -3633,13 +3633,7 @@ function sp_php($parameters, $id, $return_parameters = false)
 
 	$content = !empty($parameters['content']) ? $parameters['content'] : '';
 
-	$content = trim(un_htmlspecialchars($content));
-	if (substr($content, 0, 5) == '<?php')
-		$content = substr($content, 5);
-	if (substr($content, -2) == '?>')
-		$content = substr($content, 0, -2);
-
-	eval($content);
+	sp_parse_php($content);
 }
 
 ?>

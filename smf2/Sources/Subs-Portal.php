@@ -74,7 +74,7 @@ if (!defined('SMF'))
 	mixed sp_prevent_flood()
 		// !!!
 
-	void sportal_load_compat()
+	void sportal_parse_php()
 		// !!!
 */
 
@@ -1177,19 +1177,12 @@ function sportal_get_pages($page_id = null, $active = false, $allowed = false)
 
 function sportal_parse_page($body, $type)
 {
-	if (strtolower($body) === 'el psy congroo')
-		echo 'Steins;Gate';
-	elseif ($type == 'bbc')
+	if ($type == 'bbc')
 		echo parse_bbc($body);
 	elseif ($type == 'html')
 		echo un_htmlspecialchars($body);
 	elseif ($type == 'php')
-	{
-		$body = trim(un_htmlspecialchars($body));
-		$body = trim($body, '<?php');
-		$body = trim($body, '?>');
-		eval($body);
-	}
+		sp_parse_php($body);
 }
 
 function sportal_get_shoutbox($shoutbox_id = null, $active = false, $allowed = false)
@@ -1470,6 +1463,21 @@ function sp_prevent_flood($type, $fatal = true)
 	}
 
 	return false;
+}
+
+function sp_parse_php($code)
+{
+	$code = trim(un_htmlspecialchars($code));
+
+	if ($code !== '')
+	{
+		if (substr($code, 0, 5) == '<?php')
+			$code = substr($code, 5);
+		if (substr($code, -2) == '?>')
+			$code = substr($code, 0, -2);
+
+		eval($code);
+	}
 }
 
 ?>
