@@ -740,7 +740,7 @@ function sp_query_string($tourniquet)
 	{
 		$fix = '<div style="text-align: center; width: 100%; font-size: x-small; margin-bottom: 5px;">' . $fix . '</div>';
 		$position = strripos($tourniquet, '</body>');
-		if ($positon !== false)
+		if ($position !== false)
 			$tourniquet = substr_replace($tourniquet, $fix, $position, 0);
 	}
 
