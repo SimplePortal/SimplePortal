@@ -1,6 +1,10 @@
 Changes go downward, versions go upward. Please scroll to the bottom for a legend.
 Changelog started August 1, 2008.
-Changelog last updated July 30, 2017.
+Changelog last updated March 8, 2020.
+
+SP 2.3.8
+================================================================================
+ ! Updated version information.
 
 SP 2.3.7
 ================================================================================

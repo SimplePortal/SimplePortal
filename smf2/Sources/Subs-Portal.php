@@ -4,10 +4,10 @@
  * @package SimplePortal
  *
  * @author SimplePortal Team
- * @copyright 2014 SimplePortal Team
+ * @copyright 2020 SimplePortal Team
  * @license BSD 3-clause
  *
- * @version 2.3.7
+ * @version 2.3.8
  */
 
 if (!defined('SMF'))
@@ -83,7 +83,7 @@ function sportal_init($standalone = false)
 	global $context, $sourcedir, $scripturl, $modSettings;
 	global $settings, $options, $boarddir, $maintenance, $sportal_version;
 
-	$sportal_version = '2.3.7';
+	$sportal_version = '2.3.8';
 
 	if (isset($_REQUEST['action']) && $_REQUEST['action'] == 'dlattach')
 		return;

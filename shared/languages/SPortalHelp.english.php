@@ -4,10 +4,10 @@
  * @package SimplePortal
  *
  * @author SimplePortal Team
- * @copyright 2014 SimplePortal Team
+ * @copyright 2020 SimplePortal Team
  * @license BSD 3-clause
  *
- * @version 2.3.7
+ * @version 2.3.8
  */
 
 global $helptxt;

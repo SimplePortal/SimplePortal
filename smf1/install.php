@@ -4,10 +4,10 @@
  * @package SimplePortal
  *
  * @author SimplePortal Team
- * @copyright 2014 SimplePortal Team
+ * @copyright 2020 SimplePortal Team
  * @license BSD 3-clause
  *
- * @version 2.3.7
+ * @version 2.3.8
  */
 
 // Handle running this file by using SSI.php
@@ -1029,7 +1029,7 @@ $defaults = array(
 );
 
 $updates = array(
-	'sp_version' => '2.3.7',
+	'sp_version' => '2.3.8',
 	'sp_smf_version' => '1',
 );
 
