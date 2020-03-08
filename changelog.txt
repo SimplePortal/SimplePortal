@@ -4,6 +4,7 @@ Changelog last updated March 8, 2020.
 
 SP 2.3.8
 ================================================================================
+ ! Handled cases in which provided page id is not of the correct type.
  ! Replaced outdated escape function in shoutbox requests.
  ! Simplified image resize script initialization.
  ! Updated version information.

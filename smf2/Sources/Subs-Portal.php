@@ -1092,6 +1092,8 @@ function sportal_get_pages($page_id = null, $active = false, $allowed = false)
 	global $smcFunc;
 	static $cache;
 
+	$page_id = is_int($page_id) || is_string($page_id) ? $page_id : 0;
+
 	$cache_name = implode(':', array($page_id, $active, $allowed));
 
 	if (isset($cache[$cache_name]))
