@@ -62,9 +62,9 @@ function sp_submit_shout(shoutbox_id, sSessionVar, sSessionId)
 		var shout_body = "";
 
 		if (portal_smf_version == 1.1)
-			shout_body = escape(textToEntities(document.getElementById('new_shout_' + shoutbox_id).value.replace(/&#/g, "&#38;#"))).replace(/\+/g, "%2B");
+			shout_body = encodeURIComponent(textToEntities(document.getElementById('new_shout_' + shoutbox_id).value.replace(/&#/g, "&#38;#"))).replace(/\+/g, "%2B");
 		else
-			shout_body = escape(document.getElementById('new_shout_' + shoutbox_id).value.replace(/&#/g, "&#").php_to8bit()).replace(/\+/g, "%2B");
+			shout_body = encodeURIComponent(document.getElementById('new_shout_' + shoutbox_id).value.replace(/&#/g, "&#").php_to8bit()).replace(/\+/g, "%2B");
 
 		sendXMLDocument(smf_prepareScriptUrl(sp_script_url) + 'action=portal;sa=shoutbox;xml', 'shoutbox_id=' + shoutbox_id + '&shout=' + shout_body + '&' + sSessionVar + '=' + sSessionId, onShoutReceived);
 
