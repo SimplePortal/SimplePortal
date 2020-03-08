@@ -294,13 +294,16 @@ function sportal_init_headers()
 
 	if ($modSettings['sp_resize_images'])
 	{
-		if (!$context['browser']['is_ie'] && !$context['browser']['is_mac_ie'])
-			$context['html_headers'] .= '
-		window.addEventListener("load", sp_image_resize, false);';
+		$context['html_headers'] .= '
+		if (window.addEventListener)
+			window.addEventListener("load", sp_image_resize, false);
+		else if (window.attachEvent)
+			window.attachEvent("onload", sp_image_resize);
 		else
-			$context['html_headers'] .= '
-		var window_oldSPImageOnload = window.onload;
-		window.onload = sp_image_resize;';
+		{
+			var window_oldSPImageOnload = window.onload;
+			window.onload = sp_image_resize;
+		}';
 	}
 
 	$context['html_headers'] .= '
