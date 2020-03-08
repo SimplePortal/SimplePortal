@@ -3577,6 +3577,7 @@ function sp_php($parameters, $id, $return_parameters = false)
 {
 	$block_parameters = array(
 		'content' => 'textarea',
+		'init' => 'textarea',
 	);
 
 	if ($return_parameters)

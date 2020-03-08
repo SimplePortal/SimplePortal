@@ -332,6 +332,9 @@ function sportal_admin_block_edit()
 		else
 			$_POST['parameters'] = array();
 
+		if ($_POST['block_type'] === 'sp_php' && !empty($_POST['parameters']['init']))
+			sp_parse_php($_POST['parameters']['init']);
+
 		if (empty($_POST['display_advanced']))
 		{
 			if (!empty($_POST['display_simple']) && in_array($_POST['display_simple'], array('all', 'sportal', 'sforum', 'allaction', 'allboard', 'allpages')))
@@ -574,12 +577,18 @@ function sportal_admin_block_edit()
 		if (!isset($_POST['block_name']) || $func['htmltrim']($func['htmlspecialchars']($_POST['block_name']), ENT_QUOTES) === '')
 			fatal_lang_error('error_sp_name_empty', false);
 
-		if ($_POST['block_type'] == 'sp_php' && !empty($_POST['parameters']['content']) && empty($modSettings['sp_disable_php_validation']))
+		if ($_POST['block_type'] == 'sp_php' && empty($modSettings['sp_disable_php_validation']))
 		{
-			$error = sp_validate_php(stripslashes($_POST['parameters']['content']));
+			foreach (array('content', 'init') as $field)
+			{
+				if (!empty($_POST['parameters'][$field]))
+				{
+					$error = sp_validate_php(stripslashes($_POST['parameters'][$field]));
 
-			if ($error)
-				fatal_lang_error('error_sp_php_' . $error, false);
+					if ($error)
+						fatal_lang_error('error_sp_php_' . $error, false);
+				}
+			}
 		}
 
 		if (!empty($_REQUEST['block_id']))

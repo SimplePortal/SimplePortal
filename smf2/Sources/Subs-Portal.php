@@ -223,6 +223,9 @@ function sportal_init($standalone = false)
 
 		$context['SPortal']['sides'][$block['column']]['last'] = $block['id'];
 		$context['SPortal']['blocks'][$block['column']][] = $block;
+
+		if ($block['type'] === 'sp_php' && !empty($block['parameters']['init']))
+			sp_parse_php($block['parameters']['init']);
 	}
 
 	foreach($context['SPortal']['sides'] as $side)

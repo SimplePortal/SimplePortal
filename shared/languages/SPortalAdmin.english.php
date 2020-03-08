@@ -248,6 +248,7 @@ $txt['sp_param_sp_blog_sort'] = 'Display';
 $txt['sp_param_sp_html_content'] = 'Custom HTML';
 $txt['sp_param_sp_bbc_content'] = 'Custom BBC';
 $txt['sp_param_sp_php_content'] = 'Custom PHP';
+$txt['sp_param_sp_php_init'] = 'Initialization PHP';
 
 // Parameter options
 $txt['sp_param_sp_topPoster_type_options'] = 'All Time|Today|This Week|This Month';
