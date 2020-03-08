@@ -744,14 +744,31 @@ function sp_query_string($tourniquet)
 		return $tourniquet;
 
 	$finds = array(
-		', Simple Machines LLC</a>',
+		', <a href="https://www.simplemachines.org" title="Simple Machines" target="_blank" class="new_win">Simple Machines</a>',
 		', <a href="http://www.simplemachines.org" title="Simple Machines" target="_blank" class="new_win">Simple Machines</a>',
+		', Simple Machines LLC</a>',
+	);
+	$replaces = array(
+		', <a href="https://www.simplemachines.org" title="Simple Machines" target="_blank" class="new_win">Simple Machines</a><br />' . $fix,
+		', <a href="http://www.simplemachines.org" title="Simple Machines" target="_blank" class="new_win">Simple Machines</a><br />' . $fix,
+		', Simple Machines LLC</a><br />' . $fix,
+	);
+
+	foreach ($finds as $key => $find)
+	{
+		$position = strrpos($tourniquet, $find);
+		if ($position !== false && strpos($tourniquet, $fix) === false)
+		{
+			$tourniquet = substr_replace($tourniquet, $replaces[$key], $position, strlen($find));
+			break;
+		}
+	}
+
+	$finds = array(
 		'class="copywrite"',
 		'class="copyright"',
 	);
 	$replaces = array(
-		', Simple Machines LLC</a><br />' . $fix,
-		', <a href="http://www.simplemachines.org" title="Simple Machines" target="_blank" class="new_win">Simple Machines</a><br />' . $fix,
 		'class="copywrite" style="line-height: 1em;"',
 		'class="copyright" style="line-height: 1.5em;"',
 	);
@@ -760,8 +777,10 @@ function sp_query_string($tourniquet)
 
 	if (strpos($tourniquet, $fix) === false)
 	{
-		$fix = '<div style="text-align: center; width: 100%; font-size: x-small; margin-bottom: 5px;">' . $fix . '</div></body></html>';
-		$tourniquet = preg_replace('~</body>\s*</html>~', $fix, $tourniquet);
+		$fix = '<div style="text-align: center; width: 100%; font-size: x-small; margin-bottom: 5px;">' . $fix . '</div>';
+		$position = strripos($tourniquet, '</body>');
+		if ($positon !== false)
+			$tourniquet = substr_replace($tourniquet, $fix, $position, 0);
 	}
 
 	return $tourniquet;

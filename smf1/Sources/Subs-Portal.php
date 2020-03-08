@@ -718,20 +718,30 @@ function sp_query_string($tourniquet)
 		$tourniquet = preg_replace('~(<tr>)(\s*<td align="right"></td>\s*<td valign="middle">\s*<)(a|s)+~', '<tr id="sp_editor_$3">$2$3', $tourniquet);
 
 	$finds = array(
-		', Simple Machines LLC</a>',
 		', Simple Machines</a>',
+		', Simple Machines LLC</a>',
 	);
 	$replaces = array(
-		', Simple Machines LLC</a><br />' . $fix,
 		', Simple Machines</a><br />' . $fix,
+		', Simple Machines LLC</a><br />' . $fix,
 	);
 
-	$tourniquet = str_replace($finds, $replaces, $tourniquet);
+	foreach ($finds as $key => $find)
+	{
+		$position = strrpos($tourniquet, $find);
+		if ($position !== false && strpos($tourniquet, $fix) === false)
+		{
+			$tourniquet = substr_replace($tourniquet, $replaces[$key], $position, strlen($find));
+			break;
+		}
+	}
 
 	if (strpos($tourniquet, $fix) === false)
 	{
-		$fix = '<div style="text-align: center; width: 100%; font-size: x-small; margin-bottom: 5px;">' . $fix . '</div></body></html>';
-		$tourniquet = preg_replace('~</body>\s*</html>~', $fix, $tourniquet);
+		$fix = '<div style="text-align: center; width: 100%; font-size: x-small; margin-bottom: 5px;">' . $fix . '</div>';
+		$position = strripos($tourniquet, '</body>');
+		if ($positon !== false)
+			$tourniquet = substr_replace($tourniquet, $fix, $position, 0);
 	}
 
 	return $tourniquet;
