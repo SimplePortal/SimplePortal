@@ -222,14 +222,13 @@ function sp_showMoreSmileys(postbox, sTitleText, sPickText, sCloseText, smf_them
 
 	if (sp_smileyRowsContent == undefined)
 	{
-		var sp_smileyRowsContent = '';	
+		var sp_smileyRowsContent = '';
 		for (i = 0; i < sp_smileys.length; i++)
 		{
 			sp_smileys[i][2] = sp_smileys[i][2].replace(/"/g, '&quot;');
 			sp_smileys[i][0] = sp_smileys[i][0].replace(/"/g, '&quot;');
 			sp_smileyRowsContent += '<a href="javascript:void(0);" onclick="window.opener.replaceText(\' ' + sp_smileys[i][0].php_addslashes() + '\', window.opener.document.getElementById(\'new_shout_' + postbox + '\')); window.focus(); return false;"><img src="' + smf_smileys_url + '/' + sp_smileys[i][1] + '" id="sml_' + sp_smileys[i][1] + '" alt="' + sp_smileys[i][2] + '" title="' + sp_smileys[i][2] + '" style="padding: 4px;" border="0" /></a> ';
 		}
-		
 	}
 
 	this.oSmileyPopupWindow = window.open('', 'add_smileys', 'toolbar=no,location=no,status=no,menubar=no,scrollbars=yes,width=480,height=220,resizable=yes');

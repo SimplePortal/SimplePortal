@@ -614,7 +614,7 @@ function sp_topStatsMember($parameters, $id, $return_parameters = false)
 			'10' => $txt['sp_topStatsMember_Advanced_Reputation_System_Best'],
 			'11' => $txt['sp_topStatsMember_Advanced_Reputation_System_Worst'],
 			'smf_shop_money' => $txt['sp_topStatsMember_SMF_Shop_Money'],
-		), 
+		),
 		'limit' => 'int',
 		'sort_asc' => 'check',
 		'last_active_limit' => 'int',
@@ -895,7 +895,7 @@ function sp_topStatsMember($parameters, $id, $return_parameters = false)
 		else
 			unset($modSettings[$chache_id]);
 	}
-	
+
 	// Last active remove?
 	if (!empty($last_active_limit))
 	{
@@ -934,7 +934,7 @@ function sp_topStatsMember($parameters, $id, $return_parameters = false)
 		$chache_member_ids[$row['ID_MEMBER']] = $row['ID_MEMBER'];
 		if($count++ > $limit)
 			continue;
-		
+
 		$colorids[$row['ID_MEMBER']] = $row['ID_MEMBER'];
 
 		if (stristr($row['avatar'], 'http://') && !empty($modSettings['avatar_check_size']))

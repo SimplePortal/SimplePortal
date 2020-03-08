@@ -149,7 +149,7 @@ function sp_userInfo($parameters, $id, $return_parameters = false)
 	else
 	{
 		loadMemberData($user_info['id']);
-		loadMemberContext($user_info['id'], true); 
+		loadMemberContext($user_info['id'], true);
 
 		$member_info = $memberContext[$user_info['id']];
 
@@ -589,7 +589,7 @@ function sp_topStatsMember($parameters, $id, $return_parameters = false)
 			'sa_shop_trades' => $txt['sp_topStatsMember_SA_Shop_Trades'],
 			'sa_shop_purchase' => $txt['sp_topStatsMember_SA_Shop_Purchase'],
 			'casino' => $txt['sp_topStatsMember_Casino'],
-		), 
+		),
 		'limit' => 'int',
 		'sort_asc' => 'check',
 		'last_active_limit' => 'int',
@@ -844,7 +844,7 @@ function sp_topStatsMember($parameters, $id, $return_parameters = false)
 
 	// Create the where statment :)
 	$where = array();
-	
+
 	// Some cached data availible?
 	$chache_id = 'sp_chache_' . $id . '_topStatsMember';
 	if (empty($modSettings['sp_disableChache']) && !empty($modSettings[$chache_id]))
@@ -900,7 +900,7 @@ function sp_topStatsMember($parameters, $id, $return_parameters = false)
 		$chache_member_ids[$row['id_member']] = $row['id_member'];
 		if($count++ > $limit)
 			continue;
-		
+
 		$colorids[$row['id_member']] = $row['id_member'];
 
 		if ($modSettings['avatar_action_too_large'] == 'option_html_resize' || $modSettings['avatar_action_too_large'] == 'option_js_resize')
@@ -951,7 +951,7 @@ function sp_topStatsMember($parameters, $id, $return_parameters = false)
 								', $txt['error_sp_no_members_found'];
 		return;
 	}
-	
+
 	// Update the cache, at least around 100 members are needed for a good working version
 	if (empty($modSettings['sp_disableChache']) && $context['common_stats']['total_members'] > 0 && !empty($chache_member_ids) && count($chache_member_ids) > $limit && empty($modSettings[$chache_id]))
 	{
@@ -973,13 +973,13 @@ function sp_topStatsMember($parameters, $id, $return_parameters = false)
 
 	echo '
 								<table class="sp_fullwidth">';
-	
+
 	if($enable_label)
 		echo '
 									<tr>
 										<td class="sp_top_poster sp_center" colspan="2"><strong>', $list_label,'</strong></td>
 									</tr>';
-	
+
 	foreach ($members as $member)
 	{
 		echo '

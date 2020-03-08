@@ -304,7 +304,7 @@ function sportal_init_headers()
 	// ]]></script>';
 
 	$initialized = true;
-} 
+}
 
 function sportal_catch_action()
 {
@@ -370,8 +370,8 @@ function getBlockInfo($column_id = null, $block_id = null, $state = null, $show 
 				'column' => $row['col'],
 				'row' => $row['row'],
 				'permission_set' => $row['permission_set'],
-				'groups_allowed' => $row['groups_allowed'] !== '' ? explode(',', $row['groups_allowed']) : array(), 
-				'groups_denied' => $row['groups_denied'] !== '' ? explode(',', $row['groups_denied']) : array(), 
+				'groups_allowed' => $row['groups_allowed'] !== '' ? explode(',', $row['groups_allowed']) : array(),
+				'groups_denied' => $row['groups_denied'] !== '' ? explode(',', $row['groups_denied']) : array(),
 				'state' => empty($row['state']) ? 0 : 1,
 				'force_view' => $row['force_view'],
 				'display' => $row['display'],
@@ -574,7 +574,7 @@ function getShowInfo($block_id = null, $display = null, $custom = null)
 	elseif (!empty($page) && (in_array('allpages', $display) || in_array($page, $display)))
 		return true;
 	elseif (empty($action) && empty($board) && empty($_GET['page']) && !$portal && ($modSettings['sp_portal_mode'] == 2 || $modSettings['sp_portal_mode'] == 3) && in_array('forum', $display))
-		return true; 
+		return true;
 
 	// For mods using weird urls...
 	foreach ($special as $key => $value)
@@ -773,11 +773,11 @@ function sp_loadColors($users = array())
 	if (!empty($modSettings['MemberColorLinkInstalled']))
 	{
 		$colorData = load_onlineColors($users);
-		
+
 		// This happen only on not existing Members... but given ids...
 		if(empty($colorData))
 			return false;
- 
+
 		$loaded_ids = array_keys($colorData);
 
 		foreach($loaded_ids as $id)
@@ -1021,8 +1021,8 @@ function sportal_get_pages($page_id = null, $active = false, $allowed = false)
 				'body' => $row['body'],
 				'type' => $row['type'],
 				'permission_set' => $row['permission_set'],
-				'groups_allowed' => $row['groups_allowed'] !== '' ? explode(',', $row['groups_allowed']) : array(), 
-				'groups_denied' => $row['groups_denied'] !== '' ? explode(',', $row['groups_denied']) : array(), 
+				'groups_allowed' => $row['groups_allowed'] !== '' ? explode(',', $row['groups_allowed']) : array(),
+				'groups_denied' => $row['groups_denied'] !== '' ? explode(',', $row['groups_denied']) : array(),
 				'views' => $row['views'],
 				'style' => $row['style'],
 				'status' => $row['status'],
@@ -1083,8 +1083,8 @@ function sportal_get_shoutbox($shoutbox_id = null, $active = false, $allowed = f
 			'id' => $row['ID_SHOUTBOX'],
 			'name' => $row['name'],
 			'permission_set' => $row['permission_set'],
-			'groups_allowed' => $row['groups_allowed'] !== '' ? explode(',', $row['groups_allowed']) : array(), 
-			'groups_denied' => $row['groups_denied'] !== '' ? explode(',', $row['groups_denied']) : array(), 
+			'groups_allowed' => $row['groups_allowed'] !== '' ? explode(',', $row['groups_allowed']) : array(),
+			'groups_denied' => $row['groups_denied'] !== '' ? explode(',', $row['groups_denied']) : array(),
 			'moderator_groups' => $row['moderator_groups'] !== '' ? explode(',', $row['moderator_groups']) : array(),
 			'warning' => $row['warning'],
 			'allowed_bbc' => explode(',', $row['allowed_bbc']),
