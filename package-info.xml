@@ -87,6 +87,7 @@
 		<require-file name="shared/PortalStandalone.php" destination="$boarddir" />
 		<require-file name="smf2/Sources/PortalArticles.php" destination="$sourcedir" />
 		<require-file name="smf2/Sources/PortalBlocks.php" destination="$sourcedir" />
+		<require-file name="smf2/Sources/PortalHooks.php" destination="$sourcedir" />
 		<require-file name="smf2/Sources/PortalMain.php" destination="$sourcedir" />
 		<require-file name="smf2/Sources/PortalPages.php" destination="$sourcedir" />
 		<require-file name="smf2/Sources/PortalShoutbox.php" destination="$sourcedir" />
@@ -130,6 +131,9 @@
 
 		<!-- Install scripts -->
 		<database>smf2/install.php</database>
+
+		<!-- Install hooks -->
+		<code>smf2/insert_hooks.php</code>
 
 		<redirect url="$scripturl?action=admin;area=portalconfig" timeout="5000">redirect.txt</redirect>
 	</install>
@@ -199,6 +203,7 @@
 		<remove-file name="$boarddir/PortalStandalone.php" />
 		<remove-file name="$sourcedir/PortalArticles.php" />
 		<remove-file name="$sourcedir/PortalBlocks.php" />
+		<remove-file name="$sourcedir/PortalHooks.php" />
 		<remove-file name="$sourcedir/PortalMain.php" />
 		<remove-file name="$sourcedir/PortalPages.php" />
 		<remove-file name="$sourcedir/PortalShoutbox.php" />
@@ -240,6 +245,9 @@
 		<!-- CSS files -->
 		<remove-file name="$themedir/css/portal.css" />
 		<remove-file name="$themedir/css/portal_rtl.css" />
+
+		<!-- Hooks -->
+		<code>smf2/remove_hooks.php</code>
 
 		<!-- JavaScript files -->
 		<remove-file name="$themedir/scripts/portal.js" />
