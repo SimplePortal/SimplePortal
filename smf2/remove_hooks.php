@@ -31,5 +31,7 @@ remove_integration_function('integrate_admin_areas', 'sportal_admin_areas');
 remove_integration_function('integrate_load_theme', 'sportalortal_init');
 remove_integration_function('integrate_action', 'sportal_actions');
 remove_integration_function('integrate_buffer', 'sportal_buffer');
+remove_integration_function('integrate_redirect', 'sportal_redirect');
+remove_integration_function('integrate_whos_online', 'sportal_whos_online');
 
 ?>

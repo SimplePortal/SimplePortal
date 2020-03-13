@@ -28,6 +28,12 @@ defined('SMF') OR exit('<b>Hacking attempt...</b>');
 	void sportal_permissions()
 		// !!!
 
+	void sportal_redirect()
+		// !!!
+
+	void sportal_whos_online()
+		// !!!
+
 	void sportal_buffer()
 		// !!!
 
@@ -179,6 +185,12 @@ function sportal_menu_buttons(&$menu_buttons)
 			)
 		), 'after', true
 	);
+
+	if ($modSettings['sp_portal_mode'] == 3 && empty($context['standalone']) && empty($context['disable_sp']))
+		$context['current_action'] = 'forum';
+
+	if(empty($context['disable_sp']) && ((isset($_GET['board']) || isset($_GET['topic']) || in_array($context['current_action'], array('unread', 'unreadreplies', 'collapse', 'recent', 'stats', 'who'))) && in_array($modSettings['sp_portal_mode'], array(1, 3))))
+		$context['current_action'] = 'forum';
 }
 
 function sportal_permissions(&$permissionGroups, &$permissionList, &$leftPermissionGroups, &$hiddenPermissions, &$relabelPermissions)
@@ -220,6 +232,132 @@ function sportal_permissions(&$permissionGroups, &$permissionList, &$leftPermiss
 	);
 }
 
+function sportal_redirect(&$setLocation, &$refresh)
+{
+	global $scripturl, $context, $modSettings, $db_show_debug, $db_cache;
+
+	$add = preg_match('~^(ftp|http)[s]?://~', $setLocation) == 0 && substr($setLocation, 0, 6) != 'about:';
+
+	// Set the default redirect location as the forum or the portal.
+	if ((empty($setLocation) || $scripturl == $setLocation) && ($modSettings['sp_portal_mode'] == 1 || $modSettings['sp_portal_mode'] == 3))
+	{
+		// Redirect the user to the forum.
+		if (!empty($modSettings['sp_disableForumRedirect']))
+			$setLocation = 'action=forum';
+		// Redirect the user to the SSI.php standalone portal.
+		elseif ($modSettings['sp_portal_mode'] == 3)
+		{
+			$setLocation = $context['portal_url'];
+			$add = false;
+		}
+	}
+	if (WIRELESS)
+	{
+		// Add the scripturl on if needed.
+		if ($add)
+			$setLocation = $scripturl . '?' . $setLocation;
+
+		$char = strpos($setLocation, '?') === false ? '?' : ';';
+
+		if (strpos($setLocation, '#') !== false)
+			$setLocation = strtr($setLocation, array('#' => $char . WIRELESS_PROTOCOL . '#'));
+		else
+			$setLocation .= $char . WIRELESS_PROTOCOL;
+	}
+	elseif ($add)
+		$setLocation = $scripturl . ($setLocation != '' ? '?' . $setLocation : '');
+
+
+	if (!empty($modSettings['queryless_urls']) && (empty($context['server']['is_cgi']) || @ini_get('cgi.fix_pathinfo') == 1 || @get_cfg_var('cgi.fix_pathinfo') == 1) && (!empty($context['server']['is_apache']) || !empty($context['server']['is_lighttpd'])))
+	{
+		if (defined('SID') && SID != '')
+			$setLocation = preg_replace_callback('~^' . preg_quote($scripturl, '/') . '\?(?:' . SID . '(?:;|&|&amp;))((?:page)=[^#]+?)(#[^"]*?)?$~', 'fix_redirect_sid__preg_callback', $setLocation);
+		else
+			$setLocation = preg_replace_callback('~^' . preg_quote($scripturl, '/') . '\?((?:page)=[^#"]+?)(#[^"]*?)?$~', 'fix_redirect_path__preg_callback', $setLocation);
+	}
+}
+
+function sportal_whos_online($actions)
+{
+	global $smcFunc, $scripturl, $modSettings, $txt;
+
+	if ($modSettings['sp_portal_mode'] == 1)
+	{
+		$txt['who_index'] = sprintf($txt['sp_who_index'], $scripturl);
+		$txt['whoall_forum'] = sprintf($txt['sp_who_forum'], $scripturl);
+	}
+	elseif ($modSettings['sp_portal_mode'] == 3)
+		$txt['whoall_portal'] = sprintf($txt['sp_who_index'], $scripturl);
+
+	list($integrate_action, $page_ids) = array('', array());
+
+	if (isset($actions['page']))
+	{
+		$integrate_action = $txt['who_hidden'];
+		$page_ids[$actions['page']][] = $txt['sp_who_page'];
+	}
+
+	if (!empty($page_ids))
+	{
+		$numeric_ids = array();
+		$string_ids = array();
+		$page_where = array();
+
+		foreach ($page_ids as $page_id => $dummy)
+			if (is_numeric($page_id))
+				$numeric_ids[] = (int) $page_id;
+			else
+				$string_ids[] = $page_id;
+
+		if (!empty($numeric_ids))
+			$page_where[] = 'id_page IN ({array_int:numeric_ids})';
+
+		if (!empty($string_ids))
+			$page_where[] = 'namespace IN ({array_string:string_ids})';
+
+		$result = $smcFunc['db_query']('', '
+			SELECT id_page, namespace, title, permission_set, groups_allowed, groups_denied
+			FROM {db_prefix}sp_pages
+			WHERE ' . implode(' OR ', $page_where) . '
+			LIMIT {int:limit}',
+			array(
+				'numeric_ids' => $numeric_ids,
+				'string_ids' => $string_ids,
+				'limit' => count($page_ids),
+			)
+		);
+		$page_data = array();
+		while ($row = $smcFunc['db_fetch_assoc']($result))
+		{
+			if (!sp_allowed_to('page', $row['id_page'], $row['permission_set'], $row['groups_allowed'], $row['groups_denied']))
+				continue;
+
+			$page_data[] = array(
+				'id' => $row['id_page'],
+				'namespace' => $row['namespace'],
+				'title' => $row['title'],
+			);
+		}
+		$smcFunc['db_free_result']($result);
+
+		if (!empty($page_data))
+		{
+			foreach ($page_data as $page)
+			{
+				if (isset($page_ids[$page['id']]))
+					foreach ($page_ids[$page['id']] as $k => $session_text)
+						$integrate_action = sprintf($session_text, $page['id'], censorText($page['title']), $scripturl);
+
+				if (isset($page_ids[$page['namespace']]))
+					foreach ($page_ids[$page['namespace']] as $k => $session_text)
+						$integrate_action = sprintf($session_text, $page['namespace'], censorText($page['title']), $scripturl);
+			}
+		}
+	}
+
+	return $integrate_action;
+}
+
 function sportal_buffer($buffer)
 {
 	global $modSettings, $scripturl, $context;
@@ -243,7 +381,7 @@ function sportal_buffer($buffer)
 
 function sportal_language_files()
 {
-	global $user_info, $txt, $language, $helptxt;
+	global $scripturl, $modSettings, $user_info, $txt, $language, $helptxt;
 
 	// Load the Simple Portal Help file.
 	loadLanguage('SPortalHelp', sp_languageSelect('SPortalHelp'));

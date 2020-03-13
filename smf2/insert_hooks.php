@@ -31,5 +31,7 @@ add_integration_function('integrate_admin_areas', 'sportal_admin_areas');
 add_integration_function('integrate_load_theme', 'sportal_init');
 add_integration_function('integrate_action', 'sportal_actions');
 add_integration_function('integrate_buffer', 'sportal_buffer');
+add_integration_function('integrate_redirect', 'sportal_redirect');
+add_integration_function('integrate_whos_online', 'sportal_whos_online');
 
 ?>
