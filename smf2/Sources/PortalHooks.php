@@ -22,7 +22,16 @@ defined('SMF') OR exit('<b>Hacking attempt...</b>');
 	void sportal_admin_areas()
 		// !!!
 
-	void sportal_admin_language()
+	void sportal_menu_buttons()
+		// !!!
+
+	void sportal_permissions()
+		// !!!
+
+	void sportal_buffer()
+		// !!!
+
+	void sportal_language_files()
 		// !!!
 */
 
