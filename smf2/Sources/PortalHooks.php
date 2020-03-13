@@ -383,9 +383,8 @@ function sportal_language_files()
 {
 	global $scripturl, $modSettings, $user_info, $txt, $language, $helptxt;
 
-	// Load the Simple Portal Help file if necessary.
-	if ($user_info['is_admin'] && $context['current_action'] == 'admin')
-		loadLanguage('SPortalHelp', sp_languageSelect('SPortalHelp'));
+	// Load the Simple Portal Help file.
+	loadLanguage('SPortalHelp', sp_languageSelect('SPortalHelp'));
 
 	// Load our language files
 	loadLanguage('SPortal', '', false);
