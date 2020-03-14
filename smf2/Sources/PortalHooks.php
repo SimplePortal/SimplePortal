@@ -234,12 +234,12 @@ function sportal_permissions(&$permissionGroups, &$permissionList, &$leftPermiss
 
 function sportal_redirect(&$setLocation, &$refresh)
 {
-	global $scripturl, $context, $modSettings, $db_show_debug, $db_cache;
+	global $scripturl, $context, $modSettings, $boardurl;
 
 	$add = preg_match('~^(ftp|http)[s]?://~', $setLocation) == 0 && substr($setLocation, 0, 6) != 'about:';
 
 	// Set the default redirect location as the forum or the portal.
-	if ((empty($setLocation) || $scripturl == $setLocation) && ($modSettings['sp_portal_mode'] == 1 || $modSettings['sp_portal_mode'] == 3))
+	if ((empty($setLocation) || $scripturl == $setLocation) && in_array($modSettings['sp_portal_mode'], array(1, 3)))
 	{
 		// Redirect the user to the forum.
 		if (!empty($modSettings['sp_disableForumRedirect']))
@@ -267,7 +267,6 @@ function sportal_redirect(&$setLocation, &$refresh)
 	elseif ($add)
 		$setLocation = $scripturl . ($setLocation != '' ? '?' . $setLocation : '');
 
-
 	if (!empty($modSettings['queryless_urls']) && (empty($context['server']['is_cgi']) || @ini_get('cgi.fix_pathinfo') == 1 || @get_cfg_var('cgi.fix_pathinfo') == 1) && (!empty($context['server']['is_apache']) || !empty($context['server']['is_lighttpd'])))
 	{
 		if (defined('SID') && SID != '')
@@ -275,6 +274,29 @@ function sportal_redirect(&$setLocation, &$refresh)
 		else
 			$setLocation = preg_replace_callback('~^' . preg_quote($scripturl, '/') . '\?((?:page)=[^#"]+?)(#[^"]*?)?$~', 'fix_redirect_path__preg_callback', $setLocation);
 	}
+
+	// patch malformed location value
+	switch (substr_count($setLocation, $scripturl))
+	{
+		case 0:
+			$setLocation = $scripturl . ($setLocation != '' ? '?' . $setLocation : '');
+			break;
+		case 1:
+			$setLocation = $setLocation;
+			break;
+		default:
+			$setLocation = preg_replace_callback('%' . preg_quote($scripturl) . '%', function($matches) {
+				static $replaced = 0;
+				if($replaced++ == 0)
+					return $matches[0];
+				return '';
+			}, $setLocation);
+			$setLocation = $setLocation == $scripturl ? $setLocation . '?action=forum' : (empty($setLocation) ? $scripturl . '?action=forum' : $setLocation);
+	}
+
+	// Put the session ID in.
+	if (defined('SID') && SID != '' && strpos($setLocation, SID) === false)
+		$setLocation = preg_replace('/^' . preg_quote($scripturl, '/') . '(?!\?' . preg_quote(SID, '/') . ')\\??/', $scripturl . '?' . SID . ';', $setLocation);
 }
 
 function sportal_whos_online($actions)
