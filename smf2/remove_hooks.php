@@ -20,17 +20,19 @@ if (file_exists(dirname(__FILE__) . '/SSI.php') && !defined('SMF'))
 elseif (!defined('SMF'))
 	die('<b>Error:</b> Cannot install - please verify you put this in the same place as SMF\'s index.php.');
 
-// Add necessary hooks
+// Remove file hooks
+remove_integration_function('integrate_admin_include', '$sourcedir/PortalAdminMain.php');
 remove_integration_function('integrate_pre_include', '$sourcedir/Subs-Portal.php');
 remove_integration_function('integrate_pre_include', '$sourcedir/PortalHooks.php');
-remove_integration_function('integrate_pre_load', 'sportal_language_files');
-remove_integration_function('integrate_load_permissions', 'sportal_load_permissions');
-remove_integration_function('integrate_menu_buttons', 'sportal_menu_buttons');
-remove_integration_function('integrate_admin_include', '$sourcedir/PortalAdminMain.php');
-remove_integration_function('integrate_admin_areas', 'sportal_admin_areas');
-remove_integration_function('integrate_load_theme', 'sportalortal_init');
+
+// Remove function hooks
 remove_integration_function('integrate_action', 'sportal_actions');
+remove_integration_function('integrate_admin_areas', 'sportal_admin_areas');
 remove_integration_function('integrate_buffer', 'sportal_buffer');
+remove_integration_function('integrate_load_permissions', 'sportal_load_permissions');
+remove_integration_function('integrate_load_theme', 'sportal_init');
+remove_integration_function('integrate_menu_buttons', 'sportal_menu_buttons');
+remove_integration_function('integrate_pre_load', 'sportal_language_files');
 remove_integration_function('integrate_redirect', 'sportal_redirect');
 remove_integration_function('integrate_whos_online', 'sportal_whos_online');
 
