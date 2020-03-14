@@ -285,7 +285,7 @@ function sportal_redirect(&$setLocation, &$refresh)
 			$setLocation = $setLocation;
 			break;
 		default:
-			$setLocation = preg_replace_callback('%' . preg_quote($scripturl) . '%', function($matches) {
+			$setLocation = preg_replace_callback('~' . preg_quote($scripturl) . '~', function($matches) {
 				static $replaced = 0;
 				if($replaced++ == 0)
 					return $matches[0];
