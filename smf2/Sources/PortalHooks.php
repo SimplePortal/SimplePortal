@@ -275,27 +275,13 @@ function sportal_redirect(&$setLocation, &$refresh)
 			$setLocation = preg_replace_callback('~^' . preg_quote($scripturl, '/') . '\?((?:page)=[^#"]+?)(#[^"]*?)?$~', 'fix_redirect_path__preg_callback', $setLocation);
 	}
 
-	// patch malformed location value
-	switch (substr_count($setLocation, $scripturl))
-	{
-		case 0:
-			$setLocation = $scripturl . ($setLocation != '' ? '?' . $setLocation : '');
-			break;
-		case 1:
-			$setLocation = $setLocation;
-			break;
-		default:
-			$setLocation = preg_replace_callback('~' . preg_quote($scripturl) . '~', function($matches) {
-				static $replaced = 0;
-				if($replaced++ == 0)
-					return $matches[0];
-				return '';
-			}, $setLocation);
-			$setLocation = $setLocation == $scripturl ? $setLocation . '?action=forum' : (empty($setLocation) ? $scripturl . '?action=forum' : $setLocation);
-	}
+	// patch malformed setLocation
+	preg_match_all('~(((https|http|ftps|ftp)\:\/\/)|(www\.))[a-zA-Z0-9\-\.]+\.[a-zA-Z]{2,3}(\:[0-9]+)?(\/\S*)?~i', $setLocation, $matches, PREG_PATTERN_ORDER);
+	$setLocation = !empty($matches[0]) ? str_replace($scripturl . '??', $scripturl . '?', end($matches[0])) : str_replace($scripturl . '??', $scripturl . '?', $setLocation);
+	$setLocation = preg_match('~^(ftp|http)[s]?://~', $setLocation) == 0 && substr($setLocation, 0, 6) != 'about:' ? $scripturl . '?' . $setLocation : $setLocation;
 
 	// Put the session ID in.
-	if (defined('SID') && SID != '' && strpos($setLocation, SID) === false)
+	if (defined('SID') && SID != '' && strpos($setLocation, SID) === false && strpos($setLocation, $scripturl) !== false)
 		$setLocation = preg_replace('/^' . preg_quote($scripturl, '/') . '(?!\?' . preg_quote(SID, '/') . ')\\??/', $scripturl . '?' . SID . ';', $setLocation);
 }
 
