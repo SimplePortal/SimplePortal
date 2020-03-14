@@ -234,7 +234,7 @@ function sportal_permissions(&$permissionGroups, &$permissionList, &$leftPermiss
 
 function sportal_redirect(&$setLocation, &$refresh)
 {
-	global $scripturl, $context, $modSettings, $boardurl;
+	global $scripturl, $context, $modSettings;
 
 	$add = preg_match('~^(ftp|http)[s]?://~', $setLocation) == 0 && substr($setLocation, 0, 6) != 'about:';
 
