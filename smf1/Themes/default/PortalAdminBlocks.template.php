@@ -30,7 +30,7 @@ function template_block_list()
 					<td colspan="4" align="left">
 						<a class="sp_float_right" href="', $scripturl, '?action=manageportal;area=portalblocks;sa=add;col=', $side['id'], '">', sp_embed_image('add', sprintf($txt['sp-blocksCreate'], $side['label'])), '</a>
 						<a href="', $scripturl, '?action=helpadmin;help=', $side['help'], '" onclick="return reqWin(this.href);" class="help"><img src="', $settings['images_url'], '/helptopics.gif" alt="', $txt[119], '" border="0" align="top" /></a>
-						<strong>', $side['label'], ' ', $txt['sp-blocksBlocks'], '</strong>
+						<strong>', $side['label'], '</strong>
 					</td>
 				</tr>';
 
