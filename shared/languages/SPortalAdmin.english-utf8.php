@@ -4,7 +4,7 @@
  * @package SimplePortal
  *
  * @author SimplePortal Team
- * @copyright 2020 SimplePortal Team
+ * @copyright 2023 SimplePortal Team
  * @license BSD 3-clause
  *
  * @version 2.3.8
@@ -506,5 +506,3 @@ $txt['permissionhelp_sp_remove_article'] = 'This permission allows users to remo
 // Compatibility strings
 $txt['sp-adminCatHelp'] = 'Here you can manage and configure SimplePortal.';
 $txt['sp-adminCatDesc'] = 'Here you can manage and configure SimplePortal.';
-
-?>

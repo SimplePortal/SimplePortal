@@ -4,7 +4,7 @@
  * @package SimplePortal
  *
  * @author SimplePortal Team
- * @copyright 2020 SimplePortal Team
+ * @copyright 2023 SimplePortal Team
  * @license BSD 3-clause
  *
  * @version 2.3.8
@@ -180,5 +180,3 @@ $helptxt['sp_param_sp_html_content'] = 'Enter the custom HTML content in this bo
 $helptxt['sp_param_sp_bbc_content'] = 'Enter the custom BBC content in this box.';
 $helptxt['sp_param_sp_php_content'] = 'Enter the custom PHP content in this box.';
 $helptxt['sp_param_sp_php_init'] = 'Enter the custom initialization PHP code you want to be executed before the templates start getting parsed.';
-
-?>

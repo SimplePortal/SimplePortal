@@ -4,7 +4,7 @@
  * @package SimplePortal
  *
  * @author SimplePortal Team
- * @copyright 2020 SimplePortal Team
+ * @copyright 2023 SimplePortal Team
  * @license BSD 3-clause
  *
  * @version 2.3.8
@@ -341,5 +341,3 @@ function sportal_information($in_admin = true)
 	$context['sub_template'] = 'information';
 	$context['page_title'] = $txt['sp-info_title'];
 }
-
-?>
