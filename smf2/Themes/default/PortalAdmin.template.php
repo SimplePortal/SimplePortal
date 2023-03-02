@@ -105,7 +105,7 @@ function template_general_settings()
 
 				echo '
 							<dd', (!empty($config_var['force_div_id']) ? ' id="' . $config_var['force_div_id'] . '_dd"' : ''), '>',
-								$config_var['preinput'];
+				$config_var['preinput'];
 
 				if ($config_var['type'] == 'check')
 					echo '
@@ -184,7 +184,7 @@ function template_general_settings()
 
 function template_information()
 {
-	global $context, $txt;
+	global $context, $txt, $settings;
 
 	if ($context['in_admin'])
 	{
@@ -225,52 +225,15 @@ function template_information()
 			</div>
 		</div>
 	</div>
-	<script type="text/javascript" src="https://simpleportal.net/sp/current-version.js"></script>
-	<script type="text/javascript" src="https://simpleportal.net/sp/latest-news.js"></script>
-	<script type="text/javascript"><!-- // --><![CDATA[
-		function spSetAnnouncements()
-		{
-			if (typeof(window.spAnnouncements) == "undefined" || typeof(window.spAnnouncements.length) == "undefined")
-				return;
-
-			var str = "<div style=\"margin: 4px; font-size: 0.85em;\">";
-
-			for (var i = 0; i < window.spAnnouncements.length; i++)
-			{
-				str += "\n	<div style=\"padding-bottom: 2px;\"><a hre" + "f=\"" + window.spAnnouncements[i].href + "\">" + window.spAnnouncements[i].subject + "<" + "/a> ', $txt['on'], ' " + window.spAnnouncements[i].time + "<" + "/div>";
-				str += "\n	<div style=\"padding-left: 2ex; margin-bottom: 1.5ex; border-top: 1px dashed;\">"
-				str += "\n		" + window.spAnnouncements[i].message;
-				str += "\n	<" + "/div>";
-			}
-
-			setInnerHTML(document.getElementById("spAnnouncements"), str + "<" + "/div>");
-		}
-
-		function spCurrentVersion()
-		{
-			var spVer, yourVer;
-
-			if (typeof(window.spVersion) != "string")
-				return;
-
-			spVer = document.getElementById("spCurrentVersion");
-			yourVer = document.getElementById("spYourVersion");
-
-			setInnerHTML(spVer, window.spVersion);
-
-			var currentVersion = getInnerHTML(yourVer);
-			if (currentVersion != window.spVersion)
-				setInnerHTML(yourVer, "<span class=\"alert\">" + currentVersion + "<" + "/span>");
-		}';
-
-		echo '
+	<script src="https://code.jquery.com/jquery-3.6.3.min.js"></script>
+	<script src="', $settings['default_theme_url'], '/scripts/admin.js?fin20"></script>
+	<script>
 		var func = function ()
 		{
-			spSetAnnouncements();
-			spCurrentVersion();
+			sp_currentVersion();
 		}
-		', $context['SPortal']['core_compat'] == 'old' ? 'add_load_event(func);' : 'addLoadEvent(func);','
-	// ]]></script>';
+		addLoadEvent(func);
+	</script>';
 	}
 
 	echo '
@@ -313,10 +276,8 @@ function template_information()
 
 	echo '
 				<hr />
-				<p>', sprintf($txt['sp-info_contribute'], 'https://simpleportal.net/index.php?page=contribute'), '</p>
+				<p>', sprintf($txt['sp-info_contribute'], 'https://github.com/SimplePortal/SimplePortal'), '</p>
 			</div>
 		<span class="botslice"><span></span></span>
 	</div>';
 }
-
-?>

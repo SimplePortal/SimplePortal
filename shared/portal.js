@@ -241,3 +241,103 @@ function sp_showMoreSmileys(postbox, sTitleText, sPickText, sCloseText, smf_them
 
 	this.oSmileyPopupWindow.document.close();
 }
+
+/**
+ * Updates the current version container with the current version found in the repository
+ */
+function sp_currentVersion()
+{
+	let oSPVersionContainer = document.getElementById("spCurrentVersion"),
+		oinstalledVersionContainer = document.getElementById("spYourVersion"),
+		sCurrentVersion = oinstalledVersionContainer.innerHTML,
+		verCompare = new smf_ViewVersions();
+
+	$.getJSON('https://api.github.com/repos/SimplePortal/SimplePortal/releases', {format: "json"},
+		function (data, textStatus, jqXHR)
+		{
+			let mostRecent = {},
+				previous = {},
+				init_news = false;
+
+			$.each(data, function (idx, elem)
+			{
+				// No drafts, thank you
+				if (elem.draft)
+				{
+					return;
+				}
+
+				let release = sp_normalizeVersion(elem.tag_name),
+					sCheckVersion = elem.tag_name.indexOf('v') === 0 ? elem.tag_name.substring(1) : elem.tag_name;
+
+				sCheckVersion.replace('-', '').substring(1);
+				if (!previous.hasOwnProperty('major') || verCompare.compareVersions(sCurrentVersion, sCheckVersion))
+				{
+					previous = release;
+					mostRecent = elem;
+				}
+
+				// Load announcements for this release
+				sp_setAnnouncement(init_news, elem);
+				init_news = true;
+			});
+
+			let spVersion = mostRecent.tag_name.replace(/simpleportal/i, '').trim();
+
+			oSPVersionContainer.innerHTML = spVersion;
+			if (sCurrentVersion !== spVersion)
+				oinstalledVersionContainer.innerHTML = '<span class="alert">' + sCurrentVersion + '</span>';
+		}
+	);
+}
+
+// Split a string representing a version number into an object
+sp_normalizeVersion = function (sVersion)
+{
+	let splitVersion = sVersion.split(/[\s-]/),
+		normalVersion = {
+			major: 0,
+			minor: 0,
+			micro: 0,
+		};
+
+	for (let i = 0; i < splitVersion.length; i++)
+	{
+		if (splitVersion[i].toLowerCase() === 'simpleportal')
+			continue;
+
+		// Likely from the tag
+		if (splitVersion[i].substring(0, 1) === 'v')
+			splitVersion[i] = splitVersion[i].substring(1);
+
+		// Only numbers and dots means a number
+		if (splitVersion[i].replace(/[\d\.]/g, '') === '')
+		{
+			let ver = splitVersion[i].split('.');
+
+			normalVersion.major = parseInt(ver[0]);
+			normalVersion.minor = parseInt(ver[1]);
+			normalVersion.micro = ver.length > 2 ? parseInt(ver[2]) : 0;
+		}
+	}
+
+	return normalVersion;
+};
+
+/**
+ * Load in any announcements
+ *
+ * @param init_news
+ * @param announcement
+ */
+function sp_setAnnouncement(init_news, announcement)
+{
+	var oElem = document.getElementById('spAnnouncements'),
+		sMessages = init_news ? oElem.innerHTML : '',
+		sAnnouncementTemplate = '<dl>%content%</dl>',
+		sAnnouncementMessageTemplate = '<dt><a href="%href%">%subject%</a> :: %time%</dt><dd>%message%</dd>';
+
+	var sMessage = sAnnouncementMessageTemplate.replace('%href%', announcement.html_url).replace('%subject%', announcement.name).replace('%time%', announcement.published_at.replace(/[TZ]/g, ' ')).replace('%message%', announcement.body).replace(/\n/g, '<br />').replace(/\r/g, '');
+
+	oElem.innerHTML = sMessages + sAnnouncementTemplate.replace('%content%', sMessage);
+}
