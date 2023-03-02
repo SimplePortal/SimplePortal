@@ -1,4 +1,4 @@
-Copyright (c) 2020 SimplePortal Team. All rights reserved.
+Copyright (c) 2023 SimplePortal Team. All rights reserved.
 
 Developed by: SimplePortal Team (https://www.simpleportal.net)
 
