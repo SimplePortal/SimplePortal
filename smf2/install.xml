@@ -5,7 +5,7 @@
  * @package SimplePortal
  *
  * @author SimplePortal Team
- * @copyright 2020 SimplePortal Team
+ * @copyright 2023 SimplePortal Team
  * @license BSD 3-clause
  *
  * @version 2.3.8
@@ -313,8 +313,8 @@ sportal_init();]]></add>
 	// If $scripturl is set to nothing, or the SID is not defined (SSI?) just quit.]]></add>
 		</operation>
 		<operation>
-			<search position="replace"><![CDATA[\?(?:' . SID . '(?:;|&|&amp;))((?:board|topic]]></search>
-			<add><![CDATA[\?(?:' . SID . '(?:;|&|&amp;))((?:board|topic|page]]></add>
+			<search position="replace"><![CDATA[:;|&|&amp;))((?:board|topic]]></search>
+			<add><![CDATA[:;|&|&amp;))((?:board|topic|page]]></add>
 		</operation>
 		<operation>
 			<search position="replace"><![CDATA[\?((?:board|topic]]></search>
