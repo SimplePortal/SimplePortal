@@ -4,7 +4,7 @@
  * @package SimplePortal
  *
  * @author SimplePortal Team
- * @copyright 2020 SimplePortal Team
+ * @copyright 2023 SimplePortal Team
  * @license BSD 3-clause
  *
  * @version 2.3.8
@@ -295,7 +295,7 @@ function fixColumnRows($column_id = null)
 
 		$smcFunc['db_query']('','
 			UPDATE {db_prefix}sp_blocks
-			SET row = {int:counter}
+			SET `row` = {int:counter}
 			WHERE id_block = {int:block}',
 			array(
 				'counter' => $counter,
@@ -541,5 +541,3 @@ function sp_strip_html_bbc__preg_callback($matches)
 {
 	return '[html]' . preg_replace('~<br\s?/?' . '>~i', '&lt;br /&gt;<br />', $matches[1]) . '[/html]';
 }
-
-?>

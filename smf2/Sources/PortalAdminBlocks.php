@@ -4,7 +4,7 @@
  * @package SimplePortal
  *
  * @author SimplePortal Team
- * @copyright 2020 SimplePortal Team
+ * @copyright 2023 SimplePortal Team
  * @license BSD 3-clause
  *
  * @version 2.3.8
@@ -196,7 +196,7 @@ function sportal_admin_block_list()
 			if ($context['block_move'])
 			{
 				$context['blocks'][$side['name']][$block_id]['move_insert'] = '<a href="' . $scripturl . '?action=admin;area=portalblocks;sa=move;block_id=' . $context['block_move'] . ';col=' . $block['column'] . ';row=' . $block['row'] . ';' . $context['session_var'] . '=' . $context['session_id'] . '">' . sp_embed_image('arrow', $txt['sp-blocks_move_here']) . '</a>';
-	
+
 				if ($context['block_move'] == $block_id)
 					$context['move_title'] = sprintf($txt['sp-blocks_select_destination'], htmlspecialchars($block['label']));
 			}
@@ -217,7 +217,7 @@ function sportal_admin_block_edit()
 	require_once($sourcedir . '/PortalBlocks.php');
 
 	$context['SPortal']['is_new'] = empty($_REQUEST['block_id']);
-	
+
 	// BBC Fix move the parameter to the correct position.
 	if (!empty($_POST['bbc_name']))
 	{
@@ -585,10 +585,10 @@ function sportal_admin_block_edit()
 						'value' => $form_message,
 						'form' => 'sp_block',
 					);
-					
+
 					// Run the SMF bbc editor rutine
 					create_control_richedit($message_data);
-					
+
 					// Store the updated data on the parameters
 					$context['SPortal']['block']['parameters'][$name] = $form_message;
 				}
@@ -646,10 +646,10 @@ function sportal_admin_block_edit()
 
 				$smcFunc['db_query']('', '
 					UPDATE {db_prefix}sp_blocks
-					SET row = row - 1
+					SET `row` = `row` - 1
 					WHERE col = {int:col}
-						AND row > {int:start}
-						AND row <= {int:end}',
+						AND `row` > {int:start}
+						AND `row` <= {int:end}',
 					array(
 						'col' => (int) $_POST['block_column'],
 						'start' => $current_row,
@@ -661,10 +661,10 @@ function sportal_admin_block_edit()
 			{
 				$smcFunc['db_query']('', '
 					UPDATE {db_prefix}sp_blocks
-					SET row = row + 1
+					SET `row` = `row` + 1
 					WHERE col = {int:col}
-						AND row >= {int:start}' . (!empty($current_row) ? '
-						AND row < {int:end}' : ''),
+						AND `row` >= {int:start}' . (!empty($current_row) ? '
+						AND `row` < {int:end}' : ''),
 					array(
 						'col' => (int) $_POST['block_column'],
 						'start' => $row,
@@ -678,11 +678,11 @@ function sportal_admin_block_edit()
 		else
 		{
 			$request =  $smcFunc['db_query']('','
-				SELECT row
+				SELECT `row`
 				FROM {db_prefix}sp_blocks
 				WHERE col = {int:col}' . (!empty($_REQUEST['block_id']) ? '
 					AND id_block != {int:current_id}' : '' ) . '
-				ORDER BY row DESC
+				ORDER BY `row` DESC
 				LIMIT 1',
 				array(
 					'col' => $_POST['block_column'],
@@ -861,7 +861,7 @@ function sportal_admin_block_edit()
 			);
 
 			if (!empty($blockInfo['row']))
-				$block_fields[] = "row = {int:row}";
+				$block_fields[] = "`row` = {int:row}";
 			else
 				unset($blockInfo['row']);
 
@@ -927,7 +927,7 @@ function sportal_admin_block_move()
 	if (empty($_REQUEST['row']))
 	{
 		$request =  $smcFunc['db_query']('','
-			SELECT MAX(row)
+			SELECT MAX(`row`)
 			FROM {db_prefix}sp_blocks
 			WHERE col = {int:target_side}
 			LIMIT {int:limit}',
@@ -945,7 +945,7 @@ function sportal_admin_block_move()
 		$target_row = (int) $_REQUEST['row'];
 
 	$request =  $smcFunc['db_query']('','
-		SELECT col, row
+		SELECT col, `row`
 		FROM {db_prefix}sp_blocks
 		WHERE id_block = {int:block_id}
 		LIMIT {int:limit}',
@@ -964,7 +964,7 @@ function sportal_admin_block_move()
 			$current_row = 100;
 			$smcFunc['db_query']('','
 				UPDATE {db_prefix}sp_blocks
-				SET col = {int:target_side}, row = {int:temp_row}
+				SET col = {int:target_side}, `row` = {int:temp_row}
 				WHERE id_block = {int:block_id}',
 				array(
 					'target_side' => $target_side,
@@ -976,9 +976,9 @@ function sportal_admin_block_move()
 
 		$smcFunc['db_query']('','
 			UPDATE {db_prefix}sp_blocks
-			SET row = row + 1
+			SET `row` = `row` + 1
 			WHERE col = {int:target_side}
-				AND row >= {int:target_row}',
+				AND `row` >= {int:target_row}',
 			array(
 				'target_side' => $target_side,
 				'target_row' => $target_row,
@@ -987,7 +987,7 @@ function sportal_admin_block_move()
 
 		$smcFunc['db_query']('','
 			UPDATE {db_prefix}sp_blocks
-			SET row = {int:target_row}
+			SET `row` = {int:target_row}
 			WHERE id_block = {int:block_id}',
 			array(
 				'target_row' => $target_row,
@@ -1051,5 +1051,3 @@ function sportal_admin_block_delete()
 	// Return back to the block list.
 	redirectexit('action=admin;area=portalblocks');
 }
-
-?>

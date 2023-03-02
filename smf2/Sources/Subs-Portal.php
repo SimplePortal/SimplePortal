@@ -4,7 +4,7 @@
  * @package SimplePortal
  *
  * @author SimplePortal Team
- * @copyright 2020 SimplePortal Team
+ * @copyright 2023 SimplePortal Team
  * @license BSD 3-clause
  *
  * @version 2.3.8
@@ -364,13 +364,13 @@ function getBlockInfo($column_id = null, $block_id = null, $state = null, $show 
 
 	$request = $smcFunc['db_query']('','
 		SELECT
-			spb.id_block, spb.label, spb.type, spb.col, spb.row, spb.permission_set,
+			spb.id_block, spb.label, spb.type, spb.col, spb.`row`, spb.permission_set,
 			spb.groups_allowed, spb.groups_denied, spb.state, spb.force_view, spb.display,
 			spb.display_custom, spb.style, spp.variable, spp.value
 		FROM {db_prefix}sp_blocks AS spb
 			LEFT JOIN {db_prefix}sp_parameters AS spp ON (spp.id_block = spb.id_block)' . (!empty($query) ? '
 		WHERE ' . implode(' AND ', $query) : '') . '
-		ORDER BY spb.col, spb.row',
+		ORDER BY spb.col, spb.`row`',
 		$parameters
 	);
 
@@ -1482,5 +1482,3 @@ function sp_parse_php($code)
 		eval($code);
 	}
 }
-
-?>
