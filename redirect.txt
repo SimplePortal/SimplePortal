@@ -1,1 +1,1 @@
-SimplePortal installation is successfully completed. Thank you for installing SimplePortal. You can visit https://simpleportal.net for support and general feedback. We hope you enjoy using SimplePortal!
+SimplePortal installation is successfully completed. Thank you for installing SimplePortal. You can visit https://github.com/SimplePortal/SimplePortal for support and general feedback. We hope you enjoy using SimplePortal!

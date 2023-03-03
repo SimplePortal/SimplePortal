@@ -1,5 +1,5 @@
 <?xml version="1.0"?>
-<!DOCTYPE package-info SYSTEM "http://www.simplemachines.org/xml/package-info">
+<!DOCTYPE package-info SYSTEM "https://www.simplemachines.org/xml/package-info">
 <!--
 /**
  * @package SimplePortal
@@ -11,7 +11,7 @@
  * @version 2.3.8
  */
 -->
-<package-info xmlns="http://www.simplemachines.org/xml/package-info" xmlns:smf="http://www.simplemachines.org/">
+<package-info xmlns="https://www.simplemachines.org/xml/package-info" xmlns:smf="https://www.simplemachines.org/">
 	<id>[SiNaN]:SimplePortal</id>
 	<name>SimplePortal</name>
 	<version>2.3.8</version>
