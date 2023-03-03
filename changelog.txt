@@ -10,6 +10,7 @@ SP 2.3.8
  ! Replaced outdated escape function in shoutbox requests.
  ! Simplified image resize script initialization.
  ! Fixed MySQL reserved column name of "row" by using backticks `row`.
+ + Add integration hooks for SMF2 install to reduce file edits.
  ! Updated version information.
 
 SP 2.3.7

@@ -4,13 +4,14 @@
  * @package SimplePortal
  *
  * @author SimplePortal Team
- * @copyright 2020 SimplePortal Team
+ * @copyright 2023 SimplePortal Team
  * @license BSD 3-clause
  *
  * @version 2.3.8
  */
 
-defined('SMF') OR exit('<b>Hacking attempt...</b>');
+if (!defined('SMF'))
+	die('Hacking attempt...');
 
 /*
 	void sportal_array_insert()
@@ -41,42 +42,35 @@ defined('SMF') OR exit('<b>Hacking attempt...</b>');
 		// !!!
 */
 
-function sportal_array_insert(&$input, $key, $insert, $where = 'before', $strict = false)
+function sportal_array_insert($input, $key, $insert, $where = 'before', $strict = false)
 {
 	$position = array_search($key, array_keys($input), $strict);
 
-	// key not found -> insert as last
+	// If the key is not found, just insert it at the end
 	if ($position === false)
-	{
-		$input = array_merge($input, $insert);
-		return;
-	}
+		return array_merge($input, $insert);
 
 	if ($where === 'after')
-		$position += 1;
+		$position++;
 
-	// insert as first
+	// Insert as first
 	if ($position === 0)
-		$input = array_merge($insert, $input);
-	else
-		$input = array_merge(
-			array_slice($input, 0, $position),
-			$insert,
-			array_slice($input, $position)
-		);
+		return array_merge($insert, $input);
+
+	return array_merge(array_slice($input, 0, $position), $insert, array_slice($input, $position));
 }
 
 function sportal_actions(&$actionArray)
 {
 	global $context;
 
-	if (empty($context['disable_sp']))
-	{
-		$actionArray['forum'] = array('BoardIndex.php', 'BoardIndex');
-		$actionArray['portal'] = array('PortalMain.php', 'sportal_main');
-	}
+	if (!empty($context['disable_sp']))
+		return;
 
-	if (!isset($_REQUEST['action']) || !($_REQUEST['action'] == 'portal' && isset($_GET['xml'])) && !isset($actionArray[$_REQUEST['action']]))
+	$actionArray['forum'] = array('BoardIndex.php', 'BoardIndex');
+	$actionArray['portal'] = array('PortalMain.php', 'sportal_main');
+
+	if (!($_REQUEST['action'] == 'portal' && isset($_GET['xml'])) && !isset($actionArray[$_REQUEST['action']]))
 		unset($_REQUEST['action']);
 }
 
@@ -84,7 +78,7 @@ function sportal_admin_areas(&$admin_areas)
 {
 	global $txt;
 
-	sportal_array_insert($admin_areas, 'members',
+	$admin_areas = sportal_array_insert($admin_areas, 'members',
 		array(
 			'portal' => array(
 				'title' => $txt['sp-adminCatTitle'],
@@ -163,7 +157,7 @@ function sportal_admin_areas(&$admin_areas)
 
 function sportal_menu_buttons(&$menu_buttons)
 {
-	global $context, $modSettings, $user_info, $txt, $scripturl;
+	global $context, $modSettings, $txt, $scripturl;
 
 	$menu_buttons['home'] = array(
 		'title' => $txt['home'],
@@ -174,7 +168,7 @@ function sportal_menu_buttons(&$menu_buttons)
 		'is_last' => $context['right_to_left'],
 	);
 
-	sportal_array_insert($menu_buttons, 'home',
+	$menu_buttons = sportal_array_insert($menu_buttons, 'home',
 		array(
 			'forum' => array(
 				'title' => empty($txt['sp-forum']) ? 'Forum' : $txt['sp-forum'],
@@ -186,38 +180,36 @@ function sportal_menu_buttons(&$menu_buttons)
 		), 'after', true
 	);
 
+	// Figure out which action we are doing, so we can set the active tab.
 	if ($modSettings['sp_portal_mode'] == 3 && empty($context['standalone']) && empty($context['disable_sp']))
 		$context['current_action'] = 'forum';
-
-	if(empty($context['disable_sp']) && ((isset($_GET['board']) || isset($_GET['topic']) || in_array($context['current_action'], array('unread', 'unreadreplies', 'collapse', 'recent', 'stats', 'who'))) && in_array($modSettings['sp_portal_mode'], array(1, 3))))
+	elseif (empty($context['disable_sp']) && ((isset($_GET['board']) || isset($_GET['topic']) || in_array($context['current_action'], array('unread', 'unreadreplies', 'collapse', 'recent', 'stats', 'who'))) && in_array($modSettings['sp_portal_mode'], array(1, 3))))
 		$context['current_action'] = 'forum';
 }
 
-function sportal_permissions(&$permissionGroups, &$permissionList, &$leftPermissionGroups, &$hiddenPermissions, &$relabelPermissions)
+function sportal_permissions(&$permissionGroups, &$permissionList)
 {
-	global $context, $modSettings;
+	global $context;
 
 	$permissionList['membergroup'] += array(
-			'sp_admin' => array(false, 'sp', 'sp'),
-			'sp_manage_settings' => array(false, 'sp', 'sp'),
-			'sp_manage_blocks' => array(false, 'sp', 'sp'),
-			'sp_manage_articles' => array(false, 'sp', 'sp'),
-			'sp_manage_pages' => array(false, 'sp', 'sp'),
-			'sp_manage_shoutbox' => array(false, 'sp', 'sp'),
-			'sp_add_article' => array(false, 'sp', 'sp'),
-			'sp_auto_article_approval' => array(false, 'sp', 'sp'),
-			'sp_remove_article' => array(false, 'sp', 'sp'),
+		'sp_admin' => array(false, 'sp', 'sp'),
+		'sp_manage_settings' => array(false, 'sp', 'sp'),
+		'sp_manage_blocks' => array(false, 'sp', 'sp'),
+		'sp_manage_articles' => array(false, 'sp', 'sp'),
+		'sp_manage_pages' => array(false, 'sp', 'sp'),
+		'sp_manage_shoutbox' => array(false, 'sp', 'sp'),
+		'sp_add_article' => array(false, 'sp', 'sp'),
+		'sp_auto_article_approval' => array(false, 'sp', 'sp'),
+		'sp_remove_article' => array(false, 'sp', 'sp'),
 	);
 
-
 	$permissionGroups['membergroup']['simple'] += array(
-			'sp',
+		'sp',
 	);
 
 	$permissionGroups['membergroup']['classic'] += array(
-			'sp',
+		'sp',
 	);
-
 
 	$context['non_guest_permissions'] += array(
 		'sp_admin',
@@ -232,57 +224,25 @@ function sportal_permissions(&$permissionGroups, &$permissionList, &$leftPermiss
 	);
 }
 
-function sportal_redirect(&$setLocation, &$refresh)
+function sportal_redirect(&$setLocation)
 {
 	global $scripturl, $context, $modSettings;
 
-	$add = preg_match('~^(ftp|http)[s]?://~', $setLocation) == 0 && substr($setLocation, 0, 6) != 'about:';
+	if ($modSettings['sp_portal_mode'] != 1 && $modSettings['sp_portal_mode'] != 3)
+		return;
 
-	// Set the default redirect location as the forum or the portal.
-	if ((empty($setLocation) || $scripturl == $setLocation) && in_array($modSettings['sp_portal_mode'], array(1, 3)))
-	{
-		// Redirect the user to the forum.
-		if (!empty($modSettings['sp_disableForumRedirect']))
-			$setLocation = 'action=forum';
-		// Redirect the user to the SSI.php standalone portal.
-		elseif ($modSettings['sp_portal_mode'] == 3)
-		{
-			$setLocation = $context['portal_url'];
-			$add = false;
-		}
-	}
-	if (WIRELESS)
-	{
-		// Add the scripturl on if needed.
-		if ($add)
-			$setLocation = $scripturl . '?' . $setLocation;
+	$location = explode('?', $setLocation);
 
-		$char = strpos($setLocation, '?') === false ? '?' : ';';
+	if ($location[0] !== $scripturl)
+		return;
 
-		if (strpos($setLocation, '#') !== false)
-			$setLocation = strtr($setLocation, array('#' => $char . WIRELESS_PROTOCOL . '#'));
-		else
-			$setLocation .= $char . WIRELESS_PROTOCOL;
-	}
-	elseif ($add)
-		$setLocation = $scripturl . ($setLocation != '' ? '?' . $setLocation : '');
+	if (!empty($location[1]) && preg_match('~(?:board|topic|page|action)=~i', $location[1]) !== 0)
+		return;
 
-	if (!empty($modSettings['queryless_urls']) && (empty($context['server']['is_cgi']) || @ini_get('cgi.fix_pathinfo') == 1 || @get_cfg_var('cgi.fix_pathinfo') == 1) && (!empty($context['server']['is_apache']) || !empty($context['server']['is_lighttpd'])))
-	{
-		if (defined('SID') && SID != '')
-			$setLocation = preg_replace_callback('~^' . preg_quote($scripturl, '/') . '\?(?:' . SID . '(?:;|&|&amp;))((?:page)=[^#]+?)(#[^"]*?)?$~', 'fix_redirect_sid__preg_callback', $setLocation);
-		else
-			$setLocation = preg_replace_callback('~^' . preg_quote($scripturl, '/') . '\?((?:page)=[^#"]+?)(#[^"]*?)?$~', 'fix_redirect_path__preg_callback', $setLocation);
-	}
-
-	// patch malformed setLocation
-	preg_match_all('~(((https|http|ftps|ftp)\:\/\/)|(www\.))[a-zA-Z0-9\-\.]+\.[a-zA-Z]{2,3}(\:[0-9]+)?(\/\S*)?~i', $setLocation, $matches, PREG_PATTERN_ORDER);
-	$setLocation = !empty($matches[0]) ? str_replace($scripturl . '??', $scripturl . '?', end($matches[0])) : str_replace($scripturl . '??', $scripturl . '?', $setLocation);
-	$setLocation = preg_match('~^(ftp|http)[s]?://~', $setLocation) == 0 && substr($setLocation, 0, 6) != 'about:' ? $scripturl . '?' . $setLocation : $setLocation;
-
-	// Put the session ID in.
-	if (defined('SID') && SID != '' && strpos($setLocation, SID) === false && strpos($setLocation, $scripturl) !== false)
-		$setLocation = preg_replace('/^' . preg_quote($scripturl, '/') . '(?!\?' . preg_quote(SID, '/') . ')\\??/', $scripturl . '?' . SID . ';', $setLocation);
+	if (!empty($modSettings['sp_disableForumRedirect']))
+		$setLocation = $scripturl . '?action=forum' . (isset($location[1]) ? ';' . $location[1] : '');
+	elseif ($modSettings['sp_portal_mode'] == 3)
+		$setLocation = $context['portal_url'] . (isset($location[1]) ? '?' . $location[1] : '');
 }
 
 function sportal_whos_online($actions)
@@ -297,7 +257,8 @@ function sportal_whos_online($actions)
 	elseif ($modSettings['sp_portal_mode'] == 3)
 		$txt['whoall_portal'] = sprintf($txt['sp_who_index'], $scripturl);
 
-	list($integrate_action, $page_ids) = array('', array());
+	$integrate_action = '';
+	$page_ids = array();
 
 	if (isset($actions['page']))
 	{
@@ -369,19 +330,18 @@ function sportal_whos_online($actions)
 function sportal_buffer($buffer)
 {
 	global $modSettings, $scripturl, $context;
-	@ini_set('memory_limit', '128M');
 
 	if (function_exists('sp_query_string'))
 		$buffer = sp_query_string($buffer);
 
 	// This should work even in 4.2.x, just not CGI without cgi.fix_pathinfo.
-	if (!empty($modSettings['queryless_urls']) && (!$context['server']['is_cgi'] || ini_get('cgi.fix_pathinfo') == 1 || @get_cfg_var('cgi.fix_pathinfo') == 1) && ($context['server']['is_apache'] || $context['server']['is_lighttpd'] || $context['server']['is_litespeed']))
+	if (!empty($modSettings['queryless_urls']) && (!$context['server']['is_cgi'] || @ini_get('cgi.fix_pathinfo') == 1 || @get_cfg_var('cgi.fix_pathinfo') == 1) && ($context['server']['is_apache'] || $context['server']['is_lighttpd']))
 	{
 		// Let's do something special for session ids!
 		if (defined('SID') && SID != '')
-			$buffer = preg_replace_callback('~"' . preg_quote($scripturl, '/') . '\?(?:' . SID . '(?:;|&|&amp;))((?:page)=[^#"]+?)(#[^"]*?)?"~', 'sid_insert__preg_callback', $buffer);
+			$buffer = preg_replace_callback('~"' . preg_quote($scripturl, '/') . '\?(?:' . SID . '(?:;|&|&amp;))((?:board|topic|page)=[^#"]+?)(#[^"]*?)?"~', 'sid_insert__preg_callback', $buffer);
 		else
-			$buffer = preg_replace_callback('~"' . preg_quote($scripturl, '/') . '\?((?:page)=[^#"]+?)(#[^"]*?)?"~', 'pathinfo_insert__preg_callback', $buffer);
+			$buffer = preg_replace_callback('~"' . preg_quote($scripturl, '/') . '\?((?:board|topic|page)=[^#"]+?)(#[^"]*?)?"~', 'pathinfo_insert__preg_callback', $buffer);
 	}
 
 	return $buffer;
@@ -389,16 +349,15 @@ function sportal_buffer($buffer)
 
 function sportal_language_files()
 {
-	global $scripturl, $modSettings, $user_info, $txt, $language, $helptxt;
+	global $user_info, $language;
 
 	// Load the Simple Portal Help file.
 	loadLanguage('SPortalHelp', sp_languageSelect('SPortalHelp'));
 
 	// Load our language files
 	loadLanguage('SPortal', '', false);
+
 	$cur_language = isset($user_info['language']) ? $user_info['language'] : $language;
 	if ($cur_language !== 'english')
 		loadLanguage('SPortal', 'english', false);
 }
-
-?>
